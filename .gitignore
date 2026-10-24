@@ -1,0 +1,4 @@
+.cache/
+__pycache__/
+/.venv/
+/starter/__pycache__/check_submission.cpython-310.pyc

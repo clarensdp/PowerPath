@@ -25,13 +25,10 @@ from gridpilot.execution import plan as exec_plan, sb6_check, DEFAULT_STEPS, SIT
 st.set_page_config(page_title="PowerPath", layout="wide", page_icon="⚡")
 import plotly.io as pio  # noqa: E402
 from gridpilot.regions import resolve, STATES as _ST  # noqa: E402
-<<<<<<< HEAD
 from gridpilot.interconnect import profile_for, energization, deliverable_power, decide  # noqa: E402
 from gridpilot.deals import DealInputs, build as build_deals  # noqa: E402
 from gridpilot.monitor import triggers as build_triggers  # noqa: E402
 from gridpilot.advisor import cached_run, make_scenario, region_delay, ref_mwh  # noqa: E402
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 from gridpilot.screener import (scenario_for, illustrative_parcels, score_parcels, location_score,  # noqa: E402
                                 price_forecast, parse_locations, PARCEL_COLUMNS, MIN_ACRES)
 
@@ -106,10 +103,7 @@ DEFAULTS = dict(use_full=False, full=30, use_open=False, open=20, use_int=False,
                 no_t2=False, allow_t1=True, excluded=[], use_prem=False, prem=10,
                 speed=34, cost=33, env=33, delay=0, lo=14, hi=26, step=2,
                 slip_res="none", slip_m=0, today=0, exec_aware=False, use_n1=False,
-<<<<<<< HEAD
                 deal_cap_on=False, deal_cap=150, deal_obs=False,
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
                 ov=False, ov_v=5.0, ov_c=100)
 for k, v in DEFAULTS.items():
     st.session_state.setdefault(k, v)
@@ -266,7 +260,6 @@ st.markdown('<div class="pp-ticker"><span class="inner">' + " &nbsp;│&nbsp; ".
 if S.get("site_key"):
     st.warning("Screening site active: results use regionally scaled benchmark inputs and PowerPath's mirror of the "
                "checker formulas. The official submission remains the Williamson County benchmark.")
-<<<<<<< HEAD
 # ---------------- stage computations (one decision layer) ----------------
 @st.cache_resource(max_entries=30, show_spinner=False)
 def interconnect_stage(rec_key):
@@ -357,11 +350,6 @@ with T_STRUCT:
     TAB_DEAL, TAB_YEAR = st.tabs(["Deal structures", "Cost & carbon by year"])
 with T_EXMON:
     TAB_EXEC, TAB_MON, TAB_FEAS, TAB_CMP = st.tabs(["Execution plan", "Watchlist & triggers", "Diligence", "Compare scenarios"])
-=======
-tabs = st.tabs(["SITE ⟩ Screener", "PORT ⟩ Recommendation", "XPLN ⟩ Explain", "EXEC ⟩ Execution", "FEAS ⟩ Diligence",
-                "TRDE ⟩ Speed·Cost·CO2", "STRS ⟩ Stress & N-1", "YEAR ⟩ By year", "CMPR ⟩ Compare", "HOW ⟩ Method", "EXPT ⟩ Export"])
-TAB_SITE, TAB_REC, TAB_EXPLAIN, TAB_EXEC, TAB_FEAS, TAB_TRADE, TAB_STRESS, TAB_YEAR, TAB_CMP, TAB_HOW, TAB_EXP = tabs
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 anchor = None
 if opt.slips or opt.grid_delay:
     from dataclasses import replace as _rp
@@ -401,12 +389,9 @@ with TAB_SITE:
                    "Singapore, India, Australia, Brazil, Mexico, UAE.")
     up = st.file_uploader("Optional: real parcel CSV for the selected location (columns: " + ", ".join(PARCEL_COLUMNS) + ")",
                           type=["csv"], key="parcel_csv")
-<<<<<<< HEAD
     rank_by = st.radio("Rank by", ["Deliverable power", "Feasibility score"], horizontal=True, key="rank_by",
                        help="Deliverable power: earliest month the grid can carry the full 75 MW, then least bridge "
                             "power needed. Feasibility: the weighted score.")
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
     rows, details = [], {}
     wts = (S.speed, S.cost, S.env)
     for q, l in locs:
@@ -423,7 +408,6 @@ with TAB_SITE:
                      "$/MWh": round(mm.get("decision_cost_usd_per_requested_mwh") or 0, 2),
                      "kg/MWh": round(mm.get("combined_electricity_co2_kg_per_mwh") or 0),
                      "Grid wait": f"+{l['delay']}m",
-<<<<<<< HEAD
                      "Grid full": f"M{30 + int(l['delay'])}",
                      "Bridge MW": round(deliverable_power(r, int(l["delay"]))["bridge_mw"]) if r.caps else None,
                      "Portfolio": ", ".join(f"{c:.0f} {SHORT[k].lower()}" for k, c in (r.caps or {}).items() if c > 0) or "–"})
@@ -434,11 +418,6 @@ with TAB_SITE:
             tbl = tbl.sort_values(["_g", "Bridge MW", "Score"], ascending=[True, True, False]).drop(columns="_g")
         else:
             tbl = tbl.sort_values("Score", ascending=False)
-=======
-                     "Portfolio": ", ".join(f"{c:.0f} {SHORT[k].lower()}" for k, c in (r.caps or {}).items() if c > 0) or "–"})
-    if rows:
-        tbl = pd.DataFrame(rows).sort_values("Score", ascending=False)
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
         st.dataframe(tbl, hide_index=True, width="stretch",
                      column_config={"Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=100, format="%.0f")})
         # stacked contribution chart
@@ -517,7 +496,6 @@ with TAB_SITE:
                          hide_index=True, width="stretch")
 
 # ====================================================================================
-<<<<<<< HEAD
 with T_IC:
     if best is None or IC is None:
         st.info("No feasible plan yet; relax a must-have first.")
@@ -621,8 +599,6 @@ with TAB_MON:
         st.caption("Sites enter the pipeline when you make them active in Screen. Stages are session-only in this prototype.")
 
 # ====================================================================================
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 with TAB_REC:
     if best is None:
         st.error(f"No portfolio opening in months {rec.tested[0] if rec.tested else '–'}–"

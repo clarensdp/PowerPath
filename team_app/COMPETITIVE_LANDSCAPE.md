@@ -4,7 +4,6 @@
 not independently verified. PowerPath is a hackathon prototype running on the fictional GRIDTECH
 benchmark.*
 
-<<<<<<< HEAD
 ## One-line positioning (v5)
 **Enverus sells the modules (Site & Screen, Interconnect for Load, gas analytics, PRISM, research).
 PowerPath is the decision layer across them: screening → interconnection → generation → deal
@@ -12,9 +11,6 @@ structuring → monitoring in one workflow, ranked by deliverable power, with ev
 assumption carried forward in a ledger.**
 
 ## Earlier positioning
-=======
-## One-line positioning
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 **Enverus tells you where power is and what it costs. PowerPath tells you what to build, when to
 open, what it costs you in carbon and reliability, and what to file on Monday.** They are
 complementary: PowerPath is a decision layer that could run on Enverus-grade data.

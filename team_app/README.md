@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PowerPath v7 — one decision layer for large-load power
 
 **v7 contents:** the Streamlit decision terminal (`team_app/app.py`, five stages: Screen → Interconnect →
@@ -33,8 +32,6 @@ charge ($12/kW-month at 85% minimum take). None of these enter the common benchm
 
 ---
 
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 # PowerPath — site, power and execution terminal
 
 **Every MW, every month, every trade-off explained.** Paste a US ZIP, a state or a major country and

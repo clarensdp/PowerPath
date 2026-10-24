@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PowerPath demo script · one decision layer (5 minutes)
 
 **Open line (15 s):** "Large-load projects now live or die on deliverable power: queue exposure,
@@ -26,8 +25,6 @@ the deal and tells you what would change it, in one workflow."
 
 
 ## Previous script (detail)
-=======
->>>>>>> 10d34e8308ad89fdb3f0f82e1a66d94629501b7f
 # PowerPath 5-minute demo script (mapped to the rubric)
 
 ## 0:00–0:45 · Open on the SITE screener (new)
