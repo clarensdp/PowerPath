@@ -81,6 +81,8 @@ tr.clk{cursor:pointer}tr.clk:hover td{background:#141c26}
 .tl .ax{position:relative;height:14px;font-size:10px;color:var(--dim)}
 .tl .ax span{position:absolute;transform:translateX(-50%)}
 .tl .when{color:var(--good);text-align:right;font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px}
+.asm label em{font-style:normal;color:var(--dim);font-size:10.5px;margin-left:4px}
 .mixrow{display:grid;grid-template-columns:110px 1fr;gap:6px;align-items:center;font-size:11.5px;margin-bottom:6px}
 .stack i{display:block}
 
@@ -330,6 +332,26 @@ td{border-bottom-color:#10161e}
         <div class="kpis" id="portkpis"></div>
         <details class="more"><summary>More metrics</summary><div class="kpis" id="portkpis2"></div></details>
       </div>
+      <div class="p c12"><h2>Portfolio builder · change the mix, see the unit cost <em>fast hourly model · all 87,600 hours</em></h2>
+        <div class="row" style="flex-wrap:wrap;gap:8px;align-items:center"><div class="chips" id="gbpre" role="group" aria-label="Start from"></div>
+          <label style="font-size:11.5px;color:var(--dim)">Opens <select id="gbopen" aria-label="Opening month"></select></label></div>
+        <div class="kpis" id="gbkpi"></div>
+        <div id="gbwarn" style="display:flex;flex-direction:column;gap:4px"></div></div>
+      <div class="p c5"><h2>Generation sources <em>MW, catalog block sizes</em></h2><div class="asm" id="gbsl"></div>
+        <div class="note">Solar, wind and nuclear are offsite contracts paid on available output and share the campus import limit. Battery, turbine, engines and fuel cells are onsite and use the 8-acre land limit.</div></div>
+      <div class="p c7"><h2>Where each $/MWh goes <em>recommended vs your mix</em></h2><div class="cv"><canvas id="gbcost"></canvas></div>
+        <h2 style="margin-top:6px">Best next move <em>one block at a time, ranked by unit cost · click to apply</em></h2>
+        <div class="tw"><table id="gbmarg"></table></div>
+        <div class="note">The builder re-dispatches every hour of the 10-year horizon in your browser with a merit-order model (contracts, battery, then the cheaper of onsite gas or grid at a $100/t internal carbon price; Tier 1 and Tier 2 only in stress events). On the engine's own plans it lands within about 1% of the official $/MWh and on the same kg/MWh, so read changes as differences; the recommended plan's official figures come from the optimizer and the packet checker.</div></div>
+      <div class="p c12"><details class="more" id="gbdisp"><summary>Historical dispatch · how your mix runs hour by hour through 2023 weather and prices</summary>
+        <div class="row" style="flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px"><div class="chips" id="gdwin" role="group" aria-label="Window"></div>
+          <select id="gdyr" aria-label="Model year"></select></div>
+        <div class="cv tall"><canvas id="gdchart"></canvas></div>
+        <div class="grid" style="margin-top:6px"><div class="c5" style="min-width:0"><h2 style="font:600 11px var(--cond);letter-spacing:.14em;color:var(--amber);margin:0 0 4px">Monthly output by source <em style="color:var(--dim);font-style:normal">GWh</em></h2><div class="cv"><canvas id="gdmon"></canvas></div></div>
+          <div class="c7" style="min-width:0"><h2 style="font:600 11px var(--cond);letter-spacing:.14em;color:var(--amber);margin:0 0 4px">How hard the dispatchable units work</h2><div class="tw"><table id="gdtbl"></table></div>
+          <div class="note" id="gdnote"></div></div></div>
+        <div class="note">Uses the packet's 2023 ERCOT reference hours (load, solar and wind output, prices, stress windows), scaled to the chosen model year by the packet's price and carbon trajectories. Reflects the builder's mix and opening month above.</div>
+      </details></div>
       <div class="p c5">
         <h2>What to build and contract</h2>
         <div class="tw"><table id="captbl"></table></div>
@@ -474,7 +496,7 @@ function show(v) {
   if (!VIEWS.some(x => x[0] === v)) v = 'screen';
   CURV = v;
   VIEWS.forEach(([id]) => { $('#v-' + id).hidden = id !== v; const t = $('#t-' + id); if (t) t.setAttribute('aria-selected', id === v); });
-  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildTrde(); buildStrs(); }, struct: () => { buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
+  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildGB(); buildTrde(); buildStrs(); }, struct: () => { buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
   try { history.replaceState(null, '', '#' + v); } catch (e) {}
 }
 
@@ -953,6 +975,181 @@ $('#icstates').addEventListener('click', e => { const b = e.target.closest('butt
 $('#icasm').addEventListener('input', e => { const k = e.target.dataset.k; if (!k) return; ICA[k] = +e.target.value; buildIC(); const el = $(`#icasm input[data-k="${k}"]`); if (el) el.focus(); });
 $('#iclead').addEventListener('change', e => { const r = e.target.dataset.r; if (!r) return; ICA.lead[r][+e.target.dataset.j] = Math.max(0, +e.target.value || 0); buildIC(); });
 $('#icreset').addEventListener('click', () => { ICA = icDefaults(ICS); buildIC(); });
+
+/* PowerPath portfolio builder: fast hourly dispatch of 87,600 hours in the browser (screening model). */
+function genSim(G, caps, open, lam, recYear) {
+  const O = G.opts, H = 87600, eta = Math.sqrt(O.battery_4h.rte), CRF = (r, n) => r / (1 - Math.pow(1 + r, -n));
+  const glim = m => { let c = 0; for (const g of G.grid) if (m >= g.from_month) c = g.max_import_mw; return c; };
+  const ramp = m => m < open ? 0 : Math.min(1, 1 / 3 + (m - open) / 15);
+  const live = k => (caps[k] || 0) > 0;
+  const th = ['fuel_cell', 'gas_turbine', 'gas_engine'].filter(live);
+  const Pb = caps.battery_4h || 0, Eb = Pb * O.battery_4h.dur;
+  let soc = 0, cyc = 0, yr = -1;
+  const t = {req: 0, fixed: 0, contract: 0, fuel: 0, vom: 0, merch: 0, reloc: 0, intr: 0, co2: 0, clean: 0, merchMWh: 0, curt: 0, unserved: 0, unservedH: 0, t2MWh: 0, t1MWh: 0, thermMWh: 0};
+  const REC = recYear == null ? null : {solar: new Float32Array(8760), wind: new Float32Array(8760), nuclear: new Float32Array(8760), battery: new Float32Array(8760), charge: new Float32Array(8760), gas_turbine: new Float32Array(8760), gas_engine: new Float32Array(8760), fuel_cell: new Float32Array(8760), grid: new Float32Array(8760), relief: new Float32Array(8760), load: new Float32Array(8760), price: new Float32Array(8760), cap: new Float32Array(8760), curt: new Float32Array(8760)};
+  const fixedHr = {}; for (const k in caps) if (caps[k] > 0) { const o = O[k]; fixedHr[k] = caps[k] * 1000 * (o.capex * CRF(G.disc, o.life) + o.fom) / 8760; }
+  for (let h = 0; h < H; h++) {
+    const m = Math.floor(h / 730), r = h % 8760, y = h / 8760;
+    if (Math.floor(y) !== yr) { yr = Math.floor(y); cyc = 0; }
+    const on = k => m >= Math.max(open, O[k].avail);
+    for (const k in fixedHr) if (on(k)) t.fixed += fixedHr[k];
+    const L = G.load[r] * ramp(m); if (L <= 0) continue;
+    t.req += L;
+    const price = G.whole[r] * Math.pow(1 + G.rates.wholesale_energy, y) + G.adder;
+    const gas = G.hh[r] * Math.pow(1 + G.rates.henry_hub, y) + G.gadd[r];
+    const gco2 = G.co2[r] * Math.pow(1 + G.rates.grid_co2, y);
+    const Gl = glim(m) * (G.stress[r] ? G.sfrac[r] : 1);
+    // offsite contracts (paid on available generation), share the import limit
+    const sol = on('utility_solar') ? (caps.utility_solar || 0) * G.solar[r] : 0;
+    const win = on('wind') ? (caps.wind || 0) * G.wind[r] : 0;
+    const nuc = on('nuclear') ? (caps.nuclear || 0) * G.firm[r] : 0;
+    t.contract += sol * O.utility_solar.pay + win * O.wind.pay + nuc * O.nuclear.pay;
+    const off = sol + win + nuc, del = Math.min(off, Gl);
+    let c = Math.min(del, L), D = L - c, spare = del - c, head = Gl - del;
+    // battery: charge from clean surplus only, discharge into deficit when merchant is pricey or headroom is short
+    let ch = 0, dis = 0;
+    const bOn = Pb > 0 && on('battery_4h');
+    if (bOn && spare > 0 && cyc < O.battery_4h.cyc) { ch = Math.min(spare, Pb, (Eb - soc) / eta); soc += ch * eta; spare -= ch; }
+    t.curt += Math.max(0, off - del) + spare;
+    if (bOn && D > 0 && soc > 1e-9) {
+      const need = price > 60 || D > head || G.stress[r];
+      if (need) { dis = Math.min(D, Pb, soc * eta); soc -= dis / eta; D -= dis; cyc += dis / Math.max(Eb, 1e-9); }
+    }
+    t.clean += c + dis;
+    // merit order for the rest: thermal units vs merchant (carbon priced at lam for dispatch only)
+    const offers = th.filter(on).map(k => ({k, mw: caps[k], cost: gas * O[k].hr + O[k].pay, sc: gas * O[k].hr + O[k].pay + lam * O[k].co2}));
+    offers.push({k: 'grid', mw: head, cost: price, sc: price + lam * gco2});
+    offers.sort((a, b) => a.sc - b.sc);
+    const rec = REC && yr === recYear; const used = {};
+    for (const of of offers) { if (D <= 1e-9) break; const q = Math.min(D, of.mw); if (q <= 0) continue; D -= q; used[of.k] = q;
+      if (of.k === 'grid') { t.merch += q * price; t.merchMWh += q; t.co2 += q * gco2; }
+      else { t.fuel += q * gas * O[of.k].hr; t.vom += q * O[of.k].pay; t.co2 += q * O[of.k].co2; t.thermMWh += q; } }
+    if (rec) { const fr = off > 0 ? c / off : 0; REC.solar[r] = sol * fr; REC.wind[r] = win * fr; REC.nuclear[r] = nuc * fr; REC.battery[r] = dis; REC.charge[r] = ch;
+      for (const k of ['gas_turbine', 'gas_engine', 'fuel_cell', 'grid']) REC[k][r] = used[k] || 0; REC.load[r] = L; REC.price[r] = price; REC.cap[r] = Gl; REC.curt[r] = Math.max(0, off - del) + spare; REC.relief[r] = D; }
+    if (D > 1e-6) {
+      if (G.stress[r]) {
+        const r1 = Math.min(D, G.remote.cap, G.t1[r] * ramp(m)); D -= r1; t.reloc += r1 * G.remote.usd; t.t1MWh += r1; t.co2 += r1 * G.remote.mult * gco2;
+        const r2 = Math.min(D, G.t2[r] * ramp(m)); D -= r2; t.intr += r2 * G.remote.int_usd; t.t2MWh += r2;
+      }
+      if (D > 1e-6) { t.unserved += D; t.unservedH++; t.intr += D * G.remote.int_usd; }
+    }
+  }
+  const total = t.fixed + t.contract + t.fuel + t.vom + t.merch + t.reloc + t.intr;
+  const land = Object.keys(caps).reduce((a, k) => a + (O[k].loc === 'onsite' ? caps[k] * O[k].land : 0), 0);
+  const big = Math.max(0, ...th.map(k => O[k].block));
+  return Object.assign(t, {total, usd: total / t.req, kg: 1000 * t.co2 / t.req, cleanShare: t.clean / t.req, merchShare: t.merchMWh / t.req, land, big,
+    firm: th.reduce((a, k) => a + caps[k], 0) + Pb, rec: REC});
+}
+
+
+/* ---------- GENERATE · portfolio builder ---------- */
+const GORDER = ['utility_solar', 'wind', 'nuclear', 'battery_4h', 'gas_turbine', 'gas_engine', 'fuel_cell'];
+const GPRE = () => [['Recommended', D.best.caps, D.best.open], ['N-1 safe', D.n1best.caps, D.n1best.open],
+  ...D.alternatives.map(a => [a.name, a.mix, a.name === 'Fast Track' ? 14 : a.name === 'Lower Cost' ? 26 : D.best.open]), ['Grid + contracts only', {utility_solar: 70, wind: 155}, D.best.open]];
+var GB = null, GBASE = null, GTIMER = null;
+function gsim(caps, open) { return genSim(D.gen, caps, open, D.carbon_price || 100); }
+function gComp(s) { const r = s.req; return [['Onsite capital + O&M', s.fixed / r, '#F2A93B'], ['Solar / wind / nuclear contracts', s.contract / r, '#4FC3F7'],
+  ['Onsite fuel + variable O&M', (s.fuel + s.vom) / r, '#E07B39'], ['Grid purchases', s.merch / r, '#7D8B9C'], ['Relocation + interruption', (s.reloc + s.intr) / r, '#F05454']]; }
+function buildGB() {
+  if (!D.gen || typeof genSim !== 'function') return;
+  if (!GB) { GB = {caps: Object.assign({}, D.best.caps), open: D.best.open, preset: 'Recommended'}; }
+  if (!GBASE) GBASE = gsim(D.best.caps, D.best.open);
+  $('#gbpre').innerHTML = GPRE().map(([n]) => `<button type="button" class="chip" data-p="${n}" aria-pressed="${GB.preset === n}">${n}</button>`).join('');
+  $('#gbopen').innerHTML = [14, 16, 17, 18, 19, 20, 22, 24, 26].map(m => `<option value="${m}" ${m === GB.open ? 'selected' : ''}>M${m}</option>`).join('');
+  $('#gbsl').innerHTML = GORDER.map(k => { const o = D.gen.opts[k], v = GB.caps[k] || 0;
+    return `<label class="${v !== (D.best.caps[k] || 0) ? 'chg' : ''}"><span><i class="sw" style="background:${RESC[k]}"></i>${D.labels[k]} <em>${o.loc}${o.avail > GB.open ? ' · from M' + o.avail : ''}</em></span><b>${fmt(v)} MW</b>
+      <input type="range" data-k="${k}" min="0" max="${o.max}" step="${o.block}" value="${v}" aria-label="${D.labels[k]} MW"></label>`; }).join('');
+  gbRender();
+}
+function gbRender() {
+  const s = gsim(GB.caps, GB.open), b = GBASE, d = (x, y, dp, u, good) => { const v = x - y; if (Math.abs(v) < Math.pow(10, -dp) / 2) return `<span class="s">same as recommended</span>`;
+    const better = good === 'down' ? v < 0 : v > 0; return `<span class="s" style="color:${better ? C('good') : C('bad')}">${v > 0 ? '+' : ''}${fmt(v, dp)}${u} vs recommended</span>`; };
+  GB.last = s;
+  const warn = [];
+  if (s.land > D.gen.land + 1e-9) warn.push(`Onsite equipment needs ${fmt(s.land, 1)} acres; the campus allows ${D.gen.land}. Not buildable as drawn.`);
+  if (s.unservedH > 0) warn.push(`${fmt(s.unservedH)} hours with load you cannot serve (${fmt(s.unserved)} MWh, charged at $1,000/MWh). Add firm capacity or open later.`);
+  if (s.big > 0 && s.firm - s.big < 25) warn.push(`Largest onsite unit is ${s.big} MW: if it trips during a grid-limited hour there is little backup (N-1). See Reliability below.`);
+  const info = GORDER.filter(k => (GB.caps[k] || 0) > 0 && D.gen.opts[k].avail > GB.open).map(k => `${D.labels[k]} starts at M${D.gen.opts[k].avail}, after the M${GB.open} opening.`);
+  const offRec = GB.preset === 'Recommended' ? `<span class="s">optimizer + checker: ${fmt(D.best.cost, 2)} $/MWh</span>` : d(s.usd, b.usd, 2, ' $/MWh', 'down');
+  $('#gbkpi').innerHTML = [['Unit cost', fmt(s.usd, 2) + ' $/MWh', offRec], ['Carbon', fmt(s.kg) + ' kg/MWh', d(s.kg, b.kg, 0, ' kg', 'down')],
+    ['Clean share', fmt(100 * s.cleanShare) + '%', d(100 * s.cleanShare, 100 * b.cleanShare, 0, ' pts', 'up')], ['Grid purchases', fmt(100 * s.merchShare) + '% of MWh', d(100 * s.merchShare, 100 * b.merchShare, 0, ' pts', 'down')],
+    ['Total cost, 10 yrs', M(s.total), d(s.total / 1e6, b.total / 1e6, 1, 'M', 'down')], ['Interruption (Tier 2)', fmt(s.t2MWh + s.unserved) + ' MWh', d(s.t2MWh + s.unserved, b.t2MWh + b.unserved, 0, ' MWh', 'down')]]
+    .map(([l, v, x]) => `<div class="k"><div class="l">${l}</div><div class="v">${v}</div>${x}</div>`).join('');
+  $('#gbwarn').innerHTML = (warn.length ? warn.map(w => `<div class="verdict bad" style="margin:0">${w}</div>`).join('') : `<div class="verdict" style="margin:0"><b>Buildable.</b> Fits the ${D.gen.land}-acre limit and serves every hour.</div>`) + (info.length ? `<div class="note">${info.join(' ')}</div>` : '');
+  const cs = gComp(s), cb = gComp(b);
+  chart('gbcost', {type: 'bar', data: {labels: ['Recommended', 'Your mix'], datasets: cs.map(([n, , c], i) => ({label: n, data: [cb[i][1], cs[i][1]], backgroundColor: c}))},
+    options: {indexAxis: 'y', animation: false, scales: {x: {stacked: true, title: {display: true, text: '$ per requested MWh'}}, y: {stacked: true}},
+      plugins: {tooltip: {callbacks: {label: c => `${c.dataset.label}: ${fmt(c.raw, 2)} $/MWh`}}}}});
+  $('#gbmarg').innerHTML = '<tr><td colspan="4" class="note">Working out the next best block…</td></tr>';
+  clearTimeout(GTIMER); GTIMER = setTimeout(() => { gbMarg(); buildDisp(); }, 250);
+}
+function gbMarg() {
+  const s = GB.last, rows = [];
+  GORDER.forEach(k => { const o = D.gen.opts[k], v = GB.caps[k] || 0;
+    [[+1, 'add'], [-1, 'remove']].forEach(([sg, act]) => { const nv = v + sg * o.block; if (nv < 0 || nv > o.max) return;
+      const t = gsim(Object.assign({}, GB.caps, {[k]: nv}), GB.open); const land = t.land > D.gen.land + 1e-9;
+      rows.push({k, act, mw: o.block, du: t.usd - s.usd, dk: t.kg - s.kg, ok: !land && t.unservedH <= s.unservedH}); }); });
+  rows.sort((a, b) => a.du - b.du);
+  $('#gbmarg').innerHTML = '<thead><tr><th>Next move</th><th class="n">Δ $/MWh</th><th class="n">Δ kg/MWh</th><th>Note</th></tr></thead><tbody>' +
+    rows.slice(0, 6).map(r => `<tr class="clk" data-k="${r.k}" data-a="${r.act}" tabindex="0"><td>${r.act === 'add' ? '+' : '−'}${r.mw} MW ${SHORT[r.k]}</td><td class="n" style="color:${r.du < 0 ? C('good') : C('bad')}">${r.du > 0 ? '+' : ''}${fmt(r.du, 2)}</td><td class="n" style="color:${r.dk < 0 ? C('good') : C('bad')}">${r.dk > 0 ? '+' : ''}${fmt(r.dk, 1)}</td><td>${r.ok ? (r.du < 0 && r.dk < 0 ? 'cheaper and cleaner' : r.du < 0 ? 'cheaper, but dirtier' : r.dk < 0 ? `cleaner at $${fmt(r.du / -r.dk * 1000)}/t CO₂` : '') : 'breaks land or reliability'}</td></tr>`).join('') + '</tbody>';
+}
+$('#gbsl').addEventListener('input', e => { const k = e.target.dataset.k; if (!k) return; GB.caps[k] = +e.target.value; if (!GB.caps[k]) delete GB.caps[k]; GB.preset = 'Custom';
+  const lab = e.target.closest('label'); lab.querySelector('b').textContent = fmt(+e.target.value) + ' MW'; lab.classList.toggle('chg', (+e.target.value) !== (D.best.caps[k] || 0));
+  document.querySelectorAll('#gbpre .chip').forEach(c => c.setAttribute('aria-pressed', 'false')); gbRender(); });
+$('#gbpre').addEventListener('click', e => { const b = e.target.closest('button[data-p]'); if (!b) return; const p = GPRE().find(x => x[0] === b.dataset.p);
+  GB = {caps: Object.assign({}, p[1]), open: p[2], preset: p[0]}; buildGB(); });
+$('#gbopen').addEventListener('change', e => { GB.open = +e.target.value; GB.preset = 'Custom'; buildGB(); });
+$('#gbmarg').addEventListener('click', e => { const r = e.target.closest('tr[data-k]'); if (!r) return; const k = r.dataset.k, o = D.gen.opts[k];
+  GB.caps[k] = Math.max(0, (GB.caps[k] || 0) + (r.dataset.a === 'add' ? 1 : -1) * o.block); if (!GB.caps[k]) delete GB.caps[k]; GB.preset = 'Custom'; buildGB(); });
+
+/* ---------- GENERATE · historical dispatch (collapsible) ---------- */
+var GDW = 'stress', GDY = 4;
+function gdWindows() {
+  const G = D.gen, n = 8760, wk = 168;
+  const fs = G.stress.indexOf(1), pk = G.whole.indexOf(Math.max(...G.whole));
+  let best = 0, bi = 0, run = 0; for (let i = 0; i < n; i++) { run += G.wind[i]; if (i >= wk) run -= G.wind[i - wk]; if (i >= wk - 1 && (i === wk - 1 || run < best)) { best = run; bi = i - wk + 1; } }
+  const st = h => Math.max(0, Math.min(n - wk, h));
+  return {stress: ['Grid stress event', st(fs - 72)], peak: ['Highest-price week', st(pk - 84)], wind: ['Lowest-wind week', bi], winter: ['Mid-January week', 24 * 14], year: ['Whole year (daily avg)', 0]};
+}
+function buildDisp() {
+  if (!$('#gbdisp').open || !GB) return;
+  const W = gdWindows(), s = genSim(D.gen, GB.caps, GB.open, D.carbon_price || 100, GDY), R = s.rec;
+  $('#gdwin').innerHTML = Object.entries(W).map(([k, [n]]) => `<button type="button" class="chip" data-w="${k}" aria-pressed="${k === GDW}">${n}</button>`).join('');
+  $('#gdyr').innerHTML = [...Array(10).keys()].map(y => `<option value="${y}" ${y === GDY ? 'selected' : ''}>Model year ${y + 1}${y * 12 + 12 <= GB.open ? ' (pre-opening)' : ''}</option>`).join('');
+  const SER = [['solar', 'Solar', RESC.utility_solar], ['wind', 'Wind', RESC.wind], ['nuclear', 'Nuclear', RESC.nuclear], ['battery', 'Battery discharge', RESC.battery_4h],
+    ['fuel_cell', 'Fuel cells', RESC.fuel_cell], ['gas_turbine', 'Turbine', RESC.gas_turbine], ['gas_engine', 'Engines', RESC.gas_engine], ['grid', 'Grid purchases', '#7D8B9C'], ['relief', 'Relocated / interrupted', '#FF4D6D']]
+    .filter(([k]) => R[k].some(v => v > 1e-6));
+  let idx, lab, agg;
+  if (GDW === 'year') { idx = [...Array(365).keys()]; lab = idx.map(d => 'd' + (d + 1)); agg = a => idx.map(d => { let t = 0; for (let h = 0; h < 24; h++) t += a[d * 24 + h]; return t / 24; }); }
+  else { const h0 = W[GDW][1]; idx = [...Array(168).keys()].map(i => h0 + i); lab = idx.map((h, i) => i % 24 === 0 ? 'day ' + (i / 24 + 1) : ''); agg = a => idx.map(h => a[h]); }
+  const stressBand = GDW === 'year' ? [] : idx.map(h => D.gen.stress[h] ? 100 : null);
+  chart('gdchart', {type: 'line', data: {labels: lab, datasets: [
+    ...SER.map(([k, n, c]) => ({label: n, data: agg(R[k]), backgroundColor: c, borderWidth: 0, pointRadius: 0, fill: true, stack: 's', stepped: GDW !== 'year'})),
+    {label: 'Load', data: agg(R.load), borderColor: '#FFFFFF', borderWidth: 1.5, pointRadius: 0, fill: false, stack: 'l', stepped: GDW !== 'year'},
+    {label: 'Import cap', data: agg(R.cap), borderColor: C('cyan'), borderDash: [5, 4], borderWidth: 1, pointRadius: 0, fill: false, stack: 'c', stepped: GDW !== 'year'},
+    ...(stressBand.some(v => v) ? [{label: 'Stress window', data: stressBand, backgroundColor: 'rgba(240,84,84,.10)', borderWidth: 0, pointRadius: 0, fill: 'origin', stack: 'x', stepped: true}] : [])]},
+    options: {animation: false, interaction: {mode: 'index', intersect: false}, scales: {x: {ticks: {autoSkip: false, maxRotation: 0, callback: (v, i) => lab[i] || null}}, y: {stacked: true, min: 0, title: {display: true, text: 'MW'}}},
+      plugins: {tooltip: {callbacks: {label: c => `${c.dataset.label}: ${fmt(c.raw, 1)} MW`}}}}});
+  // monthly energy by source
+  const mstart = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365].map(d => d * 24);
+  const mon = a => mstart.slice(0, 12).map((h0, i) => { let t = 0; for (let h = h0; h < mstart[i + 1]; h++) t += a[h]; return t / 1000; });
+  chart('gdmon', {type: 'bar', data: {labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], datasets: SER.map(([k, n, c]) => ({label: n, data: mon(R[k]), backgroundColor: c}))},
+    options: {animation: false, scales: {x: {stacked: true}, y: {stacked: true, title: {display: true, text: 'GWh'}}}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => `${c.dataset.label}: ${fmt(c.raw, 1)} GWh`}}}}});
+  // dispatchable unit duty
+  const L = R.load.reduce((a, b) => a + b, 0), stressH = [...Array(8760).keys()].filter(h => D.gen.stress[h] && R.load[h] > 0);
+  const rows = ['battery_4h', 'fuel_cell', 'gas_turbine', 'gas_engine'].filter(k => GB.caps[k]).map(k => { const a = R[k === 'battery_4h' ? 'battery' : k], mw = GB.caps[k];
+    let e = 0, run = 0, full = 0, starts = 0, prev = 0; for (let h = 0; h < 8760; h++) { e += a[h]; if (a[h] > 1e-3) { run++; if (!prev) starts++; } if (a[h] >= mw * 0.98) full++; prev = a[h] > 1e-3; }
+    const sE = stressH.reduce((t, h) => t + a[h], 0), sL = stressH.reduce((t, h) => t + R.load[h], 0);
+    return [D.labels[k], fmt(mw), fmt(100 * e / (mw * 8760)) + '%', fmt(run), fmt(full), fmt(starts), fmt(100 * e / Math.max(L, 1), 1) + '%', sL ? fmt(100 * sE / sL) + '%' : '–']; });
+  const gE = R.grid.reduce((a, b) => a + b, 0), gPay = R.grid.reduce((t, v, h) => t + v * R.price[h], 0);
+  $('#gdtbl').innerHTML = '<thead><tr><th>Unit</th><th class="n">MW</th><th class="n">Capacity factor</th><th class="n">Hours running</th><th class="n">Hours at full</th><th class="n">Starts</th><th class="n">Share of load</th><th class="n">Share in stress hours</th></tr></thead><tbody>' +
+    (rows.length ? rows.map(r => `<tr>${r.map((c, i) => `<td class="${i ? 'n' : ''}">${c}</td>`).join('')}</tr>`).join('') : '<tr><td colspan="8">No onsite dispatchable units in this mix.</td></tr>') + '</tbody>';
+  const curt = R.curt.reduce((a, b) => a + b, 0), clean = ['solar', 'wind', 'nuclear'].reduce((t, k) => t + R[k].reduce((a, b) => a + b, 0), 0);
+  $('#gdnote').innerHTML = `<b>Model year ${GDY + 1}.</b> Grid supplies ${fmt(100 * gE / Math.max(L, 1))}% of load at an average ${fmt(gPay / Math.max(gE, 1), 2)} $/MWh paid; ${fmt(curt / 1000, 1)} GWh of contracted clean output is curtailed (${fmt(100 * curt / Math.max(clean + curt, 1))}% of what you pay for). Onsite units cover what the import cap and renewables cannot, and are what keeps the campus up in stress windows.`;
+}
+$('#gbdisp').addEventListener('toggle', buildDisp);
+$('#gdwin').addEventListener('click', e => { const b = e.target.closest('button[data-w]'); if (b) { GDW = b.dataset.w; buildDisp(); } });
+$('#gdyr').addEventListener('change', e => { GDY = +e.target.value; buildDisp(); });
 
 /* ---------- STRUCTURE ---------- */
 function buildDeals() {

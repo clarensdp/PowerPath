@@ -7,6 +7,13 @@ with saved screeners and a locked base case, CapIQ-style power market strip (ATC
 spread, solar and wind capture vs PPA price), and the five stages for the Texas benchmark and Ohio.
 Rebuild the page data with `team_app/tools/build_terminal_*.py` (1 → 2 → 3 → 4), then `build_terminal_page.py`.
 
+**Generate portfolio builder (page):** sliders for every resource with live $/MWh, kg/MWh, clean share, grid share,
+10-year cost and interruption versus the recommended plan; a $/MWh cost stack; a ranked "best next move" (one block
+added or removed); and a collapsible historical dispatch view (2023 reference hours: stress event, highest-price week,
+lowest-wind week, January week, whole year), with monthly output by source and duty of each dispatchable unit.
+The browser model re-dispatches all 87,600 hours by merit order and lands within ~1% of the engine's $/MWh and on the
+same kg/MWh for every engine plan (`tools/build_terminal_5_gen.py` exports the inputs).
+
 **Interconnect explorer (page, v7.1):** for the top-10 screened states plus Ohio, the Interconnect tab shows today's grid mix
 (EIA 2024 state profiles, rounded) next to the PowerPath portfolio, speed to connection (grid P10/P50/P90, onsite
 permit → procure → build back-plan) and live assumptions: grid wait, P10–P90 spread, upgrade $/kW, value of time and
