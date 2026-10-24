@@ -85,6 +85,7 @@ tr.clk{cursor:pointer}tr.clk:hover td{background:#141c26}
 .asm label em{font-style:normal;color:var(--dim);font-size:10.5px;margin-left:4px}
 .fgrp{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:6px}
 .fgrp h3{margin:0;font:600 10px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+#hmaxis span{position:absolute}
 .mixrow{display:grid;grid-template-columns:110px 1fr;gap:6px;align-items:center;font-size:11.5px;margin-bottom:6px}
 .stack i{display:block}
 
@@ -350,6 +351,16 @@ td{border-bottom-color:#10161e}
         <h2 style="margin-top:6px">Best next move <em>one block at a time, ranked by unit cost · click to apply</em></h2>
         <div class="tw"><table id="gbmarg"></table></div>
         <div class="note">The builder re-dispatches every hour of the 10-year horizon in your browser with a merit-order model (contracts, battery, then the cheaper of onsite gas or grid at a $100/t internal carbon price; Tier 1 and Tier 2 only in stress events). On the engine's own plans it lands within about 1% of the official $/MWh and on the same kg/MWh, so read changes as differences; the recommended plan's official figures come from the optimizer and the packet checker.</div></div>
+      <div class="p c12"><details class="more" id="hmbox"><summary>Demand heat map · every hour of the reference year (hour of day × day)</summary>
+        <div class="chips" id="hmmode" role="group" aria-label="Heat map measure" style="margin-top:8px"></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:4px;margin-top:6px"><div style="position:relative;font-size:10px;color:var(--dim)"><span style="position:absolute;top:0">0h</span><span style="position:absolute;top:45%">12h</span><span style="position:absolute;bottom:0">23h</span></div>
+          <div><canvas id="hmcv" style="width:100%;display:block;cursor:crosshair" aria-label="Demand heat map"></canvas>
+          <div id="hmaxis" style="position:relative;height:14px;font-size:10px;color:var(--dim)"></div></div></div>
+        <div class="note" id="hmtip">Hover a cell for that hour.</div>
+        <div id="hmleg" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim);max-width:420px"></div>
+        <div class="note" id="hmnote"></div>
+        <div class="note">Full-operation campus demand from the packet's 2023 reference hours (cooling included, no PUE multiplier). "Not covered" uses the builder's current mix.</div>
+      </details></div>
       <div class="p c12"><details class="more" id="gbdisp"><summary>Historical dispatch · how your mix runs hour by hour through 2023 weather and prices</summary>
         <div class="row" style="flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px"><div class="chips" id="gdwin" role="group" aria-label="Window"></div>
           <select id="gdyr" aria-label="Model year"></select></div>
@@ -1117,7 +1128,7 @@ function gbRender() {
     options: {indexAxis: 'y', animation: false, scales: {x: {stacked: true, title: {display: true, text: '$ per requested MWh'}}, y: {stacked: true}},
       plugins: {tooltip: {callbacks: {label: c => `${c.dataset.label}: ${fmt(c.raw, 2)} $/MWh`}}}}});
   $('#gbmarg').innerHTML = '<tr><td colspan="4" class="note">Working out the next best block…</td></tr>';
-  clearTimeout(GTIMER); GTIMER = setTimeout(() => { gbMarg(); buildDisp(); }, 250);
+  clearTimeout(GTIMER); GTIMER = setTimeout(() => { gbMarg(); buildDisp(); if (HMODE === 'gap') buildHeat(); }, 250);
 }
 function gbMarg() {
   const s = GB.last, rows = [];
@@ -1316,6 +1327,39 @@ function buildReq() {
 $('#reqtbl').addEventListener('click', e => { const r = e.target.closest('tr[data-r]'); if (!r) return; const q = D.requests[+r.dataset.r];
   document.querySelectorAll('#reqtbl tr[data-r]').forEach(x => x.classList.toggle('sel', x === r));
   GB = {caps: Object.assign({}, q.caps), open: q.open, preset: 'Custom'}; buildGB(); $('#gbsl').scrollIntoView({behavior: 'smooth', block: 'center'}); });
+
+/* ---------- GENERATE · demand heat map ---------- */
+var HMODE = 'load';
+function buildHeat() {
+  if (!$('#hmbox').open || !D.gen) return;
+  const G = D.gen, modes = {load: ['Total demand', 'MW'], flex: ['Flexible demand (Tier 1 + Tier 2)', 'MW'], price: ['Grid price', '$/MWh'], gap: ['Not covered by your solar + wind', 'MW']};
+  $('#hmmode').innerHTML = Object.entries(modes).map(([k, [n]]) => `<button type="button" class="chip" data-m="${k}" aria-pressed="${k === HMODE}">${n}</button>`).join('');
+  let v;
+  if (HMODE === 'load') v = G.load;
+  else if (HMODE === 'flex') v = G.load.map((_, h) => G.t1[h] + G.t2[h]);
+  else if (HMODE === 'price') v = G.whole.map(p => p + G.adder);
+  else { const caps = (GB && GB.caps) || D.best.caps; v = G.load.map((L, h) => Math.max(0, L - (caps.utility_solar || 0) * G.solar[h] - (caps.wind || 0) * G.wind[h] - (caps.nuclear || 0) * G.firm[h])); }
+  const cv = $('#hmcv'), W = cv.clientWidth || 900, H = 24 * 11, dpr = (window.devicePixelRatio || 1);
+  cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + 'px'; const x = cv.getContext && cv.getContext('2d'); if (!x) return; x.scale(dpr, dpr);
+  const sorted = [...v].sort((a, b) => a - b), lo = sorted[Math.floor(0.01 * sorted.length)], hi = sorted[Math.floor(0.99 * sorted.length)];
+  const col = t => { t = Math.max(0, Math.min(1, t)); const s = [[13, 18, 24], [30, 70, 110], [79, 195, 247], [255, 176, 0], [240, 84, 84]]; const p = t * (s.length - 1), i = Math.min(s.length - 2, Math.floor(p)), f = p - i; return `rgb(${s[i].map((c, j) => Math.round(c + f * (s[i + 1][j] - c))).join(',')})`; };
+  const cw = W / 365, ch = H / 24;
+  for (let d = 0; d < 365; d++) for (let hr = 0; hr < 24; hr++) { const h = d * 24 + hr; x.fillStyle = col((v[h] - lo) / ((hi - lo) || 1)); x.fillRect(d * cw, hr * ch, Math.ceil(cw), Math.ceil(ch)); }
+  x.strokeStyle = '#FFFFFF'; x.lineWidth = 1; for (let h = 0; h < 8760; h++) if (G.stress[h]) x.strokeRect(Math.floor(h / 24) * cw + .5, (h % 24) * ch + .5, Math.max(1, cw - 1), ch - 1);
+  $('#hmaxis').innerHTML = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m, i) => `<span style="left:${100 * [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][i] / 365}%">${m}</span>`).join('');
+  $('#hmleg').innerHTML = `<span>${fmt(lo, 0)}</span><i style="flex:1;height:8px;background:linear-gradient(90deg,${[0, .25, .5, .75, 1].map(col).join(',')})"></i><span>${fmt(hi, 0)} ${modes[HMODE][1]}</span>`;
+  const by = (f, n) => { const a = Array(n).fill(0), c = Array(n).fill(0); v.forEach((y, h) => { const k = f(h); a[k] += y; c[k]++; }); return a.map((s, i) => s / c[i]); };
+  const hrs = by(h => h % 24, 24), pk = hrs.indexOf(Math.max(...hrs)), lw = hrs.indexOf(Math.min(...hrs));
+  const tot = v.reduce((a, b) => a + b, 0) / (HMODE === 'price' ? 8760 : 1000);
+  $('#hmnote').innerHTML = `<b>${modes[HMODE][0]}:</b> highest on average at ${pk}:00 (${fmt(hrs[pk], 1)} ${modes[HMODE][1]}), lowest at ${lw}:00 (${fmt(hrs[lw], 1)}). ` +
+    (HMODE === 'price' ? `Average ${fmt(tot, 2)} $/MWh.` : `Total ${fmt(tot, 0)} GWh in the reference year.`) +
+    (HMODE === 'gap' ? ' This is what the turbine, battery and grid purchases must supply; bright summer evenings and still winter nights are the hard hours.' : HMODE === 'flex' ? ' This is the load the campus can move or shed in a stress event.' : '') + ' White outlines mark grid-stress hours.';
+}
+$('#hmbox').addEventListener('toggle', buildHeat);
+$('#hmmode').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (b) { HMODE = b.dataset.m; buildHeat(); } });
+$('#hmcv').addEventListener('mousemove', e => { const r = e.target.getBoundingClientRect(), d = Math.floor((e.clientX - r.left) / r.width * 365), hr = Math.floor((e.clientY - r.top) / r.height * 24);
+  if (d < 0 || d > 364 || hr < 0 || hr > 23) return; const h = d * 24 + hr, G = D.gen, dt = new Date(Date.UTC(2023, 0, 1 + d));
+  $('#hmtip').textContent = `${dt.toUTCString().slice(5, 11)} ${String(hr).padStart(2, '0')}:00 · demand ${fmt(G.load[h], 1)} MW · flexible ${fmt(G.t1[h] + G.t2[h], 1)} MW · price $${fmt(G.whole[h] + G.adder, 0)}/MWh${G.stress[h] ? ' · STRESS' : ''}`; });
 
 /* ---------- STRUCTURE ---------- */
 function buildDeals() {
