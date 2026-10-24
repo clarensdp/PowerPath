@@ -83,6 +83,8 @@ tr.clk{cursor:pointer}tr.clk:hover td{background:#141c26}
 .tl .when{color:var(--good);text-align:right;font-variant-numeric:tabular-nums}
 .sw{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px}
 .asm label em{font-style:normal;color:var(--dim);font-size:10.5px;margin-left:4px}
+.fgrp{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:6px}
+.fgrp h3{margin:0;font:600 10px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .mixrow{display:grid;grid-template-columns:110px 1fr;gap:6px;align-items:center;font-size:11.5px;margin-bottom:6px}
 .stack i{display:block}
 
@@ -398,6 +400,18 @@ td{border-bottom-color:#10161e}
 
   <section class="view" id="v-struct" hidden>
     <div class="grid">
+      <div class="p c12"><h2>Structure · project financials and feasibility <em>10-year model · pre-tax · real 2023 $</em></h2>
+        <div class="row" style="flex-wrap:wrap;gap:6px;align-items:center" id="fsrc"></div>
+        <div class="verdict" id="fverdict"></div>
+        <div class="kpis" id="fkpi"></div></div>
+      <div class="p c8"><h2>Cash flow by year <em>$M · costs below the line</em></h2><div class="cv tall"><canvas id="fcash"></canvas></div>
+        <details class="more"><summary>Cash flow table and debt service</summary><div class="tw"><table id="ftbl"></table></div></details>
+        <div class="note" id="fnote"></div></div>
+      <div class="p c4"><h2>Assumptions <em>change any plug-in · dispatch re-runs</em></h2><div class="asm" id="fasm"></div></div>
+      <div class="p c6"><h2>Probability of profit <em>NPV across 1,000 draws</em></h2><div class="cv"><canvas id="fmc"></canvas></div></div>
+      <div class="p c6"><h2>What moves NPV most <em>one driver at a time</em></h2><div class="tw"><table id="ftorn"></table></div></div>
+      <div class="p c12"><details class="more"><summary>Ownership structures and risk allocation (own vs tolling vs utility tariff)</summary>
+        <div class="grid" style="margin-top:8px">
       <div class="p c12"><h2>Structure · how to own and pay for the plan <em id="dealhdr"></em></h2>
         <div class="row"><input type="checkbox" id="obs"><label for="obs">Prefer off-balance-sheet (accept up to 5% higher cost)</label></div>
         <div class="verdict" id="dealverdict"></div>
@@ -418,6 +432,8 @@ td{border-bottom-color:#10161e}
         <h2>Clean energy accounting</h2>
         <div class="kpis" id="cleankpis"></div>
       </div>
+    </div>
+  </details></div>
     </div>
   </section>
 
@@ -496,7 +512,7 @@ function show(v) {
   if (!VIEWS.some(x => x[0] === v)) v = 'screen';
   CURV = v;
   VIEWS.forEach(([id]) => { $('#v-' + id).hidden = id !== v; const t = $('#t-' + id); if (t) t.setAttribute('aria-selected', id === v); });
-  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildGB(); buildTrde(); buildStrs(); }, struct: () => { buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
+  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildGB(); buildTrde(); buildStrs(); }, struct: () => { buildFin(); buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
   try { history.replaceState(null, '', '#' + v); } catch (e) {}
 }
 
@@ -977,33 +993,37 @@ $('#iclead').addEventListener('change', e => { const r = e.target.dataset.r; if 
 $('#icreset').addEventListener('click', () => { ICA = icDefaults(ICS); buildIC(); });
 
 /* PowerPath portfolio builder: fast hourly dispatch of 87,600 hours in the browser (screening model). */
-function genSim(G, caps, open, lam, recYear) {
+function genSim(G, caps, open, lam, recYear, A) {
+  A = Object.assign({gm: 1, gr: G.rates.henry_hub, wm: 1, wr: G.rates.wholesale_energy, ppa: 1, capex: 1, ctax: 0}, A || {});
   const O = G.opts, H = 87600, eta = Math.sqrt(O.battery_4h.rte), CRF = (r, n) => r / (1 - Math.pow(1 + r, -n));
   const glim = m => { let c = 0; for (const g of G.grid) if (m >= g.from_month) c = g.max_import_mw; return c; };
   const ramp = m => m < open ? 0 : Math.min(1, 1 / 3 + (m - open) / 15);
   const live = k => (caps[k] || 0) > 0;
   const th = ['fuel_cell', 'gas_turbine', 'gas_engine'].filter(live);
+  const Y = [...Array(10)].map(() => ({mwh: 0, gmwh: 0, fuelHH: 0, fom: 0, contract: 0, fuel: 0, vom: 0, merch: 0, reloc: 0, intr: 0, co2: 0, clean: 0, ctax: 0}));
   const Pb = caps.battery_4h || 0, Eb = Pb * O.battery_4h.dur;
   let soc = 0, cyc = 0, yr = -1;
   const t = {req: 0, fixed: 0, contract: 0, fuel: 0, vom: 0, merch: 0, reloc: 0, intr: 0, co2: 0, clean: 0, merchMWh: 0, curt: 0, unserved: 0, unservedH: 0, t2MWh: 0, t1MWh: 0, thermMWh: 0};
   const REC = recYear == null ? null : {solar: new Float32Array(8760), wind: new Float32Array(8760), nuclear: new Float32Array(8760), battery: new Float32Array(8760), charge: new Float32Array(8760), gas_turbine: new Float32Array(8760), gas_engine: new Float32Array(8760), fuel_cell: new Float32Array(8760), grid: new Float32Array(8760), relief: new Float32Array(8760), load: new Float32Array(8760), price: new Float32Array(8760), cap: new Float32Array(8760), curt: new Float32Array(8760)};
-  const fixedHr = {}; for (const k in caps) if (caps[k] > 0) { const o = O[k]; fixedHr[k] = caps[k] * 1000 * (o.capex * CRF(G.disc, o.life) + o.fom) / 8760; }
+  const fixedHr = {}; for (const k in caps) if (caps[k] > 0) { const o = O[k]; fixedHr[k] = caps[k] * 1000 * (o.capex * A.capex * CRF(G.disc, o.life) + o.fom) / 8760; }
+  const fomHr = {}; for (const k in caps) if (caps[k] > 0) fomHr[k] = caps[k] * 1000 * O[k].fom / 8760;
   for (let h = 0; h < H; h++) {
     const m = Math.floor(h / 730), r = h % 8760, y = h / 8760;
     if (Math.floor(y) !== yr) { yr = Math.floor(y); cyc = 0; }
     const on = k => m >= Math.max(open, O[k].avail);
-    for (const k in fixedHr) if (on(k)) t.fixed += fixedHr[k];
+    const yy = Y[Math.min(9, Math.floor(y))];
+    for (const k in fixedHr) if (on(k)) { t.fixed += fixedHr[k]; yy.fom += fomHr[k]; }
     const L = G.load[r] * ramp(m); if (L <= 0) continue;
-    t.req += L;
-    const price = G.whole[r] * Math.pow(1 + G.rates.wholesale_energy, y) + G.adder;
-    const gas = G.hh[r] * Math.pow(1 + G.rates.henry_hub, y) + G.gadd[r];
+    t.req += L; yy.mwh += L;
+    const price = G.whole[r] * A.wm * Math.pow(1 + A.wr, y) + G.adder;
+    const gas = G.hh[r] * A.gm * Math.pow(1 + A.gr, y) + G.gadd[r];
     const gco2 = G.co2[r] * Math.pow(1 + G.rates.grid_co2, y);
     const Gl = glim(m) * (G.stress[r] ? G.sfrac[r] : 1);
     // offsite contracts (paid on available generation), share the import limit
     const sol = on('utility_solar') ? (caps.utility_solar || 0) * G.solar[r] : 0;
     const win = on('wind') ? (caps.wind || 0) * G.wind[r] : 0;
     const nuc = on('nuclear') ? (caps.nuclear || 0) * G.firm[r] : 0;
-    t.contract += sol * O.utility_solar.pay + win * O.wind.pay + nuc * O.nuclear.pay;
+    const cpay = (sol * O.utility_solar.pay + win * O.wind.pay + nuc * O.nuclear.pay) * A.ppa; t.contract += cpay; yy.contract += cpay;
     const off = sol + win + nuc, del = Math.min(off, Gl);
     let c = Math.min(del, L), D = L - c, spare = del - c, head = Gl - del;
     // battery: charge from clean surplus only, discharge into deficit when merchant is pricey or headroom is short
@@ -1015,30 +1035,31 @@ function genSim(G, caps, open, lam, recYear) {
       const need = price > 60 || D > head || G.stress[r];
       if (need) { dis = Math.min(D, Pb, soc * eta); soc -= dis / eta; D -= dis; cyc += dis / Math.max(Eb, 1e-9); }
     }
-    t.clean += c + dis;
+    t.clean += c + dis; yy.clean += c + dis;
     // merit order for the rest: thermal units vs merchant (carbon priced at lam for dispatch only)
-    const offers = th.filter(on).map(k => ({k, mw: caps[k], cost: gas * O[k].hr + O[k].pay, sc: gas * O[k].hr + O[k].pay + lam * O[k].co2}));
-    offers.push({k: 'grid', mw: head, cost: price, sc: price + lam * gco2});
+    const LAM = Math.max(lam, A.ctax);
+    const offers = th.filter(on).map(k => ({k, mw: caps[k], cost: gas * O[k].hr + O[k].pay, sc: gas * O[k].hr + O[k].pay + LAM * O[k].co2}));
+    offers.push({k: 'grid', mw: head, cost: price, sc: price + LAM * gco2});
     offers.sort((a, b) => a.sc - b.sc);
     const rec = REC && yr === recYear; const used = {};
     for (const of of offers) { if (D <= 1e-9) break; const q = Math.min(D, of.mw); if (q <= 0) continue; D -= q; used[of.k] = q;
-      if (of.k === 'grid') { t.merch += q * price; t.merchMWh += q; t.co2 += q * gco2; }
-      else { t.fuel += q * gas * O[of.k].hr; t.vom += q * O[of.k].pay; t.co2 += q * O[of.k].co2; t.thermMWh += q; } }
+      if (of.k === 'grid') { t.merch += q * price; t.merchMWh += q; t.co2 += q * gco2; yy.merch += q * price; yy.co2 += q * gco2; yy.gmwh += q; }
+      else { t.fuel += q * gas * O[of.k].hr; t.vom += q * O[of.k].pay; t.co2 += q * O[of.k].co2; t.thermMWh += q; yy.fuel += q * gas * O[of.k].hr; yy.fuelHH += q * (gas - G.gadd[r]) * O[of.k].hr; yy.vom += q * O[of.k].pay; yy.co2 += q * O[of.k].co2; } }
     if (rec) { const fr = off > 0 ? c / off : 0; REC.solar[r] = sol * fr; REC.wind[r] = win * fr; REC.nuclear[r] = nuc * fr; REC.battery[r] = dis; REC.charge[r] = ch;
       for (const k of ['gas_turbine', 'gas_engine', 'fuel_cell', 'grid']) REC[k][r] = used[k] || 0; REC.load[r] = L; REC.price[r] = price; REC.cap[r] = Gl; REC.curt[r] = Math.max(0, off - del) + spare; REC.relief[r] = D; }
     if (D > 1e-6) {
       if (G.stress[r]) {
-        const r1 = Math.min(D, G.remote.cap, G.t1[r] * ramp(m)); D -= r1; t.reloc += r1 * G.remote.usd; t.t1MWh += r1; t.co2 += r1 * G.remote.mult * gco2;
-        const r2 = Math.min(D, G.t2[r] * ramp(m)); D -= r2; t.intr += r2 * G.remote.int_usd; t.t2MWh += r2;
+        const r1 = Math.min(D, G.remote.cap, G.t1[r] * ramp(m)); D -= r1; t.reloc += r1 * G.remote.usd; t.t1MWh += r1; t.co2 += r1 * G.remote.mult * gco2; yy.reloc += r1 * G.remote.usd; yy.co2 += r1 * G.remote.mult * gco2;
+        const r2 = Math.min(D, G.t2[r] * ramp(m)); D -= r2; t.intr += r2 * G.remote.int_usd; t.t2MWh += r2; yy.intr += r2 * G.remote.int_usd;
       }
-      if (D > 1e-6) { t.unserved += D; t.unservedH++; t.intr += D * G.remote.int_usd; }
+      if (D > 1e-6) { t.unserved += D; t.unservedH++; t.intr += D * G.remote.int_usd; yy.intr += D * G.remote.int_usd; }
     }
   }
   const total = t.fixed + t.contract + t.fuel + t.vom + t.merch + t.reloc + t.intr;
   const land = Object.keys(caps).reduce((a, k) => a + (O[k].loc === 'onsite' ? caps[k] * O[k].land : 0), 0);
   const big = Math.max(0, ...th.map(k => O[k].block));
   return Object.assign(t, {total, usd: total / t.req, kg: 1000 * t.co2 / t.req, cleanShare: t.clean / t.req, merchShare: t.merchMWh / t.req, land, big,
-    firm: th.reduce((a, k) => a + caps[k], 0) + Pb, rec: REC});
+    firm: th.reduce((a, k) => a + caps[k], 0) + Pb, rec: REC, years: Y, A});
 }
 
 
@@ -1150,6 +1171,124 @@ function buildDisp() {
 $('#gbdisp').addEventListener('toggle', buildDisp);
 $('#gdwin').addEventListener('click', e => { const b = e.target.closest('button[data-w]'); if (b) { GDW = b.dataset.w; buildDisp(); } });
 $('#gdyr').addEventListener('change', e => { GDY = +e.target.value; buildDisp(); });
+
+/* ---------- STRUCTURE · project financials, scenarios and probability ---------- */
+const FDEF = {src: 'rec', gm: 0, gr: 3, wm: 0, wr: 5, ppa: 0, capex: 0, ctax: 0, tariff: 60, esc: 2, rec: 0, debt: 60, rate: 7, tenor: 10, disc: 8, upg: true, sg: 35, sw: 30, sc: 15};
+var FA = null, FCACHE = {}, FT = null;
+function fCaps() { return FA.src === 'gen' && GB ? {caps: GB.caps, open: GB.open} : {caps: D.best.caps, open: D.best.open}; }
+function fSim(over) { const a = Object.assign({}, FA, over || {}), {caps, open} = fCaps();
+  const key = JSON.stringify([caps, open, a.gm, a.gr, a.wm, a.wr, a.ppa, a.capex, a.ctax]);
+  if (!FCACHE[key]) { FCACHE[key] = genSim(D.gen, caps, open, D.carbon_price || 100, null, {gm: 1 + a.gm / 100, gr: a.gr / 100, wm: 1 + a.wm / 100, wr: a.wr / 100, ppa: 1 + a.ppa / 100, capex: 1 + a.capex / 100, ctax: a.ctax});
+    const ks = Object.keys(FCACHE); if (ks.length > 60) delete FCACHE[ks[0]]; }
+  return FCACHE[key]; }
+function irr(cf) { const npv = r => cf.reduce((s, c, i) => s + c / Math.pow(1 + r, i), 0); let lo = -0.9, hi = 1.5;
+  if (npv(lo) * npv(hi) > 0) return null; for (let i = 0; i < 80; i++) { const m = (lo + hi) / 2; if (npv(lo) * npv(m) <= 0) hi = m; else lo = m; } return (lo + hi) / 2; }
+function fModel(s, a, mult) {
+  mult = mult || {g: 1, w: 1, c: 1}; const O = D.gen.opts, {caps, open} = fCaps(), N = 10;
+  const rev = [], opex = [], capex = Array(N + 1).fill(0), rows = [];
+  let capTot = 0;
+  for (const k in caps) { if (!(caps[k] > 0) || O[k].loc !== 'onsite') continue; const c = caps[k] * 1000 * O[k].capex * (1 + a.capex / 100) * mult.c;
+    const yr = Math.min(N - 1, Math.floor(Math.max(open, O[k].avail) / 12)); capex[yr] += c; capTot += c; }
+  const upg = a.upg ? (D.icx && D.icx.TX ? D.icx.TX.upg_kw : 60) * 75000 : 0; capex[1] += upg; capTot += upg;
+  // residual value of onsite assets at end of year 10 (straight line)
+  let resid = 0; for (const k in caps) { if (!(caps[k] > 0) || O[k].loc !== 'onsite') continue; const st = Math.max(open, O[k].avail) / 12;
+    resid += caps[k] * 1000 * O[k].capex * (1 + a.capex / 100) * mult.c * Math.max(0, 1 - (N - st) / O[k].life); }
+  const cf = [];
+  for (let y = 0; y < N; y++) { const Y = s.years[y];
+    const fuel = Y.fuel + Y.fuelHH * (mult.g - 1), merch = Y.merch + (Y.merch - 20 * Y.gmwh) * (mult.w - 1);
+    const served = Y.mwh, r = served * a.tariff * Math.pow(1 + a.esc / 100, y) + Y.clean * a.rec;
+    const o = Y.fom + Y.contract + fuel + Y.vom + merch + Y.reloc + Y.intr + Y.co2 * a.ctax;
+    rev.push(r); opex.push(o); rows.push({y: y + 1, mwh: served, rev: r, fom: Y.fom, contract: Y.contract, fuel: fuel + Y.vom, merch, penalty: Y.reloc + Y.intr, ctax: Y.co2 * a.ctax, capex: capex[y]});
+    cf.push(r - o - capex[y] + (y === N - 1 ? resid : 0)); }
+  const dr = a.disc / 100, npv = cf.reduce((t, c, i) => t + c / Math.pow(1 + dr, i + 0.5), 0);
+  // debt: drawn with capex, level annuity from the following year over the remaining tenor
+  const dsv = Array(N).fill(0), draw = capex.map(c => c * a.debt / 100); let bal = 0; const eq = [];
+  for (let y = 0; y < N; y++) { bal += draw[y]; }
+  const rr = a.rate / 100; const start = Math.max(1, capex.findIndex(c => c > 0) + 1), n = Math.max(1, Math.min(a.tenor, N - start));
+  const pmt = bal > 0 ? bal * rr / (1 - Math.pow(1 + rr, -n)) : 0; for (let y = start; y < start + n; y++) dsv[y] = pmt;
+  for (let y = 0; y < N; y++) eq.push(cf[y] + draw[y] - dsv[y]);
+  const cfads = rev.map((r, i) => r - opex[i]);
+  const dscrs = dsv.map((d, i) => d > 0 ? cfads[i] / d : null).filter(x => x != null);
+  let cum = 0, pay = null; for (let y = 0; y < N; y++) { cum += cf[y]; if (pay == null && cum >= 0 && y > 0) pay = y + 1; }
+  const pvMWh = s.years.reduce((t, Y, i) => t + Y.mwh * Math.pow(1 + a.esc / 100, i) / Math.pow(1 + dr, i + 0.5), 0);
+  const pvHH = s.years.reduce((t, Y, i) => t + Y.fuelHH * mult.g / Math.pow(1 + dr, i + 0.5), 0);
+  const pvW = s.years.reduce((t, Y, i) => t + (Y.merch - 20 * Y.gmwh) * mult.w / Math.pow(1 + dr, i + 0.5), 0);
+  return {cf, eq, npv, irr: irr(cf), eirr: irr(eq), dscr: dscrs.length ? Math.min(...dscrs) : null, pay, capTot, rows, cfads, dsv, resid,
+    beTariff: a.tariff - npv / pvMWh, beGas: pvHH > 0 ? 1 + npv / pvHH : null, bePower: pvW > 0 ? 1 + npv / pvW : null,
+    allin: (opex.reduce((x, y) => x + y, 0) + capTot - resid) / s.years.reduce((t, Y) => t + Y.mwh, 0)}; }
+function fMC(s, a) { // lognormal draws on gas, power and capex around the current assumptions (dispatch held fixed)
+  let seed = 12345; const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const nrm = () => Math.sqrt(-2 * Math.log(rnd() + 1e-12)) * Math.cos(2 * Math.PI * rnd());
+  const ln = sd => Math.exp(sd * nrm() - sd * sd / 2), out = [];
+  for (let i = 0; i < 1000; i++) out.push(fModel(s, a, {g: ln(a.sg / 100), w: ln(a.sw / 100), c: ln(a.sc / 100)}).npv);
+  out.sort((x, y) => x - y); return {v: out, p: out.filter(x => x > 0).length / out.length, p10: out[100], p50: out[500], p90: out[900]}; }
+function fAsm() {
+  const a = FA, sl = (k, lab, min, max, step, show) => `<label class="${a[k] !== FDEF[k] ? 'chg' : ''}">${lab}<b>${show(a[k])}</b><input type="range" data-f="${k}" min="${min}" max="${max}" step="${step}" value="${a[k]}" aria-label="${lab}"></label>`;
+  const pc = v => (v > 0 ? '+' : '') + v + '%', pp = v => v + '%/yr';
+  $('#fasm').innerHTML = `<div class="fgrp"><h3>Market plug-ins</h3>${sl('gm', 'Gas price vs packet path', -50, 150, 5, pc)}${sl('gr', 'Gas escalation (real)', 0, 8, 0.5, pp)}${sl('wm', 'Grid power price vs path', -50, 150, 5, pc)}${sl('wr', 'Power escalation (real)', 0, 10, 0.5, pp)}${sl('ctax', 'Carbon cost charged ($/t)', 0, 200, 10, v => '$' + v)}</div>
+    <div class="fgrp"><h3>Costs</h3>${sl('ppa', 'Solar / wind / nuclear contract prices', -30, 50, 5, pc)}${sl('capex', 'Onsite capex', -30, 60, 5, pc)}
+      <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" data-fb="upg" ${a.upg ? 'checked' : ''}> Include grid upgrade capex ($${D.icx && D.icx.TX ? D.icx.TX.upg_kw : 60}/kW)</label></div>
+    <div class="fgrp"><h3>Revenue (energy sold to the data-center tenant)</h3>${sl('tariff', 'Tenant tariff', 40, 150, 1, v => '$' + v + '/MWh')}${sl('esc', 'Tariff escalator', 0, 5, 0.5, pp)}${sl('rec', 'Clean-attribute value per clean MWh', 0, 30, 1, v => '$' + v)}</div>
+    <div class="fgrp"><h3>Financing</h3>${sl('debt', 'Debt share of capex', 0, 80, 5, v => v + '%')}${sl('rate', 'Debt rate', 3, 12, 0.25, v => fmt(v, 2) + '%')}${sl('disc', 'Discount rate (NPV)', 4, 14, 0.5, v => fmt(v, 1) + '%')}</div>
+    <details class="more"><summary>Uncertainty for the probability view (1σ)</summary>${sl('sg', 'Gas price volatility', 0, 80, 5, v => v + '%')}${sl('sw', 'Power price volatility', 0, 80, 5, v => v + '%')}${sl('sc', 'Capex uncertainty', 0, 50, 5, v => v + '%')}</details>`;
+}
+function buildFin() {
+  if (!D.gen) return;
+  if (!FA) FA = Object.assign({}, FDEF);
+  const gm = GB && JSON.stringify(GB.caps) !== JSON.stringify(D.best.caps);
+  $('#fsrc').innerHTML = [['rec', 'Base case: recommended plan'], ['gen', 'Your Generate mix' + (gm ? '' : ' (same as base)')]].map(([k, n]) => `<button type="button" class="chip" data-s="${k}" aria-pressed="${FA.src === k}">${n}</button>`).join('') +
+    `<button type="button" class="btn" id="freset">Reset to base case</button>`;
+  fAsm(); fRender();
+}
+function fRender() {
+  const a = FA, s = fSim(), m = fModel(s, a);
+  const base = fModel(fSim(FDEF), FDEF), mc = fMC(s, a), chg = JSON.stringify(Object.assign({}, a, {src: 0})) !== JSON.stringify(Object.assign({}, FDEF, {src: 0}));
+  const feas = m.npv > 0 && (m.dscr == null || m.dscr >= 1.3) && mc.p >= 0.6 ? 'FEASIBLE' : m.npv > 0 ? 'MARGINAL' : 'NOT FEASIBLE';
+  $('#fverdict').className = 'verdict' + (feas === 'NOT FEASIBLE' ? ' bad' : '');
+  $('#fverdict').innerHTML = `<b>${feas}.</b> NPV ${M(m.npv)} at ${fmt(a.disc, 1)}%, ${fmt(100 * mc.p)}% chance NPV > 0 across ${fmt(1000)} fuel, power and capex draws (P10 ${M(mc.p10)} · P90 ${M(mc.p90)}). Break-even tenant tariff ${fmt(m.beTariff, 2)} $/MWh vs ${fmt(a.tariff)} assumed` +
+    (m.beGas != null ? `; gas would have to rise ${m.beGas > 6 ? 'more than 500%' : m.beGas > 1 ? fmt(100 * (m.beGas - 1)) + '%' : '0% (already negative)'} before NPV turns negative` : '') + '.';
+  const dv = (x, y, f) => chg ? `<span class="s" style="color:${x >= y ? C('good') : C('bad')}">${x - y >= 0 ? '+' : ''}${f(x - y)} vs base</span>` : '<span class="s">base case</span>';
+  $('#fkpi').innerHTML = [['Project NPV', M(m.npv), dv(m.npv, base.npv, v => M(v))], ['Project IRR', m.irr == null ? '–' : fmt(100 * m.irr, 1) + '%', dv(m.irr || 0, base.irr || 0, v => fmt(100 * v, 1) + ' pts')],
+    ['Equity IRR', m.eirr == null ? '–' : fmt(100 * m.eirr, 1) + '%', `<span class="s">${a.debt}% debt at ${fmt(a.rate, 2)}%</span>`], ['Min DSCR', m.dscr == null ? '–' : fmt(m.dscr, 2) + '×', `<span class="s" style="color:${m.dscr != null && m.dscr < 1.3 ? C('bad') : C('dim')}">lenders typically want ≥ 1.30×</span>`],
+    ['P(NPV > 0)', fmt(100 * mc.p) + '%', dv(mc.p, fMC(fSim(FDEF), FDEF).p, v => fmt(100 * v) + ' pts')], ['All-in cost', fmt(m.allin, 2) + ' $/MWh', `<span class="s">capex + opex − residual, vs $${a.tariff} tariff</span>`],
+    ['Upfront capex', M(m.capTot), `<span class="s">onsite plant${a.upg ? ' + grid upgrade' : ''}</span>`], ['Payback', m.pay ? 'year ' + m.pay : 'beyond year 10', '<span class="s">undiscounted, project level</span>']]
+    .map(([l, v, x]) => `<div class="k"><div class="l">${l}</div><div class="v">${v}</div>${x}</div>`).join('');
+  const yrs = m.rows.map(r => 'Y' + r.y), neg = f => m.rows.map(r => -f(r) / 1e6);
+  chart('fcash', {type: 'bar', data: {labels: yrs, datasets: [
+    {label: 'Revenue', data: m.rows.map(r => r.rev / 1e6), backgroundColor: '#5BD17A', stack: 'r'},
+    {label: 'Contracts', data: neg(r => r.contract), backgroundColor: '#4FC3F7', stack: 'c'}, {label: 'Fuel + var. O&M', data: neg(r => r.fuel), backgroundColor: '#E07B39', stack: 'c'},
+    {label: 'Grid purchases', data: neg(r => r.merch), backgroundColor: '#7D8B9C', stack: 'c'}, {label: 'Fixed O&M', data: neg(r => r.fom), backgroundColor: '#B48CFF', stack: 'c'},
+    {label: 'Relocation / interruption + carbon', data: neg(r => r.penalty + r.ctax), backgroundColor: '#F05454', stack: 'c'}, {label: 'Capex', data: neg(r => r.capex), backgroundColor: '#3A4656', stack: 'c'},
+    {type: 'line', label: 'Net project cash flow', data: m.cf.map(x => x / 1e6), borderColor: C('amber'), borderWidth: 2, pointRadius: 2}]},
+    options: {animation: false, scales: {x: {stacked: true}, y: {stacked: true, title: {display: true, text: '$M'}}}, plugins: {tooltip: {callbacks: {label: c => `${c.dataset.label}: $${fmt(c.raw, 1)}M`}}}}});
+  // NPV distribution
+  const lo = mc.v[0], hi = mc.v[mc.v.length - 1], nb = 24, w = (hi - lo) / nb || 1, bins = Array(nb).fill(0); mc.v.forEach(v => bins[Math.min(nb - 1, Math.floor((v - lo) / w))]++);
+  chart('fmc', {type: 'bar', data: {labels: bins.map((_, i) => fmt((lo + (i + 0.5) * w) / 1e6, 0)), datasets: [{label: 'Draws', data: bins, backgroundColor: bins.map((_, i) => lo + (i + 0.5) * w > 0 ? C('good') : C('bad'))}]},
+    options: {animation: false, plugins: {legend: {display: false}, tooltip: {callbacks: {title: c => 'NPV ≈ $' + c[0].label + 'M'}}}, scales: {x: {title: {display: true, text: 'NPV, $M'}, ticks: {maxTicksLimit: 8}}, y: {title: {display: true, text: 'draws'}}}}});
+  // cash flow table (collapsed)
+  $('#ftbl').innerHTML = '<thead><tr><th>$M</th>' + yrs.map(y => `<th class="n">${y}</th>`).join('') + '</tr></thead><tbody>' +
+    [['Energy delivered (GWh)', r => r.mwh / 1000, 0], ['Revenue', r => r.rev / 1e6, 1], ['Contracts', r => -r.contract / 1e6, 1], ['Fuel + variable O&M', r => -r.fuel / 1e6, 1], ['Grid purchases', r => -r.merch / 1e6, 1],
+     ['Fixed O&M', r => -r.fom / 1e6, 1], ['Relocation / interruption', r => -r.penalty / 1e6, 1], ['Carbon cost', r => -r.ctax / 1e6, 1], ['Capex', r => -r.capex / 1e6, 1]]
+    .map(([n, f, d]) => `<tr><td>${n}</td>${m.rows.map(r => `<td class="n">${fmt(f(r), d)}</td>`).join('')}</tr>`).join('') +
+    `<tr><td><b>Net cash flow</b></td>${m.cf.map(x => `<td class="n"><b>${fmt(x / 1e6, 1)}</b></td>`).join('')}</tr><tr><td>Debt service</td>${m.dsv.map(x => `<td class="n">${fmt(-x / 1e6, 1)}</td>`).join('')}</tr>` +
+    `<tr><td>DSCR</td>${m.dsv.map((x, i) => `<td class="n">${x > 0 ? fmt(m.cfads[i] / x, 2) + '×' : '–'}</td>`).join('')}</tr></tbody>`;
+  $('#fnote').innerHTML = `Year 10 includes ${M(m.resid)} residual value of onsite plant (straight-line). Pre-tax, real 2023 dollars. Energy quantities and costs come from re-dispatching all 87,600 hours under your assumptions; the probability view varies gas, power and capex around them with dispatch held fixed.`;
+  $('#ftorn').innerHTML = '<tr><td class="note">Ranking drivers…</td></tr>'; clearTimeout(FT); FT = setTimeout(fTornado, 200);
+}
+function fTornado() {
+  const a = FA, base = fModel(fSim(), a).npv;
+  const T = [['Gas price ±30%', {gm: a.gm - 30}, {gm: a.gm + 30}], ['Grid power price ±30%', {wm: a.wm - 30}, {wm: a.wm + 30}], ['Contract prices ±20%', {ppa: a.ppa - 20}, {ppa: a.ppa + 20}],
+    ['Onsite capex ±20%', {capex: a.capex - 20}, {capex: a.capex + 20}], ['Tenant tariff ±$10/MWh', {tariff: a.tariff - 10}, {tariff: a.tariff + 10}], ['Carbon cost $0 → +$100/t', {ctax: a.ctax}, {ctax: a.ctax + 100}], ['Discount rate ±2 pts', {disc: a.disc - 2}, {disc: a.disc + 2}]]
+    .map(([n, lo, hi]) => { const f = o => { const b = Object.assign({}, a, o); return fModel(fSim(b), b).npv; }; const l = f(lo), h = f(hi); return {n, l: l - base, h: h - base}; })
+    .sort((x, y) => Math.max(Math.abs(y.l), Math.abs(y.h)) - Math.max(Math.abs(x.l), Math.abs(x.h)));
+  const mx = Math.max(...T.map(t => Math.max(Math.abs(t.l), Math.abs(t.h)))) || 1, pc = v => 50 * Math.abs(v) / mx;
+  $('#ftorn').innerHTML = '<thead><tr><th>Driver</th><th>NPV impact (low case | high case)</th><th class="n">Low</th><th class="n">High</th></tr></thead><tbody>' + T.map(t => {
+    const bar = v => `<i style="position:absolute;top:2px;bottom:2px;${v < 0 ? `right:50%;width:${pc(v)}%;background:${C('bad')}` : `left:50%;width:${pc(v)}%;background:${C('good')}`}"></i>`;
+    return `<tr><td>${t.n}</td><td style="min-width:160px"><div style="position:relative;height:16px;background:#000;border:1px solid var(--line)"><i style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--dim)"></i>${bar(t.l)}${bar(t.h)}</div></td><td class="n">${t.l >= 0 ? '+' : ''}${M(t.l)}</td><td class="n">${t.h >= 0 ? '+' : ''}${M(t.h)}</td></tr>`; }).join('') + '</tbody>';
+}
+$('#fasm').addEventListener('input', e => { const k = e.target.dataset.f; if (!k) return; FA[k] = +e.target.value; const l = e.target.closest('label'); l.classList.toggle('chg', FA[k] !== FDEF[k]); l.querySelector('b').textContent = '…'; clearTimeout(FT); FT = setTimeout(() => { fAsm(); const el = $(`#fasm input[data-f="${k}"]`); if (el) el.focus(); fRender(); }, 180); });
+$('#fasm').addEventListener('change', e => { const k = e.target.dataset.fb; if (k) { FA[k] = e.target.checked; fRender(); } });
+$('#fsrc').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; if (b.id === 'freset') { FA = Object.assign({}, FDEF); buildFin(); return; } FA.src = b.dataset.s; buildFin(); });
 
 /* ---------- STRUCTURE ---------- */
 function buildDeals() {

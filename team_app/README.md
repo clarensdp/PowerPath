@@ -7,6 +7,13 @@ with saved screeners and a locked base case, CapIQ-style power market strip (ATC
 spread, solar and wind capture vs PPA price), and the five stages for the Texas benchmark and Ohio.
 Rebuild the page data with `team_app/tools/build_terminal_*.py` (1 → 2 → 3 → 4), then `build_terminal_page.py`.
 
+**Structure financials (page):** a 10-year pre-tax project model on the recommended plan (or your Generate mix):
+tenant tariff revenue vs contracts, fuel, grid purchases, O&M, relocation/interruption, carbon cost and onsite capex
+(with straight-line residual value), plus a debt sizing (share, rate, tenor). Outputs NPV, project and equity IRR,
+min DSCR, payback, all-in $/MWh, break-even tariff and gas price, a 1,000-draw Monte Carlo on gas, power and capex
+(P(NPV>0), P10/P90) and a tornado of NPV drivers. Market plug-ins (gas and power level and escalation, contract
+prices, capex, carbon cost) re-dispatch all 87,600 hours. Ownership structures moved into a collapsible section.
+
 **Generate portfolio builder (page):** sliders for every resource with live $/MWh, kg/MWh, clean share, grid share,
 10-year cost and interruption versus the recommended plan; a $/MWh cost stack; a ranked "best next move" (one block
 added or removed); and a collapsible historical dispatch view (2023 reference hours: stress event, highest-price week,
