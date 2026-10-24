@@ -4,7 +4,8 @@ PowerPath is a decision tool for a data-center developer choosing an energy port
 
 **Run it:**
 - `pip install -r team_app/requirements.txt`, then `streamlit run team_app/app.py` (customer inputs and live re-optimization).
-- Open `team_app/terminal/powerpath_terminal.html` in a browser (results terminal).
+- Open `team_app/terminal/powerpath_terminal.html` in a browser (results terminal, as submitted).
+- Open `team_app/terminal/powerpath_workspace.html` for the product version (post-hackathon): Hyperscaler / Developer views, fleet ranking, deal pipeline, data-source status. Built from `workspace_template.html` with the same data.
 - CLI: `python team_app/run.py recommend --help`.
 
 ## Results (official benchmark, Williamson County TX)
