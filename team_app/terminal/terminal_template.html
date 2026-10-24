@@ -215,8 +215,8 @@ td{border-bottom-color:#10161e}
 
 <div class="shell">
   <div class="top">
-    <div class="brand">⚡ POWERPATH<small>ONE DECISION LAYER · SCREEN → INTERCONNECT → GENERATE → STRUCTURE → MONITOR</small></div>
-    <div class="planpick" title="Active plan drives Interconnect, Generate, Structure and Monitor">
+    <div class="brand">⚡ POWERPATH<small>ONE DECISION LAYER · SCREEN → INTERCONNECT → GENERATE → STRUCTURE → EXECUTE</small></div>
+    <div class="planpick" title="Active plan drives Interconnect, Generate, Structure and Execute">
       <label for="plan">PLAN</label>
       <select id="plan"><option value="TX">Williamson Co., TX · benchmark</option><option value="OH">Ohio · screened (PJM)</option></select></div>
     <form class="cmd" id="cmdform" autocomplete="off">
@@ -439,11 +439,15 @@ td{border-bottom-color:#10161e}
 
   <section class="view" id="v-mon" hidden>
     <div class="grid">
-      <div class="p c12"><h2>Monitor · what would change this decision <em id="monhdr"></em></h2>
-        <div class="tw"><table id="trigtbl"></table></div>
-        <div class="note">Price and fuel impacts re-price the fixed dispatch exactly; the grid-slip trigger re-sizes the plan on all 87,600 hours at the P90 energization date.</div></div>
-      <div class="p c12"><h2>Execution · what to file and order <em>back-planned from need dates (planning assumptions)</em></h2>
-        <div class="tw"><table id="exectbl"></table></div></div>
+      <div class="p c12"><h2>Execute · what to do next <em id="monhdr"></em></h2>
+        <div class="verdict" id="exnow"></div>
+        <div class="tw"><table id="exectbl"></table></div>
+        <div class="note">Back-planned from each unit's need date with planning lead times (permit → order → build). Edit lead times on the Interconnect tab.</div></div>
+      <div class="p c12"><h2>What would change the decision <em>each trigger priced through the Structure model</em></h2>
+        <div class="tw"><table id="trigfin"></table></div>
+        <details class="more"><summary>Operational triggers from the engine (P90 grid slip, largest unit, curtailment)</summary>
+          <div class="tw"><table id="trigtbl"></table></div>
+          <div class="note">Price and fuel impacts re-price the fixed dispatch exactly; the grid-slip trigger re-sizes the plan on all 87,600 hours at the P90 energization date.</div></details></div>
     </div>
   </section>
 
@@ -503,8 +507,8 @@ function renderTicker() {
 renderTicker();
 
 /* ---------- function keys / routing ---------- */
-const VIEWS = [['screen', 'F1', '1 SCREEN'], ['ic', 'F2', '2 INTERCONNECT'], ['gen', 'F3', '3 GENERATE'], ['struct', 'F4', '4 STRUCTURE'], ['mon', 'F5', '5 MONITOR']];
-const CODES = {SCREEN: 'screen', SITE: 'screen', IC: 'ic', INTERCONNECT: 'ic', GEN: 'gen', GENERATE: 'gen', PORT: 'gen', STRUCT: 'struct', STRUCTURE: 'struct', DEAL: 'struct', MON: 'mon', MONITOR: 'mon'};
+const VIEWS = [['screen', 'F1', '1 SCREEN'], ['ic', 'F2', '2 INTERCONNECT'], ['gen', 'F3', '3 GENERATE'], ['struct', 'F4', '4 STRUCTURE'], ['mon', 'F5', '5 EXECUTE']];
+const CODES = {SCREEN: 'screen', SITE: 'screen', IC: 'ic', INTERCONNECT: 'ic', GEN: 'gen', GENERATE: 'gen', PORT: 'gen', STRUCT: 'struct', STRUCTURE: 'struct', DEAL: 'struct', MON: 'mon', MONITOR: 'mon', EXEC: 'mon', EXECUTE: 'mon'};
 let PLAN = 'TX';
 let CURV = 'screen';
 let built = {};
@@ -845,7 +849,7 @@ function renderStages() {
     ['ic', '2 · INTERCONNECT', st.decision.verdict, `grid P50 +${st.en.P50}m · P90 +${st.en.P90}m · ${st.grid}`, ['WAIT', 'BRIDGE'].includes(st.decision.verdict) ? '' : 'bad'],
     ['gen', '3 · GENERATE', `Open M${b.open} · ${fmt(b.cost, 2)} $/MWh`, mix(b.mix), ''],
     ['struct', '4 · STRUCTURE', pick ? pick.split(' (')[0].split(' +')[0] : 'No fit', pick || '', pick ? '' : 'bad'],
-    ['mon', '5 · MONITOR', `${st.triggers.length} triggers armed`, `${hi} high-severity`, hi ? 'warn' : '']];
+    ['mon', '5 · EXECUTE', `${st.triggers.length} triggers armed`, `${hi} high-severity`, hi ? 'warn' : '']];
   $('#stagebar').innerHTML = cards.map(([v, n, val, sub, cls], k) => `<button role="tab" id="t-${v}" class="sb ${cls}" data-v="${v}" aria-selected="${v === CURV}" title="${sub.replace(/"/g, '')}"><div class="n">${n}<span class="fkey">F${k + 1}</span></div><div class="v">${val}</div></button>`).join('');
   const pickObj = st.deals.find(d => d.structure === pick);
   const hiT = st.triggers.filter(t => t.severity === 'high').map(t => t.trigger);
@@ -860,7 +864,7 @@ function renderStages() {
       `Value of a month earlier ${M(D.value_per_month)}, carbon $${fmt(D.carbon_price)}/t; packet catalog, ramp and 87,600-h data`],
     ['struct', '4 · Structure', pick || 'No structure fits', pickObj ? `${M(pickObj.total_usd)} total, ${M(pickObj.upfront_usd)} upfront, ${pickObj.balance_sheet.toLowerCase()}` : 'Capital limit too tight',
       'Tolling 10% WACC + 8% margin; tariff $12/kW-mo at 85% min-take (screening)'],
-    ['mon', '5 · Monitor', `${st.triggers.length} triggers armed`, hiT.length ? 'High: ' + hiT.join('; ') : 'No high-severity triggers',
+    ['mon', '5 · Execute', `${st.triggers.length} triggers armed`, hiT.length ? 'High: ' + hiT.join('; ') : 'No high-severity triggers',
       'Price/fuel impacts exact for the fixed portfolio; grid slip re-sized at P90']];
   $('#ledger').innerHTML = '<thead><tr><th>Stage</th><th>Decision</th><th>Because</th><th>Assumes</th></tr></thead><tbody>' +
     led.map(([v, a, d, w, as]) => `<tr class="clk" data-v="${v}" tabindex="0"><td class="st">${a}</td><td class="dc">${d}</td><td>${w}</td><td class="as">${as}</td></tr>`).join('') + '</tbody>';
@@ -1308,14 +1312,39 @@ $('#obs').addEventListener('change', () => { buildDeals(); renderStages(); });
 const STEPS = {gas_engine: [6, 14, 6, 16], gas_turbine: [14, 36, 10, 18], fuel_cell: [4, 9, 4, 14], battery_4h: [4, 10, 5, 14], utility_solar: [0, 6, 0, 24], wind: [0, 6, 0, 12], nuclear: [0, 12, 0, 60]};
 function buildMon() {
   const st = P(); const sevc = {high: C('bad'), medium: C('warn'), low: C('good')};
-  $('#monhdr').textContent = PLAN === 'TX' ? 'benchmark plan' : 'Ohio plan';
+  $('#monhdr').textContent = PLAN === 'TX' ? 'benchmark plan · today = M0' : 'Ohio plan · today = M0';
   $('#trigtbl').innerHTML = '<thead><tr><th></th><th>Trigger</th><th>Watch</th><th>Impact if it fires</th><th>Action</th></tr></thead><tbody>' +
     st.triggers.map(t => `<tr><td><span class="sev" style="background:${sevc[t.severity]}"></span></td><td>${t.trigger}</td><td>${t.watch}</td><td style="white-space:normal">${t.impact}</td><td style="white-space:normal">${t.action}</td></tr>`).join('') + '</tbody>';
-  const b = st.best;
-  $('#exectbl').innerHTML = '<thead><tr><th>Resource</th><th class="n">MW</th><th class="n">Needed</th><th class="n">File permit by</th><th class="n">Order / sign by</th><th>Status at month 0</th></tr></thead><tbody>' +
-    Object.entries(b.mix).map(([k, mw]) => { const [pm, pr, bu, av] = STEPS[k]; const need = Math.max(b.open, av); const onsite = !['utility_solar', 'wind', 'nuclear'].includes(k);
-      const permit = need - bu - pm, order = onsite ? need - bu - pr : need - pr, first = Math.min(pm ? permit : 1e9, order);
-      return `<tr><td>${D.labels[k]}</td><td class="n">${fmt(mw)}</td><td class="n">M${need}</td><td class="n">${pm ? 'M' + permit : '–'}</td><td class="n">M${order}</td><td>${first < 0 ? `<span style="color:var(--bad)">late by ${-first} mo: secure the delivery slot</span>` : `<span style="color:var(--good)">${first} mo slack</span>`}</td></tr>`; }).join('') + '</tbody>';
+  const b = st.best, rows = [];
+  Object.entries(b.mix).forEach(([k, mw]) => { const [pm, pr, bu, av] = STEPS[k]; const need = Math.max(b.open, av); const onsite = !['utility_solar', 'wind', 'nuclear'].includes(k);
+    const permit = need - bu - pm, order = onsite ? need - bu - pr : need - pr, first = Math.min(pm ? permit : 1e9, order);
+    rows.push({k, mw, need, permit: pm ? permit : null, order, first, act: onsite ? (pm ? `File air / land-use permit, then sign the ${SHORT[k]} supply contract` : `Sign the ${SHORT[k]} supply contract`) : `Sign the ${SHORT[k]} PPA`}); });
+  rows.push({k: 'grid', mw: st.grid ? 75 : 75, need: 18 + (st.delay || 0), permit: null, order: 0, first: 0, act: 'Submit the large-load interconnection request and post security'});
+  rows.sort((x, y) => x.first - y.first);
+  const late = rows.filter(r => r.first < 0), now = rows.filter(r => r.first >= 0 && r.first <= 3);
+  $('#exnow').className = 'verdict' + (late.length ? ' bad' : '');
+  $('#exnow').innerHTML = late.length ? `<b>${late.length} item${late.length > 1 ? 's are' : ' is'} already late.</b> ${late.map(r => `${r.k === 'grid' ? 'Grid' : D.labels[r.k]}: ${-r.first} months behind; secure a delivery slot or move the need date.`).join(' ')}${PLAN === 'TX' ? ' Starting from today instead, the execution-aware plan opens at M22 for $55.10/MWh and 48.7 kg/MWh (checker-validated, outputs/extension_execution_aware_today_m0).' : ''} ${now.length ? 'Also due in the next 90 days: ' + now.map(r => r.act.toLowerCase()).join('; ') + '.' : ''}`
+    : `<b>Next 90 days:</b> ${now.length ? now.map(r => r.act).join('; ') + '.' : 'nothing due; first action at M' + Math.min(...rows.map(r => r.first)) + '.'}`;
+  $('#exectbl').innerHTML = '<thead><tr><th>Action</th><th>Resource</th><th class="n">MW</th><th class="n">Power needed</th><th class="n">Permit by</th><th class="n">Order / sign by</th><th>Status</th></tr></thead><tbody>' +
+    rows.map(r => `<tr><td style="white-space:normal">${r.act}</td><td>${r.k === 'grid' ? 'Grid connection' : D.labels[r.k]}</td><td class="n">${fmt(r.mw)}</td><td class="n">M${r.need}</td><td class="n">${r.permit == null ? '–' : 'M' + r.permit}</td><td class="n">M${r.order}</td><td>${r.first < 0 ? `<span style="color:var(--bad)">late by ${-r.first} mo</span>` : r.first <= 3 ? `<span style="color:var(--warn)">due now</span>` : `<span style="color:var(--good)">${r.first} mo slack</span>`}</td></tr>`).join('') + '</tbody>';
+  $('#trigfin').innerHTML = '<tr><td class="note">Pricing triggers through the financial model…</td></tr>';
+  setTimeout(() => {
+    if (!D.gen || typeof fModel !== 'function') return;
+    if (!FA) FA = Object.assign({}, FDEF);
+    const a = FA, base = fModel(fSim(), a), npv = o => { const x = Object.assign({}, a, o); return fModel(fSim(x), x); };
+    const T = [['Contract prices +20% at signing', {ppa: a.ppa + 20}, 'Solar / wind PPA quotes vs model', 'Lock PPA prices before signing; walk-away price is the break-even below'],
+      ['Tenant tariff $10/MWh lower', {tariff: a.tariff - 10}, 'Tenant term sheet', 'Hold the tariff floor or add an escalator'],
+      ['Carbon cost of $100/t imposed', {ctax: a.ctax + 100}, 'State / federal carbon policy, buyer requirements', 'Add clean MW (see Generate best next move)'],
+      ['Grid power prices +30%', {wm: a.wm + 30}, 'ERCOT / ISO forwards', 'Add contracted clean MW or storage'],
+      ['Onsite capex +20%', {capex: a.capex + 20}, 'Turbine / engine vendor quotes', 'Fix price in the EPC or switch to tolling'],
+      ['Gas +30% vs the packet path', {gm: a.gm + 30}, 'Henry Hub strip + basis', 'Hedge fuel or pass it through in the tariff']]
+      .map(([n, o, w, act]) => { const m = npv(o); return {n, w, act, d: m.npv - base.npv, after: m.npv, dscr: m.dscr}; })
+      .sort((x, y) => Math.abs(y.d) - Math.abs(x.d)).slice(0, 5);
+    $('#trigfin').innerHTML = '<thead><tr><th></th><th>Trigger</th><th>Watch</th><th class="n">NPV impact</th><th class="n">NPV after</th><th class="n">Min DSCR after</th><th>Action</th></tr></thead><tbody>' +
+      T.map(r => { const sev = r.after < 0 || (r.dscr != null && r.dscr < 1.3) ? 'high' : Math.abs(r.d) > 0.25 * Math.abs(base.npv) ? 'medium' : 'low';
+        return `<tr><td><span class="sev" style="background:${sevc[sev]}"></span></td><td>${r.n}</td><td>${r.w}</td><td class="n">${r.d >= 0 ? '+' : ''}${M(r.d)}</td><td class="n">${M(r.after)}</td><td class="n">${r.dscr == null ? '–' : fmt(r.dscr, 2) + '×'}</td><td style="white-space:normal">${r.act}</td></tr>`; }).join('') +
+      `</tbody><caption class="note" style="caption-side:bottom;text-align:left">Base NPV ${M(base.npv)} under the current Structure assumptions; break-even tenant tariff ${fmt(base.beTariff, 2)} $/MWh.</caption>`;
+  }, 30);
 }
 
 renderStages();

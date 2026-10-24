@@ -1,7 +1,7 @@
 # PowerPath v7 — one decision layer for large-load power
 
 **v7 contents:** the Streamlit decision terminal (`team_app/app.py`, five stages: Screen → Interconnect →
-Generate → Structure → Execute & Monitor) and the standalone terminal page (`team_app/terminal/powerpath_terminal.html`):
+Generate → Structure → Execute) and the standalone terminal page (`team_app/terminal/powerpath_terminal.html`):
 market ticker (prices + news, as of the Oct 22, 2026 session), custom location screener across 68 locations
 with saved screeners and a locked base case, CapIQ-style power market strip (ATC / on- / off-peak, spark
 spread, solar and wind capture vs PPA price), and the five stages for the Texas benchmark and Ohio.
