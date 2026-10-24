@@ -1,0 +1,689 @@
+<title>PowerPath Terminal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600&display=swap">
+<style>
+/* Layout: terminal shell — command bar, function-key row, dense panel grid; single dark look by design */
+:root{
+  --bg:#06080B; --panel:#0D1218; --panel2:#111821; --line:#1C2633; --text:#D6DCE4; --dim:#7D8B9C;
+  --amber:#FFB000; --cyan:#4FC3F7; --good:#5BD17A; --warn:#F2A93B; --bad:#F05454; --violet:#B48CFF;
+  --mono:"IBM Plex Mono",Menlo,Consolas,monospace; --cond:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:13px/1.45 var(--mono);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 28px}
+.shell{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.brand{font:600 15px/1 var(--mono);letter-spacing:.22em;color:var(--amber)}
+.brand small{display:block;font:500 10px/1.6 var(--cond);letter-spacing:.14em;color:var(--dim)}
+.cmd{flex:1 1 320px;display:flex;align-items:center;gap:8px;background:#000;border:1px solid var(--line);padding:6px 10px;min-width:0}
+.cmd label{color:var(--amber);font-weight:600;white-space:nowrap}
+.cmd input{flex:1;min-width:0;background:transparent;border:0;color:var(--text);font:13px var(--mono);outline:none;text-transform:uppercase}
+.cmd button{background:var(--amber);color:#000;border:0;font:600 12px var(--mono);padding:4px 10px;cursor:pointer}
+.cmd button:focus-visible,.fk button:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.msg{font:12px var(--mono);color:var(--dim);min-height:1em}
+.msg.err{color:var(--warn)}
+.tickwrap{display:flex;flex-direction:column;gap:2px}
+.tick{overflow:hidden;white-space:nowrap;border:1px solid var(--line);background:#000;padding:4px 0;position:relative}
+.tick .tlab{position:absolute;left:0;top:0;bottom:0;z-index:2;background:var(--amber);color:#000;font:600 10px var(--cond);letter-spacing:.12em;padding:5px 8px;font-style:normal}
+.tick.t2 .tlab{background:var(--cyan)}
+.tick .up{color:var(--good)}.tick .dn{color:var(--bad)}.tick .sep{color:var(--line)}
+.tick.t2 span{animation-duration:95s}
+.asof{font-size:10.5px;color:var(--dim);text-align:right}
+.tick span{display:inline-block;padding-left:100%;animation:scroll 110s linear infinite}
+.tick b{color:var(--amber);font-weight:600}.tick i{color:var(--cyan);font-style:normal}
+@keyframes scroll{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.tick span{animation:none;padding-left:0}}
+.fk{display:flex;flex-wrap:wrap;gap:4px}
+.fk button{background:var(--panel);border:1px solid var(--line);color:var(--dim);font:500 12px var(--mono);padding:6px 10px;cursor:pointer;letter-spacing:.06em}
+.fk button span{color:var(--amber);margin-right:6px}
+.fk button[aria-selected="true"]{background:var(--amber);color:#000;border-color:var(--amber)}
+.fk button[aria-selected="true"] span{color:#000}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(12,minmax(0,1fr))}
+.p{background:var(--panel);border:1px solid var(--line);padding:10px 12px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.p h2{margin:0;font:600 11px/1.2 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.p h2 em{font-style:normal;color:var(--dim);font-weight:500;letter-spacing:.06em}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c7{grid-column:span 7}.c6{grid-column:span 6}.c5{grid-column:span 5}.c4{grid-column:span 4}.c3{grid-column:span 3}
+@media (max-width:900px){.c8,.c7,.c6,.c5,.c4{grid-column:span 12}.c3{grid-column:span 6}}
+@media (max-width:480px){.c3{grid-column:span 12}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.k{border-left:2px solid var(--amber);background:var(--panel2);padding:6px 9px}
+.k .l{font:500 10px/1.3 var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.k .v{font:600 18px/1.25 var(--mono);color:var(--amber);font-variant-numeric:tabular-nums}
+.k .s{font-size:11px;color:var(--dim)}
+.k.warn{border-left-color:var(--bad)}.k.warn .v{color:var(--bad)}
+.k.ok{border-left-color:var(--good)}.k.ok .v{color:var(--good)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th{font:500 10px var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:left;border-bottom:1px solid var(--line);padding:4px 6px;white-space:nowrap}
+td{padding:4px 6px;border-bottom:1px solid #121a24;white-space:nowrap}
+td.n,th.n{text-align:right}
+tr.sel td{background:#1a1408}
+tbody tr{cursor:default}
+tr.clk{cursor:pointer}tr.clk:hover td{background:#141c26}
+.pill{display:inline-block;padding:1px 7px;font:600 10px var(--cond);letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.Strong{color:var(--good);border-color:var(--good)}.Conditional{color:var(--warn);border-color:var(--warn)}.Weak{color:var(--bad);border-color:var(--bad)}.Blocked{color:var(--bad);border-color:var(--bad)}
+.bar{height:8px;background:#000;border:1px solid var(--line);position:relative;min-width:80px}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--amber)}
+.stack{display:flex;height:14px;border:1px solid var(--line);background:#000}
+.stack i{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:var(--dim)}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px}
+.note{font-size:11.5px;color:var(--dim);max-width:95ch}
+.note b{color:var(--text);font-weight:500}
+ul.why{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:5px}
+ul.why li{font-size:12px}
+ul.why strong{color:var(--amber);font-weight:500}
+canvas{max-width:100%;display:block}
+.cv{position:relative;height:250px}.cv.tall{height:320px}.cv.short{height:200px}
+.alts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
+.alt{background:var(--panel2);border:1px solid var(--line);padding:8px 10px;display:flex;flex-direction:column;gap:4px;font-size:12px}
+.alt h3{margin:0;font:600 12px var(--mono);color:var(--cyan);letter-spacing:.06em}
+.alt .g{color:var(--good)}.alt .x{color:var(--bad)}.alt .w{color:var(--dim);font-style:italic}
+select{background:#000;color:var(--text);border:1px solid var(--line);font:12px var(--mono);padding:3px 6px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.view[hidden]{display:none!important}
+.builder{border:1px solid var(--line);background:var(--panel2);padding:6px 10px}
+.builder summary{cursor:pointer;color:var(--amber);font:600 11px var(--cond);letter-spacing:.14em}
+.builder summary em{font-style:normal;color:var(--dim);margin-left:10px;letter-spacing:.04em}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 18px;margin:8px 0}
+.bcol{display:flex;flex-direction:column;gap:6px;min-width:0}
+.bh{font:600 10px var(--cond);letter-spacing:.14em;color:var(--dim)}
+.sl{display:grid;grid-template-columns:120px 1fr 44px;gap:8px;align-items:center;font-size:12px}
+.sl input{width:100%;accent-color:var(--amber)}
+.sl output{text-align:right;color:var(--amber);font-variant-numeric:tabular-nums}
+.txt{background:#000;border:1px solid var(--line);color:var(--text);font:12px var(--mono);padding:4px 6px;min-width:0;flex:1}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--text);font:600 11px var(--mono);padding:5px 10px;cursor:pointer;letter-spacing:.06em}
+.btn.amber{background:var(--amber);color:#000;border-color:var(--amber)}
+.btn:focus-visible{outline:2px solid var(--cyan)}
+.pick{border:1px solid var(--line);border-left:4px solid var(--amber);background:#100c02;padding:7px 12px;font-size:12.5px}
+.pick b{color:var(--amber)}
+.tw.scroll{max-height:430px;overflow:auto}
+.tw.scroll thead th{position:sticky;top:0;background:var(--panel);z-index:1}
+tr.gated td{opacity:.38}
+.strip td,.strip th{font-size:11.5px}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+.stagebar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px}
+.sb{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--good);padding:7px 10px;cursor:pointer;min-width:0;text-align:left;color:var(--text);font:inherit}
+.sb .n{font:500 10px var(--cond);letter-spacing:.12em;color:var(--dim)}.sb .v{font-weight:600;color:var(--good);font-size:14px}
+.sb .s{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb.warn{border-top-color:var(--warn)}.sb.warn .v{color:var(--warn)}.sb.bad{border-top-color:var(--bad)}.sb.bad .v{color:var(--bad)}
+.sb.info{border-top-color:var(--cyan)}.sb.info .v{color:var(--cyan)}
+.sb:focus-visible{outline:2px solid var(--cyan)}
+.ledger{background:var(--panel);border:1px solid var(--line);padding:6px 10px}
+.ledger summary{cursor:pointer;color:var(--amber);font:600 11px var(--cond);letter-spacing:.14em}
+.ledger div{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px;margin-top:6px;font-size:12px}
+.ledger b{color:var(--dim);font-weight:500;font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:10px;display:block}
+.verdict{border:1px solid var(--line);border-left:4px solid var(--good);background:var(--panel2);padding:8px 12px;font-size:13px}
+.verdict.bad{border-left-color:var(--bad)}.verdict b{color:var(--good)}.verdict.bad b{color:var(--bad)}
+.sev{display:inline-block;width:9px;height:9px;border-radius:50%}
+.foot{font-size:11px;color:var(--dim);border-top:1px solid var(--line);padding-top:8px}
+</style>
+
+<div class="shell">
+  <div class="top">
+    <div class="brand">⚡ POWERPATH<small>ONE DECISION LAYER · SCREEN → INTERCONNECT → GENERATE → STRUCTURE → MONITOR</small></div>
+    <form class="cmd" id="cmdform" autocomplete="off">
+      <label for="cmd">CMD&gt;</label>
+      <input id="cmd" placeholder="SCREEN · IC · GEN · STRUCT · MON · OHIO · 20147" aria-label="Command">
+      <button type="submit">GO</button>
+    </form>
+  </div>
+  <div class="msg" id="msg">Type a stage (SCREEN, IC, GEN, STRUCT, MON), PLAN TX / PLAN OH, or a loaded location (78626, 20147, IOWA, OHIO, OKLAHOMA, ARIZONA, IRELAND, JAPAN).</div>
+  <div class="tickwrap">
+    <div class="tick t1"><em class="tlab">MARKETS</em><span id="tick"></span></div>
+    <div class="tick t2"><em class="tlab">NEWS</em><span id="news"></span></div>
+    <div class="asof" id="asof"></div>
+  </div>
+  <div class="row" style="justify-content:space-between">
+    <div class="row"><label for="plan" style="color:var(--dim);font-size:11px;letter-spacing:.1em">ACTIVE PLAN</label>
+      <select id="plan"><option value="TX">Williamson County, TX · benchmark</option><option value="OH">Ohio · screened site (PJM)</option></select></div>
+    <div class="note" id="plannote"></div>
+  </div>
+  <div class="stagebar" id="stagebar"></div>
+  <div class="fk" role="tablist" id="fk"></div>
+  <details class="ledger" id="ledgerbox"><summary>DECISION LEDGER</summary><div id="ledger"></div></details>
+
+  <!-- SITE -->
+  <section class="view" id="v-screen">
+    <div class="grid">
+      <div class="p c12">
+        <h2>Location screen <em id="scrnote">50 states + DC + 17 countries · default customer · opening M20 · 87,600-h engine per site</em></h2>
+        <details class="builder" id="builder">
+          <summary>CUSTOM SCREENER <em id="activescr">active: Base case</em></summary>
+          <div class="bgrid">
+            <div class="bcol">
+              <div class="row"><label for="scrsel">Saved screeners</label><select id="scrsel"></select>
+                <button type="button" class="btn" id="scrdel">Delete</button></div>
+              <div class="row"><label for="scrname">Name</label><input id="scrname" class="txt" value="My screener" maxlength="40"></div>
+              <div class="row"><label for="scrrank">Rank by</label><select id="scrrank"><option value="score">Screener score</option><option value="power">Deliverable power</option><option value="cost">Lowest $/MWh</option><option value="kg">Lowest kg CO₂/MWh</option></select></div>
+              <div class="row"><input type="checkbox" id="scrintl" checked><label for="scrintl">Include countries</label>
+                <input type="checkbox" id="scrfeas" checked><label for="scrfeas">Feasible plans only</label></div>
+            </div>
+            <div class="bcol"><div class="bh">WEIGHTS</div><div id="wts"></div></div>
+            <div class="bcol"><div class="bh">GATES (hard)</div><div id="gates"></div></div>
+          </div>
+          <div class="row"><button type="button" class="btn amber" id="scrapply">Apply</button>
+            <button type="button" class="btn" id="scrsave">Save screener</button>
+            <button type="button" class="btn" id="scrreset">Back to base case</button>
+            <span class="note" id="scrmsg">Saved screeners stay in this browser. The base case and the active plan never change.</span></div>
+        </details>
+        <div class="pick" id="pick"></div>
+        <div class="row"><input id="scrfind" class="txt" placeholder="Filter: state, country, grid…" aria-label="Filter locations"><span class="note" id="scrcount"></span></div>
+        <div class="tw scroll"><table id="sitetbl"></table></div>
+        <div class="legend" id="complegend"></div>
+      </div>
+      <div class="p c12">
+        <h2><span id="sitehdr">Site detail</span><em id="siteconf"></em></h2>
+        <div class="kpis" id="sitekpis"></div>
+      </div>
+      <div class="p c5">
+        <h2>Score build <em>component × weight</em></h2>
+        <div class="tw"><table id="comptbl"></table></div>
+        <div class="note" id="prov"></div>
+      </div>
+      <div class="p c7">
+        <h2>Candidate parcels <em>illustrative · upload real parcels in the local app</em></h2>
+        <div class="cv"><canvas id="parcels"></canvas></div>
+        <div class="tw"><table id="parceltbl"></table></div>
+      </div>
+      <div class="p c12">
+        <h2>Power market strip <em id="striphdr">merchant vs gas-fired cost vs contracted clean · 10-year horizon</em></h2>
+        <div class="kpis" id="stripkpis"></div>
+        <div class="grid" style="gap:10px">
+          <div class="c7" style="min-width:0"><div class="cv"><canvas id="price"></canvas></div></div>
+          <div class="c5" style="min-width:0"><div class="cv"><canvas id="capture"></canvas></div></div>
+        </div>
+        <div class="tw"><table id="striptbl" class="strip"></table></div>
+        <div class="note">How to read it: <b>ATC</b> is the around-the-clock delivered merchant price (wholesale plus the packet's $20/MWh service adder); <b>spark spread</b> is merchant minus the cost of running onsite gas engines, so a positive spread means self-generation beats buying power. <b>Capture price</b> is what solar or wind output is worth at merchant prices hour by hour; above the contract price, the PPA is in the money. Hourly shapes are the benchmark's ERCOT 2023 year scaled by a regional index and the packet's real-terms trajectory (wholesale +5%/yr, Henry Hub +3%/yr). Screening view, not a forward curve.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORT -->
+  <section class="view" id="v-ic" hidden>
+    <div class="grid">
+      <div class="p c12"><h2>Interconnect · wait for the grid, bridge with onsite power, or walk away <em id="ichdr"></em></h2>
+        <div class="verdict" id="icverdict"></div>
+        <div class="kpis" id="ickpis"></div></div>
+      <div class="p c8"><h2>Deliverable power <em>MW available by month vs the demand ramp</em></h2>
+        <div class="cv tall"><canvas id="dpower"></canvas></div>
+        <div class="note">Projects get built where MW can actually be delivered by month. Red area: demand the grid cannot carry, which onsite power must bridge.</div></div>
+      <div class="p c4"><h2>Study path <em>screening</em></h2><div class="note" id="icpath" style="font-size:12px"></div>
+        <div class="tw"><table id="ictbl"></table></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-gen" hidden>
+    <div class="grid">
+      <div class="p c12">
+        <h2>Recommendation <em>Williamson County, TX · official benchmark · checker passed</em></h2>
+        <div class="kpis" id="portkpis"></div>
+      </div>
+      <div class="p c5">
+        <h2>What to build and contract</h2>
+        <div class="tw"><table id="captbl"></table></div>
+        <div class="note" id="capnote"></div>
+      </div>
+      <div class="p c7">
+        <h2>Why this portfolio</h2>
+        <ul class="why" id="why"></ul>
+      </div>
+      <div class="p c12">
+        <h2>Fast Track · Lower Cost · Cleaner <em>each validated by the packet checker</em></h2>
+        <div class="alts" id="alts"></div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:10px">
+      <div class="p c7">
+        <h2>Every opening month tested <em>$/MWh requested vs kg CO₂/MWh</em></h2>
+        <div class="cv tall"><canvas id="dates"></canvas></div>
+      </div>
+      <div class="p c5">
+        <h2>How preferences pick the winner <em>$M, common 90-month basis</em></h2>
+        <div class="cv tall"><canvas id="score"></canvas></div>
+      </div>
+      <div class="p c12">
+        <h2>Tested months</h2>
+        <div class="tw"><table id="datetbl"></table></div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:10px">
+      <div class="p c12">
+        <h2>Grid stress event <em>model year 5 · imports capped at 60% of the connection</em></h2>
+        <div class="cv tall"><canvas id="stress"></canvas></div>
+        <div class="note">Shaded hours are the ERCOT-style stress window. Offsite contracts and merchant purchases share the import limit; the turbine carries what imports cannot, and Tier 1 relocation and Tier 2 interruption appear as their own bands, never as supply.</div>
+      </div>
+      <div class="p c12">
+        <h2>Reliability · largest onsite unit out (N-1)</h2>
+        <div class="kpis" id="n1kpis"></div>
+        <div class="tw"><table id="n1tbl"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-struct" hidden>
+    <div class="grid">
+      <div class="p c12"><h2>Structure · how to own and pay for the plan <em id="dealhdr"></em></h2>
+        <div class="row"><input type="checkbox" id="obs"><label for="obs">Prefer off-balance-sheet (accept up to 5% higher cost)</label></div>
+        <div class="verdict" id="dealverdict"></div>
+        <div class="tw"><table id="dealtbl"></table></div></div>
+      <div class="p c12"><h2>Who carries which risk</h2><div class="tw"><table id="risktbl"></table></div>
+        <div class="note">"Own" equals the common benchmark cost. Tolling adds a provider return (10% WACC + 8% margin); the tariff path uses a $12/kW-month demand charge at 85% minimum take. Screening assumptions.</div></div>
+    </div>
+    <div class="grid" style="margin-top:10px">
+      <div class="p c6">
+        <h2>Cost and intensity by model year</h2>
+        <div class="cv tall"><canvas id="annual"></canvas></div>
+      </div>
+      <div class="p c6">
+        <h2>Merchant price spikes <em>premium paid above $200/MWh</em></h2>
+        <div class="cv tall"><canvas id="spikes"></canvas></div>
+      </div>
+      <div class="p c12">
+        <h2>Clean energy accounting</h2>
+        <div class="kpis" id="cleankpis"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-mon" hidden>
+    <div class="grid">
+      <div class="p c12"><h2>Monitor · what would change this decision <em id="monhdr"></em></h2>
+        <div class="tw"><table id="trigtbl"></table></div>
+        <div class="note">Price and fuel impacts re-price the fixed dispatch exactly; the grid-slip trigger re-sizes the plan on all 87,600 hours at the P90 energization date.</div></div>
+      <div class="p c12"><h2>Execution · what to file and order <em>back-planned from need dates (planning assumptions)</em></h2>
+        <div class="tw"><table id="exectbl"></table></div></div>
+    </div>
+  </section>
+
+  <div class="foot" id="foot">Market data sources: Energy Brief (daily, Oct 23, 2026 issue covering the Oct 22 session); EIA Short-Term Energy Outlook (Jul 2026); LevelTen PPA Price Index Q2 2026; Bloomberg / Bloomberg Law, Power Engineering, Transformer Technology, MarketBeat, Bracewell for headlines. Static snapshot generated from the PowerPath engine on the GRIDTECH v5.5.1 packet. Benchmark figures are the packet checker's own accounting. Other sites use regionally scaled inputs (EIA 2024 prices, eGRID2023 CO₂, USDA 2025 land values; renewables, water, grid waits and countries are screening estimates). Parcels are illustrative. Run the local terminal for any ZIP, live re-optimization and exports.</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const D = __DATA__;
+const $ = s => document.querySelector(s);
+const css = getComputedStyle(document.documentElement);
+const C = n => css.getPropertyValue('--' + n).trim();
+const fmt = (x, d = 0) => x == null ? '–' : Number(x).toLocaleString('en-US', {minimumFractionDigits: d, maximumFractionDigits: d});
+const M = x => '$' + fmt(x / 1e6, 1) + 'M';
+const SHORT = {utility_solar: 'solar', wind: 'wind', battery_4h: 'battery', gas_turbine: 'turbine', nuclear: 'nuclear', gas_engine: 'engines', fuel_cell: 'fuel cells'};
+const mix = m => Object.entries(m).map(([k, v]) => `${fmt(v)} ${SHORT[k]}`).join(', ') || '–';
+const COMP = ['Cost', 'Speed to power', 'Carbon', 'Land & parcels', 'Water', 'Policy & permitting'];
+const COMPC = [C('amber'), C('cyan'), C('good'), C('violet'), '#26C6DA', C('bad')];
+Chart.defaults.color = C('dim'); Chart.defaults.font.family = C('mono'); Chart.defaults.font.size = 11;
+Chart.defaults.borderColor = C('line'); Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.plugins.legend.labels.boxWidth = 10;
+const charts = {};
+function chart(id, cfg) { if (charts[id]) charts[id].destroy(); charts[id] = new Chart($('#' + id), cfg); }
+
+/* ---------- ticker ---------- */
+const B = D.best;
+const MKT = [
+  ['HENRY HUB', '$2.80', '+0.2%', 'up'], ['GAS STORAGE', '3,644 Bcf', '+77 Bcf w/w', ''], ['ERCOT NORTH DA', '$35.73', '−1.4%', 'dn'],
+  ['ERCOT SPARK', '$14.76', '−$0.57', 'dn'], ['PJM WEST DA', '$59.66', '−11.5%', 'dn'], ['PJM SPARK', '$38.69', '−$7.76', 'dn'],
+  ['CAISO SP15 DA', '$45.60', '−13.5%', 'dn'], ['TTF', '€90.04/MWh', '+3.0%', 'up'], ['JKM', '$30.62', '+1.9%', 'up'],
+  ['WTI', '$99.47', '+2.4%', 'up'], ['BRENT', '$113.17', '+4.0%', 'up'], ['EIA STEO HH 2026', '$3.67', 'Jul STEO', ''],
+  ['EIA STEO HH 2027', '$3.49', 'Jul STEO', ''], ['SOLAR PPA · LEVELTEN Q2', '−4.8% q/q', 'first drop in 2 yrs', 'dn'],
+  ['WIND PPA · LEVELTEN Q2', '+5.5% q/q', '+17.5% y/y', 'up'], ['VST', '$140.83', '−9.8%', 'dn'], ['TLN', '', '−7.8%', 'dn'],
+  ['CEG', '', '−5.7%', 'dn'], ['NRG', '', '−5.4%', 'dn'], ['NVDA', '$212.21', '−4.4%', 'dn'], ['KMI', '$33.72', '−0.7%', 'dn']];
+const NEWS = [
+  'Microsoft and Chevron sign a 20-year power deal for a Texas data center (Bloomberg Law)',
+  'Google ties a data center to a 20-year power deal plus solar investment (Bloomberg, Mar 2026)',
+  'NRG signs a 295 MW data center power deal (Power Engineering)',
+  'HD Hyundai Electric wins a $721M data center power equipment order (Transformer Technology)',
+  'Kinder Morgan outlines a $4.7B pipeline program after record Q3 (MarketBeat)',
+  'Vistra falls 9.8% after an analyst downgrade; IPPs lower across the board (Oct 22 session)',
+  'EIA: smaller-than-expected storage build; Henry Hub front month $2.80',
+  'Texas SB 6: loads above 75 MW face screening-study fees, backup disclosure and ERCOT curtailment rules (Bracewell)'];
+function renderTicker() {
+  const plan = [`<b>PLAN</b> open M${B.open} · <i>${fmt(B.cost, 2)}</i> $/MWh · <i>${fmt(B.kg)}</i> kg`, `<b>MIX</b> <i>${mix(B.caps).toUpperCase()}</i>`];
+  if (typeof PICKTXT !== 'undefined' && PICKTXT) plan.push(`<b>SCREEN PICK</b> <i>${PICKTXT}</i>`);
+  const m = MKT.map(([n, v, c, d]) => `<b>${n}</b> ${v} <span class="${d}">${d === 'up' ? '▲' : d === 'dn' ? '▼' : ''}${c}</span>`).concat(plan);
+  const row = m.join(' <span class="sep">│</span> ');
+  $('#tick').innerHTML = (row + ' <span class="sep">│</span> ').repeat(2);
+  const nrow = NEWS.map(t => '◆ ' + t).join(' &nbsp; ');
+  $('#news').innerHTML = (nrow + ' &nbsp; ').repeat(2);
+}
+$('#asof').textContent = 'Markets as of the Oct 22, 2026 session (day-ahead power, futures, equities) · EIA STEO Jul 2026 · LevelTen Q2 2026 · snapshot, not a live feed';
+renderTicker();
+
+/* ---------- function keys / routing ---------- */
+const VIEWS = [['screen', 'F1', '1 SCREEN'], ['ic', 'F2', '2 INTERCONNECT'], ['gen', 'F3', '3 GENERATE'], ['struct', 'F4', '4 STRUCTURE'], ['mon', 'F5', '5 MONITOR']];
+const CODES = {SCREEN: 'screen', SITE: 'screen', IC: 'ic', INTERCONNECT: 'ic', GEN: 'gen', GENERATE: 'gen', PORT: 'gen', STRUCT: 'struct', STRUCTURE: 'struct', DEAL: 'struct', MON: 'mon', MONITOR: 'mon'};
+let PLAN = 'TX';
+$('#fk').innerHTML = VIEWS.map(([id, f, n]) => `<button role="tab" id="t-${id}" data-v="${id}"><span>${f}</span>${n}</button>`).join('');
+let built = {};
+function show(v) {
+  if (!VIEWS.some(x => x[0] === v)) v = 'screen';
+  VIEWS.forEach(([id]) => { $('#v-' + id).hidden = id !== v; $('#t-' + id).setAttribute('aria-selected', id === v); });
+  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildTrde(); buildStrs(); }, struct: () => { buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
+  try { history.replaceState(null, '', '#' + v); } catch (e) {}
+}
+$('#fk').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.v); });
+document.addEventListener('keydown', e => { const i = ['F1', 'F2', 'F3', 'F4', 'F5'].indexOf(e.key); if (i >= 0) { e.preventDefault(); show(VIEWS[i][0]); } });
+
+/* ---------- command line ---------- */
+$('#cmdform').addEventListener('submit', e => {
+  e.preventDefault();
+  let t = $('#cmd').value.trim().toUpperCase(); const msg = $('#msg'); msg.classList.remove('err');
+  if (!t) return;
+  let parts = t.split(/\s+/); let fn = parts[0];
+  if (CODES[fn] && parts.length === 1) { show(CODES[fn]); msg.textContent = fn + ' ⟩ loaded'; return; }
+  if (fn === 'PLAN' && ['TX', 'OH', 'OHIO', 'TEXAS'].includes(parts[1])) { setPlan(parts[1].startsWith('O') ? 'OH' : 'TX'); msg.textContent = 'PLAN ⟩ ' + PLAN; return; }
+  if (fn === 'SITE' || fn === 'SCREEN') t = parts.slice(1).join(' ');
+  const hit = D.sites.findIndex(s => s.q.toUpperCase() === t || s.label.toUpperCase().startsWith(t) || s.label.toUpperCase().includes(t));
+  if (hit >= 0) { show('screen'); selectSite(hit); msg.textContent = 'SITE ⟩ ' + D.sites[hit].label; return; }
+  msg.classList.add('err');
+  msg.textContent = `"${t}" is not in this snapshot. The local terminal screens any US ZIP, state or 17 countries live.`;
+});
+
+/* ---------- SITE ---------- */
+let cur = 0;
+var PICKTXT = '';
+const BASE = {name: 'Base case', locked: true, rank: 'score', intl: true, feas: true,
+  w: {'Cost': 20.4, 'Speed to power': 19.8, 'Carbon': 19.8, 'Land & parcels': 15, 'Water': 10, 'Policy & permitting': 15},
+  gates: {cost: null, kg: null, wait: null, water: null, parcels: null}};
+const GATES = [['cost', 'Max $/MWh', 70, 1], ['kg', 'Max kg CO₂/MWh', 150, 5], ['wait', 'Max grid wait (months)', 12, 1],
+  ['water', 'Max water-stress tier', 3, 1], ['parcels', 'Min parcels passing (of 25)', 8, 1]];
+const clone = o => JSON.parse(JSON.stringify(o));
+let SCR = clone(BASE);
+let SAVED = [];
+try { SAVED = JSON.parse(localStorage.getItem('pp_screeners') || '[]'); } catch (e) { SAVED = []; }
+function persist() { try { localStorage.setItem('pp_screeners', JSON.stringify(SAVED)); } catch (e) {} }
+function scoreOf(s, scr) { let t = 0, w = 0; COMP.forEach(c => { t += s.components[c].score * scr.w[c]; w += scr.w[c]; }); return w ? t / w : 0; }
+function fails(s, scr) {
+  const g = scr.gates, f = [];
+  if (scr.feas && !s.ok) f.push('no plan');
+  if (!scr.intl && s.kind === 'country') f.push('country');
+  if (g.cost != null && (s.cost ?? 1e9) > g.cost) f.push('$/MWh');
+  if (g.kg != null && (s.kg ?? 1e9) > g.kg) f.push('kg');
+  if (g.wait != null && s.delay > g.wait) f.push('wait');
+  if (g.water != null && s.water > g.water) f.push('water');
+  if (g.parcels != null && s.parcels_pass < g.parcels) f.push('parcels');
+  return f;
+}
+const verdictOf = (sc, s) => !s.ok ? 'Blocked' : sc >= 70 ? 'Strong' : sc >= 50 ? 'Conditional' : 'Weak';
+function ranked() {
+  const rows = D.sites.map((s, i) => ({i, s, sc: scoreOf(s, SCR), f: fails(s, SCR)}));
+  const key = {score: (a, b) => b.sc - a.sc, power: (a, b) => (a.s.grid_full - b.s.grid_full) || ((a.s.bridge_mw ?? 99) - (b.s.bridge_mw ?? 99)) || (b.sc - a.sc),
+    cost: (a, b) => (a.s.cost ?? 1e9) - (b.s.cost ?? 1e9), kg: (a, b) => (a.s.kg ?? 1e9) - (b.s.kg ?? 1e9)}[SCR.rank];
+  return rows.sort((a, b) => (a.f.length > 0) - (b.f.length > 0) || key(a, b));
+}
+function buildBuilder() {
+  $('#wts').innerHTML = COMP.map((c, j) => `<div class="sl"><label for="w${j}">${c}</label><input type="range" id="w${j}" min="0" max="50" step="1"><output id="wo${j}"></output></div>`).join('');
+  $('#gates').innerHTML = GATES.map(([k, l, d, st]) => `<div class="sl"><span><input type="checkbox" id="gc_${k}"> <label for="gc_${k}">${l}</label></span><input type="number" class="txt" id="gv_${k}" step="${st}" value="${d}"><span></span></div>`).join('');
+  COMP.forEach((c, j) => $('#w' + j).addEventListener('input', e => { $('#wo' + j).textContent = e.target.value; }));
+  $('#scrapply').addEventListener('click', () => { readControls(); renderSiteTable(); $('#scrmsg').textContent = 'Applied ' + SCR.name + '.'; });
+  $('#scrsave').addEventListener('click', () => {
+    readControls(); if (SCR.name.trim().toLowerCase() === 'base case') SCR.name = 'My screener';
+    SCR.locked = false; const k = SAVED.findIndex(x => x.name === SCR.name);
+    if (k >= 0) SAVED[k] = clone(SCR); else SAVED.push(clone(SCR)); persist(); fillSaved(SCR.name); renderSiteTable();
+    $('#scrmsg').textContent = 'Saved "' + SCR.name + '" in this browser.';
+  });
+  $('#scrdel').addEventListener('click', () => {
+    const n = $('#scrsel').value; if (n === 'Base case') { $('#scrmsg').textContent = 'The base case cannot be deleted.'; return; }
+    SAVED = SAVED.filter(x => x.name !== n); persist(); SCR = clone(BASE); fillSaved('Base case'); writeControls(); renderSiteTable();
+    $('#scrmsg').textContent = 'Deleted "' + n + '".';
+  });
+  $('#scrreset').addEventListener('click', () => { SCR = clone(BASE); fillSaved('Base case'); writeControls(); renderSiteTable(); $('#scrmsg').textContent = 'Back to the base case.'; });
+  $('#scrsel').addEventListener('change', e => { const n = e.target.value; SCR = clone(n === 'Base case' ? BASE : SAVED.find(x => x.name === n)); writeControls(); renderSiteTable(); });
+  $('#scrfind').addEventListener('input', renderSiteTable);
+  fillSaved('Base case'); writeControls();
+}
+function fillSaved(sel) { $('#scrsel').innerHTML = ['Base case', ...SAVED.map(x => x.name)].map(n => `<option${n === sel ? ' selected' : ''}>${n}</option>`).join(''); }
+function writeControls() {
+  $('#scrname').value = SCR.locked ? 'My screener' : SCR.name; $('#scrrank').value = SCR.rank; $('#scrintl').checked = SCR.intl; $('#scrfeas').checked = SCR.feas;
+  COMP.forEach((c, j) => { $('#w' + j).value = Math.round(SCR.w[c]); $('#wo' + j).textContent = Math.round(SCR.w[c]); });
+  GATES.forEach(([k, , d]) => { $('#gc_' + k).checked = SCR.gates[k] != null; $('#gv_' + k).value = SCR.gates[k] ?? d; });
+}
+function readControls() {
+  SCR = {name: $('#scrname').value.trim() || 'My screener', locked: false, rank: $('#scrrank').value, intl: $('#scrintl').checked, feas: $('#scrfeas').checked,
+    w: Object.fromEntries(COMP.map((c, j) => [c, +$('#w' + j).value])),
+    gates: Object.fromEntries(GATES.map(([k]) => [k, $('#gc_' + k).checked ? +$('#gv_' + k).value : null]))};
+}
+function buildSite() {
+  $('#complegend').innerHTML = COMP.map((c, i) => `<span><i style="background:${COMPC[i]}"></i>${c}</span>`).join('');
+  buildBuilder(); renderSiteTable();
+  $('#sitetbl').addEventListener('click', e => { const r = e.target.closest('tr[data-i]'); if (r) selectSite(+r.dataset.i); });
+  $('#sitetbl').addEventListener('keydown', e => { const r = e.target.closest('tr[data-i]'); if (r && e.key === 'Enter') selectSite(+r.dataset.i); });
+  $('#pick').addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (b) selectSite(+b.dataset.i); });
+  selectSite(ranked()[0].i);
+}
+function renderSiteTable() {
+  const R = ranked(), q = ($('#scrfind') ? $('#scrfind').value : '').toLowerCase();
+  const wsum = COMP.reduce((a, c) => a + SCR.w[c], 0) || 1;
+  const shown = R.filter(r => !q || (r.s.label + ' ' + r.s.grid + ' ' + r.s.abbr).toLowerCase().includes(q));
+  let rank = 0;
+  $('#sitetbl').innerHTML = `<thead><tr><th class="n">#</th><th>Location</th><th>Grid</th><th class="n">Score</th><th>Build</th><th>Verdict</th><th class="n">Grid full</th><th class="n">Bridge MW</th><th class="n">$/MWh</th><th class="n">kg/MWh</th><th>Gates</th></tr></thead><tbody>` +
+    shown.map(({i, s, sc, f}) => {
+      const st = COMP.map((c, j) => `<i style="width:${s.components[c].score * SCR.w[c] / wsum}%;background:${COMPC[j]}"></i>`).join('');
+      const v = verdictOf(sc, s); if (!f.length) rank++;
+      return `<tr class="clk${f.length ? ' gated' : ''}${i === cur ? ' sel' : ''}" data-i="${i}" tabindex="0"><td class="n">${f.length ? '–' : rank}</td><td>${s.label}${s.benchmark ? ' ★' : ''}</td><td>${s.grid}</td><td class="n">${fmt(sc)}</td>
+        <td style="min-width:110px"><div class="stack">${st}</div></td><td><span class="pill ${v}">${v}</span></td>
+        <td class="n">M${s.grid_full}</td><td class="n">${s.bridge_mw == null ? '–' : fmt(s.bridge_mw)}</td><td class="n">${fmt(s.cost, 2)}</td><td class="n">${fmt(s.kg)}</td>
+        <td>${f.length ? '<span style="color:var(--bad)">' + f.join(', ') + '</span>' : '<span style="color:var(--good)">pass</span>'}</td></tr>`;
+    }).join('') + '</tbody>';
+  const passing = R.filter(r => !r.f.length);
+  $('#scrcount').textContent = `${passing.length} of ${R.length} locations pass ${SCR.name}'s gates · ranked by ${$('#scrrank') ? $('#scrrank').selectedOptions[0].text.toLowerCase() : 'score'}`;
+  $('#activescr').textContent = 'active: ' + SCR.name;
+  const top = passing[0];
+  if (top) {
+    PICKTXT = `${top.s.label.toUpperCase()} ${fmt(top.sc)} (${SCR.name.toUpperCase()})`;
+    $('#pick').innerHTML = `<b>Best site under ${SCR.name}:</b> ${top.s.label}, score ${fmt(top.sc)}, ${fmt(top.s.cost, 2)} $/MWh, ${fmt(top.s.kg)} kg/MWh, grid carries 75 MW at M${top.s.grid_full}. ` +
+      `<button type="button" class="btn" data-i="${top.i}">Inspect</button> <span class="note">Active plan stays on the base case (Williamson County benchmark) until you choose otherwise.</span>`;
+  } else { PICKTXT = ''; $('#pick').innerHTML = `<b>No location passes ${SCR.name}'s gates.</b> Loosen a gate or include countries.`; }
+  renderTicker(); if (typeof renderStages === 'function' && D.stage) renderStages();
+}
+function selectSite(i) {
+  cur = i; const s = D.sites[i]; const sc = scoreOf(s, SCR), v = verdictOf(sc, s);
+  document.querySelectorAll('#sitetbl tr[data-i]').forEach(r => r.classList.toggle('sel', +r.dataset.i === i));
+  $('#sitehdr').textContent = 'Site detail · ' + s.label; $('#siteconf').textContent = s.confidence + ' · ' + s.grid;
+  $('#sitekpis').innerHTML = [
+    ['Feasibility', fmt(sc) + '/100', v + ' · ' + SCR.name, v === 'Strong' ? 'ok' : (v === 'Weak' || v === 'Blocked') ? 'warn' : ''],
+    ['Modeled cost', fmt(s.cost, 2), '$/MWh requested'], ['Intensity', fmt(s.kg), 'kg CO₂/MWh'],
+    ['Clean share', fmt((s.clean || 0) * 100) + '%', 'annual, checker formula'], ['Grid wait', '+' + s.delay + ' mo', 'grid full M' + s.grid_full],
+    ['Portfolio', mix(s.mix), 'MW, opening month 20'], ['Parcels passing', s.parcels_pass + '/' + s.parcels_n, 'illustrative']]
+    .map(([l, val, sub, cls]) => `<div class="k ${cls || ''}"><div class="l">${l}</div><div class="v" style="${l === 'Portfolio' ? 'font-size:13px' : ''}">${val}</div><div class="s">${sub}</div></div>`).join('');
+  const wsum = COMP.reduce((a, c) => a + SCR.w[c], 0) || 1;
+  $('#comptbl').innerHTML = '<thead><tr><th>Component</th><th class="n">Score</th><th class="n">Wt %</th><th>Basis</th></tr></thead><tbody>' +
+    COMP.map(c => `<tr><td>${c}</td><td class="n">${fmt(s.components[c].score)}</td><td class="n">${fmt(100 * SCR.w[c] / wsum)}</td><td style="white-space:normal">${s.components[c].basis}</td></tr>`).join('') + '</tbody>';
+  $('#prov').innerHTML = '<b>Data</b> ' + s.provenance + (s.policy ? '<br><b>Verify</b> ' + s.policy : '');
+  chart('parcels', {type: 'scatter', data: {datasets: [{label: 'pass gates', data: s.parcels.filter(p => p.ok).map(p => ({x: p.mw, y: p.gas, p})), backgroundColor: C('amber'), pointRadius: 5},
+      {label: 'fail a gate', data: s.parcels.filter(p => !p.ok).map(p => ({x: p.mw, y: p.gas, p})), backgroundColor: C('bad') + '99', pointRadius: 4, pointStyle: 'crossRot', borderColor: C('bad')}]},
+    options: {plugins: {tooltip: {callbacks: {label: c => `${c.raw.p.id} · ${fmt(c.raw.p.acres)} ac · ${fmt(c.raw.p.mw)} MW · gas ${fmt(c.raw.p.gas, 1)} km · ${c.raw.p.zoning}${c.raw.p.flood ? ' · FLOOD' : ''} · score ${fmt(c.raw.p.score)}`}}},
+      scales: {x: {title: {display: true, text: 'substation headroom (MW)'}}, y: {reverse: true, title: {display: true, text: 'distance to gas (km)'}}}}});
+  $('#parceltbl').innerHTML = '<thead><tr><th>Parcel</th><th class="n">Acres</th><th class="n">Sub MW</th><th class="n">Gas km</th><th>Zoning</th><th class="n">$/acre</th><th>Gates</th><th class="n">Score</th></tr></thead><tbody>' +
+    s.parcels.slice(0, 8).map(p => `<tr><td>${p.id}</td><td class="n">${fmt(p.acres)}</td><td class="n">${fmt(p.mw)}</td><td class="n">${fmt(p.gas, 1)}</td><td>${p.zoning}${p.flood ? ' · flood' : ''}</td><td class="n">${fmt(p.usd)}</td><td>${p.ok ? '<span style="color:var(--good)">pass</span>' : '<span style="color:var(--bad)">fail</span>'}</td><td class="n">${fmt(p.score)}</td></tr>`).join('') + '</tbody>';
+  buildStrip(s);
+}
+function buildStrip(s) {
+  const t = s.strip, K = D.contracts, avg = f => t.reduce((a, y) => a + f(y), 0) / t.length;
+  const spark = avg(y => y.atc - y.recip), sCap = t[0].solar_cap, wCap = t[0].wind_cap;
+  $('#striphdr').textContent = s.label + ' · merchant vs gas-fired cost vs contracted clean · 10-year horizon';
+  const sgn = x => (x >= 0 ? '+' : '−') + '$' + fmt(Math.abs(x), 2);
+  $('#stripkpis').innerHTML = [
+    ['Merchant ATC (delivered), 10-yr avg', '$' + fmt(avg(y => y.atc), 2), `Y1 $${fmt(t[0].atc, 2)} → Y10 $${fmt(t[9].atc, 2)}`],
+    ['On-peak premium', sgn(avg(y => y.onpk - y.offpk)), 'on-peak minus off-peak, avg'],
+    ['Spark spread vs onsite engines', sgn(spark), spark > 0 ? 'self-generation beats merchant on average' : 'buying merchant beats self-generation on average', spark > 0 ? 'ok' : ''],
+    ['Spike hours > $200', fmt(avg(y => y.spike_h)), 'per year, avg; hedge with firm supply'],
+    ['Solar capture vs PPA', sgn(sCap - K.solar), `Y1 capture $${fmt(sCap, 2)} vs $${fmt(K.solar)} contract`, sCap - K.solar > 0 ? 'ok' : 'warn'],
+    ['Wind capture vs PPA', sgn(wCap - K.wind), `Y1 capture $${fmt(wCap, 2)} vs $${fmt(K.wind)} contract`, wCap - K.wind > 0 ? 'ok' : 'warn']]
+    .map(([l, v, sub, cls]) => `<div class="k ${cls || ''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`).join('');
+  const L = t.map(y => 'Y' + y.year);
+  chart('price', {type: 'line', data: {labels: L, datasets: [
+      {label: 'On-peak', data: t.map(y => y.onpk), borderColor: C('bad'), borderWidth: 1.5, pointRadius: 2},
+      {label: 'ATC merchant', data: t.map(y => y.atc), borderColor: C('amber'), borderWidth: 2.5, pointRadius: 3, fill: false},
+      {label: 'Off-peak', data: t.map(y => y.offpk), borderColor: C('cyan'), borderWidth: 1.5, pointRadius: 2},
+      {label: 'Onsite engine cost', data: t.map(y => y.recip), borderColor: '#D9A66B', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0},
+      {label: 'Gas turbine cost', data: t.map(y => y.ccgt), borderColor: '#B5835A', borderDash: [2, 3], borderWidth: 1.5, pointRadius: 0}]},
+    options: {plugins: {title: {display: true, text: 'Merchant strip vs cost of self-generation ($/MWh)', color: C('dim')}}, scales: {y: {title: {display: true, text: '$/MWh'}}}}});
+  chart('capture', {type: 'bar', data: {labels: L, datasets: [
+      {label: 'Solar capture', data: t.map(y => y.solar_cap), backgroundColor: C('amber') + 'CC'},
+      {label: 'Wind capture', data: t.map(y => y.wind_cap), backgroundColor: C('cyan') + 'CC'},
+      {type: 'line', label: `Solar PPA $${K.solar}`, data: t.map(() => K.solar), borderColor: C('amber'), borderDash: [6, 4], pointRadius: 0},
+      {type: 'line', label: `Wind PPA $${K.wind}`, data: t.map(() => K.wind), borderColor: C('cyan'), borderDash: [6, 4], pointRadius: 0}]},
+    options: {plugins: {title: {display: true, text: 'What contracted clean output is worth at merchant prices', color: C('dim')}}, scales: {y: {title: {display: true, text: '$/MWh'}}}}});
+  $('#striptbl').innerHTML = '<thead><tr><th>Year</th><th class="n">ATC</th><th class="n">On-peak</th><th class="n">Off-peak</th><th class="n">P95</th><th class="n">Hrs &gt;$200</th><th class="n">Neg hrs</th><th class="n">Gas $/MMBtu</th><th class="n">Engine cost</th><th class="n">Spark spread</th><th class="n">Solar capture</th><th class="n">Wind capture</th><th class="n">Solar PPA value</th><th class="n">Wind PPA value</th></tr></thead><tbody>' +
+    t.map(y => { const sp = y.atc - y.recip, sv = y.solar_cap - K.solar, wv = y.wind_cap - K.wind;
+      return `<tr><td>Y${y.year}</td><td class="n">${fmt(y.atc, 2)}</td><td class="n">${fmt(y.onpk, 2)}</td><td class="n">${fmt(y.offpk, 2)}</td><td class="n">${fmt(y.p95, 2)}</td><td class="n">${fmt(y.spike_h)}</td><td class="n">${fmt(y.neg_h)}</td><td class="n">${fmt(y.gas, 2)}</td><td class="n">${fmt(y.recip, 2)}</td><td class="n ${sp >= 0 ? 'pos' : 'neg'}">${fmt(sp, 2)}</td><td class="n">${fmt(y.solar_cap, 2)}</td><td class="n">${fmt(y.wind_cap, 2)}</td><td class="n ${sv >= 0 ? 'pos' : 'neg'}">${fmt(sv, 2)}</td><td class="n ${wv >= 0 ? 'pos' : 'neg'}">${fmt(wv, 2)}</td></tr>`; }).join('') + '</tbody>';
+}
+
+/* ---------- PORT ---------- */
+function buildPort() {
+  const n1 = D.n1;
+  $('#portkpis').innerHTML = [
+    ['Opens / full demand', `M${B.open} / M${B.open + 10}`, 'commissioning ramp 10 months'], ['Total decision cost', M(B.total), fmt(B.cost, 2) + ' $/MWh requested'],
+    ['Intensity', fmt(B.kg) + ' kg', 'CO₂/MWh incl. remote'], ['Clean share', fmt(B.clean * 100) + '%', 'annual, checker'],
+    ['Hourly clean matching', fmt(D.cov.matched * 100) + '%', fmt(D.cov.full * 100) + '% of hours fully clean'],
+    ['Curtailed clean', fmt(D.curt.mwh / 1e3) + ' GWh', M(D.curt.usd) + ' paid, unused'],
+    ['Tier 1 / Tier 2', fmt(B.t1) + ' / ' + fmt(B.t2), 'MWh relocated / interrupted'],
+    ['N-1', n1.hours_short > 0 ? fmt(n1.hours_short) + ' h short' : 'covered', fmt(n1.lost_mw) + ' MW ' + n1.lost.toLowerCase() + ' out', n1.hours_short > 0 ? 'warn' : 'ok']]
+    .map(([l, v, s, cls]) => `<div class="k ${cls || ''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  $('#captbl').innerHTML = '<thead><tr><th>Resource</th><th class="n">MW</th><th>Where</th></tr></thead><tbody>' +
+    Object.entries(B.caps).map(([k, v]) => `<tr><td>${D.labels[k]}</td><td class="n">${fmt(v)}</td><td>${['utility_solar', 'wind', 'nuclear'].includes(k) ? 'offsite contract' : 'onsite'}</td></tr>`).join('') + '</tbody>';
+  $('#capnote').innerHTML = `With N-1 as a must-have: <b>${mix(D.n1best.caps)}</b> at <b>${fmt(D.n1best.cost, 2)} $/MWh</b> (+${fmt(D.n1best.cost - B.cost, 2)}), zero unservable hours.`;
+  $('#why').innerHTML = D.explanation.map(e => '<li>' + e.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</li>').join('');
+  $('#alts').innerHTML = D.alternatives.map(a => `<div class="alt"><h3>${a.name.toUpperCase()}</h3><div style="color:var(--dim)">${a.tagline}</div>
+    <div>${fmt(a.cost, 2)} $/MWh · ${fmt(a.kg)} kg/MWh · ${mix(a.mix)}</div>
+    ${a.gains.length ? '<div class="g">+ ' + a.gains.join('; ') + '</div>' : ''}${a.gives.length ? '<div class="x">− ' + a.gives.join('; ') + '</div>' : ''}<div class="w">${a.when}</div></div>`).join('');
+}
+
+/* ---------- TRDE ---------- */
+function buildTrde() {
+  const ok = D.candidates.filter(c => c.ok);
+  chart('dates', {type: 'line', data: {labels: ok.map(c => 'M' + c.open), datasets: [
+      {label: '$/MWh requested', data: ok.map(c => c.cost), borderColor: C('amber'), backgroundColor: C('amber'), yAxisID: 'y', pointRadius: ok.map(c => c.open === B.open ? 7 : 3)},
+      {label: 'kg CO₂/MWh', data: ok.map(c => c.kg), borderColor: C('cyan'), backgroundColor: C('cyan'), borderDash: [4, 3], yAxisID: 'y2'}]},
+    options: {scales: {y: {title: {display: true, text: '$/MWh'}}, y2: {position: 'right', grid: {display: false}, title: {display: true, text: 'kg/MWh'}}}}});
+  const ks = Object.keys(D.scores).map(Number).sort((a, b) => a - b); const base = Math.min(...ks.map(k => D.scores[k].common));
+  chart('score', {type: 'bar', data: {labels: ks.map(k => 'M' + k), datasets: [
+      {label: 'Common cost above cheapest', data: ks.map(k => (D.scores[k].common - base) / 1e6), backgroundColor: C('amber')},
+      {label: `Carbon at $${fmt(D.carbon_price)}/t`, data: ks.map(k => D.scores[k].carbon / 1e6), backgroundColor: C('good')},
+      {label: `Delay at ${M(D.value_per_month)}/month`, data: ks.map(k => D.scores[k].delay / 1e6), backgroundColor: C('cyan')}]},
+    options: {scales: {x: {stacked: true}, y: {stacked: true, title: {display: true, text: '$M (lower wins)'}}}}});
+  $('#datetbl').innerHTML = '<thead><tr><th>Open</th><th>Full</th><th>Status</th><th class="n">$/MWh</th><th class="n">kg/MWh</th><th>Portfolio MW</th></tr></thead><tbody>' +
+    D.candidates.map(c => `<tr class="${c.open === B.open ? 'sel' : ''}"><td>M${c.open}</td><td>M${c.open + 10}</td><td>${c.ok ? 'meets must-haves' : 'fails'}</td><td class="n">${fmt(c.cost, 2)}</td><td class="n">${fmt(c.kg)}</td><td>${mix(c.mix)}</td></tr>`).join('') + '</tbody>';
+}
+
+/* ---------- STRS ---------- */
+function buildStrs() {
+  const st = D.stress; const pal = {Wind: C('cyan'), Solar: C('amber'), Merchant: '#7D8B9C', Turbine: '#B5835A', Engines: '#D9A66B', 'Fuel cells': '#E8C27A', Battery: C('good'), 'Tier 1 moved': C('violet'), 'Tier 2 cut': C('bad')};
+  const shade = {id: 'shade', beforeDatasetsDraw(c) { const {ctx, chartArea: a, scales: {x}} = c; ctx.save(); ctx.fillStyle = 'rgba(255,176,0,0.10)';
+    st.stress.forEach((v, i) => { if (v) { const x0 = x.getPixelForValue(i) - (x.width / st.stress.length) / 2; ctx.fillRect(x0, a.top, x.width / st.stress.length, a.bottom - a.top); } }); ctx.restore(); }};
+  chart('stress', {type: 'line', plugins: [shade], data: {labels: st.hours.map(h => h % 24 + ':00'), datasets: [
+      ...Object.entries(st.series).map(([k, v]) => ({label: k, data: v, fill: true, stack: 's', backgroundColor: pal[k] + 'CC', borderColor: pal[k], borderWidth: 0.5, pointRadius: 0})),
+      {label: 'Demand', data: st.load, borderColor: '#FFFFFF', borderWidth: 2, pointRadius: 0, fill: false, stack: 'd'},
+      {label: 'Import limit', data: st.limit, borderColor: C('bad'), borderDash: [6, 4], borderWidth: 2, pointRadius: 0, fill: false, stack: 'l'},
+      {label: 'Tier 0 protected', data: st.tier0, borderColor: C('violet'), borderDash: [2, 3], borderWidth: 1.5, pointRadius: 0, fill: false, stack: 't'}]},
+    options: {interaction: {mode: 'index', intersect: false}, scales: {y: {stacked: true, title: {display: true, text: 'MW'}}, x: {ticks: {maxTicksLimit: 18}}}}});
+  const n = D.n1;
+  $('#n1kpis').innerHTML = [['Unit removed', fmt(n.lost_mw) + ' MW', n.lost], ['Unservable hours', fmt(n.hours_short), fmt(n.hours_short_stress) + ' during stress events', n.hours_short > 0 ? 'warn' : 'ok'],
+    ['Worst hour', fmt(n.worst_mw, 1) + ' MW', 'short even after all permitted flexibility'], ['Expected consequence', M(n.expected_consequence_usd), '3% forced-outage planning assumption'],
+    ['Fix', mix(D.n1best.caps), fmt(D.n1best.cost, 2) + ' $/MWh with N-1 must-have', 'ok']]
+    .map(([l, v, s, cls]) => `<div class="k ${cls || ''}"><div class="l">${l}</div><div class="v" style="${l === 'Fix' ? 'font-size:13px' : ''}">${v}</div><div class="s">${s}</div></div>`).join('');
+  $('#n1tbl').innerHTML = '<thead><tr><th>Add one block of</th><th class="n">MW</th><th class="n">Capacity charge / yr</th><th>Covers worst hour</th><th class="n">Available</th></tr></thead><tbody>' +
+    n.options.map(o => `<tr><td>${o.resource}</td><td class="n">${fmt(o.block_mw)}</td><td class="n">${M(o.annual_cost_usd)}</td><td>${o.covers_worst_hour ? 'yes' : 'no'}</td><td class="n">M${o.available_month}</td></tr>`).join('') + '</tbody>';
+}
+
+/* ---------- YEAR ---------- */
+function buildYear() {
+  const a = D.annual.filter(y => y.requested_mwh > 0);
+  chart('annual', {type: 'bar', data: {labels: a.map(y => 'Y' + y.model_year), datasets: [
+      {label: 'Total decision cost ($M)', data: a.map(y => y.total_decision_cost_usd / 1e6), backgroundColor: C('amber'), yAxisID: 'y'},
+      {type: 'line', label: 'kg CO₂/MWh', data: a.map(y => y.combined_electricity_co2_kg_per_mwh), borderColor: C('cyan'), backgroundColor: C('cyan'), yAxisID: 'y2'}]},
+    options: {scales: {y: {title: {display: true, text: '$M'}}, y2: {position: 'right', grid: {display: false}, title: {display: true, text: 'kg/MWh'}}}}});
+  const sp = D.spikes;
+  chart('spikes', {type: 'bar', data: {labels: sp.years.map(y => 'Y' + y), datasets: [
+      {label: 'If all-merchant', data: sp.base.map(v => v / 1e6), backgroundColor: '#7D8B9C'},
+      {label: 'This portfolio', data: sp.port.map(v => v / 1e6), backgroundColor: C('bad')}]},
+    options: {scales: {y: {title: {display: true, text: '$M above $200/MWh'}}}}});
+  $('#cleankpis').innerHTML = [['Annual clean share', fmt(B.clean * 100) + '%', 'checker definition'], ['Hourly matching', fmt(D.cov.matched * 100) + '%', 'clean in the same hour'],
+    ['Hours fully clean', fmt(D.cov.full * 100) + '%', 'of operating hours'], ['Curtailed clean energy', fmt(D.curt.mwh / 1e3) + ' GWh', M(D.curt.usd) + ' paid for, unused'],
+    ['Spike premium', M(sp.port_total), 'vs ' + M(sp.base_total) + ' all-merchant'], ['Peak price seen', '$' + fmt(sp.pmax), 'per MWh']]
+    .map(([l, v, s]) => `<div class="k"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+}
+
+/* ---------- plan, stage bar, ledger ---------- */
+function P() { return D.stage[PLAN]; }
+function setPlan(p) { PLAN = p; $('#plan').value = p; ['ic', 'struct', 'mon'].forEach(v => built[v] = false);
+  renderStages(); const cur_ = VIEWS.find(([id]) => !$('#v-' + id).hidden); if (cur_) { built[cur_[0]] = false; show(cur_[0]); } }
+$('#plan').addEventListener('change', e => setPlan(e.target.value));
+function renderStages() {
+  const st = P(), b = st.best, hi = st.triggers.filter(t => t.severity === 'high').length;
+  const pick = $('#obs') && $('#obs').checked ? st.pick_obs : st.pick;
+  const cards = [
+    ['screen', '1 · SCREEN', PLAN === 'TX' ? 'Base case: Williamson Co.' : 'Screened site: Ohio', PICKTXT ? 'Screen pick: ' + PICKTXT.toLowerCase() : 'ERCOT benchmark', 'info'],
+    ['ic', '2 · INTERCONNECT', st.decision.verdict, `grid P50 +${st.en.P50}m · P90 +${st.en.P90}m · ${st.grid}`, ['WAIT', 'BRIDGE'].includes(st.decision.verdict) ? '' : 'bad'],
+    ['gen', '3 · GENERATE', `Open M${b.open} · ${fmt(b.cost, 2)} $/MWh`, mix(b.mix), ''],
+    ['struct', '4 · STRUCTURE', pick ? pick.split(' (')[0].split(' +')[0] : 'No fit', pick || '', pick ? '' : 'bad'],
+    ['mon', '5 · MONITOR', `${st.triggers.length} triggers armed`, `${hi} high-severity`, hi ? 'warn' : '']];
+  $('#stagebar').innerHTML = cards.map(([v, n, val, sub, cls]) => `<button class="sb ${cls}" data-v="${v}"><div class="n">${n}</div><div class="v">${val}</div><div class="s">${sub}</div></button>`).join('');
+  $('#plannote').textContent = PLAN === 'TX' ? 'Benchmark: every figure from the packet checker.' : 'Screened site: regionally scaled inputs, labelled screening estimates.';
+  const led = [['Site', PLAN === 'TX' ? 'Williamson County, TX (benchmark)' : 'Ohio, US (screened)'], ['Grid region', `${st.grid} · P50 +${st.en.P50}m`],
+    ['Interconnect', st.decision.verdict], ['Opening', `M${b.open} → full M${b.open + 10}`], ['Portfolio', mix(b.mix)],
+    ['Cost / carbon', `${fmt(b.cost, 2)} $/MWh · ${fmt(b.kg)} kg/MWh`], ['Structure', pick || 'none fits'],
+    ['Valuations', `${M(D.value_per_month)}/month · $${fmt(D.carbon_price)}/t`], ['Triggers', `${st.triggers.length} armed`]];
+  $('#ledger').innerHTML = led.map(([a, v]) => `<span><b>${a}</b>${v}</span>`).join('');
+}
+$('#stagebar').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.v); });
+
+/* ---------- INTERCONNECT ---------- */
+function buildIC() {
+  const st = P(), dp = st.dp;
+  $('#ichdr').textContent = (PLAN === 'TX' ? 'Williamson County, TX' : 'Ohio') + ' · ' + st.grid;
+  $('#icverdict').className = 'verdict' + (['WAIT', 'BRIDGE'].includes(st.decision.verdict) ? '' : ' bad');
+  $('#icverdict').innerHTML = `<b>Decision: ${st.decision.verdict}.</b> ${st.decision.text}`;
+  $('#ickpis').innerHTML = [['Energization P10 / P50 / P90', `+${st.en.P10} / +${st.en.P50} / +${st.en.P90} mo`, 'vs benchmark schedule'],
+    ['Grid full (75 MW)', 'M' + (30 + st.delay), 'P90 M' + (30 + st.en.P90)], ['Indicative upgrade', M(st.upgrade), `$${st.upg_kw}/kW screening`],
+    ['Bridge power needed', fmt(dp.bridge_mw) + ' MW', fmt(dp.gap_mwm) + ' MW-months of gap'],
+    ['Break-even value of time', st.decision.breakeven ? M(st.decision.breakeven) + '/mo' : '–', 'bridge above it, wait below']]
+    .map(([l, v, s]) => `<div class="k"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  chart('dpower', {type: 'line', data: {labels: dp.months, datasets: [
+      {label: 'Power gap', data: dp.gap, fill: 'origin', backgroundColor: 'rgba(240,84,84,0.28)', borderWidth: 0, pointRadius: 0, stepped: true},
+      {label: 'Grid import cap (P50)', data: dp.grid, borderColor: C('cyan'), borderWidth: 2, pointRadius: 0, stepped: true},
+      {label: 'Grid + onsite firm', data: dp.firm, borderColor: C('amber'), borderWidth: 2, pointRadius: 0, stepped: true},
+      {label: 'Demand peak', data: dp.demand, borderColor: '#FFFFFF', borderDash: [3, 3], borderWidth: 2, pointRadius: 0, stepped: true},
+      {label: 'Grid cap at P90 slip', data: dp.grid90, borderColor: C('cyan'), borderDash: [6, 4], borderWidth: 1, pointRadius: 0, stepped: true}]},
+    options: {scales: {x: {title: {display: true, text: 'development month'}, ticks: {maxTicksLimit: 13}}, y: {title: {display: true, text: 'MW'}, min: 0}}}});
+  $('#icpath').textContent = st.path;
+  $('#ictbl').innerHTML = '<thead><tr><th>Option</th><th>Opens</th><th class="n">$/MWh</th><th>Portfolio</th></tr></thead><tbody>' +
+    st.options.map(o => `<tr><td>${o.name}</td><td>M${o.open}</td><td class="n">${o.ok ? fmt(o.cost, 2) : 'infeasible'}</td><td style="white-space:normal">${mix(o.mix)}</td></tr>`).join('') + '</tbody>';
+}
+
+/* ---------- STRUCTURE ---------- */
+function buildDeals() {
+  const st = P(); const obs = $('#obs').checked;
+  $('#dealhdr').textContent = PLAN === 'TX' ? 'benchmark plan' : 'Ohio plan';
+  const pick = obs ? st.pick_obs : st.pick, why = obs ? st.why_obs : st.why;
+  $('#dealverdict').innerHTML = pick ? `<b>Recommended structure: ${pick}.</b> ${why}.` : why;
+  $('#dealtbl').innerHTML = '<thead><tr><th>Structure</th><th class="n">Total</th><th class="n">$/MWh</th><th class="n">Upfront capital</th><th class="n">Committed</th><th>Tenor</th><th>Balance sheet</th></tr></thead><tbody>' +
+    st.deals.map(d => `<tr class="${d.structure === pick ? 'sel' : ''}"><td>${d.structure === pick ? '★ ' : ''}${d.structure}</td><td class="n">${M(d.total_usd)}</td><td class="n">${fmt(d.usd_per_mwh, 2)}</td><td class="n">${M(d.upfront_usd)}</td><td class="n">${M(d.committed_usd)}</td><td>${d.tenor}</td><td>${d.balance_sheet}</td></tr>`).join('') + '</tbody>';
+  const keys = Object.keys(st.deals[0].risks);
+  $('#risktbl').innerHTML = '<thead><tr><th>Risk</th>' + st.deals.map(d => `<th>${d.structure.split(' (')[0].split(' +')[0]}</th>`).join('') + '</tr></thead><tbody>' +
+    keys.map(k => `<tr><td>${k}</td>${st.deals.map(d => `<td>${d.risks[k]}</td>`).join('')}</tr>`).join('') + '</tbody>';
+}
+$('#obs').addEventListener('change', () => { buildDeals(); renderStages(); });
+
+/* ---------- MONITOR ---------- */
+const STEPS = {gas_engine: [6, 14, 6, 16], gas_turbine: [14, 36, 10, 18], fuel_cell: [4, 9, 4, 14], battery_4h: [4, 10, 5, 14], utility_solar: [0, 6, 0, 24], wind: [0, 6, 0, 12], nuclear: [0, 12, 0, 60]};
+function buildMon() {
+  const st = P(); const sevc = {high: C('bad'), medium: C('warn'), low: C('good')};
+  $('#monhdr').textContent = PLAN === 'TX' ? 'benchmark plan' : 'Ohio plan';
+  $('#trigtbl').innerHTML = '<thead><tr><th></th><th>Trigger</th><th>Watch</th><th>Impact if it fires</th><th>Action</th></tr></thead><tbody>' +
+    st.triggers.map(t => `<tr><td><span class="sev" style="background:${sevc[t.severity]}"></span></td><td>${t.trigger}</td><td>${t.watch}</td><td style="white-space:normal">${t.impact}</td><td style="white-space:normal">${t.action}</td></tr>`).join('') + '</tbody>';
+  const b = st.best;
+  $('#exectbl').innerHTML = '<thead><tr><th>Resource</th><th class="n">MW</th><th class="n">Needed</th><th class="n">File permit by</th><th class="n">Order / sign by</th><th>Status at month 0</th></tr></thead><tbody>' +
+    Object.entries(b.mix).map(([k, mw]) => { const [pm, pr, bu, av] = STEPS[k]; const need = Math.max(b.open, av); const onsite = !['utility_solar', 'wind', 'nuclear'].includes(k);
+      const permit = need - bu - pm, order = onsite ? need - bu - pr : need - pr, first = Math.min(pm ? permit : 1e9, order);
+      return `<tr><td>${D.labels[k]}</td><td class="n">${fmt(mw)}</td><td class="n">M${need}</td><td class="n">${pm ? 'M' + permit : '–'}</td><td class="n">M${order}</td><td>${first < 0 ? `<span style="color:var(--bad)">late by ${-first} mo: secure the delivery slot</span>` : `<span style="color:var(--good)">${first} mo slack</span>`}</td></tr>`; }).join('') + '</tbody>';
+}
+
+renderStages();
+const H0 = (location.hash || '#screen').slice(1);
+show(CODES[H0.toUpperCase()] || H0);
+</script>
