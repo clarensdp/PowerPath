@@ -240,7 +240,7 @@ legal advice. Capacity charges in slip scenarios follow the common rule from the
 
 Built with AI assistance (Claude, Anthropic) for code and documentation; the team reviewed and is
 responsible for the results. Libraries: NumPy, pandas, SciPy (HiGHS), Streamlit, Plotly. The
-packet's `check_submission.py` is imported unchanged for inputs and accounting. No additional data.
+packet's `check_submission.py` is imported unchanged for inputs and accounting. Additional screening data and AI-use details: see the root `README.md` (Disclosure). The benchmark result uses packet data only.
 
 
 ## Revised release: reproducibility and compliance boundaries
