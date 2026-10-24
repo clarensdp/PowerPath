@@ -236,7 +236,7 @@ with _boot.container():
     st.markdown(f"# PowerPath ⟩ {S.get('site_label', 'Williamson County, TX (benchmark)')}")
     st.markdown('<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid #1C2633;margin-bottom:10px">'
                 + "".join(f'<div style="padding:6px 10px;color:#8FA3B8;font-size:.72rem;letter-spacing:.12em">{n}<div style="color:#3b4a5c;font-size:.9rem;letter-spacing:0">computing…</div></div>'
-                          for n in ["1 · SCREEN", "2 · INTERCONNECT", "3 · GENERATE", "4 · STRUCTURE", "5 · MONITOR"]) + "</div>",
+                          for n in ["1 · SCREEN", "2 · INTERCONNECT", "3 · GENERATE", "4 · FINANCE", "5 · EXECUTE"]) + "</div>",
                 unsafe_allow_html=True)
     _msg = st.empty()
     _msg.info("**Sizing portfolios and checking all 87,600 hours.** The first run for a new set of inputs takes about "
@@ -334,8 +334,8 @@ if best is not None:
               "good" if _dl["verdict"] in ("WAIT", "BRIDGE") else "bad"),
         _card("3", "GENERATE", f"Open M{best.scenario.initial_service_month} · {best.metrics['decision_cost_usd_per_requested_mwh']:.2f} $/MWh",
               ", ".join(f"{c:.0f} {SHORT[k].lower()}" for k, c in best.caps.items() if c > 0), "good"),
-        _card("4", "STRUCTURE", (_pick["structure"].split(" (")[0] if _pick else "No fit"), DEALS[2][:60], "good" if _pick else "bad"),
-        _card("5", "MONITOR", f"{len(TRIG)} triggers armed", f"{_high} high-severity", "warn" if _high else "good"),
+        _card("4", "FINANCE", (_pick["structure"].split(" (")[0] if _pick else "No fit"), DEALS[2][:60], "good" if _pick else "bad"),
+        _card("5", "EXECUTE", f"{len(TRIG)} triggers armed", f"{_high} high-severity", "warn" if _high else "good"),
     ]
     st.markdown('<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">' + "".join(cards) + "</div>",
                 unsafe_allow_html=True)
@@ -357,7 +357,7 @@ if best is not None:
         st.markdown("\n".join(f"- **{a}**: {b}" for a, b in led))
 
 T_SCREEN, T_IC, T_GEN, T_STRUCT, T_EXMON, TAB_HOW, TAB_EXP = st.tabs(
-    ["1 ⟩ SCREEN", "2 ⟩ INTERCONNECT", "3 ⟩ GENERATE", "4 ⟩ STRUCTURE", "5 ⟩ EXECUTE & MONITOR", "METHOD", "EXPORT"])
+    ["1 ⟩ SCREEN", "2 ⟩ INTERCONNECT", "3 ⟩ GENERATE", "4 ⟩ FINANCE", "5 ⟩ EXECUTE", "METHOD", "EXPORT"])
 TAB_SITE = T_SCREEN
 with T_GEN:
     TAB_REC, TAB_EXPLAIN, TAB_TRADE, TAB_STRESS = st.tabs(["Recommendation", "Explain", "Speed · cost · CO₂", "Stress & N-1"])
@@ -566,7 +566,8 @@ with TAB_DEAL:
     if best is None or DEALS is None:
         st.info("No feasible plan to structure.")
     else:
-        st.subheader("Structure · how to own and pay for the plan")
+        st.subheader("Finance · how to own and pay for the plan")
+        st.caption("The full project-returns model (NPV, IRR, DSCR, probability of profit, assumption plug-ins) is on the terminal page: team_app/terminal/powerpath_terminal.html → FINANCE.")
         c1, c2, c3 = st.columns([1, 1, 2])
         c1.checkbox("Limit upfront capital", key="deal_cap_on")
         c2.number_input("Max upfront $M", 0, 2000, step=10, key="deal_cap", disabled=not S.get("deal_cap_on", False))
@@ -594,7 +595,7 @@ with TAB_MON:
     if best is None:
         st.info("No plan to monitor yet.")
     else:
-        st.subheader("Monitor · what would change this decision")
+        st.subheader("Execute · what would change this decision")
         sev = {"high": "🔴", "medium": "🟠", "low": "🟢"}
         tdf = pd.DataFrame([{"": sev[t["severity"]], "Trigger": t["trigger"], "Watch": t["watch"], "Impact if it fires": t["impact"],
                              "Action": t["action"]} for t in TRIG])
