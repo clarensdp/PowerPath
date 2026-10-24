@@ -1,6 +1,6 @@
-# PowerPath v7 — one decision layer for large-load power
+# PowerPath v10 — one decision layer for large-load power
 
-**v7 contents:** the Streamlit decision terminal (`team_app/app.py`, five stages: Screen → Interconnect →
+**v10 contents:** the Streamlit decision terminal (`team_app/app.py`, five stages: Screen → Interconnect →
 Generate → Finance → Execute) and the standalone terminal page (`team_app/terminal/powerpath_terminal.html`):
 market ticker (prices + news, as of the Oct 22, 2026 session), custom location screener across 68 locations
 with saved screeners and a locked base case, CapIQ-style power market strip (ATC / on- / off-peak, spark
@@ -21,7 +21,7 @@ lowest-wind week, January week, whole year), with monthly output by source and d
 The browser model re-dispatches all 87,600 hours by merit order and lands within ~1% of the engine's $/MWh and on the
 same kg/MWh for every engine plan (`tools/build_terminal_5_gen.py` exports the inputs).
 
-**Interconnect explorer (page, v7.1):** for the top-10 screened states plus Ohio, the Interconnect tab shows today's grid mix
+**Interconnect explorer (page):** for the top-10 screened states plus Ohio, the Interconnect tab shows today's grid mix
 (EIA 2024 state profiles, rounded) next to the PowerPath portfolio, speed to connection (grid P10/P50/P90, onsite
 permit → procure → build back-plan) and live assumptions: grid wait, P10–P90 spread, upgrade $/kW, value of time and
 per-resource lead times. Wait and bridge plans come from engine runs at grid waits of 0/6/12/18/24/36 months per state
