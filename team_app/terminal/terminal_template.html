@@ -215,13 +215,13 @@ td{border-bottom-color:#10161e}
 
 <div class="shell">
   <div class="top">
-    <div class="brand">⚡ POWERPATH<small>ONE DECISION LAYER · SCREEN → INTERCONNECT → GENERATE → STRUCTURE → EXECUTE</small></div>
-    <div class="planpick" title="Active plan drives Interconnect, Generate, Structure and Execute">
+    <div class="brand">⚡ POWERPATH<small>ONE DECISION LAYER · SCREEN → INTERCONNECT → GENERATE → FINANCE → EXECUTE</small></div>
+    <div class="planpick" title="Active plan drives Interconnect, Generate, Finance and Execute">
       <label for="plan">PLAN</label>
       <select id="plan"><option value="TX">Williamson Co., TX · benchmark</option><option value="OH">Ohio · screened (PJM)</option></select></div>
     <form class="cmd" id="cmdform" autocomplete="off">
       <label for="cmd">CMD&gt;</label>
-      <input id="cmd" placeholder="Go to: SCREEN, IC, GEN, STRUCT, MON · a ZIP or state · PLAN OH" aria-label="Command">
+      <input id="cmd" placeholder="Go to: SCREEN, IC, GEN, FINANCE, EXECUTE · a ZIP or state · PLAN OH" aria-label="Command">
       <button type="submit">GO</button>
     </form>
   </div>
@@ -306,7 +306,9 @@ td{border-bottom-color:#10161e}
     <div class="grid">
       <div class="p c12"><h2>Interconnect · wait for the grid, bridge with onsite power, or walk away <em id="ichdr"></em></h2>
         <div class="chips" id="icstates" role="group" aria-label="State"></div>
+        <div class="note" style="max-width:none">Two ways to get power to the campus: <b>A · wait</b> until the utility connection is ready, or <b>B · bridge</b>: open sooner by running onsite generation (gas turbine, engines, fuel cells, batteries) until the grid is fully connected, then lean on the grid. B costs more but starts operations earlier.</div>
         <div class="verdict" id="icverdict"></div>
+        <div class="alts" id="icab"></div>
         <div class="kpis" id="ickpis"></div></div>
       <div class="p c8"><h2>Deliverable power <em id="dphdr">MW available by month vs the demand ramp</em></h2>
         <div class="cv tall"><canvas id="dpower"></canvas></div>
@@ -334,6 +336,9 @@ td{border-bottom-color:#10161e}
         <div class="kpis" id="portkpis"></div>
         <details class="more"><summary>More metrics</summary><div class="kpis" id="portkpis2"></div></details>
       </div>
+      <div class="p c12"><h2>Customer requests · how the recommendation changes <em>each re-optimized and checked by the packet checker</em></h2>
+        <div class="tw"><table id="reqtbl"></table></div>
+        <div class="note">Preferences (speed, cost, clean) are converted into dollars and traded off; must-haves are hard constraints the optimizer cannot break. Click a row to load that portfolio into the builder below.</div></div>
       <div class="p c12"><h2>Portfolio builder · change the mix, see the unit cost <em>fast hourly model · all 87,600 hours</em></h2>
         <div class="row" style="flex-wrap:wrap;gap:8px;align-items:center"><div class="chips" id="gbpre" role="group" aria-label="Start from"></div>
           <label style="font-size:11.5px;color:var(--dim)">Opens <select id="gbopen" aria-label="Opening month"></select></label></div>
@@ -400,7 +405,7 @@ td{border-bottom-color:#10161e}
 
   <section class="view" id="v-struct" hidden>
     <div class="grid">
-      <div class="p c12"><h2>Structure · project financials and feasibility <em>10-year model · pre-tax · real 2023 $</em></h2>
+      <div class="p c12"><h2>Finance · project returns and feasibility <em>10-year model · pre-tax · real 2023 $</em></h2>
         <div class="row" style="flex-wrap:wrap;gap:6px;align-items:center" id="fsrc"></div>
         <div class="verdict" id="fverdict"></div>
         <div class="kpis" id="fkpi"></div></div>
@@ -412,7 +417,7 @@ td{border-bottom-color:#10161e}
       <div class="p c6"><h2>What moves NPV most <em>one driver at a time</em></h2><div class="tw"><table id="ftorn"></table></div></div>
       <div class="p c12"><details class="more"><summary>Ownership structures and risk allocation (own vs tolling vs utility tariff)</summary>
         <div class="grid" style="margin-top:8px">
-      <div class="p c12"><h2>Structure · how to own and pay for the plan <em id="dealhdr"></em></h2>
+      <div class="p c12"><h2>Ownership structure · how to own and pay for the plan <em id="dealhdr"></em></h2>
         <div class="row"><input type="checkbox" id="obs"><label for="obs">Prefer off-balance-sheet (accept up to 5% higher cost)</label></div>
         <div class="verdict" id="dealverdict"></div>
         <div class="tw"><table id="dealtbl"></table></div></div>
@@ -443,7 +448,7 @@ td{border-bottom-color:#10161e}
         <div class="verdict" id="exnow"></div>
         <div class="tw"><table id="exectbl"></table></div>
         <div class="note">Back-planned from each unit's need date with planning lead times (permit → order → build). Edit lead times on the Interconnect tab.</div></div>
-      <div class="p c12"><h2>What would change the decision <em>each trigger priced through the Structure model</em></h2>
+      <div class="p c12"><h2>What would change the decision <em>each trigger priced through the Finance model</em></h2>
         <div class="tw"><table id="trigfin"></table></div>
         <details class="more"><summary>Operational triggers from the engine (P90 grid slip, largest unit, curtailment)</summary>
           <div class="tw"><table id="trigtbl"></table></div>
@@ -507,8 +512,8 @@ function renderTicker() {
 renderTicker();
 
 /* ---------- function keys / routing ---------- */
-const VIEWS = [['screen', 'F1', '1 SCREEN'], ['ic', 'F2', '2 INTERCONNECT'], ['gen', 'F3', '3 GENERATE'], ['struct', 'F4', '4 STRUCTURE'], ['mon', 'F5', '5 EXECUTE']];
-const CODES = {SCREEN: 'screen', SITE: 'screen', IC: 'ic', INTERCONNECT: 'ic', GEN: 'gen', GENERATE: 'gen', PORT: 'gen', STRUCT: 'struct', STRUCTURE: 'struct', DEAL: 'struct', MON: 'mon', MONITOR: 'mon', EXEC: 'mon', EXECUTE: 'mon'};
+const VIEWS = [['screen', 'F1', '1 SCREEN'], ['ic', 'F2', '2 INTERCONNECT'], ['gen', 'F3', '3 GENERATE'], ['struct', 'F4', '4 FINANCE'], ['mon', 'F5', '5 EXECUTE']];
+const CODES = {SCREEN: 'screen', SITE: 'screen', IC: 'ic', INTERCONNECT: 'ic', GEN: 'gen', GENERATE: 'gen', PORT: 'gen', STRUCT: 'struct', STRUCTURE: 'struct', DEAL: 'struct', FIN: 'struct', FINANCE: 'struct', MON: 'mon', MONITOR: 'mon', EXEC: 'mon', EXECUTE: 'mon'};
 let PLAN = 'TX';
 let CURV = 'screen';
 let built = {};
@@ -516,7 +521,7 @@ function show(v) {
   if (!VIEWS.some(x => x[0] === v)) v = 'screen';
   CURV = v;
   VIEWS.forEach(([id]) => { $('#v-' + id).hidden = id !== v; const t = $('#t-' + id); if (t) t.setAttribute('aria-selected', id === v); });
-  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildGB(); buildTrde(); buildStrs(); }, struct: () => { buildFin(); buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
+  if (!built[v]) { ({screen: buildSite, ic: buildIC, gen: () => { buildPort(); buildReq(); buildGB(); buildTrde(); buildStrs(); }, struct: () => { buildFin(); buildDeals(); buildYear(); }, mon: buildMon})[v](); built[v] = true; }
   try { history.replaceState(null, '', '#' + v); } catch (e) {}
 }
 
@@ -713,20 +718,18 @@ const RES_INFO = {
   fuel_cell: {name: 'Fuel cells', where: 'Onsite (0.05 acre/MW)', block: 5, kind: 'unit', role: 'The only firm onsite option at month 14; lowest-emitting gas unit'},
   battery_4h: {name: '4-hour battery', where: 'Onsite (0.15 acre/MW)', block: 1, kind: 'unit', role: 'Shifts clean energy into stress hours; stores, does not generate'}};
 function buildPortfolio(s) {
-  const rows = Object.entries(s.mix).map(([k, mw]) => {
-    const r = RES_INFO[k]; const n = Math.round(mw / r.block);
-    const phys = r.kind === 'unit' ? `${n} × ${r.block} MW ${k === 'battery_4h' ? 'blocks (' + fmt(mw * 4) + ' MWh)' : 'units'}`
-      : `${n} × 5 MW contract blocks ≈ ${fmt(mw / r.typical, 1)}× a typical ${r.typical} MW ${r.unit}`;
-    return `<tr><td>${r.name}</td><td class="n">${fmt(mw)}</td><td>${phys}</td><td>${r.where}</td><td style="white-space:normal">${r.role}</td></tr>`;
-  });
-  rows.push(`<tr><td>Merchant grid</td><td class="n">–</td><td>No capacity bought</td><td>Grid, within the import limit</td><td style="white-space:normal">Fills the remaining hours at the hourly price</td></tr>`);
-  $('#porttbl').innerHTML = '<thead><tr><th>Resource</th><th class="n">MW</th><th>What that is physically</th><th>Where</th><th>Role in the plan</th></tr></thead><tbody>' + rows.join('') + '</tbody>';
-  const onsite = Object.entries(s.mix).filter(([k]) => RES_INFO[k].kind === 'unit');
-  const acres = onsite.reduce((a, [k, mw]) => a + mw * ({gas_turbine: .1, gas_engine: .05, fuel_cell: .05, battery_4h: .15})[k], 0);
-  const clean = Object.entries(s.mix).filter(([k]) => RES_INFO[k].kind === 'contract').reduce((a, [, mw]) => a + mw, 0);
-  $('#portnote').innerHTML = `Onsite units are real equipment on the campus (${fmt(acres, 1)} of 8 acres used). Solar, wind and nuclear are <b>contracted shares</b> of offsite projects, not plants the campus builds: ` +
-    `${fmt(clean)} MW of contracts serve a 75 MW campus because wind and solar run at about ${fmt(s.wind_cf * 100)}% and ${fmt(s.solar_cf * 100)}% of nameplate here, and every contracted MWh shares the 75 MW import limit. ` +
-    `Typical project sizes (solar ~100 MW, wind ~150 MW) are illustrative for scale only. This portfolio is sized for the default customer opening at month 20.`;
+  const PHYS = {
+    utility_solar: mw => `Offsite solar farm output under contract: about ${fmt(mw * 5)} acres of panels (~5 acres per MW), delivered over the grid`,
+    wind: mw => `Offsite wind farm output under contract: about ${fmt(mw / 4.5)} turbines of 4.5 MW, delivered over the grid`,
+    nuclear: mw => `Contracted share of an existing offsite reactor (about ${fmt(100 * mw / 1000, 1)}% of a 1 GW unit)`,
+    gas_turbine: mw => `${fmt(mw / 25)} × 25 MW gas turbine on campus, about ${fmt(mw * 0.1, 1)} acres`,
+    gas_engine: mw => `${fmt(mw / 5)} × 5 MW gas engines on campus (truck-sized gensets), about ${fmt(mw * 0.05, 1)} acres`,
+    fuel_cell: mw => `${fmt(mw / 5)} × 5 MW fuel-cell stacks on campus (gas-fed, no combustion), about ${fmt(mw * 0.05, 1)} acres`,
+    battery_4h: mw => `${fmt(mw)} MW / ${fmt(mw * 4)} MWh battery on campus, about ${fmt(mw)} shipping-container units`};
+  const rows = Object.entries(s.mix).map(([k, mw]) => `<tr><td>${RES_INFO[k].name}</td><td class="n">${fmt(mw)}</td><td style="white-space:normal">${PHYS[k] ? PHYS[k](mw) : ''}</td></tr>`);
+  rows.push(`<tr><td>Grid connection</td><td class="n">75</td><td style="white-space:normal">Utility service up to 75 MW, phased in from month ${18 + (s.delay || 0)}; contracts and grid purchases share it</td></tr>`);
+  $('#porttbl').innerHTML = '<thead><tr><th>Resource</th><th class="n">MW</th><th>What that is physically</th></tr></thead><tbody>' + rows.join('') + '</tbody>';
+  $('#portnote').innerHTML = `More than 75 MW of solar and wind is contracted because they produce only part of the time (here about ${fmt(s.wind_cf * 100)}% and ${fmt(s.solar_cf * 100)}% of nameplate on average). Onsite units are the firm backup when imports are limited.`;
 }
 function buildStrip(s) {
   const t = s.strip, K = D.contracts, avg = f => t.reduce((a, y) => a + f(y), 0) / t.length;
@@ -848,9 +851,9 @@ function renderStages() {
     ['screen', '1 · SCREEN', PLAN === 'TX' ? 'Base case: Williamson Co.' : 'Screened site: Ohio', PICKTXT ? 'Screen pick: ' + PICKTXT.toLowerCase() : 'ERCOT benchmark', 'info'],
     ['ic', '2 · INTERCONNECT', st.decision.verdict, `grid P50 +${st.en.P50}m · P90 +${st.en.P90}m · ${st.grid}`, ['WAIT', 'BRIDGE'].includes(st.decision.verdict) ? '' : 'bad'],
     ['gen', '3 · GENERATE', `Open M${b.open} · ${fmt(b.cost, 2)} $/MWh`, mix(b.mix), ''],
-    ['struct', '4 · STRUCTURE', pick ? pick.split(' (')[0].split(' +')[0] : 'No fit', pick || '', pick ? '' : 'bad'],
+    ['struct', '4 · FINANCE', pick ? pick.split(' (')[0].split(' +')[0] : 'No fit', pick || '', pick ? '' : 'bad'],
     ['mon', '5 · EXECUTE', `${st.triggers.length} triggers armed`, `${hi} high-severity`, hi ? 'warn' : '']];
-  $('#stagebar').innerHTML = cards.map(([v, n, val, sub, cls], k) => `<button role="tab" id="t-${v}" class="sb ${cls}" data-v="${v}" aria-selected="${v === CURV}" title="${sub.replace(/"/g, '')}"><div class="n">${n}<span class="fkey">F${k + 1}</span></div><div class="v">${val}</div></button>`).join('');
+  $('#stagebar').innerHTML = cards.map(([v, n, val, sub, cls], k) => `<button role="tab" id="t-${v}" class="sb ${cls}" data-v="${v}" aria-selected="${v === CURV}" title="${sub.replace(/"/g, '')}"><div class="n">${n}<span class="fkey">F${k + 1}</span></div></button>`).join('');
   const pickObj = st.deals.find(d => d.structure === pick);
   const hiT = st.triggers.filter(t => t.severity === 'high').map(t => t.trigger);
   const led = [
@@ -862,7 +865,7 @@ function renderStages() {
     ['gen', '3 · Generate', `Open M${b.open}, full M${b.open + 10}: ${mix(b.mix)} MW`,
       `Lowest score of common cost + carbon value + delay value across tested openings · ${fmt(b.cost, 2)} $/MWh, ${fmt(b.kg)} kg/MWh`,
       `Value of a month earlier ${M(D.value_per_month)}, carbon $${fmt(D.carbon_price)}/t; packet catalog, ramp and 87,600-h data`],
-    ['struct', '4 · Structure', pick || 'No structure fits', pickObj ? `${M(pickObj.total_usd)} total, ${M(pickObj.upfront_usd)} upfront, ${pickObj.balance_sheet.toLowerCase()}` : 'Capital limit too tight',
+    ['struct', '4 · Finance', pick || 'No structure fits', pickObj ? `${M(pickObj.total_usd)} total, ${M(pickObj.upfront_usd)} upfront, ${pickObj.balance_sheet.toLowerCase()}` : 'Capital limit too tight',
       'Tolling 10% WACC + 8% margin; tariff $12/kW-mo at 85% min-take (screening)'],
     ['mon', '5 · Execute', `${st.triggers.length} triggers armed`, hiT.length ? 'High: ' + hiT.join('; ') : 'No high-severity triggers',
       'Price/fuel impacts exact for the fixed portfolio; grid slip re-sized at P90']];
@@ -946,8 +949,16 @@ function buildIC() {
   $('#icstates').innerHTML = D.icx_meta.order.map(ab => `<button type="button" class="chip" data-s="${ab}" aria-pressed="${ab === ICS}">${ab === 'OH' ? 'Ohio (alt plan)' : D.icx[ab].name}</button>`).join('');
   $('#ichdr').textContent = x.name + ' · ' + x.grid + (ICS === 'TX' ? ' · benchmark' : ' · screened estimate');
   $('#icverdict').className = 'verdict' + (['WAIT', 'BRIDGE'].includes(o.verdict) ? '' : ' bad');
-  $('#icverdict').innerHTML = `<b>Decision: ${o.verdict}.</b> ${o.text}`;
+  const FRIEND = {WAIT: 'A · wait for the grid', BRIDGE: 'B · bridge with onsite power'};
+  $('#icverdict').innerHTML = `<b>Recommendation: ${FRIEND[o.verdict] || o.verdict}.</b> ${o.text.replace(/Bridging/g, 'Bridging with onsite power')}`;
   const first = 18 + a.d, full = 30 + a.d;
+  const firmMW = r => Object.values((r && r.firm) || {}).reduce((t, [mw]) => t + mw, 0);
+  const card = (pick, tag, title, lines) => `<div class="alt" style="${pick ? 'border-color:var(--amber)' : ''}"><div style="display:flex;justify-content:space-between;gap:6px"><b style="color:var(--amber)">${tag} · ${title}</b>${pick ? '<span class="badge">RECOMMENDED</span>' : ''}</div>${lines.map(l => `<div>${l}</div>`).join('')}</div>`;
+  const WA = o.wait, BR = o.bridge && o.bridge.ok && o.bridge.open < (WA ? WA.open : 999) ? o.bridge : null;
+  $('#icab').innerHTML = card(o.verdict === 'WAIT', 'A', 'Wait for the grid', WA ? [`Opens <b>M${WA.open}</b>, when the first 25 MW of grid arrives`, `${WA.ok ? fmt(WA.cost, 2) + ' $/MWh' : 'infeasible'} · grid full at M${full}`, `Onsite: ${mix(Object.fromEntries(Object.entries(WA.mix).filter(([k]) => FIRM.includes(k)))) || 'none'}`] : ['No feasible plan']) +
+    card(o.verdict === 'BRIDGE', 'B', 'Bridge with onsite power', BR ? [`Opens <b>M${BR.open}</b>, ${o.dm} months sooner`, `${fmt(BR.cost, 2)} $/MWh · ${o.dc > 0 ? M(o.dc) + ' more' : M(-o.dc) + ' cheaper'} over the 90-month basis`, `${fmt(firmMW(BR))} MW onsite carries the campus until the grid is full at M${full}`]
+      : [o.bridge ? `Onsite lead times push the bridge to M${o.bridge.open}, no earlier than the grid` : 'Not needed: the grid arrives before the M20 target']) +
+    (BR && o.be > 0 ? card(false, '=', 'How to choose', [`Pick B if opening a month earlier is worth more than <b>${M(o.be)}</b> to you`, `You value it at ${M(a.vot * 1e6)} per month (change it in Assumptions)`, `So: <b>${o.verdict === 'BRIDGE' ? 'bridge' : 'wait'}</b>`]) : '');
   $('#ickpis').innerHTML = [
     ['Speed to grid power', `M${first} → M${full}`, `first 25 MW → full 75 MW (P50)`],
     ['Energization P10 / P90', `M${18 + o.en.P10} / M${18 + o.en.P90}`, `grid full by M${30 + o.en.P90} at P90`],
@@ -1294,6 +1305,18 @@ $('#fasm').addEventListener('input', e => { const k = e.target.dataset.f; if (!k
 $('#fasm').addEventListener('change', e => { const k = e.target.dataset.fb; if (k) { FA[k] = e.target.checked; fRender(); } });
 $('#fsrc').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; if (b.id === 'freset') { FA = Object.assign({}, FDEF); buildFin(); return; } FA.src = b.dataset.s; buildFin(); });
 
+
+function buildReq() {
+  if (!D.requests) return; const b = D.requests[0];
+  const dv = (x, y, d, good) => { const v = x - y; if (Math.abs(v) < Math.pow(10, -d) / 2) return ''; const ok = good === 'down' ? v < 0 : v > 0; return ` <span style="color:${ok ? C('good') : C('bad')}">(${v > 0 ? '+' : ''}${fmt(v, d)})</span>`; };
+  $('#reqtbl').innerHTML = '<thead><tr><th>Customer request</th><th class="n">Opens</th><th class="n">Full demand</th><th>Portfolio (MW)</th><th class="n">$/MWh</th><th class="n">kg CO₂/MWh</th><th class="n">Clean</th><th class="n">Interrupted MWh</th></tr></thead><tbody>' +
+    D.requests.map((r, i) => `<tr class="clk${i === 0 ? ' sel' : ''}" data-r="${i}" tabindex="0"><td style="white-space:normal"><b>${r.name}</b><br><span class="note">${r.sub}</span></td><td class="n">M${r.open}${dv(r.open, b.open, 0, 'down')}</td><td class="n">M${r.full}</td><td style="white-space:normal">${mix(r.caps)}</td>
+      <td class="n">${fmt(r.cost, 2)}${dv(r.cost, b.cost, 2, 'down')}</td><td class="n">${fmt(r.kg, 1)}${dv(r.kg, b.kg, 1, 'down')}</td><td class="n">${fmt(100 * r.clean)}%</td><td class="n">${fmt(r.intr)}</td></tr>`).join('') + '</tbody>';
+}
+$('#reqtbl').addEventListener('click', e => { const r = e.target.closest('tr[data-r]'); if (!r) return; const q = D.requests[+r.dataset.r];
+  document.querySelectorAll('#reqtbl tr[data-r]').forEach(x => x.classList.toggle('sel', x === r));
+  GB = {caps: Object.assign({}, q.caps), open: q.open, preset: 'Custom'}; buildGB(); $('#gbsl').scrollIntoView({behavior: 'smooth', block: 'center'}); });
+
 /* ---------- STRUCTURE ---------- */
 function buildDeals() {
   const st = P(); const obs = $('#obs').checked;
@@ -1343,7 +1366,7 @@ function buildMon() {
     $('#trigfin').innerHTML = '<thead><tr><th></th><th>Trigger</th><th>Watch</th><th class="n">NPV impact</th><th class="n">NPV after</th><th class="n">Min DSCR after</th><th>Action</th></tr></thead><tbody>' +
       T.map(r => { const sev = r.after < 0 || (r.dscr != null && r.dscr < 1.3) ? 'high' : Math.abs(r.d) > 0.25 * Math.abs(base.npv) ? 'medium' : 'low';
         return `<tr><td><span class="sev" style="background:${sevc[sev]}"></span></td><td>${r.n}</td><td>${r.w}</td><td class="n">${r.d >= 0 ? '+' : ''}${M(r.d)}</td><td class="n">${M(r.after)}</td><td class="n">${r.dscr == null ? '–' : fmt(r.dscr, 2) + '×'}</td><td style="white-space:normal">${r.act}</td></tr>`; }).join('') +
-      `</tbody><caption class="note" style="caption-side:bottom;text-align:left">Base NPV ${M(base.npv)} under the current Structure assumptions; break-even tenant tariff ${fmt(base.beTariff, 2)} $/MWh.</caption>`;
+      `</tbody><caption class="note" style="caption-side:bottom;text-align:left">Base NPV ${M(base.npv)} under the current Finance assumptions; break-even tenant tariff ${fmt(base.beTariff, 2)} $/MWh.</caption>`;
   }, 30);
 }
 

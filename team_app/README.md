@@ -1,13 +1,13 @@
 # PowerPath v7 — one decision layer for large-load power
 
 **v7 contents:** the Streamlit decision terminal (`team_app/app.py`, five stages: Screen → Interconnect →
-Generate → Structure → Execute) and the standalone terminal page (`team_app/terminal/powerpath_terminal.html`):
+Generate → Finance → Execute) and the standalone terminal page (`team_app/terminal/powerpath_terminal.html`):
 market ticker (prices + news, as of the Oct 22, 2026 session), custom location screener across 68 locations
 with saved screeners and a locked base case, CapIQ-style power market strip (ATC / on- / off-peak, spark
 spread, solar and wind capture vs PPA price), and the five stages for the Texas benchmark and Ohio.
 Rebuild the page data with `team_app/tools/build_terminal_*.py` (1 → 2 → 3 → 4), then `build_terminal_page.py`.
 
-**Structure financials (page):** a 10-year pre-tax project model on the recommended plan (or your Generate mix):
+**Finance tab (page):** a 10-year pre-tax project model on the recommended plan (or your Generate mix):
 tenant tariff revenue vs contracts, fuel, grid purchases, O&M, relocation/interruption, carbon cost and onsite capex
 (with straight-line residual value), plus a debt sizing (share, rate, tenor). Outputs NPV, project and equity IRR,
 min DSCR, payback, all-in $/MWh, break-even tariff and gas price, a 1,000-draw Monte Carlo on gas, power and capex
