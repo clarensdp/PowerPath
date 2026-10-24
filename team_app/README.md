@@ -5,7 +5,14 @@ Generate → Structure → Execute & Monitor) and the standalone terminal page (
 market ticker (prices + news, as of the Oct 22, 2026 session), custom location screener across 68 locations
 with saved screeners and a locked base case, CapIQ-style power market strip (ATC / on- / off-peak, spark
 spread, solar and wind capture vs PPA price), and the five stages for the Texas benchmark and Ohio.
-Rebuild the page data with `team_app/tools/build_terminal_*.py` (1 → 2 → 3), then `build_terminal_page.py`.
+Rebuild the page data with `team_app/tools/build_terminal_*.py` (1 → 2 → 3 → 4), then `build_terminal_page.py`.
+
+**Interconnect explorer (page, v7.1):** for the top-10 screened states plus Ohio, the Interconnect tab shows today's grid mix
+(EIA 2024 state profiles, rounded) next to the PowerPath portfolio, speed to connection (grid P10/P50/P90, onsite
+permit → procure → build back-plan) and live assumptions: grid wait, P10–P90 spread, upgrade $/kW, value of time and
+per-resource lead times. Wait and bridge plans come from engine runs at grid waits of 0/6/12/18/24/36 months per state
+(`tools/build_terminal_4_icx.py` with curves from the run script); costs in between are interpolated in the browser and
+lead-time edits shift availability and opening dates without re-sizing. Screened states are estimates; Texas is the benchmark.
 Open the HTML file directly in a browser; it needs internet only for fonts and Chart.js.
 
 Large-load development is no longer a land problem. Power availability, queue exposure, upgrade

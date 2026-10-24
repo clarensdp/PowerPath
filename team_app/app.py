@@ -229,9 +229,23 @@ if go_btn or S.pop("force_run", False) or "rec_key" not in S:
     S.rec_key = key
 if S.rec_key != key:
     st.warning("Inputs changed. Press **Recommend a portfolio** to update.")
-with st.spinner("Sizing a portfolio for each opening month and dispatching all 87,600 hours…"):
-    rec = compute(*S.rec_key)
+# ---- loading screen: draw the shell immediately so the page never looks blank ----
+import time as _time  # noqa: E402
+_boot = st.empty()
+with _boot.container():
+    st.markdown(f"# PowerPath ⟩ {S.get('site_label', 'Williamson County, TX (benchmark)')}")
+    st.markdown('<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid #1C2633;margin-bottom:10px">'
+                + "".join(f'<div style="padding:6px 10px;color:#8FA3B8;font-size:.72rem;letter-spacing:.12em">{n}<div style="color:#3b4a5c;font-size:.9rem;letter-spacing:0">computing…</div></div>'
+                          for n in ["1 · SCREEN", "2 · INTERCONNECT", "3 · GENERATE", "4 · STRUCTURE", "5 · MONITOR"]) + "</div>",
+                unsafe_allow_html=True)
+    _msg = st.empty()
+    _msg.info("**Sizing portfolios and checking all 87,600 hours.** The first run for a new set of inputs takes about "
+              "1–3 minutes; repeat views are instant. Tip: run `python team_app/run.py warm` before a demo.")
+    _bar = st.progress(5, text="Optimizing each opening month…")
+_t0 = _time.time()
+rec = compute(*S.rec_key)
 best = rec.best
+_boot.empty()
 
 
 @st.cache_resource(max_entries=40, show_spinner=False)
@@ -287,7 +301,8 @@ def interconnect_stage(rec_key):
                 wait=wait, bridge=bridge, p90=p90, decision=dec, s_wait=s_wait, s_bridge=s_bridge)
 
 
-IC = interconnect_stage(S.rec_key) if best is not None else None
+with st.spinner("Checking interconnection options and the P90 grid slip…"):
+    IC = interconnect_stage(S.rec_key) if best is not None else None
 DEAL_IN = DealInputs(max_upfront_musd=float(S.get("deal_cap", 150)) if S.get("deal_cap_on", False) else None,
                      prefer_off_balance_sheet=bool(S.get("deal_obs", False)))
 DEALS = build_deals(best, IC["delay"], DEAL_IN) if best is not None else None

@@ -1,4 +1,6 @@
-.cache/
 __pycache__/
+*.pyc
+.cache/
+team_app/.cache/
 /.venv/
-/starter/__pycache__/check_submission.cpython-310.pyc
+.DS_Store
