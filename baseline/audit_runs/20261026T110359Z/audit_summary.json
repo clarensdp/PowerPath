@@ -1,0 +1,140 @@
+{
+  "version": "PowerPath v25.8.3 Phase 1A",
+  "timestamp_utc": "2026-10-26T11:03:59.201812+00:00",
+  "source_sha256": {
+    "underwrite25.js": "a9442f1136bbb8b7b39c906fa6a139ac1dd91fcb26f6cf663bff672f447a5559",
+    "engine2.js": "663e2633637cd28a85ef4a2617069a233648e044e66772de4896e9efb4188910",
+    "contract_notes258.js": "41e2eaa9812c0cad3cfc4ce7ddd906bb7ba7e98c89f477185735bd53b3dab3f3",
+    "test_roadmap_phase1a.cjs": "6efead6af8c4092ba992670cb5d53c2170d83e84dc324fd141bdc113ddbe5cff"
+  },
+  "tests": [
+    {
+      "script": "test_claude_audit.cjs",
+      "passed": true,
+      "log": "test_claude_audit.log"
+    },
+    {
+      "script": "test_connectors.cjs",
+      "passed": true,
+      "log": "test_connectors.log"
+    },
+    {
+      "script": "test_contract_notes258.cjs",
+      "passed": true,
+      "log": "test_contract_notes258.log"
+    },
+    {
+      "script": "test_credit255.cjs",
+      "passed": true,
+      "log": "test_credit255.log"
+    },
+    {
+      "script": "test_credit_readiness.cjs",
+      "passed": true,
+      "log": "test_credit_readiness.log"
+    },
+    {
+      "script": "test_decision.cjs",
+      "passed": true,
+      "log": "test_decision.log"
+    },
+    {
+      "script": "test_delivery24.cjs",
+      "passed": true,
+      "log": "test_delivery24.log"
+    },
+    {
+      "script": "test_development.cjs",
+      "passed": true,
+      "log": "test_development.log"
+    },
+    {
+      "script": "test_diligence22.cjs",
+      "passed": true,
+      "log": "test_diligence22.log"
+    },
+    {
+      "script": "test_engine2.cjs",
+      "passed": true,
+      "log": "test_engine2.log"
+    },
+    {
+      "script": "test_feasibility.cjs",
+      "passed": true,
+      "log": "test_feasibility.log"
+    },
+    {
+      "script": "test_finance.cjs",
+      "passed": true,
+      "log": "test_finance.log"
+    },
+    {
+      "script": "test_financial_hardening254.cjs",
+      "passed": true,
+      "log": "test_financial_hardening254.log"
+    },
+    {
+      "script": "test_lease253.cjs",
+      "passed": true,
+      "log": "test_lease253.log"
+    },
+    {
+      "script": "test_market_data.cjs",
+      "passed": true,
+      "log": "test_market_data.log"
+    },
+    {
+      "script": "test_project21.cjs",
+      "passed": true,
+      "log": "test_project21.log"
+    },
+    {
+      "script": "test_roadmap_phase1a.cjs",
+      "passed": true,
+      "log": "test_roadmap_phase1a.log"
+    },
+    {
+      "script": "test_transaction258.cjs",
+      "passed": true,
+      "log": "test_transaction258.log"
+    },
+    {
+      "script": "test_underwrite25.cjs",
+      "passed": true,
+      "log": "test_underwrite25.log"
+    },
+    {
+      "script": "test_underwrite251.cjs",
+      "passed": true,
+      "log": "test_underwrite251.log"
+    },
+    {
+      "script": "test_underwrite252.cjs",
+      "passed": true,
+      "log": "test_underwrite252.log"
+    },
+    {
+      "script": "test_underwrite257.cjs",
+      "passed": true,
+      "log": "test_underwrite257.log"
+    },
+    {
+      "script": "test_v23.cjs",
+      "passed": true,
+      "log": "test_v23.log"
+    },
+    {
+      "script": "test_waterfall256.cjs",
+      "passed": true,
+      "log": "test_waterfall256.log"
+    }
+  ],
+  "notes": "Arithmetic/regression assurance only; does not validate real project returns or executed loan agreements.",
+  "stress": {
+    "projects": 16,
+    "scenarios": 720,
+    "max_identity_residual_millions": 1.8189894035458565e-12,
+    "source": "Previously frozen, assumption-driven public-project cases"
+  },
+  "passed": true
+}

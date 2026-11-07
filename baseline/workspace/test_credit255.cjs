@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const {evaluate,defaults}=require('./underwrite25.js');
+const base=defaults();
+const z=evaluate({...base,termMonths:24,months:120});
+const refi=z.rows.find(x=>x.refinanceProceeds>0);
+assert.ok(refi,'refinance occurs');
+assert.ok(z.rows.some(x=>x.month>refi.month&&x.capex>0),'construction continues after refinance');
+assert.ok(z.rows.filter(x=>x.month>refi.month).every(x=>x.draw===0&&x.mezzDraw===0),'cannot draw retired construction facilities');
+const sweep=evaluate({...base,termMonths:24,months:120,cashSweepPct:50});
+assert.ok(sweep.summary.sweepPrincipalM>0,'cash sweep pays principal');
+assert.ok(sweep.summary.sourcesUsesMaxResidual<1e-7,'sweep reconciles');
+assert.ok(z.summary.sourcesUsesMaxResidual<1e-7,'original reconciles');
+const controlled=evaluate({...base,cashSweepPct:0,distributionDscrMin:99});
+assert.ok(controlled.rows.filter(x=>(x.debt>0||x.mezzDebt>0)&&x.month<120).every(x=>x.distribution===0),'distribution lock');
+assert.throws(()=>evaluate({...base,cashSweepPct:101}),/Invalid financial/);
+console.log('5 credit-control and refinance transition checks passed');

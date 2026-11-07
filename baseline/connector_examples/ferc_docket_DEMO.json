@@ -1,0 +1,17 @@
+{
+  "schema": "powerpath.connector.v1",
+  "source": "ferc_docket",
+  "source_url": "https://elibrary.ferc.gov/eLibrary/",
+  "retrieved_at": "2026-10-25T12:00:00Z",
+  "quality": {
+    "status": "synthetic-demo",
+    "warning": "TEST FIXTURE ONLY; NOT REAL DATA"
+  },
+  "records": [
+    {
+      "reference": "DEMO-DOCKET-NOT-REAL",
+      "status": "filed",
+      "as_of": "2026-10-01"
+    }
+  ]
+}

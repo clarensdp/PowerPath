@@ -1,0 +1,1543 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata xml:lang="en">
+    <Esri>
+        <CreaDate>20250411</CreaDate>
+        <CreaTime>13204100</CreaTime>
+        <ArcGISFormat>1.0</ArcGISFormat>
+        <SyncOnce>FALSE</SyncOnce>
+        <DataProperties>
+            <itemProps>
+                <itemName Sync="TRUE">nc_parcels_poly</itemName>
+                <nativeExtBox>
+                    <westBL Sync="TRUE">406837.589962</westBL>
+                    <eastBL Sync="TRUE">3052124.955545</eastBL>
+                    <southBL Sync="TRUE">34980.069670</southBL>
+                    <northBL Sync="TRUE">1043632.312532</northBL>
+                    <exTypeCode Sync="TRUE">1</exTypeCode>
+                </nativeExtBox>
+                <imsContentType>002</imsContentType>
+            </itemProps>
+            <coordRef>
+                <type Sync="TRUE">Projected</type>
+                <geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn>
+                <csUnits Sync="TRUE">Linear Unit: Foot_US (0.304801)</csUnits>
+                <projcsn Sync="TRUE">NAD_1983_StatePlane_North_Carolina_FIPS_3200_Feet</projcsn>
+                <peXml Sync="TRUE">&lt;ProjectedCoordinateSystem xsi:type='typens:ProjectedCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/3.4.0'&gt;&lt;WKT&gt;PROJCS[&amp;quot;NAD_1983_StatePlane_North_Carolina_FIPS_3200_Feet&amp;quot;,GEOGCS[&amp;quot;GCS_North_American_1983&amp;quot;,DATUM[&amp;quot;D_North_American_1983&amp;quot;,SPHEROID[&amp;quot;GRS_1980&amp;quot;,6378137.0,298.257222101]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433]],PROJECTION[&amp;quot;Lambert_Conformal_Conic&amp;quot;],PARAMETER[&amp;quot;False_Easting&amp;quot;,2000000.002616666],PARAMETER[&amp;quot;False_Northing&amp;quot;,0.0],PARAMETER[&amp;quot;Central_Meridian&amp;quot;,-79.0],PARAMETER[&amp;quot;Standard_Parallel_1&amp;quot;,34.33333333333334],PARAMETER[&amp;quot;Standard_Parallel_2&amp;quot;,36.16666666666666],PARAMETER[&amp;quot;Latitude_Of_Origin&amp;quot;,33.75],UNIT[&amp;quot;Foot_US&amp;quot;,0.3048006096012192],AUTHORITY[&amp;quot;EPSG&amp;quot;,2264]]&lt;/WKT&gt;&lt;XOrigin&gt;-121841900&lt;/XOrigin&gt;&lt;YOrigin&gt;-93659000&lt;/YOrigin&gt;&lt;XYScale&gt;3048.0060960121928&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;0.0032808333333333331&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;WKID&gt;102719&lt;/WKID&gt;&lt;LatestWKID&gt;2264&lt;/LatestWKID&gt;&lt;/ProjectedCoordinateSystem&gt;</peXml>
+            </coordRef>
+        </DataProperties>
+        <SyncDate>20250408</SyncDate>
+        <SyncTime>23345700</SyncTime>
+        <ModDate>20250408</ModDate>
+        <ModTime>23345700</ModTime>
+        <scaleRange>
+            <maxScale>5000</maxScale>
+            <minScale>50000</minScale>
+        </scaleRange>
+        <ArcGISProfile>FGDC</ArcGISProfile>
+    </Esri>
+    <mdFileID>1503928188713r5907145850183948</mdFileID>
+    <mdLang>
+        <languageCode value="eng"/>
+        <countryCode Sync="TRUE" value="USA"/>
+    </mdLang>
+    <mdChar>
+        <CharSetCd value="004"/>
+    </mdChar>
+    <mdHrLv>
+        <ScopeCd value="005"/>
+    </mdHrLv>
+    <mdContact>
+        <rpIndName>NC OneMap</rpIndName>
+        <rpOrgName>NC Center for Geographic Information and Analysis</rpOrgName>
+        <rpPosName>Coordination Program Manager</rpPosName>
+        <role>
+            <RoleCd value="007"/>
+        </role>
+        <rpCntInfo>
+            <cntAddress addressType="both">
+                <eMailAdd>nconemap@its.nc.gov</eMailAdd>
+                <delPoint>301 N. Wilmington St.</delPoint>
+                <city>Raleigh</city>
+                <adminArea>NC</adminArea>
+                <postCode>27601</postCode>
+                <country>US</country>
+            </cntAddress>
+            <cntHours>8:30 - 5:00 EST</cntHours>
+            <cntInstr>Please email first.</cntInstr>
+        </rpCntInfo>
+    </mdContact>
+    <mdDateSt Sync="TRUE">20250408</mdDateSt>
+    <mdTimeSt>11:10:29.41</mdTimeSt>
+    <distInfo>
+        <distTranOps>
+            <onLineSrc>
+                <linkage>https://assets.nconemap.gov/pages/hub/ncom-parcels-dd.htm</linkage>
+                <orName>Download parcels by county or all counties at once</orName>
+                <orDesc>Click here download parcels by county or all  counties at once</orDesc>
+                <orFunct>
+                    <OnFunctCd value="001"/>
+                </orFunct>
+            </onLineSrc>
+        </distTranOps>
+        <distributor>
+            <distorTran>
+                <onLineSrc>
+                    <linkage>http://data.nconemap.gov/downloads/vector/parcels</linkage>
+                </onLineSrc>
+            </distorTran>
+            <distorTran>
+                <offLineMed>
+                    <medName>
+                        <MedNameCd value="001"/>
+                    </medName>
+                </offLineMed>
+            </distorTran>
+            <distorFormat>
+                <formatName>ArcGIS shapefile</formatName>
+            </distorFormat>
+            <distorCont>
+                <rpIndName>David Giordano</rpIndName>
+                <rpOrgName>NC Center for Geographic Information and Analysis</rpOrgName>
+                <rpPosName>NC OneMap Database Administrator</rpPosName>
+                <role>
+                    <RoleCd value="005"/>
+                </role>
+                <rpCntInfo>
+                    <cntAddress addressType="both">
+                        <eMailAdd>nconemap@its.nc.gov</eMailAdd>
+                        <delPoint>3700 Wake Forest Rd.</delPoint>
+                        <city>Raleigh</city>
+                        <adminArea>NC</adminArea>
+                        <postCode>27609</postCode>
+                        <country>US</country>
+                    </cntAddress>
+                    <cntPhone>
+                        <voiceNum>919-754-6585</voiceNum>
+                        <faxNum>919-715-8551</faxNum>
+                    </cntPhone>
+                    <cntHours>8:30 - 5:00 EST</cntHours>
+                    <cntInstr>Please email first.</cntInstr>
+                </rpCntInfo>
+            </distorCont>
+            <distorOrdPrc>
+                <resFees>Contact CGIA for information about fees for offline products.</resFees>
+                <planAvTmPd>
+                    <tmBegin>2014-01-01</tmBegin>
+                </planAvTmPd>
+            </distorOrdPrc>
+        </distributor>
+        <distFormat>
+            <formatName Sync="TRUE">File Geodatabase Feature Class</formatName>
+        </distFormat>
+    </distInfo>
+    <dataIdInfo>
+        <idCitation>
+            <resTitle>North Carolina Parcels</resTitle>
+            <date>
+                <pubDate>2016-01-01</pubDate>
+            </date>
+            <presForm>
+                <PresFormCd value="005"/>
+            </presForm>
+            <presForm>
+                <fgdcGeoform>vector digital data</fgdcGeoform>
+            </presForm>
+            <citRespParty>
+                <rpOrgName>NC Dept. of Information Technology, Government Data Analytics Center, Center for Geographic Information and Analysis</rpOrgName>
+                <role>
+                    <RoleCd value="006"/>
+                </role>
+            </citRespParty>
+        </idCitation>
+        <idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN STYLE="font-weight:bold;"&gt;&lt;SPAN STYLE="text-decoration:underline;"&gt;NOTE&lt;/SPAN&gt;&lt;SPAN&gt;: To download parcels by county DO NOT use the map. Instead, click the Download button and then click "Download parcels by county or all counties at once."&lt;/SPAN&gt;&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;This digital geospatial dataset represents parcel boundaries with standard core attributes for a collection of parcel data from North Carolina county data producers and the Eastern Band of Cherokee Indians. The Integrated Cadastral Data Exchange project transformed source datasets from county data producers to create a standardized dataset with consistent attributes (fields). The individual standardized county datasets were aggregated into a single dataset. The aggregated parcel dataset includes all 100 counties in North Carolina plus lands of the Eastern Band of Cherokee Indians. The source geometry is retained as published by individual county data producers. This dataset includes attributes such as ownership, area in acres, assessed value, and other core cadastral attributes. Web services have both polygons (parcel boundaries) and points representing each property, placed at or near the geometric center, with the same set of attributes.&lt;/SPAN&gt;&lt;/P&gt;&lt;P /&gt;&lt;P /&gt;&lt;P&gt;&lt;SPAN&gt;See the &lt;/SPAN&gt;&lt;A href="https://www.nconemap.gov/pages/parcels" STYLE="text-decoration:underline;"&gt;&lt;SPAN&gt;NC OneMap parcels page&lt;/SPAN&gt;&lt;/A&gt;&lt;SPAN&gt; for much more information.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
+        <idPurp>This dataset was generated to publish an aggregated set of parcel polygons for as many North Carolina counties as practical to serve business needs that require information from multiple counties, e.g., response to a natural disaster, analysis of economic development potential, environmental assessments, and highway planning to name a few. An aggregated cadastral dataset serves to support and assist governmental agencies and others in resource management decisions. Additionally, these data provide a set of core attributes defined by the Integrated Cadastral Data Exchange project with the intention of adoption by the North Carolina Geographic Information Coordinating Council to update the current North Carolina Content Elements for Statewide Publication of Core Geospatial Parcel Data. The aggregated dataset is intended to facilitate the sharing, display, and use of cadastral data across the state, with the goal of building a seamless parcel map for North Carolina.
+
+NOTE: To download parcels by county DO NOT use the map. Instead, click the Download button and then click "Download parcels by county or all counties at once."</idPurp>
+        <suppInfo>This aggregated dataset was developed under a grant from the US Environmental Protection Agency, Environmental Information Exchange Network, to the NC Office of Information Technology Services. The project was initiated by the NC Geographic Information Coordinating Council, Statewide Mapping Advisory Committee's Working Group for Seamless Parcels in 2009. The project team includes NC Center for Geographic Information and Analysis (grant and project manager), Eastern Band of Cherokee Indians, the Land Records Management Program in the Office of the Secretary of State, NC Department of Transportation, NC Division of Emergency Management, NC Department of Revenue, and a contractor team managed by The Carbon Project, Inc. that includes Fairview Industries, Inc., and Atlas Geographic Data, Inc. The source data provided by North Carolina counties is prepared for the inventory of real property found within a jurisdiction and is compiled from recorded deeds, plats, and other public records and data. Assessed value of real property is based on market value as defined in the Machinery Act of North Carolina (Section 105-283). The year of latest appraisal of value varies by county. Users of this dataset are hereby notified that the authoritative information sources should be consulted for more information about the source data. The State of North Carolina assumes no legal responsibility for information contained in this dataset. The information on time and reference is for the aggregated data set. Information on county contributed data must be obtained from the identified data steward. The data steward for each source parcel dataset is identified in the core dataset attributes.</suppInfo>
+        <idCredit>This dataset was transformed by the Project Team and Vendor Team for the NC Integrated Cadastral Data Exchange Project, funded by US EPA Environmental Information Exchange Network. Source datasets were furnished by data managers in North Carolina Counties and the Eastern Band of Cherokee Indians.</idCredit>
+        <dataLang>
+            <languageCode value="eng"/>
+            <countryCode Sync="TRUE" value="USA"/>
+        </dataLang>
+        <dataChar>
+            <CharSetCd value="004"/>
+        </dataChar>
+        <idStatus>
+            <ProgCd value="007"/>
+        </idStatus>
+        <spatRpType>
+            <SpatRepTypCd value="001"/>
+        </spatRpType>
+        <searchKeys>
+            <keyword>Land value</keyword>
+            <keyword>Parcel data</keyword>
+            <keyword>North America</keyword>
+            <keyword>Ownership</keyword>
+            <keyword>Land use</keyword>
+            <keyword>Cadastre</keyword>
+            <keyword>Owner</keyword>
+            <keyword>Parcel ownership</keyword>
+            <keyword>Parcel</keyword>
+            <keyword>Planning</keyword>
+            <keyword>Land</keyword>
+            <keyword>Mapping</keyword>
+            <keyword>planningCadastre</keyword>
+            <keyword>Property boundaries</keyword>
+            <keyword>Assessment</keyword>
+            <keyword>Tax parcel</keyword>
+            <keyword>Building value</keyword>
+            <keyword>Assessed value</keyword>
+            <keyword>Parcels</keyword>
+            <keyword>Land records</keyword>
+            <keyword>North Carolina</keyword>
+            <keyword>Property</keyword>
+            <keyword>USA</keyword>
+            <keyword>Cadastral</keyword>
+            <keyword>NC</keyword>
+            <keyword>NC OneMap</keyword>
+            <keyword>Department of Information Technology</keyword>
+            <keyword>DIT</keyword>
+            <keyword>Center for Geographic Information and Analysis</keyword>
+            <keyword>CGIA</keyword>
+        </searchKeys>
+        <themeKeys>
+            <thesaName>
+                <resTitle>ISO 19115 Topic Category</resTitle>
+            </thesaName>
+            <keyword>PlanningCadastre</keyword>
+        </themeKeys>
+        <themeKeys>
+            <thesaName>
+                <resTitle>FGDC Cadastral Subcommittee Data Content Standard</resTitle>
+            </thesaName>
+            <keyword>Land value</keyword>
+            <keyword>Parcel data</keyword>
+            <keyword>Ownership</keyword>
+            <keyword>Land use</keyword>
+            <keyword>Cadastre</keyword>
+            <keyword>Owner</keyword>
+            <keyword>Parcel ownership</keyword>
+            <keyword>Parcel</keyword>
+            <keyword>Planning</keyword>
+            <keyword>Land</keyword>
+            <keyword>Mapping</keyword>
+            <keyword>Property boundaries</keyword>
+            <keyword>Assessment</keyword>
+            <keyword>Tax parcel</keyword>
+            <keyword>Building value</keyword>
+            <keyword>Assessed value</keyword>
+            <keyword>Parcels</keyword>
+            <keyword>Land records</keyword>
+            <keyword>Property</keyword>
+            <keyword>Cadastral</keyword>
+        </themeKeys>
+        <placeKeys>
+            <thesaName>
+                <resTitle>William S. Powell, The North Carolina GAZETTEER, A</resTitle>
+            </thesaName>
+            <keyword>North America</keyword>
+            <keyword>North Carolina</keyword>
+            <keyword>USA</keyword>
+        </placeKeys>
+        <dataExt>
+            <geoEle>
+                <GeoBndBox>
+                    <westBL>-84.387003</westBL>
+                    <eastBL>-75.417851</eastBL>
+                    <southBL>33.845487</southBL>
+                    <northBL>36.588809</northBL>
+                </GeoBndBox>
+            </geoEle>
+        </dataExt>
+        <dataExt>
+            <tempEle>
+                <TempExtent>
+                    <exTemp>
+                        <TM_Instant>
+                            <tmPosition>2016-01-01</tmPosition>
+                        </TM_Instant>
+                    </exTemp>
+                </TempExtent>
+            </tempEle>
+            <exDesc>publication date</exDesc>
+        </dataExt>
+        <idPoC>
+            <rpIndName>NC OneMap</rpIndName>
+            <rpOrgName>NC Center for Geographic Information and Analysis</rpOrgName>
+            <rpPosName>Coordination Program Manager</rpPosName>
+            <role>
+                <RoleCd value="007"/>
+            </role>
+            <rpCntInfo>
+                <cntAddress addressType="both">
+                    <eMailAdd>nconemap@its.nc.gov</eMailAdd>
+                    <delPoint>301 N. Wilmington St.</delPoint>
+                    <city>Raleigh</city>
+                    <adminArea>NC</adminArea>
+                    <postCode>27601</postCode>
+                    <country>US</country>
+                </cntAddress>
+                <cntHours>8:00 - 5:00 EST</cntHours>
+                <cntInstr>Email is the best contact method.</cntInstr>
+            </rpCntInfo>
+        </idPoC>
+        <resMaint>
+            <maintFreq>
+                <MaintFreqCd value="009"/>
+            </maintFreq>
+        </resMaint>
+        <resConst>
+            <LegConsts>
+                <useLimit>This information is for the purpose of an inventory of real property from various counties and ultimately statewide. It is complied from source cadastral data provided by authoritative county sources. Users of this information are advised that county cadastral sources should be consulted for verification, and users bear responsibility for the appropriate use of the information with respect to possible errors, original map scale, collection methodology, currency of data, and other conditions specific to certain data. The State of North Carolina or any employee, representative, or contractor employed by the State assumes no legal responsibility for the content of this information.</useLimit>
+                <othConsts>Data may be accessed and viewed online. For authoritative source data, contact the Identified Data Steward of the North Carolina county or counties of interest.</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <Consts>
+                <useLimit>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;This dataset is an inventory of county representations of tax parcels. This dataset is not a survey document and should not be utilized as such. An excerpt from an opinion of the NC Attorney General in 1982 is relevant for this dataset and its constituent source datasets: North Carolina General Statutes 143-345.6(c) 92) provides that the Secretary of Administration shall, in cooperation with the Secretary of Revenue, conduct a program for the preparation of county property-line maps under the direction of qualified surveyors pursuant to standards prepared by the Departments of Revenue and Natural Resources and Community Development. The mapping program is part of the "land records management program" which the Legislature has directed the Secretary of Administration to establish "for the purposes (i) of advising registers of deeds, local tax officials, and local planning officials about sound management practices; and (ii) of establishing greater uniformity in local land records systems" G.S.143-345.6(a). Thus, the program's sole purposes are directed toward needs of units of government. There is not the least intimation that it is, or is intended to be, a substitute for the certificate of title provided by an attorney who has examined the record title to land for a client, or for a surveyor's certificate and plat provided by a professional engineer or registered land surveyor who has located the lines on the ground, examined the land for easements, encroachments, etc. and reported the same to his client. It is our opinion that by providing a copy of a map, prepared purely and simply for the purposes mandated by the land records management program, to one who purchases it for some other use, no unit of government or local official incurs any liability to the purchaser or user for errors on the map. See http://ncdoj.gov/About-DOJ/Legal-Services/Legal-Opinions/Opinions/52-13.aspx. Note: The Land Records Management Program was transferred from the Department of Administration to the Department of the Secretary of State after this opinion by the Attorney General.&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;https://www.nconemap.gov/pages/terms&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</useLimit>
+            </Consts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <accessConsts>
+                    <RestrictCd value="008"/>
+                </accessConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <useConsts>
+                    <RestrictCd value="008"/>
+                </useConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <accessConsts>
+                    <RestrictCd value="008"/>
+                </accessConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <useConsts>
+                    <RestrictCd value="008"/>
+                </useConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <accessConsts>
+                    <RestrictCd value="008"/>
+                </accessConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <useConsts>
+                    <RestrictCd value="008"/>
+                </useConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <accessConsts>
+                    <RestrictCd value="008"/>
+                </accessConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <useConsts>
+                    <RestrictCd value="008"/>
+                </useConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <accessConsts>
+                    <RestrictCd value="008"/>
+                </accessConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <resConst>
+            <LegConsts>
+                <useConsts>
+                    <RestrictCd value="008"/>
+                </useConsts>
+                <othConsts>Other Constraints</othConsts>
+            </LegConsts>
+        </resConst>
+        <envirDesc Sync="FALSE">Esri ArcGIS 13.4.0.55405</envirDesc>
+        <dataExt>
+            <geoEle>
+                <GeoBndBox esriExtentType="search">
+                    <exTypeCode Sync="TRUE">1</exTypeCode>
+                    <westBL Sync="TRUE">-84.422093</westBL>
+                    <eastBL Sync="TRUE">-75.417239</eastBL>
+                    <northBL Sync="TRUE">36.617275</northBL>
+                    <southBL Sync="TRUE">33.730533</southBL>
+                </GeoBndBox>
+            </geoEle>
+        </dataExt>
+        <tpCat>
+            <TopicCatCd value="003"/>
+        </tpCat>
+        <tpCat>
+            <TopicCatCd value="015"/>
+        </tpCat>
+    </dataIdInfo>
+    <mdMaint>
+        <maintFreq>
+            <MaintFreqCd value="012"/>
+        </maintFreq>
+        <maintNote>Last metadata review date: 2016</maintNote>
+    </mdMaint>
+    <mdConst>
+        <Consts>
+            <useLimit>This metadata file is to accompany the aggregated data set identified and received from participating Counties. The Source data metadata for individual county contributors can be obtained from the county. If this data file was received from a third party, this metadata file and the data set it describes may contain discrepancies.</useLimit>
+        </Consts>
+    </mdConst>
+    <dqInfo>
+        <dqScope>
+            <scpLvl>
+                <ScopeCd value="005"/>
+            </scpLvl>
+        </dqScope>
+        <dataLineage>
+            <dataSource>
+                <srcDesc>Parcel datasets are used as the source for geometry (accepted as is) and attributes (for translation to standard fields) for integrated datasets.</srcDesc>
+                <srcScale>
+                    <rfDenom>1200</rfDenom>
+                </srcScale>
+                <srcCitatn>
+                    <resTitle>Parcels</resTitle>
+                    <date>
+                        <pubDate>2013-01-01</pubDate>
+                    </date>
+                </srcCitatn>
+                <srcExt>
+                    <tempEle>
+                        <TempExtent>
+                            <exTemp>
+                                <TM_Instant>
+                                    <tmPosition>2013-01-01</tmPosition>
+                                </TM_Instant>
+                            </exTemp>
+                        </TempExtent>
+                    </tempEle>
+                    <exDesc>Publication date</exDesc>
+                </srcExt>
+            </dataSource>
+            <dataSource>
+                <srcDesc>The standard is the target set of attributes to which the source county parcel datasets are translated to standard fields for multi-county aggregation.</srcDesc>
+                <srcCitatn>
+                    <resTitle>Standard core cadastral attributes for Integrated Cadastral Data Exchange</resTitle>
+                    <date>
+                        <pubDate>2013-01-01</pubDate>
+                    </date>
+                </srcCitatn>
+                <srcExt>
+                    <tempEle>
+                        <TempExtent>
+                            <exTemp>
+                                <TM_Period>
+                                    <tmBegin>2009-01-01</tmBegin>
+                                    <tmEnd>2013-01-01</tmEnd>
+                                </TM_Period>
+                            </exTemp>
+                        </TempExtent>
+                    </tempEle>
+                    <exDesc>Publication</exDesc>
+                </srcExt>
+            </dataSource>
+            <prcStep>
+                <stepDesc>The contractor for the Integrated Cadastral Data Exchange, the Carbon Project, Inc., designed a geospatial database with a parcel data schema consistent with the core standard developed by the Working Group for Seamless Parcels. Subject matter experts on the contractor's team (Fairview Industries, Inc. and Atlas Geographic Data, Inc.) analyzed source cadastral datasets, developed crosswalks to the standard attributes, and identified domains, enumerations, and queries to aid the translation. Carbon Project, Inc. developed an application to transform source datasets to standard datasets (translating source fields to core standard fields). Carbon Project, Inc. generated vector data in shapefile format and web services in multiple formats for data exchange. Quality control was accomplished by comparing sample parcel identification numbers with source datasets and comparing the number of records in source and transformed datasets. Geometry was accepted as submitted by the sources with the exception of projecting to a common projection (NC State Plane, NAD 1983 US Survey feet).</stepDesc>
+                <stepDateTm>2014-01-01</stepDateTm>
+                <stepProc>
+                    <rpIndName>Jeff Harrison</rpIndName>
+                    <rpOrgName>Carbon Project, Inc.</rpOrgName>
+                    <rpPosName>Project Manager</rpPosName>
+                    <role>
+                        <RoleCd value="009"/>
+                    </role>
+                    <rpCntInfo>
+                        <cntAddress addressType="both">
+                            <eMailAdd>jharrison@thecarbonproject.com</eMailAdd>
+                            <delPoint>101 Cambridge Street, Ste 365</delPoint>
+                            <city>Burlington</city>
+                            <adminArea>MA</adminArea>
+                            <postCode>01803-4144</postCode>
+                            <country>US</country>
+                        </cntAddress>
+                        <cntPhone>
+                            <voiceNum>703-628-8655</voiceNum>
+                        </cntPhone>
+                        <cntHours>8:30 - 5:00 EST</cntHours>
+                    </rpCntInfo>
+                </stepProc>
+            </prcStep>
+        </dataLineage>
+        <report type="DQTopConsis">
+            <evalMethDesc>Source data managers (data stewards) and parcel mappers use GIS software to check for topology consistency during the parcel mapping process. Source quality control ensures there are no duplicate lines, gaps, overlaps, undershoots, or overshoots. For this integrated dataset, geometry is accepted as published by the source.</evalMethDesc>
+        </report>
+        <report type="DQConcConsis">
+            <measDesc>Source data managers (data stewards) and parcel mappers use GIS software to check for topology consistency during the parcel mapping process. Source quality control ensures there are no duplicate lines, gaps, overlaps, undershoots, or overshoots. For this integrated dataset, geometry is accepted as published by the source.</measDesc>
+        </report>
+        <report type="DQCompOm">
+            <measDesc>Source data managers are expected to create and maintain all boundary lines represented on deeds and plats transferred to digital files; map definition conforms to the "Technical Specifications for Base, Cadastral and Digital Mapping" (NC Land Records Management Program, NC Secretary of State's Office).</measDesc>
+        </report>
+        <report type="DQQuanAttAcc">
+            <measDesc>Accuracy of attributes depends on the accuracy in source datasets and appropriate translation of county published attribute names to standard core parcel attribute names. The Project Team and Vendor Team used spot checks of attributes compared to source datasets. Visual inspection of selected parcels included location address attributes over a street network. In addition, the project reviewed missing values in the core attributes identified in the attribute database.</measDesc>
+        </report>
+        <report dimension="horizontal" type="DQAbsExtPosAcc">
+            <measDesc>Typically, the source datasets were originally compiled by digitizing tax maps and were compiled according to the "Specifications for Base, Cadastral and Digital Mapping" (NC Land Records Management Program, NC Secretary of State's Office). For updates, information from deeds and plats were digitized and entered using coordinate geometry and adjusted to or with the surrounding existing line work. Attributes were transferred from recorded deeds and plats. Unrecorded plats may be used also for accuracy reference. Control is also provided by referencing quality standard orthophoto base maps during the mapping process.</measDesc>
+        </report>
+    </dqInfo>
+    <spatRepInfo>
+        <VectSpatRep>
+            <geometObjs Name="nc_parcels_poly">
+                <geoObjTyp>
+                    <GeoObjTypCd Sync="TRUE" value="002"/>
+                </geoObjTyp>
+                <geoObjCnt Sync="TRUE">0</geoObjCnt>
+            </geometObjs>
+            <topLvl>
+                <TopoLevCd Sync="TRUE" value="001"/>
+            </topLvl>
+        </VectSpatRep>
+    </spatRepInfo>
+    <eainfo>
+        <detailed Name="nc_parcels_poly">
+            <enttyp>
+                <enttypl>Core cadastral data for North Carolina</enttypl>
+                <enttypd>Polygons that represent land ownership with attributes that represent core cadastral data in North Carolina.</enttypd>
+                <enttypds>NC Center for Geographic Information and Analysis, Integrated Cadastral Data Exchange Project</enttypds>
+                <enttypt Sync="TRUE">Feature Class</enttypt>
+                <enttypc Sync="TRUE">0</enttypc>
+            </enttyp>
+            <attr>
+                <attrlabl Sync="TRUE">objectid</attrlabl>
+                <attalias Sync="TRUE">OBJECTID</attalias>
+                <attrtype Sync="TRUE">OID</attrtype>
+                <attwidth Sync="TRUE">4</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+                <attrdef Sync="TRUE">Internal feature number.</attrdef>
+                <attrdefs Sync="TRUE">Esri</attrdefs>
+                <attrdomv>
+                    <udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom>
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>Shape</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                    <udom>Coordinates defining the features.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Shape</attalias>
+                <attrtype Sync="TRUE">Geometry</attrtype>
+                <attwidth Sync="TRUE">0</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STNAME</attrlabl>
+                <attrdef>State name</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>Standard Postal Service State Abbreviations</codesetn>
+                        <codesets>US Postal Service</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">State Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">2</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STFIPS</attrlabl>
+                <attrdef>The state FIPS  code, 2-digit code.</attrdef>
+                <attrdefs>FGDC Cadastral Data Content Standard version 1.4.</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>State FIPS Codes</codesetn>
+                        <codesets>Federal Information Processing Standards</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">State FIPS Code</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">2</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>CNTYNAME</attrlabl>
+                <attrdef>Name of the county that is the source of the land record.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">County Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>CNTYFIPS</attrlabl>
+                <attrdef>The county FIPS code 3-digit code.</attrdef>
+                <attrdefs>FGDC Cadastral Data Content Standard version 1.4.</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>County FIPS Codes</codesetn>
+                        <codesets>Federal Information Processing Standards</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">County FIPS Code</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">3</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STCNTYFIPS</attrlabl>
+                <attrdef>The state and county FIPS codes combined as a single field.  Used to relate and link the parcel information to other records.   It creates a unique national parcel identifier when used as a prefix to the local parcel number.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>Derived from State and County FIPS Codes</codesetn>
+                        <codesets>Federal Information Processing Standards</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">State-County FIPS Code</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">5</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>GNISID</attrlabl>
+                <attrdef>The Geographic Names Information System identifier for the local place for the parcel.  The default value is the county GNIS number but as this data set develops, individual parcels may have a GNIS identifier, such as local parks or attractions.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Unique values.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">GNIS Identifier</attalias>
+                <attrtype Sync="TRUE">Integer</attrtype>
+                <attwidth Sync="TRUE">4</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SOURCEAGNT</attrlabl>
+                <attrdef>The originating agency or source of the information for the feature or the data steward for data set.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Information Source</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARNO</attrlabl>
+                <attrdef>The local parcel number for the parcel record (parcel identification number)</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Values defined by the jurisdiction based on the state plane coordinates of the parcel centroid.  Ideally, PIN is a unique identifier, but different polygons may share the same Parcel ID in some cases.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Parcel Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>NPARNO</attrlabl>
+                <attrdef>The local parcel number with the state and county FIPS added to the beginning of the local parcel number (PARNO).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Code values plus Values defined by the jurisdiction based on the state plane coordinates of the parcel centroid.  Ideally, PIN is a unique identifier, but different polygons may share the same Parcel ID in some cases.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">National Parcel Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>ALTPARNO</attrlabl>
+                <attrdef>An alternate local parcel number for the parcel record</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Values defined by the jurisdiction.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Alternate Parcel Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARUSECODE</attrlabl>
+                <attrdef>The local assessment parcel use code, this is the primary use of the parcel.  The code may be the items in the such as governmental, vacant, commercial, etc.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Codes vary by source jurisdiction.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Tax Parcel Use Code</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARUSEDESC</attrlabl>
+                <attrdef>The local assessment parcel use description, which could include additional use descriptions in the present use attribute in CAMA such as, agriculture, forestry etc.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Descriptions vary by source jurisdiction.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Tax Parcel Use Code Description</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">125</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARUSEDSC2</attrlabl>
+                <attrdef>Description for the secondary use for the parcel, such as residential, agriculture, forestry, etc.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Codes vary by source jurisdiction.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Second Tax Parcel Use Description</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">125</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARUSECD2</attrlabl>
+                <attrdef>Structure use code or building type such as single family, modular, commercial etc. The secondary use code applies to the structures on the parcels.  The code may be the items such as governmental, vacant, commercial, etc.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Codes vary by source jurisdiction.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Second Tax Parcel Use Code</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STRUCT</attrlabl>
+                <attrdef>Presence of a structure or improvement on the parcel.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <edom>
+                        <edomv>Y</edomv>
+                        <edomvd>Yes, there is an improvement or structure on the parcel</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>N</edomv>
+                        <edomvd>No, there is not an improvement or structure on the parcel</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>U</edomv>
+                        <edomvd>Unknown if there is an improvement or structure on the parcel (default value)</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attalias Sync="TRUE">Structure Indicator</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">1</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MULTISTRUC</attrlabl>
+                <attrdef>Presence of multiple structures (more than one structure or improvement on the parcel).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <edom>
+                        <edomv>Y</edomv>
+                        <edomvd>Yes, there are multiple improvements or structures on the parcel</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>N</edomv>
+                        <edomvd>No, there is not more than one improvement or structure on the parcel</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>U</edomv>
+                        <edomvd>Unknown if there are multiple improvements or structures on the parcel (default value)</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attalias Sync="TRUE">Multiple Structures</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">1</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STRUCTNO</attrlabl>
+                <attrdef>The number of structures on the parcel.  This is populated when the source data indicates how many structures, for purposes including emergency planning and response.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Numbers vary by parcel.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Number of Structures</attalias>
+                <attrtype Sync="TRUE">Integer</attrtype>
+                <attwidth Sync="TRUE">4</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>STRUCTYEAR</attrlabl>
+                <attrdef>The year of construction for the primary building on the parcel.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Structure Year</attalias>
+                <attrtype Sync="TRUE">Integer</attrtype>
+                <attwidth Sync="TRUE">4</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARVALTYPE</attrlabl>
+                <attrdef>The type of value reported in the parcel value fields such as assessed, present use (e.g., value for land in agricultural use), or market value.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable; domain to be defined after analysis of county records.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Type of Value Reported</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>IMPROVVAL</attrlabl>
+                <attrdef>The value of the improvements on the parcel in dollars.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Improved Value
+</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>LANDVAL</attrlabl>
+                <attrdef>The value of the land represented by the parcel in dollars.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Land Value
+</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>PARVAL</attrlabl>
+                <attrdef>The total value of the parcel (IMPROVVAL + LANDVAL) in dollars.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Parcel Value
+</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>OWNTYPE</attrlabl>
+                <attrdef>Classification of owner type (taxable or exempt status or other types to be added)</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <edom>
+                        <edomv>Taxable</edomv>
+                        <edomvd>Parcel is subject to property tax</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>Non-taxable</edomv>
+                        <edomvd>Parcel is exempt from taxation (i. e., public lands, religious property, charitable purposes)</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attalias Sync="TRUE">Owner Type</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>OWNNAME</attrlabl>
+                <attrdef>The full name of the primary property owner (surface owner).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Owner Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">200</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>OWNFRST</attrlabl>
+                <attrdef>The first name of the primary property owner (surface owner).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Owner First Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>OWNLAST</attrlabl>
+                <attrdef>The last name of the primary property owner (surface owner).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Owner Last Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SUBSURFOWN</attrlabl>
+                <attrdef>The full name of the subsurface rights owner.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Subsurface Owner</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">200</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SUBOWNTYPE</attrlabl>
+                <attrdef>Classification of subsurface rights owner type (taxable or exempt status or other types to be added)</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <edom>
+                        <edomv>Taxable</edomv>
+                        <edomvd>Parcel is subject to property tax</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attrdomv>
+                    <edom>
+                        <edomv>Exempt</edomv>
+                        <edomvd>Parcel is exempt from taxation (i. e., public lands, religious property, charitable purposes)</edomvd>
+                        <edomvds>North Carolina Core Parcel Element Definitions June 2013</edomvds>
+                    </edom>
+                </attrdomv>
+                <attalias Sync="TRUE">Subsurface Owner Type</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MAILADD</attrlabl>
+                <attrdef>The full mailing address as a single field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">200</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDRNO</attrlabl>
+                <attrdef>The mailing address street number.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDSTNAME</attrlabl>
+                <attrdef>The mailing street name, the name without the type and directions.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Street Full Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDPREF</attrlabl>
+                <attrdef>The mailing address prefix.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Prefix</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">5</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDSTR</attrlabl>
+                <attrdef>The mailing street name, the name without the type and directions.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Street Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDSTTYP</attrlabl>
+                <attrdef>The mailing street type, such as ST, AVE, BLVD.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Street Type</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MADDSTSUF</attrlabl>
+                <attrdef>The mailing street suffix, typically a direction.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Street Suffix</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MUNIT</attrlabl>
+                <attrdef>The mailing address unit, suite or apartment number; and may also be the half number.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Unit Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MCITY</attrlabl>
+                <attrdef>The mailing city name.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address City</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MSTATE</attrlabl>
+                <attrdef>The mailing state name, two letter abbreviation.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>Standard Postal Service State Abbreviations</codesetn>
+                        <codesets>US Postal Service</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address State</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">2</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>MZIP</attrlabl>
+                <attrdef>The mailing zip code.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable as assigned by US Postal Service.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Mailing Address Zip</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">15</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SITEADD</attrlabl>
+                <attrdef>The full site address as a single field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Full Site Address</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">200</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDNO</attrlabl>
+                <attrdef>The site address street number.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDSTNAME</attrlabl>
+                <attrdef>The site street name, the name without the type and directions.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Street Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDPREF</attrlabl>
+                <attrdef>The site address prefix.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Prefix</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">5</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDSTR</attrlabl>
+                <attrdef>The site street name, the name without the type and directions.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Street Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDSTTYP</attrlabl>
+                <attrdef>The site street type, such as ST, AVE, BLVD.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Street Type</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SADDSTSUF</attrlabl>
+                <attrdef>The site street suffix, typically a direction.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Street Suffix</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">10</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SUNIT</attrlabl>
+                <attrdef>The site address unit, suite or apartment number; and may also be the half number.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Unit Number</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SCITY</attrlabl>
+                <attrdef>The site city name.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address City</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">100</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SSTATE</attrlabl>
+                <attrdef>The site state name, two-letter abbreviation. Default to NC. The site should be in the state but there may be border situations where this needs to be tracked.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <codesetd>
+                        <codesetn>Standard Postal Service State Abbreviations</codesetn>
+                        <codesets>US Postal Service</codesets>
+                    </codesetd>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address State</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SZIP</attrlabl>
+                <attrdef>The site zip code.  This may not be the same as the mailing address zip code.  If maintained and available, this supports physical address delivery and the vehicle tax system.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable as assigned by US Postal Service.</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Site Address Zip</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>LEGDECFULL</attrlabl>
+                <attrdef>The full tax legal description, useful where the parcel data does not include a map of the parcel.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Full Legal Description</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">254</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SUBDIVISIO</attrlabl>
+                <attrdef>The name of the subdivision or condo that the parcel is in.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Subdivision Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SOURCEREF</attrlabl>
+                <attrdef>The reference to the source document.  This could be a reference to a map or plat or a deed as well as including the document type.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Source Document Reference</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SOURCEDATE</attrlabl>
+                <attrdef>The date of the source document (listed in the source reference) that was used to generate the parcel information.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Source Document Date</attalias>
+                <attrtype Sync="TRUE">Date</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SOURCEDATX</attrlabl>
+                <attrdef>The source document date as a text field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Source Document Date Text</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SALEDATE</attrlabl>
+                <attrdef>The date of the last property sale if available.  This is expressed as a date field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Last Sale Date
+</attalias>
+                <attrtype Sync="TRUE">Date</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>SALEDATETX</attrlabl>
+                <attrdef>The date of the last property sale if available.  This is expressed as a text field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Last Sale Date Text</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>RECAREANO</attrlabl>
+                <attrdef>The record or recorded area as a numeric field (deed acres).</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Record Area Number</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>RECAREATX</attrlabl>
+                <attrdef>The record or recorded area expressed as a text field. This may include the units of area as well.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Record Area Text</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>GISACRES</attrlabl>
+                <attrdef>The area of the feature in acres - computed from the GIS, this is not the recorded area.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">GIS Acres</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>REVISEDATE</attrlabl>
+                <attrdef>The date of the last revision of the parcel record, this will primarily be the revision for the geometry.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Revised Date</attalias>
+                <attrtype Sync="TRUE">Date</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>REVDATETX</attrlabl>
+                <attrdef>The date of the last revision of the parcel record expressed as a text field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Revised Date text</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>REVISEYEAR</attrlabl>
+                <attrdef>The year of the last revision of the parcel record expressed as a text field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Revised Year</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">25</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl Sync="TRUE">ownname2</attrlabl>
+                <attalias Sync="TRUE">Full Second Owner Name</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">200</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl Sync="TRUE">presentval</attrlabl>
+                <attalias Sync="TRUE">Present Use Value</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">1</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl Sync="TRUE">mapref</attrlabl>
+                <attalias Sync="TRUE">Map Reference</attalias>
+                <attrtype Sync="TRUE">String</attrtype>
+                <attwidth Sync="TRUE">50</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl>TRANSFDATE</attrlabl>
+                <attrdef>The date of transformation of the source parcels to a standardized dataset. This is expressed as a date field.</attrdef>
+                <attrdefs>North Carolina Core Parcel Element Definitions June 2013</attrdefs>
+                <attrdomv>
+                    <udom>Variable</udom>
+                </attrdomv>
+                <attalias Sync="TRUE">Transform Date</attalias>
+                <attrtype Sync="TRUE">Date</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+            </attr>
+            <attr>
+                <attrlabl Sync="TRUE">shape_Length</attrlabl>
+                <attalias Sync="TRUE">shape_Length</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+                <attrdef Sync="TRUE">Length of feature in internal units.</attrdef>
+                <attrdefs Sync="TRUE">Esri</attrdefs>
+                <attrdomv>
+                    <udom Sync="TRUE">Positive real numbers that are automatically generated.</udom>
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl Sync="TRUE">shape_Area</attrlabl>
+                <attalias Sync="TRUE">shape_Area</attalias>
+                <attrtype Sync="TRUE">Double</attrtype>
+                <attwidth Sync="TRUE">8</attwidth>
+                <atprecis Sync="TRUE">0</atprecis>
+                <attscale Sync="TRUE">0</attscale>
+                <attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef>
+                <attrdefs Sync="TRUE">Esri</attrdefs>
+                <attrdomv>
+                    <udom Sync="TRUE">Positive real numbers that are automatically generated.</udom>
+                </attrdomv>
+            </attr>
+        </detailed>
+        <overview>
+            <eaover>The attributes are publication elements that meet common producer and stakeholder needs for sharing, display, and use of geospatial parcel data, especially to cast into regional and statewide applications.</eaover>
+            <eadetcit>North Carolina Core Parcel Element Definitions June 2013 with reference to the North Carolina Content Elements for Statewide Publication of Core Geospatial Parcel Data, 2005.</eadetcit>
+        </overview>
+    </eainfo>
+    <mdHrLvName Sync="TRUE">dataset</mdHrLvName>
+    <refSysInfo>
+        <RefSystem>
+            <refSysID>
+                <identCode Sync="TRUE" code="2264"/>
+                <idCodeSpace Sync="TRUE">EPSG</idCodeSpace>
+                <idVersion Sync="TRUE">6.12(9.0.0)</idVersion>
+            </refSysID>
+        </RefSystem>
+    </refSysInfo>
+    <spdoinfo>
+        <ptvctinf>
+            <esriterm Name="nc_parcels_poly">
+                <efeatyp Sync="TRUE">Simple</efeatyp>
+                <efeageom Sync="TRUE" code="4"/>
+                <esritopo Sync="TRUE">FALSE</esritopo>
+                <efeacnt Sync="TRUE">0</efeacnt>
+                <spindex Sync="TRUE">TRUE</spindex>
+                <linrefer Sync="TRUE">FALSE</linrefer>
+            </esriterm>
+        </ptvctinf>
+    </spdoinfo>
+</metadata>

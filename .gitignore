@@ -1,0 +1,56 @@
+# Secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.key
+credentials.json
+service-account*.json
+
+# Runtime data / uploads / migration dumps (do not commit)
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.dump
+*.backup
+*.sql.gz
+data/evidence/**
+!data/evidence/.gitkeep
+migration_source/**
+!migration_source/README.md
+# Only the curated and reviewed fixture is permitted in source control
+!tests/fixtures/powerpath_synthetic.sqlite3
+
+# Python / virtualenv
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.coverage
+htmlcov/
+
+# Node build outputs
+node_modules/
+.npm/
+.next/
+.vite/
+
+# Local logs / reports / exports
+*.log
+*.before_row_fix
+*.before-detailed-login
+*.py.before_row_fix
+*.csv.tmp
+.tmp/
+coverage/
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

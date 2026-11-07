@@ -1,0 +1,511 @@
+
+> @powerpath/engine@25.9.0-risk1 ci
+> npm run format:check && npm run typecheck && npm test && npm run test:reference && npm run build:browser
+
+
+> @powerpath/engine@25.9.0-risk1 format:check
+> prettier --check src ui scripts test/*.cjs
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> @powerpath/engine@25.9.0-risk1 typecheck
+> tsc -p tsconfig.json
+
+
+> @powerpath/engine@25.9.0-risk1 test
+> node --test "test/**/*.test.cjs"
+
+TAP version 13
+# Subtest: AM1: no look-ahead; a halted campus whose collateral never rents does not amortize
+ok 1 - AM1: no look-ahead; a halted campus whose collateral never rents does not amortize
+  ---
+  duration_ms: 63.296825
+  type: 'test'
+  ...
+# Subtest: AM2: constructionThenNextPeriod holds the construction amount until E, then nextPeriod
+ok 2 - AM2: constructionThenNextPeriod holds the construction amount until E, then nextPeriod
+  ---
+  duration_ms: 16.909367
+  type: 'test'
+  ...
+# Subtest: AM3: distributions locked until every collateral building pays rent; proceeds fund capex
+ok 3 - AM3: distributions locked until every collateral building pays rent; proceeds fund capex
+  ---
+  duration_ms: 14.143526
+  type: 'test'
+  ...
+# Subtest: AM4: maturity in the final month settles in the exit waterfall; unpaid-at-exit is possible
+ok 4 - AM4: maturity in the final month settles in the exit waterfall; unpaid-at-exit is possible
+  ---
+  duration_ms: 13.577443
+  type: 'test'
+  ...
+# Subtest: AM5: required field names are emitted
+ok 5 - AM5: required field names are emitted
+  ---
+  duration_ms: 6.652595
+  type: 'test'
+  ...
+# Subtest: Amendment 1 keeps facilities-absent output identical to v25.8.4-ca.1
+ok 6 - Amendment 1 keeps facilities-absent output identical to v25.8.4-ca.1
+  ---
+  duration_ms: 71.093902
+  type: 'test'
+  ...
+# Subtest: default: screening allowed, valuation and certification blocked
+ok 7 - default: screening allowed, valuation and certification blocked
+  ---
+  duration_ms: 21.583685
+  type: 'test'
+  ...
+# Subtest: tests passing + independent reference cannot unlock valuation
+ok 8 - tests passing + independent reference cannot unlock valuation
+  ---
+  duration_ms: 10.019953
+  type: 'test'
+  ...
+# Subtest: all documents but one non-executed material term stays blocked
+ok 9 - all documents but one non-executed material term stays blocked
+  ---
+  duration_ms: 9.94364
+  type: 'test'
+  ...
+# Subtest: AI review is never external assurance
+ok 10 - AI review is never external assurance
+  ---
+  duration_ms: 10.533097
+  type: 'test'
+  ...
+# Subtest: review bound to another engine version or other inputs is rejected
+ok 11 - review bound to another engine version or other inputs is rejected
+  ---
+  duration_ms: 11.18721
+  type: 'test'
+  ...
+# Subtest: only full evidence + matching signed human review permits valuation; breaches still block certification
+ok 12 - only full evidence + matching signed human review permits valuation; breaches still block certification
+  ---
+  duration_ms: 21.920067
+  type: 'test'
+  ...
+# Subtest: modeled default blocks valuation even with full evidence
+ok 13 - modeled default blocks valuation even with full evidence
+  ---
+  duration_ms: 15.444146
+  type: 'test'
+  ...
+# Subtest: all 16 public cases are blocked for valuation and certification today
+ok 14 - all 16 public cases are blocked for valuation and certification today
+  ---
+  duration_ms: 165.061766
+  type: 'test'
+  ...
+# Subtest: browser bundle exposes the same assurance gates
+ok 15 - browser bundle exposes the same assurance gates
+  ---
+  duration_ms: 41.088354
+  type: 'test'
+  ...
+# Subtest: OID, proceeds and fees at issuance
+ok 16 - OID, proceeds and fees at issuance
+  ---
+  duration_ms: 22.521424
+  type: 'test'
+  ...
+# Subtest: stub first coupon pays (firstPaymentMonth - issueMonth) months of accrual; dates map to months
+ok 17 - stub first coupon pays (firstPaymentMonth - issueMonth) months of accrual; dates map to months
+  ---
+  duration_ms: 22.297489
+  type: 'test'
+  ...
+# Subtest: interest is paid only on semiannual payment months; regular periods pay six months
+ok 18 - interest is paid only on semiannual payment months; regular periods pay six months
+  ---
+  duration_ms: 6.498112
+  type: 'test'
+  ...
+# Subtest: pctOriginalPerYear installments from a fixed start; balloon net of the maturity installment
+ok 19 - pctOriginalPerYear installments from a fixed start; balloon net of the maturity installment
+  ---
+  duration_ms: 13.947593
+  type: 'test'
+  ...
+# Subtest: explicit schedule: j-th payment on/after A pays amountsM[j], capped at the balance; 0 beyond the list
+ok 20 - explicit schedule: j-th payment on/after A pays amountsM[j], capped at the balance; 0 beyond the list
+  ---
+  duration_ms: 8.296072
+  type: 'test'
+  ...
+# Subtest: bullet (none) pays the whole face as the maturity balloon
+ok 21 - bullet (none) pays the whole face as the maturity balloon
+  ---
+  duration_ms: 4.322176
+  type: 'test'
+  ...
+# Subtest: afterFirstRent: A = smallest payment month > R + offset (R from collateral gross rent)
+ok 22 - afterFirstRent: A = smallest payment month > R + offset (R from collateral gross rent)
+  ---
+  duration_ms: 18.62892
+  type: 'test'
+  ...
+# Subtest: afterFinalCommencement: T = max(C, latest cohort start + credit months); A = smallest p >= T + offset
+ok 23 - afterFinalCommencement: T = max(C, latest cohort start + credit months); A = smallest p >= T + offset
+  ---
+  duration_ms: 32.820167
+  type: 'test'
+  ...
+# Subtest: construction halt (AM1): events resolve on the schedule current at each month; set values never change
+ok 24 - construction halt (AM1): events resolve on the schedule current at each month; set values never change
+  ---
+  duration_ms: 34.314808
+  type: 'test'
+  ...
+# Subtest: fixed DSRA: funded at issuance from cash, held, released when repaid
+ok 25 - fixed DSRA: funded at issuance from cash, held, released when repaid
+  ---
+  duration_ms: 8.192292
+  type: 'test'
+  ...
+# Subtest: nextPeriod DSRA: accrued + forward interest to the next payment + scheduled installment
+ok 26 - nextPeriod DSRA: accrued + forward interest to the next payment + scheduled installment
+  ---
+  duration_ms: 9.464675
+  type: 'test'
+  ...
+# Subtest: constructionThenNextPeriod: construction amount until the event month E; never-occurring E keeps it
+ok 27 - constructionThenNextPeriod: construction amount until the event month E; never-occurring E keeps it
+  ---
+  duration_ms: 32.763158
+  type: 'test'
+  ...
+# Subtest: DSRA top-up: cash above minLiquidity first, then sponsor; capped sponsor -> deficiency and lock-up
+ok 28 - DSRA top-up: cash above minLiquidity first, then sponsor; capped sponsor -> deficiency and lock-up
+  ---
+  duration_ms: 8.975345
+  type: 'test'
+  ...
+# Subtest: DSRA draw before sponsor: capped by balance, by the facility debt service due and by the shortfall
+ok 29 - DSRA draw before sponsor: capped by balance, by the facility debt service due and by the shortfall
+  ---
+  duration_ms: 22.828644
+  type: 'test'
+  ...
+# Subtest: lock-up while the most recent DSCR test is below lockupDscr (test month to the next test month)
+ok 30 - lock-up while the most recent DSCR test is below lockupDscr (test month to the next test month)
+  ---
+  duration_ms: 16.918568
+  type: 'test'
+  ...
+# Subtest: cfadsShare allocates CFADS by collateral lease revenue (gross rent - credits)
+ok 31 - cfadsShare allocates CFADS by collateral lease revenue (gross rent - credits)
+  ---
+  duration_ms: 9.255325
+  type: 'test'
+  ...
+# Subtest: exit payoff: priority order, accrued interest before principal, unpaid balance reported
+ok 32 - exit payoff: priority order, accrued interest before principal, unpaid balance reported
+  ---
+  duration_ms: 4.607224
+  type: 'test'
+  ...
+# Subtest: maturity before the horizon: a payment shortfall is unfunded cash, recorded as paid, not arrears
+ok 33 - maturity before the horizon: a payment shortfall is unfunded cash, recorded as paid, not arrears
+  ---
+  duration_ms: 1.918427
+  type: 'test'
+  ...
+# Subtest: validation errors
+ok 34 - validation errors
+  ---
+  duration_ms: 4.029753
+  type: 'test'
+  ...
+# Subtest: warnings: exact texts, per facility and once for the pool
+ok 35 - warnings: exact texts, per facility and once for the pool
+  ---
+  duration_ms: 4.408144
+  type: 'test'
+  ...
+# Subtest: identities hold across varied scenarios (closing, accrued and DSRA rolls; sources/uses residual)
+ok 36 - identities hold across varied scenarios (closing, accrued and DSRA rolls; sources/uses residual)
+  ---
+  duration_ms: 63.795055
+  type: 'test'
+  ...
+# Subtest: facility runs are deterministic and do not mutate input
+ok 37 - facility runs are deterministic and do not mutate input
+  ---
+  duration_ms: 9.384262
+  type: 'test'
+  ...
+# Subtest: facilities absent or empty: full output byte-identical to the v25.8.4-ca.1 baseline
+ok 38 - facilities absent or empty: full output byte-identical to the v25.8.4-ca.1 baseline
+  ---
+  duration_ms: 3491.685739
+  type: 'test'
+  ...
+# Subtest: transaction templates: evidence on every term; modelable ones run, unknown-date ones refuse
+ok 39 - transaction templates: evidence on every term; modelable ones run, unknown-date ones refuse
+  ---
+  duration_ms: 1.02208
+  type: 'test'
+  ...
+# Subtest: demo script models only modelable templates on a synthetic campus
+ok 40 - demo script models only modelable templates on a synthetic campus
+  ---
+  duration_ms: 16.189855
+  type: 'test'
+  ...
+# Subtest: browser bundle exposes the same facility engine
+ok 41 - browser bundle exposes the same facility engine
+  ---
+  duration_ms: 38.037221
+  type: 'test'
+  ...
+# Subtest: 720 public-case stresses match the golden snapshot exactly
+ok 42 - 720 public-case stresses match the golden snapshot exactly
+  ---
+  duration_ms: 4120.384479
+  type: 'test'
+  ...
+# PASS 3 public notes and 7 targeted coupon/OID/amort checks
+# Subtest: test/legacy/test_contract_notes258.test.cjs
+ok 5 - test/legacy/test_contract_notes258.test.cjs
+  ---
+  duration_ms: 41.120394
+  type: 'test'
+  ...
+# 5 credit-control and refinance transition checks passed
+# Subtest: test/legacy/test_credit255.test.cjs
+ok 6 - test/legacy/test_credit255.test.cjs
+  ---
+  duration_ms: 61.183619
+  type: 'test'
+  ...
+# PASS construction loans only finance sponsor-paid construction
+# PASS refinance amortization uses refinance term, not construction term
+# PASS revenue cannot commence before physical grid power when no tranches
+# PASS model contract rental total remains reconciled with later commencement
+# PASS default state explicitly disqualifies performing financing
+# PASS conservation identities under combined adverse financing assumptions
+# TOTAL 6 v25.4 checks
+# Subtest: test/legacy/test_financial_hardening254.test.cjs
+ok 7 - test/legacy/test_financial_hardening254.test.cjs
+  ---
+  duration_ms: 501.565662
+  type: 'test'
+  ...
+# 9 lease calibration assertions passed
+# Subtest: test/legacy/test_lease253.test.cjs
+ok 8 - test/legacy/test_lease253.test.cjs
+  ---
+  duration_ms: 94.132343
+  type: 'test'
+  ...
+# PASS partial power cohorts begin at actual energized dates, not original nominal first date
+# PASS scheduled power tranche cannot bypass construction, nominal power date, or lease gate
+# PASS equity-funded loan retirement prohibits future draws on retired construction facility
+# PASS base reserve plus DSRA are additive; reserve reconciles monthly
+# PASS full-year funded contractual rent equals specified total with staggered delivery, not double escalated
+# PASS impossible building-level tenant funding / credit percentages rejected
+# PASS dedicated MW above physical IT capacity rejected
+# PASS delayed tenant reimbursements create actual receivable and can exhaust committed liquidity
+# PASS calendar-month electric energy reflects actual days and leap-year February
+# TOTAL 9 transaction v25.8 tests
+# Subtest: test/legacy/test_transaction258.test.cjs
+ok 9 - test/legacy/test_transaction258.test.cjs
+  ---
+  duration_ms: 78.811594
+  type: 'test'
+  ...
+# PASS monthly sources and uses reconcile
+# PASS construction draw capped by eligible costs
+# PASS refinance retires construction loan at maturity
+# PASS equity payoff has zero outstanding construction debt
+# PASS sponsor injections cover funding gaps, no negative cash
+# PASS restricted reserve segregated, released at exit
+# PASS all exit debt settled explicitly
+# PASS staged power: shared tranche limited to 50MW
+# PASS named tranche cannot energize different building
+# PASS delay reduces levered NPV
+# PASS stress shocks worsen NPV
+# PASS maturity shortfall flagged as default without hidden refinancing
+# PASS no debt at zero LTC
+# PASS randomized sources and uses 300 iterations
+# TOTAL 14 v25.1 groups
+# Subtest: test/legacy/test_underwrite25.test.cjs
+ok 10 - test/legacy/test_underwrite25.test.cjs
+  ---
+  duration_ms: 939.468191
+  type: 'test'
+  ...
+# PASS monthly sources and uses reconcile
+# PASS construction draw capped by eligible costs
+# PASS refinance retires construction loan at maturity
+# PASS equity payoff has zero outstanding construction debt
+# PASS sponsor injections cover funding gaps, no negative cash
+# PASS restricted reserve segregated, released at exit
+# PASS all exit debt settled explicitly
+# PASS staged power: shared tranche limited to 50MW
+# PASS named tranche cannot energize different building
+# PASS delay reduces levered NPV
+# PASS stress shocks worsen NPV
+# PASS maturity shortfall flagged as default without hidden refinancing
+# PASS no debt at zero LTC
+# PASS randomized sources and uses 300 iterations
+# TOTAL 14 v25.1 groups
+# Subtest: test/legacy/test_underwrite251.test.cjs
+ok 11 - test/legacy/test_underwrite251.test.cjs
+  ---
+  duration_ms: 939.565982
+  type: 'test'
+  ...
+# PASS lease expiration stops rental cash flow
+# PASS rent annual escalation applies only after 12 elapsed months
+# PASS gross power correctly converts to IT using PUE
+# PASS tenant pays a defined share of construction capex
+# PASS rent credits are time bounded and reduce revenue
+# PASS refinance limited by debt yield
+# PASS refinance limited by LTV
+# PASS refinance limited by DSCR
+# PASS mezzanine loan added to debt with own interest and explicit maturity
+# PASS reject over 100 percent financed construction
+# PASS tenant credits and mezz stress reconcile in every month
+# PASS no automatic approval or confirmed power from capacity basis
+# TOTAL 12 v25.2 groups
+# Subtest: test/legacy/test_underwrite252.test.cjs
+ok 12 - test/legacy/test_underwrite252.test.cjs
+  ---
+  duration_ms: 149.256285
+  type: 'test'
+  ...
+# PASS CFADS bridges EBITDA, taxes, sustaining capex, change in working capital
+# PASS zero CFADS adjustments preserves the legacy EBITDA numerator
+# PASS income taxes and maintenance decrease forward CFADS and refinance debt capacity
+# PASS forward twelve-month CFADS agrees with realized subsequent forecast
+# PASS cashflow-based DSCR differs from EBITDA when cash expenditures exist
+# PASS sponsor contributions never exceed explicit sponsor commitment
+# PASS missing sponsor commitment remains unverified, not a funded endorsement
+# PASS underfunded refinance fails to close instead of retiring debt
+# PASS high explicit sponsor commitment permits refinance
+# PASS no synthetic sponsor cure if equity paydown cannot be funded
+# PASS exit asset proceeds cannot repay more debt than cash available
+# PASS adverse sponsor caps retain reconciled accounting despite negative liquidity
+# PASS reject inconsistent sponsor commitment
+# PASS sponsor limiting is monotonic on total equity cash injections
+# PASS stress cross product: delays, senior rates, sponsor funding, annual taxes
+# TOTAL 15 v25.7 independent targeted groups (including 36 cross stresses)
+# Subtest: test/legacy/test_underwrite257.test.cjs
+ok 13 - test/legacy/test_underwrite257.test.cjs
+  ---
+  duration_ms: 330.112033
+  type: 'test'
+  ...
+# v25.6 waterfall: 6 financing cases, 8 control assertions passed
+# Subtest: test/legacy/test_waterfall256.test.cjs
+ok 14 - test/legacy/test_waterfall256.test.cjs
+  ---
+  duration_ms: 118.366541
+  type: 'test'
+  ...
+# Subtest: engine source has no DOM, storage, network or clock dependencies
+ok 53 - engine source has no DOM, storage, network or clock dependencies
+  ---
+  duration_ms: 1.776907
+  type: 'test'
+  ...
+# Subtest: evaluate is deterministic and does not mutate its input
+ok 54 - evaluate is deterministic and does not mutate its input
+  ---
+  duration_ms: 21.969202
+  type: 'test'
+  ...
+# P1a refi payment equals sizing annuity  PASS
+# P1b DSCR-sized refinancing does not open below 1.0x  PASS
+# P2 shared tranche with reverse readiness order does not throw and stays allocated  PASS
+# P3 gross utility tranche converted to IT MW  PASS
+# P4 operatingMWh uses calendar hours  PASS
+# P5 funding default halts unfunded construction (no phantom financing)  PASS
+# P5b terminal leakage is reported  PASS
+# P6 APLD first coupon 205/360  PASS
+# INV identities reconcile in patched edge cases  PASS
+# P8a legacy defaults unchanged (base NPV)  PASS
+# P8b leaseTail tenor amortizes within remaining lease less buffer  PASS
+# P8c renewal: expected-value rent after expiry  PASS
+# P8d contracted exit values vacant MW at vacantValuePct  PASS
+# P8e invalid lease-tail policy rejected  PASS
+# 14/14 passed
+# Subtest: test/redteam_v258.test.cjs
+ok 16 - test/redteam_v258.test.cjs
+  ---
+  duration_ms: 132.471634
+  type: 'test'
+  ...
+# CA1a reimbursed 100% equals tenant_direct 100% when rent has a WC lag (reimbursements collected in billing month)  PASS
+# CA1b explicit reimbursement lag reproduces a lagged receivable  PASS
+# CA1c identities hold with both lags  PASS
+# CA2 lease-expiry warning fires when the last horizon month is vacant  PASS
+# CA2b no warning when the lease runs to the final month  PASS
+# INV landlord default unchanged  PASS
+# 6/6 passed
+# Subtest: test/redteam_v2584.test.cjs
+ok 17 - test/redteam_v2584.test.cjs
+  ---
+  duration_ms: 77.733271
+  type: 'test'
+  ...
+# Subtest: facility DSCR below lock-up blocks screening readiness (fails on pre-fix engine)
+ok 57 - facility DSCR below lock-up blocks screening readiness (fails on pre-fix engine)
+  ---
+  duration_ms: 28.860849
+  type: 'test'
+  ...
+# Subtest: assurance blocks certification on facility DSCR failures even with full evidence
+ok 58 - assurance blocks certification on facility DSCR failures even with full evidence
+  ---
+  duration_ms: 7.903035
+  type: 'test'
+  ...
+# Subtest: facilities absent: summary has no facilityDscrBreachMonths key (byte-identical contract)
+ok 59 - facilities absent: summary has no facilityDscrBreachMonths key (byte-identical contract)
+  ---
+  duration_ms: 5.910023
+  type: 'test'
+  ...
+# Subtest: declared MonthRow and Summary fields match runtime output exactly
+ok 60 - declared MonthRow and Summary fields match runtime output exactly
+  ---
+  duration_ms: 18.359264
+  type: 'test'
+  ...
+# Subtest: facilities present: every declared MonthRow/Summary/FacilitySummary field is emitted, and nothing else
+ok 61 - facilities present: every declared MonthRow/Summary/FacilitySummary field is emitted, and nothing else
+  ---
+  duration_ms: 9.297107
+  type: 'test'
+  ...
+1..61
+# tests 61
+# suites 0
+# pass 61
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12717.856
+
+> @powerpath/engine@25.9.0-risk1 test:reference
+> node scripts/reference_parity.cjs
+
+{
+ "checks": 80240,
+ "maxGapM": 1.4210854715202004e-12,
+ "failures": []
+}
+
+> @powerpath/engine@25.9.0-risk1 build:browser
+> node scripts/build_browser.cjs
+
+a909f6f6293ab0708ede6bd206dbc1aae9c17b8c877c674aa2e036758749766b  powerpath-engine.js
+98760be2caff62990e9c4ebdca91ce76906a1fe492c5719fb46369bcb661a573  underwrite-panel.js

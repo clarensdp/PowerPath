@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');const {evaluate,defaults}=require('../../src/underwrite.cjs');let n=0;const check=(name,fn)=>{fn();n++;console.log('PASS',name)};const close=(a,b,t=1e-6)=>assert.ok(Math.abs(a-b)<t,`${a} vs ${b}`);
+check('monthly sources and uses reconcile',()=>{const r=evaluate();for(const x of r.rows)close(x.sourcesUsesResidual,0)});
+check('construction draw capped by eligible costs',()=>{const r=evaluate();close(r.summary.debtDrawsM,1050*.65)});
+check('refinance retires construction loan at maturity',()=>{const r=evaluate();const m=r.rows[r.summary.maturityMonth-1];assert.ok(r.summary.refinanced);assert.ok(m.refinanceProceeds>0);close(m.debt,m.refinanceProceeds)});
+check('equity payoff has zero outstanding construction debt',()=>{let r=evaluate({...defaults(),loanMaturityMode:'equity'});const m=r.rows[r.summary.maturityMonth-1];close(m.debt,0);assert.equal(m.refinanceProceeds,0)});
+check('sponsor injections cover funding gaps, no negative cash',()=>{let r=evaluate();assert.ok(r.rows.every(x=>x.cash>=-1e-8));assert.ok(r.rows.some(x=>x.sponsorContribution>0));close(r.summary.equityInvestedM,r.assumptions.initialCash+r.rows.reduce((s,x)=>s+x.sponsorContribution,0))});
+check('restricted reserve segregated, released at exit',()=>{let r=evaluate();assert.ok(r.rows.some(x=>x.reserve>0));close(r.rows.at(-1).reserve,0);close(r.summary.endingReserveM,0)});
+check('all exit debt settled explicitly',()=>{let r=evaluate();close(r.summary.endingDebtM,0);assert.ok(r.rows.at(-1).exitDebtPayoff>0)});
+check('staged power: shared tranche limited to 50MW',()=>{let a=defaults();a.powerTranches=[{month:19,mw:50},{month:30,mw:50},{month:40,mw:50}];let r=evaluate(a);assert.equal(r.rows[19].onlineMW,50);assert.equal(r.rows[29].onlineMW,100);assert.equal(r.rows[39].onlineMW,150)});
+check('named tranche cannot energize different building',()=>{let a=defaults();a.powerTranches=[{month:19,mw:50,building:'Building A'}];let r=evaluate(a);assert.equal(r.rows[50].onlineMW,50)});
+check('delay reduces levered NPV',()=>{let b=evaluate(),d=evaluate({...defaults(),delayMonths:12});assert.ok(d.summary.npvM<b.summary.npvM)});
+check('stress shocks worsen NPV',()=>{let b=evaluate(),s=evaluate({...defaults(),overrunPct:20,rateShockPct:4,delayMonths:12});assert.ok(s.summary.npvM<b.summary.npvM)});
+check('maturity shortfall flagged as default without hidden refinancing',()=>{let r=evaluate({...defaults(),loanMaturityMode:'default'});assert.ok(r.summary.defaulted);assert.ok(r.rows[r.summary.maturityMonth-1].maturityShortfall>0)});
+check('no debt at zero LTC',()=>{let r=evaluate({...defaults(),ltc:0});close(r.summary.peakDebtM,0)});
+check('randomized sources and uses 300 iterations',()=>{let seed=42;const rand=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/2**32};for(let i=0;i<300;i++){let a=defaults();a.ltc=rand()*85;a.rate=3+rand()*12;a.delayMonths=Math.floor(rand()*15);a.overrunPct=rand()*30;a.rentPerKwMonth=80+rand()*250;a.refinanceLtvPct=rand()*85;a.exitValueM=100+rand()*2500;let r=evaluate(a);for(const x of r.rows){close(x.sourcesUsesResidual,0,1e-5);assert.ok(x.debt>=-1e-6);assert.ok(x.cash>=-1e-6)}assert.ok(Number.isFinite(r.summary.npvM))}});
+console.log('TOTAL',n,'v25.1 groups');

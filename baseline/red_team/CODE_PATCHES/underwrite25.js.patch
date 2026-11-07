@@ -1,0 +1,137 @@
+--- a/PowerPath_v25_8/workspace/underwrite25.js
++++ b/PowerPath_v25_8/workspace/underwrite25.js
+@@ -1,7 +1,7 @@
+ /* PowerPath v25.8 — transaction-audit fixes: tranche-rent cohorts, closed debt facilities, reserve integrity. $M. */
+ (function(root){'use strict';
+ const finite=(v,k,min=0)=>{v=Number(v);if(!Number.isFinite(v)||v<min)throw Error(k+' must be finite and >= '+min);return v};
+-const defaults=()=>({months:120,calendarStartYear:2026,calendarStartMonth:1,discount:10,rate:8,ltc:65,debtFee:1,termMonths:60,amortMonths:240,dscrCovenant:1.20,minLiquidity:10,initialCash:50,reserveTargetM:10,rentPerKwMonth:170,pue:1.3,powerCostMWh:85,otherOpexPct:12,fixedOpexM:0.4,constructionCostMW:7,delayMonths:0,overrunPct:0,rateShockPct:0,energyShockPct:0,refinanceLtvPct:60,refinanceValueM:1400,refinanceRatePct:7,refinanceFeePct:1,exitValueM:1800,exitCostPct:2,loanMaturityMode:'refinance',distributionPolicy:'excess',capacityBasis:'IT',tenantCapexPct:0,tenantFundingLagMonths:0,tenantRentCreditPct:0,tenantCreditMonths:0,debtYieldMinPct:8,refinanceDscrMin:1.25,refinanceAmortMonths:240,mezzLtcPct:0,mezzRatePct:13,mezzFeePct:2,cashSweepPct:0,distributionDscrMin:1.20,lockDistributionsOnBreach:true,dsraMonths:0,dsraReleaseAtExit:true,sponsorCommitmentM:null,cashTaxRatePct:0,maintenanceCapexMWYearM:0,workingCapitalDays:0,buildings:[{name:'Building A',itMW:50,constructionStart:1,constructionMonths:18,powerMonth:19,leaseMonth:19,leaseTermMonths:180,rentEscalatorPct:2.5},{name:'Building B',itMW:50,constructionStart:10,constructionMonths:18,powerMonth:28,leaseMonth:28,leaseTermMonths:180,rentEscalatorPct:2.5},{name:'Building C',itMW:50,constructionStart:19,constructionMonths:18,powerMonth:37,leaseMonth:37,leaseTermMonths:180,rentEscalatorPct:2.5}],powerTranches:[]});
++const defaults=()=>({months:120,calendarStartYear:2026,calendarStartMonth:1,discount:10,rate:8,ltc:65,debtFee:1,termMonths:60,amortMonths:240,dscrCovenant:1.20,minLiquidity:10,initialCash:50,reserveTargetM:10,rentPerKwMonth:170,pue:1.3,powerCostMWh:85,otherOpexPct:12,fixedOpexM:0.4,constructionCostMW:7,delayMonths:0,overrunPct:0,rateShockPct:0,energyShockPct:0,refinanceLtvPct:60,refinanceValueM:1400,refinanceRatePct:7,refinanceFeePct:1,exitValueM:1800,exitCostPct:2,loanMaturityMode:'refinance',distributionPolicy:'excess',capacityBasis:'IT',tenantCapexPct:0,tenantFundingLagMonths:0,tenantRentCreditPct:0,tenantCreditMonths:0,debtYieldMinPct:8,refinanceDscrMin:1.25,refinanceAmortMonths:240,mezzLtcPct:0,mezzRatePct:13,mezzFeePct:2,cashSweepPct:0,distributionDscrMin:1.20,lockDistributionsOnBreach:true,dsraMonths:0,dsraReleaseAtExit:true,sponsorCommitmentM:null,cashTaxRatePct:0,maintenanceCapexMWYearM:0,workingCapitalDays:0,fundingDefaultPolicy:'halt',buildings:[{name:'Building A',itMW:50,constructionStart:1,constructionMonths:18,powerMonth:19,leaseMonth:19,leaseTermMonths:180,rentEscalatorPct:2.5},{name:'Building B',itMW:50,constructionStart:10,constructionMonths:18,powerMonth:28,leaseMonth:28,leaseTermMonths:180,rentEscalatorPct:2.5},{name:'Building C',itMW:50,constructionStart:19,constructionMonths:18,powerMonth:37,leaseMonth:37,leaseTermMonths:180,rentEscalatorPct:2.5}],powerTranches:[]});
+ function irr(flows){if(!flows.some(x=>x<0)||!flows.some(x=>x>0))return null;let npv=r=>flows.reduce((s,v,i)=>s+v/((1+r)**(i/12)),0);let low=-.999,high=5,f0=npv(low),f1=npv(high);if(f0*f1>0)return null;for(let j=0;j<150;j++){let mid=(low+high)/2,f=npv(mid);if(f0*f>0){low=mid;f0=f}else high=mid}return (low+high)/2}
+ // Rent basis: never interpret a disclosed all-in lease value as a starting annual rent.
+ function rentSchedule(b,globalRent){
+@@ -58,8 +58,13 @@
+   if(b.capacityBasis&&!['IT','gross'].includes(b.capacityBasis))throw Error('Unknown capacity basis');
+   if(b.contractedRentM!==undefined&&b.contractedRentM!=='')finite(b.contractedRentM,'contractedRentM',.000001);
+  }
+- for(const t of a.powerTranches){finite(t.mw,'tranche MW',.001);finite(t.month,'tranche month',1);if(t.building!==undefined&&!a.buildings.some(b=>b.name===t.building))throw Error('Unknown tranche building')}
+- for(const b of a.buildings){const assigned=a.powerTranches.filter(t=>t.building===b.name).reduce((v,t)=>v+t.mw,0);if(assigned> b.itMW/((b.capacityBasis||a.capacityBasis)==='gross'?a.pue:1)+1e-8)throw Error('Assigned power tranches exceed '+b.name+' IT MW')}
++ // v25.8-CA P3: tranche MW carries an explicit unit. Default = the campus capacityBasis, so a
++ // 'gross' campus treats utility tranches as gross MW and converts them to IT MW with PUE.
++ a.trancheCapacityBasis=input.trancheCapacityBasis??a.capacityBasis;
++ if(!['IT','gross'].includes(a.trancheCapacityBasis))throw Error('Unknown tranche capacity basis');
++ if(!['halt','continue'].includes(a.fundingDefaultPolicy))throw Error('Invalid funding default policy');
++ for(const t of a.powerTranches){finite(t.mw,'tranche MW',.001);finite(t.month,'tranche month',1);if(t.building!==undefined&&!a.buildings.some(b=>b.name===t.building))throw Error('Unknown tranche building');if(t.basis!==undefined&&!['IT','gross'].includes(t.basis))throw Error('Unknown tranche basis');t._itMW=t.mw/((t.basis||a.trancheCapacityBasis)==='gross'?a.pue:1)}
++ for(const b of a.buildings){const assigned=a.powerTranches.filter(t=>t.building===b.name).reduce((v,t)=>v+t._itMW,0);if(assigned> b.itMW/((b.capacityBasis||a.capacityBasis)==='gross'?a.pue:1)+1e-8)throw Error('Assigned power tranches exceed '+b.name+' IT MW')}
+  const itMW=b=>b.itMW/((b.capacityBasis||a.capacityBasis)==='gross'?a.pue:1);
+  const leaseAudits=rentAudit(a.buildings,a.rentPerKwMonth,a.pue,a.capacityBasis);
+  const rentalMethods=new Map(a.buildings.map(b=>[b.name,rentSchedule({...b,_itMW:itMW(b)},a.rentPerKwMonth)]));
+@@ -68,22 +73,35 @@
+  // portion begins its own contractual payment age when physically ready for service.
+  // A shared supply tranche is allocated deterministically in building input order;
+  // this policy is a screening assumption, NOT a contractual allocation.
++ // v25.8-CA P5: after a funding default the sponsor/lenders cannot pay for unfinished buildings.
++ // Under fundingDefaultPolicy 'halt' (default) construction of every building not complete by the
++ // default month stops, its later capex is not incurred and it never energizes.
++ const abandoned=new Set();let haltMonth=Infinity;
+  const cohortsByBuilding=new Map(a.buildings.map(b=>[b.name,[]]));
+  const physicalByMonth=[];
++ function computePhysical(){
++ physicalByMonth.length=0;
++ for(const b of a.buildings)cohortsByBuilding.set(b.name,[]);
+  const lastPhysical=new Map(a.buildings.map(b=>[b.name,0]));
++ // v25.8-CA P2: shared supply, once allocated to an energized building, stays allocated (no
++ // silent re-allocation that would de-energize a building already in service). Only newly
++ // released shared MW is offered to ready buildings, in input order.
++ const sharedHeld=new Map(a.buildings.map(b=>[b.name,0]));
+  for(let month=0;month<=months+12;month++){
+-  let shared=a.powerTranches.filter(t=>!t.building&&t.month+a.delayMonths<=month).reduce((v,t)=>v+t.mw,0);
++  const sharedTotal=a.powerTranches.filter(t=>!t.building&&t.month+a.delayMonths<=month).reduce((v,t)=>v+t._itMW,0);
++  for(const b of a.buildings){const ded=a.powerTranches.filter(t=>t.building===b.name&&t.month+a.delayMonths<=month).reduce((v,t)=>v+t._itMW,0);sharedHeld.set(b.name,Math.min(sharedHeld.get(b.name),Math.max(0,itMW(b)-ded)))}
++  let shared=Math.max(0,sharedTotal-[...sharedHeld.values()].reduce((x,y)=>x+y,0));
+   let grossR=0,credits=0,rentedMw=0,physicalMw=0;
+   for(const b of a.buildings){
+    const mw=itMW(b),done=b.constructionStart+b.constructionMonths-1;
+-   const ready=Math.max(done+1,b.leaseMonth+a.delayMonths,b.powerMonth+a.delayMonths);
++   const ready=abandoned.has(b.name)?Infinity:Math.max(done+1,b.leaseMonth+a.delayMonths,b.powerMonth+a.delayMonths);
+    let delivered=0;
+    if(month>=ready){
+     if(a.powerTranches.length){
+-     const dedicated=a.powerTranches.filter(t=>t.building===b.name&&t.month+a.delayMonths<=month).reduce((v,t)=>v+t.mw,0);
+-     const portion=Math.min(Math.max(0,mw-dedicated),shared);
+-     shared-=portion;
+-     delivered=Math.min(mw,dedicated+portion);
++     const dedicated=a.powerTranches.filter(t=>t.building===b.name&&t.month+a.delayMonths<=month).reduce((v,t)=>v+t._itMW,0);
++     const portion=Math.min(Math.max(0,mw-dedicated-sharedHeld.get(b.name)),shared);
++     shared-=portion;sharedHeld.set(b.name,sharedHeld.get(b.name)+portion);
++     delivered=Math.min(mw,dedicated+sharedHeld.get(b.name));
+     }else delivered=mw;
+    }
+    physicalMw+=delivered;
+@@ -104,12 +122,14 @@
+   }
+   physicalByMonth.push({grossRevenue:grossR,rentCredits:credits,onlineMW:rentedMw,availableMW:physicalMw});
+  }
++ }
++ computePhysical();
+  // Independent of debt accounting. This also underpins forward CFADS refinancing.
+  function operations(m){
+   let capex=0,tenantFundedCapex=0;
+   for(const b of a.buildings){
+    const mw=itMW(b),done=b.constructionStart+b.constructionMonths-1;
+-   const gross=m>=b.constructionStart&&m<=done?mw*a.constructionCostMW*(1+a.overrunPct/100)/b.constructionMonths:0;
++   const gross=m>=b.constructionStart&&m<=done&&!(abandoned.has(b.name)&&m>=haltMonth)?mw*a.constructionCostMW*(1+a.overrunPct/100)/b.constructionMonths:0;
+    capex+=gross;
+    tenantFundedCapex+=gross*(b.tenantCapexPct??a.tenantCapexPct)/100;
+   }
+@@ -145,7 +165,7 @@
+   if((seniorDraw+mezzDraw)>0&&firstDebtMonth===null){firstDebtMonth=m;maturityMonth=firstDebtMonth+Math.round(a.termMonths)-1}
+   const seniorInterest=debt*(refiOccurred?a.refinanceRatePct/1200:initialDebtRate),mezzInterest=mezz*a.mezzRatePct/1200;
+   const interest=seniorInterest+mezzInterest;interestTotal+=interest;
+-  const constructing=a.buildings.some(b=>m>=b.constructionStart&&m<b.constructionStart+b.constructionMonths);
++  const constructing=a.buildings.some(b=>m>=b.constructionStart&&m<b.constructionStart+b.constructionMonths&&!(abandoned.has(b.name)&&m>=haltMonth));
+   const capitalizedInterest=!refiOccurred&&constructing?interest:0,cashInterest=interest-capitalizedInterest;
+   const capSenior=capitalizedInterest*(interest?seniorInterest/interest:1),capMezz=capitalizedInterest-capSenior;
+   debt+=capSenior;mezz+=capMezz;
+@@ -177,7 +197,13 @@
+     if(gap>1e-8){defaulted=true;maturityShortfall=gap;fundingDefault=true}
+     else{principal=oldDebt;mezzPrincipal=oldMezz;debt=0;mezz=0;constructionFacilityClosed=true}
+    }else{defaulted=true;maturityShortfall=oldDebt+oldMezz}
+-  }else if(refiOccurred&&m>maturityMonth){principal=Math.min(debt,debt/Math.max(1,a.refinanceAmortMonths-(m-maturityMonth-1)));debt-=principal}
++  }else if(refiOccurred&&m>maturityMonth){
++   // v25.8-CA P1: the refinanced loan is SIZED on a level (annuity) payment, so it must be REPAID on
++   // that same annuity. v25.8 repaid level principal (balance/remaining), whose first payments are
++   // ~29% above the sized payment at 7%/240m, so a DSCR-sized refinancing breached on day one.
++   const left=Math.max(1,a.refinanceAmortMonths-(m-maturityMonth-1)),rr=a.refinanceRatePct/1200;
++   const payment=rr===0?debt/left:debt*rr/(1-Math.pow(1+rr,-left));
++   principal=Math.min(debt,Math.max(0,payment-seniorInterest));debt-=principal}
+   principalPaid+=principal+mezzPrincipal;
+   // DSCR excludes mandatory maturity balloon, refinancing transactions and voluntary sweeps.
+   const scheduledDebtService=cashInterest+(m===maturityMonth?0:principal+mezzPrincipal);
+@@ -208,7 +234,9 @@
+   if(!locked&&a.distributionPolicy==='excess'&&m<months){distribution=Math.max(0,cash-a.minLiquidity);cash-=distribution}
+   let terminalProceeds=0,exitDebtPayoff=0;
+   if(m===months){
+-   terminalProceeds=a.exitValueM*(1-a.exitCostPct/100);
++   // v25.8-CA P5: an abandoned campus cannot be sold at the full-campus exit value; scale by completed IT MW.
++   const totalIt=a.buildings.reduce((v,b)=>v+itMW(b),0),liveIt=a.buildings.filter(b=>!abandoned.has(b.name)).reduce((v,b)=>v+itMW(b),0);
++   terminalProceeds=a.exitValueM*(1-a.exitCostPct/100)*(abandoned.size?liveIt/totalIt:1);
+    const availableForDebt=Math.max(0,cash+terminalProceeds+reserve);
+    exitDebtPayoff=Math.min(debt+mezz,availableForDebt);
+    const paySenior=Math.min(debt,exitDebtPayoff),payMezz=exitDebtPayoff-paySenior;
+@@ -221,6 +249,7 @@
+   const shortfall=preFundingCash<a.minLiquidity,covenant=dscr!==null&&m!==maturityMonth&&dscr<a.dscrCovenant;
+   if(shortfall)liquidityBreaches.push(m);if(covenant)covenantBreaches.push(m);
+   uses+=sweepPrincipal;
++  if(fundingDefault&&a.fundingDefaultPolicy==='halt'&&haltMonth===Infinity){haltMonth=m+1;for(const b of a.buildings)if(b.constructionStart+b.constructionMonths-1>m)abandoned.add(b.name);if(abandoned.size)computePhysical()}
+   flows.push(distribution-sponsorContribution);
+   peakDebt=Math.max(peakDebt,debt+mezz,refinanceProceeds);
+   const debtResidual=debt-(openingSeniorDebt+seniorDraw+capSenior+refinanceProceeds-principal);
+@@ -230,7 +259,7 @@
+   rows.push({month:m,onlineMW,availableMW,grossRevenue,rentCredits,revenue,energy,opex,ebitda,cashTaxes,maintenanceCapex,workingCapitalBalance:op.workingCapitalBalance,workingCapitalChange,cfads,capex,tenantFundedCapex,tenantCashReceipt,tenantFundingReceivable:totalTenantReceivable,draw:seniorDraw,mezzDraw,fee,refinanceFee,interest,capitalizedInterest,cashInterest,principal,mezzPrincipal,debt,mezzDebt:mezz,debtService:scheduledDebtService,scheduledDebtService,dscr,breach:covenant,liquidityBreach:shortfall,openingCash,loanSources,uses,operatingCash,preFundingCash,sponsorContribution,equityContribution:sponsorContribution,distribution,netEquity:distribution-sponsorContribution,cash,reserve,reserveMovement,refinanceProceeds,sweepPrincipal,maturityShortfall,terminalProceeds,exitDebtPayoff,unpaidDebtAtExitM,unfundedGapM,sourcesUsesResidual,debtResidual,mezzResidual,reserveResidual,reserveDeficiency:finalReserveDeficiency,restrictedTarget,dsraTarget,openingSeniorDebt,openingMezzDebt,openingReserve,forward12CfadsM,forward12NoiM});
+  }
+  const npv=flows.reduce((sum,v,i)=>sum+v/(1+a.discount/100)**(i/12),0),equityOut=rows.reduce((sum,x)=>sum+x.distribution,0),dscrs=rows.map(r=>r.dscr).filter(Number.isFinite);
+- const summary={financeabilityStatus:defaulted?(fundingDefault?'FUNDING DEFAULT — sponsor limit or refinance gap':'DEFAULT — financing assumptions not performing'):a.sponsorCommitmentM===null?'UNVERIFIED SPONSOR FUNDING — assumption-driven':leaseAudits.some(x=>!x.reconciled)?'UNRECONCILED — not validated':covenantBreaches.length?'COVENANT BREACH — review required':'MODELED — not externally validated',npvM:npv,leveredIRR:irr(flows),equityMultiple:totalSponsor?equityOut/totalSponsor:null,peakDebtM:peakDebt,interestM:interestTotal,feesM:feeTotal,principalM:principalPaid,debtDrawsM:draws,mezzDrawsM:mezzDraws,equityInvestedM:totalSponsor,equityDistributionsM:equityOut,minDSCR:dscrs.length?Math.min(...dscrs):null,minCashM:Math.min(...rows.map(r=>r.cash)),breachMonths:covenantBreaches,liquidityBreachMonths:liquidityBreaches,maturityMonth,refinanced:refiOccurred,refinanceSizing,defaulted,fundingDefault,unpaidDebtAtExitM,endingDebtM:debt+mezz,endingReserveM:reserve,sweepPrincipalM:rows.reduce((s,r)=>s+r.sweepPrincipal,0),sourcesUsesMaxResidual:Math.max(...rows.map(r=>Math.abs(r.sourcesUsesResidual))),debtMaxResidual:Math.max(...rows.flatMap(r=>[Math.abs(r.debtResidual),Math.abs(r.mezzResidual)])),reserveMaxResidual:Math.max(...rows.map(r=>Math.abs(r.reserveResidual))),dsraDeficiencyMonths:rows.filter(r=>r.reserveDeficiency>1e-8).map(r=>r.month),sponsorCommitmentM:a.sponsorCommitmentM,sponsorRemainingM:a.sponsorCommitmentM===null?null:Math.max(0,a.sponsorCommitmentM-totalSponsor),unfundedMonths:rows.filter(r=>r.unfundedGapM>1e-8).map(r=>r.month),operatingMWh:rows.reduce((sum,r)=>sum+r.onlineMW*a.pue*730,0),tenantFundingM:rows.reduce((sum,r)=>sum+r.tenantFundedCapex,0),rentCreditsM:rows.reduce((sum,r)=>sum+r.rentCredits,0),cumulativeCfadsM:rows.reduce((sum,r)=>sum+r.cfads,0),leaseAudits,leaseReconciliationBlocked:leaseAudits.some(x=>!x.reconciled),financialValidationStatus:'NOT INDEPENDENTLY VALIDATED'};
++ const summary={financeabilityStatus:defaulted?(fundingDefault?'FUNDING DEFAULT — sponsor limit or refinance gap':'DEFAULT — financing assumptions not performing'):a.sponsorCommitmentM===null?'UNVERIFIED SPONSOR FUNDING — assumption-driven':leaseAudits.some(x=>!x.reconciled)?'UNRECONCILED — not validated':covenantBreaches.length?'COVENANT BREACH — review required':'MODELED — not externally validated',npvM:npv,leveredIRR:irr(flows),equityMultiple:totalSponsor?equityOut/totalSponsor:null,peakDebtM:peakDebt,interestM:interestTotal,feesM:feeTotal,principalM:principalPaid,debtDrawsM:draws,mezzDrawsM:mezzDraws,equityInvestedM:totalSponsor,equityDistributionsM:equityOut,minDSCR:dscrs.length?Math.min(...dscrs):null,minCashM:Math.min(...rows.map(r=>r.cash)),breachMonths:covenantBreaches,liquidityBreachMonths:liquidityBreaches,maturityMonth,refinanced:refiOccurred,refinanceSizing,defaulted,fundingDefault,unpaidDebtAtExitM,endingDebtM:debt+mezz,endingReserveM:reserve,sweepPrincipalM:rows.reduce((s,r)=>s+r.sweepPrincipal,0),sourcesUsesMaxResidual:Math.max(...rows.map(r=>Math.abs(r.sourcesUsesResidual))),debtMaxResidual:Math.max(...rows.flatMap(r=>[Math.abs(r.debtResidual),Math.abs(r.mezzResidual)])),reserveMaxResidual:Math.max(...rows.map(r=>Math.abs(r.reserveResidual))),dsraDeficiencyMonths:rows.filter(r=>r.reserveDeficiency>1e-8).map(r=>r.month),sponsorCommitmentM:a.sponsorCommitmentM,sponsorRemainingM:a.sponsorCommitmentM===null?null:Math.max(0,a.sponsorCommitmentM-totalSponsor),unfundedMonths:rows.filter(r=>r.unfundedGapM>1e-8).map(r=>r.month),operatingMWh:rows.reduce((sum,r)=>sum+r.onlineMW*a.pue*hoursInMonth(r.month),0),tenantFundingM:rows.reduce((sum,r)=>sum+r.tenantFundedCapex,0),rentCreditsM:rows.reduce((sum,r)=>sum+r.rentCredits,0),cumulativeCfadsM:rows.reduce((sum,r)=>sum+r.cfads,0),leaseAudits,leaseReconciliationBlocked:leaseAudits.some(x=>!x.reconciled),financialValidationStatus:'NOT INDEPENDENTLY VALIDATED',fundingDefaultPolicy:a.fundingDefaultPolicy,constructionHaltMonth:Number.isFinite(haltMonth)?haltMonth:null,abandonedBuildings:[...abandoned],peakUnfundedGapM:Math.max(0,...rows.map(r=>r.unfundedGapM)),residualCashRetainedAtExitM:rows.at(-1).cash,uncollectedTenantReceivableAtExitM:totalTenantReceivable,workingCapitalBalanceAtExitM:rows.at(-1).workingCapitalBalance};
+  return {assumptions:a,rows,summary,flows};
+ }
+ 

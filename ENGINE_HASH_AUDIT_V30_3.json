@@ -1,0 +1,54 @@
+{
+  "comparison": "v30.2 -> v30.3 financial engine files",
+  "files": {
+    "bridge.cjs": {
+      "sha256": "50db0082954d627412d8be04726c121a9967bb45376bde4048b806925ae6254d",
+      "unchanged": true
+    },
+    "facility_waterfall259.js": {
+      "sha256": "b02a6961aabbd668b61bfd972c24c6ddbb45fbf3192445c8d964ba6c8b1ab551",
+      "unchanged": true
+    },
+    "fixed_note27.cjs": {
+      "sha256": "b89e6a0b7d2b5ee1fdc56a86d4709bb92e1b604b33f7e39f9405c486477a10f0",
+      "unchanged": true
+    },
+    "underwrite25.js": {
+      "sha256": "c4e2a090698411e492f5399a52fddbf233539dc3c1871d0877e53fcfb2d9ce29",
+      "unchanged": true
+    },
+    "underwrite27.js": {
+      "sha256": "686215dde5bc75cb7b145d54be290cc425baa6e6d722f9ddc5407f5717325409",
+      "unchanged": true
+    },
+    "v259_verified/RISK_POLICY.md": {
+      "sha256": "e5e85ed0d2f723ea846b0da73b4c15fe839acff6e1bc6ccb2b105e19c6a09d20",
+      "unchanged": true
+    },
+    "v259_verified/src/assurance.cjs": {
+      "sha256": "6d09ab48b93f2e828eca4d81fd0ac21779f56d320b26943f2aea848870dbcceb",
+      "unchanged": true
+    },
+    "v259_verified/src/facilities.cjs": {
+      "sha256": "2c0ceb22126361c87d7c939f047011666c5feebf9b8c9c751fad940ce3b455a5",
+      "unchanged": true
+    },
+    "v259_verified/src/index.cjs": {
+      "sha256": "7e1e5b9802a8346a0428f85fed3b3eda3c71b66dbaf37c0e43bdc93e17de69a2",
+      "unchanged": true
+    },
+    "v259_verified/src/index.d.ts": {
+      "sha256": "f39618d687da4fceccbd0a161e618a2e09044afc7cc0e303905ec73a6ec9dc6e",
+      "unchanged": true
+    },
+    "v259_verified/src/notes.cjs": {
+      "sha256": "ee976d38778799b0715f6825a18999e2814498740cfcb7017c5e90cbfd235df9",
+      "unchanged": true
+    },
+    "v259_verified/src/underwrite.cjs": {
+      "sha256": "17c144e952222a94b70f41b2a417d00498e41034c76b9010f45d9899b7ff9f27",
+      "unchanged": true
+    }
+  },
+  "all_unchanged": true
+}

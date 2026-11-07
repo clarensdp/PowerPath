@@ -1,0 +1,10 @@
+{
+ "release": "30.3.1",
+ "files": {
+  "feasibility/v82/financial_bridge.py": "adf81e4ea7a92506c8c152a3da3673323e45948f2aac0b3139d6a0f51f6116e0",
+  "web/public/power-deliverability.js": "8e93845aa66cda785992bc3146d25b344bf7962b8bc92d50232959e7dcdefbd3",
+  "feasibility/test_v831_bridge_proof.py": "af1fde4a3258c637658f30d02b9156c1b7ee497fe793645eb77644b53e829c28",
+  "RELEASE_V30_3_1.md": "fe006fa6b9fe4cbd2e27f5b4f8f04db403821e2795f0fd2aedd889fb934dab4c"
+ },
+ "engine_unchanged_vs": "ENGINE_HASH_AUDIT_V30_3.json"
+}

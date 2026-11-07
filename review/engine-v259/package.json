@@ -1,0 +1,23 @@
+{
+  "name": "@powerpath/engine",
+  "version": "25.9.0-risk1",
+  "description": "PowerPath monthly underwriting engine: lease cohorts, power responsibility, construction/refinance debt, fixed-rate note facilities (v25.9), reserves, covenants, defaults. Pure, deterministic, $M.",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "src/index.cjs",
+  "types": "src/index.d.ts",
+  "exports": { ".": { "types": "./src/index.d.ts", "require": "./src/index.cjs" }, "./notes": "./src/notes.cjs" },
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "format": "prettier --write src ui scripts test/*.cjs",
+    "format:check": "prettier --check src ui scripts test/*.cjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"test/**/*.test.cjs\"",
+    "test:reference": "node scripts/reference_parity.cjs",
+    "golden:update": "node scripts/golden.cjs --update",
+    "demo:facilities": "node scripts/demo_facilities.cjs",
+    "build:browser": "node scripts/build_browser.cjs",
+    "ci": "npm run format:check && npm run typecheck && npm test && npm run test:reference && npm run build:browser"
+  },
+  "devDependencies": { "prettier": "3.3.3", "typescript": "5.6.3", "@types/node": "22.7.5" }
+}

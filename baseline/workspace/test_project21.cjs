@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict'),fs=require('fs'),vm=require('vm');
+const src=fs.readFileSync(__dirname+'/project21.js','utf8');const ctx={globalThis:{},window:{},localStorage:{getItem:()=>null},document:{querySelector:()=>({onclick:null})}};
+vm.runInNewContext(src,ctx);const x=ctx.globalThis.PowerPathProject21;let n=0;const test=(name,fn)=>{fn();console.log('PASS',name);n++};
+test('project21 exports',()=>assert.ok(x));
+test('calendar month addition',()=>assert.equal(x.monthAdd('2026-01-15',6),'2026-07-15'));
+test('shift grid phases',()=>{const s={conn:{firstMonth:12,fullMonth:24}};const saved=ctx.PowerEngine;ctx.PowerEngine={merge:(a,b)=>({...a,...b})};const o=x.delayedSpec(s,6);assert.equal(o.conn.firstMonth,18);assert.equal(o.conn.fullMonth,30);assert.equal(s.conn.firstMonth,12);delete ctx.PowerEngine;});
+test('evidence warning',()=>assert.ok(x.riskScore({grid:{status:'Unverified'},air:{status:'Confirmed',source:'Permit',date:'2026-01-01'}})===1));
+test('critical path alert',()=>assert.ok(x.createInsights({}, {blocked:1,unverified:1}, {evidence:{}}).length>=6));
+test('source bounded UI',()=>assert.ok(src.includes('not a live autonomous AI agent')&&src.includes('rule-based assistant')));
+test('snapshot excludes invented approvals',()=>{ctx.project=()=>({id:'q',name:'Test',requiredMW:100,jurisdiction:'PJM',asOf:'2026-10-25'});ctx.PowerDevelopment={schedule:()=>({firstDate:'2028-01-01',fullDate:'2029-01-01',blocked:0,unverified:1,order:[]})};const r=x.snapshot(ctx.project());assert.equal(r.development.fullPower,'2029-01-01');assert.equal(r.evidence,null);});
+console.log(n+' v21 checks passed');

@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),E=require('./engine2.js'),F=require('./feasibility.js'),base=require('./hourly.json');E.setRegions(require('./regions.json'));
+let count=0;const test=(name,fn)=>{fn();count++;console.log('PASS',name)};
+const good={grid:'Confirmed',air:'Confirmed',gas:'Confirmed',equipment:'Confirmed'};
+const stub={kg:300,unserved:0,powerOn:18};
+test('unverified grid is conditional',()=>assert.equal(F.classify({scenario:'grid',fin:stub}).status,'Conditional'));
+test('denied air permit blocks onsite',()=>assert.equal(F.classify({scenario:'onsite',fin:stub,evidence:{...good,air:'Denied'}}).status,'Blocked'));
+test('confirmed rights clear scenario',()=>assert.equal(F.classify({scenario:'onsite',fin:stub,evidence:good}).status,'Feasible'));
+test('carbon limit blocks',()=>assert.equal(F.classify({scenario:'grid',fin:stub,evidence:good,limits:{carbonCap:200}}).status,'Blocked'));
+test('unserved energy blocks',()=>assert.equal(F.classify({scenario:'grid',fin:{...stub,unserved:1},evidence:good}).status,'Blocked'));
+test('missed energization deadline blocks',()=>assert.equal(F.classify({scenario:'grid',fin:stub,evidence:good,limits:{maxDelayMonths:12}}).status,'Blocked'));
+test('no eligible winner when all blocked',()=>assert.equal(F.winners([{kind:'grid',gate:{status:'Blocked'},fin:stub}]).eligible,0));
+test('grid-only removes thermal and storage',()=>assert.equal(F.createMix(E.defaults(),'grid').mix.engine,0));
+test('onsite-only removes grid entitlement',()=>assert.equal(F.createMix(E.defaults(),'onsite').conn.mw,0));
+test('full hourly battery audit',()=>{const s=E.merge(E.defaults(),{horizonYears:2,openMonth:1,mix:{solar:90,wind:100,nuclear:0,battery:40,batteryHours:4,turbine:0,engine:30,fuelcell:0}});const r=E.simulate(s,base,{audit:true});assert.ok(r.audit.hours>15000);assert.equal(r.audit.failures,0);console.log('audited',r.audit.hours,'hours',r.audit.maxSocResidual,r.audit.maxCleanResidual)});
+test('screen three live strategies',()=>{const r=F.compare(E,base,E.merge(E.defaults(),{horizonYears:2,openMonth:12,conn:{firstMonth:18,fullMonth:30,firstShare:1}}),good,{maxUnservedMWh:0,carbonCap:1000,maxDelayMonths:60},{stride:3});assert.equal(r.length,3);assert.ok(r.every(x=>Number.isFinite(x.fin.npv)));});
+console.log(`${count} v19 checks passed`);

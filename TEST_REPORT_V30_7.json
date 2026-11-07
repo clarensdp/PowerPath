@@ -1,0 +1,25 @@
+{
+  "release": "PowerPath v30.7.0 local agent operating foundation",
+  "tested_new_agent_ops_local": 9,
+  "tested_new_agent_ops_auth": 3,
+  "tested_new_agent_ops_concurrency": 3,
+  "tested_existing_gis_permitting_feasibility_api": 180,
+  "tested_legacy_live_agents_separately": 4,
+  "partial_combined_suite": {
+    "passed": 90,
+    "xfailed": 1,
+    "failed": 1,
+    "failure": "test-state contamination in test_v268_live_workflow.test_04_live_does_not_approve_actions; passes isolated"
+  },
+  "financial_engine_sha256_matched": 12,
+  "financial_engine_sha256_total": 12,
+  "real_provider_calls": 0,
+  "cloud_workers_deployed": 0,
+  "production_ready": false,
+  "notes": [
+    "API tests simulated model calls",
+    "live GIS not tested",
+    "browser visual test not performed",
+    "only agent domain has schema migration"
+  ]
+}

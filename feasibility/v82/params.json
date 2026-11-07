@@ -1,0 +1,332 @@
+{
+  "profiles": {
+    "training": {
+      "Power: availability & speed": 0.3,
+      "Power: cost & quality": 0.17,
+      "Cooling & water": 0.1,
+      "Connectivity & latency": 0.05,
+      "Land & buildout": 0.12,
+      "Regulatory & incentives": 0.1,
+      "Community & political": 0.08,
+      "Market demand": 0.08
+    },
+    "inference": {
+      "Power: availability & speed": 0.25,
+      "Power: cost & quality": 0.12,
+      "Cooling & water": 0.08,
+      "Connectivity & latency": 0.16,
+      "Land & buildout": 0.11,
+      "Regulatory & incentives": 0.08,
+      "Community & political": 0.08,
+      "Market demand": 0.12
+    }
+  },
+  "appl": {
+    "0": {
+      "grid": true,
+      "btm": true,
+      "hyb": true,
+      "flex": true
+    },
+    "1": {
+      "grid": true,
+      "btm": true,
+      "hyb": true,
+      "flex": true
+    },
+    "2": {
+      "grid": true,
+      "btm": true,
+      "hyb": true,
+      "flex": true
+    },
+    "3": {
+      "grid": true,
+      "btm": true,
+      "hyb": true,
+      "flex": true
+    },
+    "4": {
+      "grid": true,
+      "btm": true,
+      "hyb": true,
+      "flex": true
+    },
+    "5": {
+      "grid": false,
+      "btm": true,
+      "hyb": true,
+      "flex": false
+    },
+    "6": {
+      "grid": false,
+      "btm": false,
+      "hyb": false,
+      "flex": true
+    }
+  },
+  "metrics": {
+    "Time to energization (fastest path)": {
+      "bp": [
+        18,
+        30,
+        48,
+        60
+      ],
+      "direction": "Lower",
+      "w": 0.3
+    },
+    "Phased delivery (time-weighted share of target)": {
+      "bp": [
+        1,
+        0.8,
+        0.5,
+        0.25
+      ],
+      "direction": "Higher",
+      "w": 0.3
+    },
+    "Grid headroom / target load": {
+      "bp": [
+        1.5,
+        1,
+        0.75,
+        0.5
+      ],
+      "direction": "Higher",
+      "w": 0.1
+    },
+    "10-yr expansion / target load": {
+      "bp": [
+        5,
+        3,
+        1.5,
+        1
+      ],
+      "direction": "Higher",
+      "w": 0.15
+    },
+    "Distance to gas pipeline": {
+      "bp": [
+        1,
+        5,
+        15,
+        30
+      ],
+      "direction": "Lower",
+      "w": 0.15
+    },
+    "All-in delivered power cost": {
+      "bp": [
+        64.42,
+        76.84,
+        85.08,
+        132.1
+      ],
+      "direction": "Lower",
+      "w": 0.6
+    },
+    "Price volatility": {
+      "bp": [
+        15,
+        30,
+        60,
+        100
+      ],
+      "direction": "Lower",
+      "w": 0.15
+    },
+    "Clean PPA access": {
+      "bp": [
+        5,
+        4,
+        2.5,
+        1
+      ],
+      "direction": "Higher",
+      "w": 0.25
+    },
+    "Expected PUE": {
+      "bp": [
+        1.2,
+        1.3,
+        1.36,
+        1.52
+      ],
+      "direction": "Lower",
+      "w": 0.6
+    },
+    "Water stress (WRI Aqueduct)": {
+      "bp": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "Lower",
+      "w": 0.4
+    },
+    "Latency to nearest major IXP": {
+      "bp": [
+        5,
+        15,
+        35,
+        60
+      ],
+      "direction": "Lower",
+      "w": 0.6
+    },
+    "Diverse fiber routes": {
+      "bp": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "direction": "Higher",
+      "w": 0.4
+    },
+    "Contiguous developable land": {
+      "bp": [
+        500,
+        250,
+        100,
+        50
+      ],
+      "direction": "Higher",
+      "w": 0.35
+    },
+    "Construction cost index": {
+      "bp": [
+        90,
+        100,
+        110,
+        132.450331125828
+      ],
+      "direction": "Lower",
+      "w": 0.35
+    },
+    "Long-lead equipment": {
+      "bp": [
+        10.1538461538462,
+        19.8461538461538,
+        29.5384615384615,
+        36.9230769230769
+      ],
+      "direction": "Lower",
+      "w": 0.3
+    },
+    "Tax incentive strength": {
+      "bp": [
+        5,
+        4,
+        2.5,
+        1
+      ],
+      "direction": "Higher",
+      "w": 0.6
+    },
+    "Permitting timeline": {
+      "bp": [
+        6,
+        12,
+        24,
+        36
+      ],
+      "direction": "Lower",
+      "w": 0.4
+    },
+    "Local opposition risk": {
+      "bp": [
+        1,
+        2,
+        3.5,
+        5
+      ],
+      "direction": "Lower",
+      "w": 0.6
+    },
+    "Large-load tariff / rate-case exposure": {
+      "bp": [
+        1,
+        2,
+        3.5,
+        5
+      ],
+      "direction": "Lower",
+      "w": 0.4
+    },
+    "Market vacancy rate": {
+      "bp": [
+        0.01,
+        0.014,
+        0.028,
+        0.04
+      ],
+      "direction": "Lower",
+      "w": 0.25
+    },
+    "Preleasing of market pipeline": {
+      "bp": [
+        0.9,
+        0.804,
+        0.6,
+        0.4
+      ],
+      "direction": "Higher",
+      "w": 0.3
+    },
+    "Annual net absorption": {
+      "bp": [
+        935.2,
+        520,
+        364.05,
+        100
+      ],
+      "direction": "Higher",
+      "w": 0.25
+    },
+    "Distance to nearest cloud region": {
+      "bp": [
+        50,
+        150,
+        400,
+        800
+      ],
+      "direction": "Lower",
+      "w": 0.2
+    }
+  },
+  "cool": {
+    "Evaporative": {
+      "Expected PUE": 0.4,
+      "Water stress (WRI Aqueduct)": 0.6
+    },
+    "Closed-loop": {
+      "Expected PUE": 0.7,
+      "Water stress (WRI Aqueduct)": 0.3
+    },
+    "Dry": {
+      "Expected PUE": 0.9,
+      "Water stress (WRI Aqueduct)": 0.1
+    }
+  },
+  "sev": {
+    "Minor": 0.95,
+    "Moderate": 0.85,
+    "Major": 0.65
+  },
+  "phase_w": [
+    0.5,
+    0.3,
+    0.2
+  ],
+  "maxR": 0.4,
+  "share_conf": 0.5,
+  "rate": 0.08,
+  "horizon": 15,
+  "value_mw_month": 150000,
+  "model_version": "workbook_v8_2",
+  "source_workbook": "AI_Data_Center_Feasibility_Model_v8_2.xlsx",
+  "screening_convention": "Workbook v8.2 parallel gate delays; production scheduler schedule27 accumulates dependencies"
+}

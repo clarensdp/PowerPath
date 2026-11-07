@@ -1,0 +1,307 @@
+- key: metric_01
+  name: Time to energization (fastest path)
+  pillar: 'Power: availability & speed'
+  unit: months
+  direction: lower
+  breakpoints:
+  - 18
+  - 30
+  - 48
+  - 60
+  weight_in_pillar: 0.3
+  basis: 'Calibrated: fractions of LBNL median queue-to-operation time (0 at the median
+    grid queue path)'
+  source_cell: Metrics!A5:L5
+- key: metric_02
+  name: Phased delivery (time-weighted share of target)
+  pillar: 'Power: availability & speed'
+  unit: share
+  direction: higher
+  breakpoints:
+  - 1
+  - 0.8
+  - 0.5
+  - 0.25
+  weight_in_pillar: 0.3
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A6:L6
+- key: metric_03
+  name: Grid headroom / target load
+  pillar: 'Power: availability & speed'
+  unit: x
+  direction: higher
+  breakpoints:
+  - 1.5
+  - 1
+  - 0.75
+  - 0.5
+  weight_in_pillar: 0.1
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A7:L7
+- key: metric_04
+  name: 10-yr expansion / target load
+  pillar: 'Power: availability & speed'
+  unit: x
+  direction: higher
+  breakpoints:
+  - 5
+  - 3
+  - 1.5
+  - 1
+  weight_in_pillar: 0.15
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A8:L8
+- key: metric_05
+  name: Distance to gas pipeline
+  pillar: 'Power: availability & speed'
+  unit: miles
+  direction: lower
+  breakpoints:
+  - 1
+  - 5
+  - 15
+  - 30
+  weight_in_pillar: 0.15
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A9:L9
+- key: metric_06
+  name: All-in delivered power cost
+  pillar: 'Power: cost & quality'
+  unit: $/MWh
+  direction: lower
+  breakpoints:
+  - 64.42
+  - 76.84
+  - 85.08
+  - 132.1
+  weight_in_pillar: 0.6
+  basis: 'Calibrated: percentiles of EIA 2024 industrial price by state (lower 48
+    + DC)'
+  source_cell: Metrics!A10:L10
+- key: metric_07
+  name: Price volatility
+  pillar: 'Power: cost & quality'
+  unit: $/MWh
+  direction: lower
+  breakpoints:
+  - 15
+  - 30
+  - 60
+  - 100
+  weight_in_pillar: 0.15
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A11:L11
+- key: metric_08
+  name: Clean PPA access
+  pillar: 'Power: cost & quality'
+  unit: 1-5
+  direction: higher
+  breakpoints:
+  - 5
+  - 4
+  - 2.5
+  - 1
+  weight_in_pillar: 0.25
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A12:L12
+- key: metric_09
+  name: Expected PUE
+  pillar: Cooling & water
+  unit: ratio
+  direction: lower
+  breakpoints:
+  - 1.2
+  - 1.3
+  - 1.36
+  - 1.52
+  weight_in_pillar: 0.6
+  basis: 'Calibrated: Uptime 2026 new-build range (100/70), capacity-weighted avg
+    (30), industry avg (0)'
+  source_cell: Metrics!A13:L13
+- key: metric_10
+  name: Water stress (WRI Aqueduct)
+  pillar: Cooling & water
+  unit: 0-5
+  direction: lower
+  breakpoints:
+  - 1
+  - 2
+  - 3
+  - 4
+  weight_in_pillar: 0.4
+  basis: 'Calibrated: WRI Aqueduct baseline water stress category boundaries'
+  source_cell: Metrics!A14:L14
+- key: metric_11
+  name: Latency to nearest major IXP
+  pillar: Connectivity & latency
+  unit: ms
+  direction: lower
+  breakpoints:
+  - 5
+  - 15
+  - 35
+  - 60
+  weight_in_pillar: 0.6
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A15:L15
+- key: metric_12
+  name: Diverse fiber routes
+  pillar: Connectivity & latency
+  unit: count
+  direction: higher
+  breakpoints:
+  - 4
+  - 3
+  - 2
+  - 1
+  weight_in_pillar: 0.4
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A16:L16
+- key: metric_13
+  name: Contiguous developable land
+  pillar: Land & buildout
+  unit: acres
+  direction: higher
+  breakpoints:
+  - 500
+  - 250
+  - 100
+  - 50
+  weight_in_pillar: 0.35
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A17:L17
+- key: metric_14
+  name: Construction cost index
+  pillar: Land & buildout
+  unit: index
+  direction: lower
+  breakpoints:
+  - 90
+  - 100
+  - 110
+  - 132.450331125828
+  weight_in_pillar: 0.35
+  basis: 'Calibrated: Turner & Townsend US avg = 100 (70), AI-ready premium (30),
+    top of AI cost range (0)'
+  source_cell: Metrics!A18:L18
+- key: metric_15
+  name: Long-lead equipment
+  pillar: Land & buildout
+  unit: months
+  direction: lower
+  breakpoints:
+  - 10.1538461538462
+  - 19.8461538461538
+  - 29.5384615384615
+  - 36.9230769230769
+  weight_in_pillar: 0.3
+  basis: 'Calibrated: Wood Mackenzie switchgear (100) and large-transformer (30) lead
+    times, in months'
+  source_cell: Metrics!A19:L19
+- key: metric_16
+  name: Tax incentive strength
+  pillar: Regulatory & incentives
+  unit: 1-5
+  direction: higher
+  breakpoints:
+  - 5
+  - 4
+  - 2.5
+  - 1
+  weight_in_pillar: 0.6
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A20:L20
+- key: metric_17
+  name: Permitting timeline
+  pillar: Regulatory & incentives
+  unit: months
+  direction: lower
+  breakpoints:
+  - 6
+  - 12
+  - 24
+  - 36
+  weight_in_pillar: 0.4
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A21:L21
+- key: metric_18
+  name: Local opposition risk
+  pillar: Community & political
+  unit: 1-5
+  direction: lower
+  breakpoints:
+  - 1
+  - 2
+  - 3.5
+  - 5
+  weight_in_pillar: 0.6
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A22:L22
+- key: metric_19
+  name: Large-load tariff / rate-case exposure
+  pillar: Community & political
+  unit: 1-5
+  direction: lower
+  breakpoints:
+  - 1
+  - 2
+  - 3.5
+  - 5
+  weight_in_pillar: 0.4
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A23:L23
+- key: metric_20
+  name: Market vacancy rate
+  pillar: Market demand
+  unit: '%'
+  direction: lower
+  breakpoints:
+  - 0.01
+  - 0.014
+  - 0.028
+  - 0.04
+  weight_in_pillar: 0.25
+  basis: 'Calibrated: JLL NA vacancy (100), CBRE primary avg (70), secondary-market
+    ceiling (0)'
+  source_cell: Metrics!A24:L24
+- key: metric_21
+  name: Preleasing of market pipeline
+  pillar: Market demand
+  unit: '%'
+  direction: higher
+  breakpoints:
+  - 0.9
+  - 0.804
+  - 0.6
+  - 0.4
+  weight_in_pillar: 0.3
+  basis: 'Partly calibrated: CBRE primary-market preleasing anchors the 70 point;
+    others judgment'
+  source_cell: Metrics!A25:L25
+- key: metric_22
+  name: Annual net absorption
+  pillar: Market demand
+  unit: MW/yr
+  direction: higher
+  breakpoints:
+  - 935.2
+  - 520
+  - 364.05
+  - 100
+  weight_in_pillar: 0.25
+  basis: 'Calibrated: CBRE H1 2026 annualized - N. Virginia (100), Phoenix (70), avg
+    primary market (30)'
+  source_cell: Metrics!A26:L26
+- key: metric_23
+  name: Distance to nearest cloud region
+  pillar: Market demand
+  unit: miles
+  direction: lower
+  breakpoints:
+  - 50
+  - 150
+  - 400
+  - 800
+  weight_in_pillar: 0.2
+  basis: Judgment - calibrate to data
+  source_cell: Metrics!A27:L27

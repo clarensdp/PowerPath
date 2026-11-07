@@ -1,0 +1,28 @@
+[
+  {
+    "state": "37",
+    "http_status": 200,
+    "status": "live",
+    "features": 20,
+    "has_more": true,
+    "messages": [
+      "NC OneMap: live query retrieved 2026-10-28T15:44:39.241198+00:00.",
+      "Result limit reached; zoom in. Acreage/PIN filters apply to returned records and may miss matches outside this subset."
+    ],
+    "shortlist_status": 201,
+    "source_document_date": "2025-06-02"
+  },
+  {
+    "state": "51",
+    "http_status": 200,
+    "status": "live",
+    "features": 20,
+    "has_more": true,
+    "messages": [
+      "Virginia VGIN: live query retrieved 2026-10-28T15:44:46.257481+00:00.",
+      "Result limit reached; zoom in. Acreage/PIN filters apply to returned records and may miss matches outside this subset."
+    ],
+    "shortlist_status": 201,
+    "source_document_date": "2026-07-31"
+  }
+]

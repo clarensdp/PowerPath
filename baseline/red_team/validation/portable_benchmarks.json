@@ -1,0 +1,10 @@
+{
+  "projects": 16,
+  "stressCases": 720,
+  "errors": 0,
+  "disclosedApproxTotalsReconciled": 5,
+  "contractVerified": 0,
+  "maxModelResidual": 0,
+  "maxVersionDelta": 57.525901,
+  "failures": []
+}

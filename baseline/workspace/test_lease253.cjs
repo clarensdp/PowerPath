@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const {defaults,evaluate,rentAudit}=require('./underwrite25');
+const approx=(x,y,tol=1e-5)=>assert.ok(Math.abs(x-y)<tol,`${x} differs from ${y}`);
+const baseline=defaults(),base={...baseline,months:240,buildings:[{name:'Polaris',itMW:400,constructionStart:1,constructionMonths:12,powerMonth:13,leaseMonth:13,leaseTermMonths:180,rentEscalatorPct:2.5}]};
+let d=evaluate(base);assert.equal(d.summary.leaseReconciliationBlocked,true);
+let b={...base.buildings[0],rentInputMode:'total',contractedRentM:11000,leaseSourceRef:'Public disclosure'};
+let z=evaluate({...base,buildings:[b]});approx(z.summary.leaseAudits[0].modeledContractRentM,11000);assert.equal(z.summary.leaseReconciliationBlocked,false);
+approx(z.summary.leaseAudits[0].startingRentPerKwMonth,127.79812845143093);
+let shifted=evaluate({...base,delayMonths:6,buildings:[b]});approx(shifted.summary.leaseAudits[0].modeledContractRentM,11000);
+const years=Array.from({length:15},(_,i)=>500+i*10);
+const q=evaluate({...base,buildings:[{...b,rentInputMode:'schedule',annualRentM:years}]});approx(q.summary.leaseAudits[0].modeledContractRentM,years.reduce((s,v)=>s+v,0));
+assert.throws(()=>evaluate({...base,buildings:[{...b,rentInputMode:'schedule',annualRentM:[42]}]}),/annual rental/);
+let wrong=evaluate({...base,buildings:[{...b,rentInputMode:'starting',rentPerKwMonth:152.78}]});assert.equal(wrong.summary.leaseReconciliationBlocked,true);assert.ok(wrong.summary.leaseAudits[0].variancePct>15);
+assert.equal(z.summary.financialValidationStatus,'NOT INDEPENDENTLY VALIDATED');
+assert.ok(z.summary.sourcesUsesMaxResidual<1e-7);assert.ok(q.summary.sourcesUsesMaxResidual<1e-7);
+console.log('9 lease calibration assertions passed');

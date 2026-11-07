@@ -1,0 +1,26 @@
+{
+  "records": 7741,
+  "counties": {
+    "31059": 7741
+  },
+  "geometry_types": {
+    "Polygon": 7589,
+    "MultiPolygon": 152
+  },
+  "area_present": 7741,
+  "refresh_date_present": 7741,
+  "provider_refresh_dates": [
+    "2026-07-08"
+  ],
+  "area_basis": "provider-computed geometry; not deeded/buildable acreage",
+  "power_availability": "not assessed",
+  "feasibility_scores_created": 0,
+  "source": "https://app.regrid.com/store/samples",
+  "evaluated_at": "2026-10-28T15:11:01.725027+00:00",
+  "input_sha256": "6ed28d7cfd0b5010252a4dcda6fe3997de3e25eabcf6cf36698bb481b3692316",
+  "spatial_import_records": 7741,
+  "spatial_query_returned_features": 1,
+  "stable_id_lookup_passed": true,
+  "evaluation_database": "temporary; deleted after evaluation",
+  "production_coverage_changed": false
+}

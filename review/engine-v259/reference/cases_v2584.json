@@ -1,0 +1,153 @@
+{
+ "P1_tenant_direct_100": {
+  "powerResponsibility": "tenant_direct"
+ },
+ "P2_reimbursed_100": {
+  "powerResponsibility": "reimbursed"
+ },
+ "P3_partial_direct_60": {
+  "powerResponsibility": "tenant_direct",
+  "powerPassThroughPct": 60
+ },
+ "P4_partial_reimb_35_credits": {
+  "powerResponsibility": "reimbursed",
+  "powerPassThroughPct": 35,
+  "tenantRentCreditPct": 50,
+  "tenantCreditMonths": 12
+ },
+ "P5_mixed_buildings_tranches_renew": {
+  "months": 150,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 60,
+    "powerResponsibility": "tenant_direct",
+    "powerPassThroughPct": 100
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 72,
+    "powerResponsibility": "reimbursed",
+    "powerPassThroughPct": 80
+   },
+   {
+    "name": "C",
+    "itMW": 30,
+    "constructionStart": 12,
+    "constructionMonths": 12,
+    "powerMonth": 24,
+    "leaseMonth": 24,
+    "leaseTermMonths": 84
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 13,
+    "mw": 40,
+    "building": "A"
+   },
+   {
+    "month": 20,
+    "mw": 60
+   },
+   {
+    "month": 30,
+    "mw": 30
+   }
+  ],
+  "leaseExpiryPolicy": "renew",
+  "refinanceTenorPolicy": "leaseTail",
+  "exitValuePolicy": "contracted"
+ },
+ "P6_delay_shock_reimbursed": {
+  "powerResponsibility": "reimbursed",
+  "delayMonths": 9,
+  "energyShockPct": 40,
+  "rateShockPct": 2,
+  "rateShockAllFacilities": true
+ },
+ "P7_halt_mixed": {
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 60,
+    "powerResponsibility": "tenant_direct",
+    "powerPassThroughPct": 100
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 72,
+    "powerResponsibility": "reimbursed",
+    "powerPassThroughPct": 80
+   },
+   {
+    "name": "C",
+    "itMW": 30,
+    "constructionStart": 12,
+    "constructionMonths": 12,
+    "powerMonth": 24,
+    "leaseMonth": 24,
+    "leaseTermMonths": 84
+   }
+  ],
+  "sponsorCommitmentM": 250,
+  "months": 120
+ },
+ "P8_reimbursed_wc_days": {
+  "powerResponsibility": "reimbursed",
+  "workingCapitalDays": 45
+ },
+ "P9_dscr_bound_refi_direct": {
+  "powerResponsibility": "tenant_direct",
+  "refinanceValueM": 6000,
+  "cashTaxRatePct": 21,
+  "maintenanceCapexMWYearM": 0.05
+ },
+ "P10_gross_basis_direct": {
+  "capacityBasis": "gross",
+  "powerResponsibility": "tenant_direct",
+  "powerPassThroughPct": 90,
+  "buildings": [
+   {
+    "name": "G",
+    "itMW": 130,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 19,
+    "mw": 65,
+    "building": "G"
+   },
+   {
+    "month": 28,
+    "mw": 65,
+    "building": "G"
+   }
+  ]
+ }
+}

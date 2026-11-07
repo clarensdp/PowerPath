@@ -1,0 +1,79 @@
+{
+  "version": "PowerPath v25.8.3 Phase 1A",
+  "timestamp_utc": "2026-10-26T11:05:10.951967+00:00",
+  "source_sha256": {
+    "underwrite25.js": "d30486384eedc480929dd1e4ada1963b511d76451dac68a3070d36943bf5eebf",
+    "engine2.js": "663e2633637cd28a85ef4a2617069a233648e044e66772de4896e9efb4188910",
+    "contract_notes258.js": "41e2eaa9812c0cad3cfc4ce7ddd906bb7ba7e98c89f477185735bd53b3dab3f3",
+    "test_roadmap_phase1a.cjs": "2d24fe9e55ab81cf91dcbd077c3af6d536ee5a12d679a729277f27f7e86425d1"
+  },
+  "tests": [
+    {
+      "script": "test_claude_audit.cjs",
+      "passed": true,
+      "log": "test_claude_audit.log"
+    },
+    {
+      "script": "test_connectors.cjs",
+      "passed": true,
+      "log": "test_connectors.log"
+    },
+    {
+      "script": "test_contract_notes258.cjs",
+      "passed": true,
+      "log": "test_contract_notes258.log"
+    },
+    {
+      "script": "test_credit255.cjs",
+      "passed": true,
+      "log": "test_credit255.log"
+    },
+    {
+      "script": "test_credit_readiness.cjs",
+      "passed": true,
+      "log": "test_credit_readiness.log"
+    },
+    {
+      "script": "test_decision.cjs",
+      "passed": true,
+      "log": "test_decision.log"
+    },
+    {
+      "script": "test_delivery24.cjs",
+      "passed": true,
+      "log": "test_delivery24.log"
+    },
+    {
+      "script": "test_development.cjs",
+      "passed": true,
+      "log": "test_development.log"
+    },
+    {
+      "script": "test_diligence22.cjs",
+      "passed": true,
+      "log": "test_diligence22.log"
+    },
+    {
+      "script": "test_engine2.cjs",
+      "passed": true,
+      "log": "test_engine2.log"
+    },
+    {
+      "script": "test_feasibility.cjs",
+      "passed": true,
+      "log": "test_feasibility.log"
+    },
+    {
+      "script": "test_finance.cjs",
+      "passed": true,
+      "log": "test_finance.log"
+    },
+    {
+      "script": "test_financial_hardening254.cjs",
+      "passed": false,
+      "log": "test_financial_hardening254.log"
+    }
+  ],
+  "notes": "Arithmetic/regression assurance only; does not validate real project returns or executed loan agreements.",
+  "passed": false
+}

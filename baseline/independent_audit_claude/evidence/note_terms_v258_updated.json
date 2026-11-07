@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Applied Digital / Polaris Forge 1 \u2014 APLD ComputeCo 9.250% notes",
+    "faceM": 2350,
+    "issuePricePct": 97,
+    "couponPct": 9.25,
+    "issueDate": "2025-11-20",
+    "firstCouponDate": "2026-06-15",
+    "maturityDate": "2030-12-15",
+    "originalPrincipalAmortPctYear": null,
+    "source": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm",
+    "qualification": "Semiannual amortization begins Dec 15 2027 but installment amounts are governed by the indenture and are not included in this public-term proxy",
+    "indentureSource": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225024479/ex4-1.htm",
+    "paymentDatesVerified": "Payment Date = June 15 and December 15, beginning June 15, 2026 (Indenture s.1.01)",
+    "dsraRequiredM": 177.0,
+    "dsraBasis": "Fixed $177.0M (Indenture s.1.01 'Debt Service Reserve Required Amount')",
+    "amortizationStatus": "Section 14.01 not yet extracted; installment amounts and first date unverified"
+  },
+  {
+    "name": "Galaxy / Helios II \u2014 9.875% 2031 secured notes",
+    "faceM": 3507,
+    "issuePricePct": 99.5,
+    "couponPct": 9.875,
+    "issueDate": "2026-07-28",
+    "firstCouponDate": "2027-02-01",
+    "maturityDate": "2031-08-01",
+    "originalPrincipalAmortPctYear": 4,
+    "source": "https://investor.galaxy.com/node/11521/pdf",
+    "qualification": "Issue price 99.500% per 8-K (Jul 28 2026); 4% p.a. original-principal amortization is from secondary reporting; 8-K says amounts are 'set forth in the Indenture' (s.14.01 not yet extracted); trigger keyed to first rent payment, date unknown",
+    "indentureSource": "https://cdn.yahoofinance.com/prod/sec-filings/0001859392/000185939226000079/closing8-kxex41indenture.htm",
+    "paymentDatesVerified": "Payment Date = February 1 and August 1, beginning February 1, 2027 (Indenture s.1.01)",
+    "dsraRequiredM": 285.05239504,
+    "dsraBasis": "$285,052,395.04 during Construction Period; afterwards next scheduled interest + next Installment; 50% reduction if Investment Grade (s.1.01)",
+    "firstAmortTrigger": "Amortization Commencement Date = first Payment Date after the date that is ten months after the date on which rent is first paid (s.1.01)"
+  },
+  {
+    "name": "Core Scientific Finance \u2014 7.750% 2031 secured notes",
+    "faceM": 3300,
+    "issuePricePct": 99.25,
+    "couponPct": 7.75,
+    "issueDate": "2026-05-06",
+    "firstCouponDate": "2026-11-15",
+    "maturityDate": "2031-05-15",
+    "originalPrincipalAmortPctYear": 11.5,
+    "source": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+    "qualification": "First amortization date requires rent commencement and abatement of all rent credits, at least 15 days before an eligible payment; not publicly fixed in cited filing",
+    "indentureSource": "https://www.sec.gov/Archives/edgar/data/1839341/000119312526208905/d47435dex41.htm",
+    "dsraRequiredM": 343.0,
+    "dsraBasis": "Construction Period: greater of Construction Period Minimum amount (est. $343M as of Issue Date) and formula; afterwards next scheduled interest + next Installment (s.1.01)",
+    "firstAmortTrigger": "First Payment Date 15+ days after the later of the Final Commencement Date and abatement of revenue credits (s.1.01); 10-Q maturity table assumes 2029-11-15",
+    "guarantors": "Core Scientific Austin, Denton, Dalton, Marble and Muskogee LLCs; Completion Guarantee excludes Austin (8-K)"
+  }
+]

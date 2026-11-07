@@ -1,0 +1,67 @@
+{
+ "V1_shock_all_refi_mezz_dsra": {
+  "rateShockPct": 2,
+  "rateShockAllFacilities": true,
+  "mezzLtcPct": 15,
+  "dsraMonths": 6,
+  "cashSweepPct": 20
+ },
+ "V2_shock_all_dscr_bound": {
+  "rateShockPct": 3,
+  "rateShockAllFacilities": true,
+  "refinanceValueM": 5000
+ },
+ "V3_shock_legacy_off": {
+  "rateShockPct": 3,
+  "refinanceValueM": 5000,
+  "mezzLtcPct": 10
+ },
+ "V4_exit_collections": {
+  "months": 42,
+  "tenantCapexPct": 50,
+  "tenantFundingLagMonths": 6,
+  "workingCapitalDays": 45,
+  "exitTenantReceivableRecoveryPct": 80,
+  "exitWorkingCapitalRecoveryPct": 100,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 50,
+    "constructionStart": 10,
+    "constructionMonths": 18,
+    "powerMonth": 28,
+    "leaseMonth": 28
+   }
+  ]
+ },
+ "V5_collections_with_default": {
+  "sponsorCommitmentM": 300,
+  "tenantCapexPct": 30,
+  "tenantFundingLagMonths": 4,
+  "workingCapitalDays": 30,
+  "exitTenantReceivableRecoveryPct": 100,
+  "exitWorkingCapitalRecoveryPct": 50
+ },
+ "V6_all_on_leasetail_shock": {
+  "months": 150,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 84,
+    "rentEscalatorPct": 3
+   }
+  ],
+  "refinanceTenorPolicy": "leaseTail",
+  "leaseExpiryPolicy": "renew",
+  "exitValuePolicy": "contracted",
+  "rateShockPct": 2,
+  "rateShockAllFacilities": true,
+  "workingCapitalDays": 30,
+  "exitWorkingCapitalRecoveryPct": 100
+ }
+}

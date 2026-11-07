@@ -1,0 +1,21 @@
+{
+  "release": "30.3.2",
+  "base": "30.3.1",
+  "model_classification": "READ_ONLY_ASSUMPTION_BASED",
+  "files": {
+    "server/note_phasing.py": "5d311e96d836fcd4843533b7995b0c987db5f6efda339b0c35aa9c85d84c2589",
+    "server/transaction271.py": "5616382629be856dc092dd99b4cd9f1cff2d67e15bcfaacba6fa3933efbb70b5",
+    "server/app.py": "034216bad90938c3c35a7f22a909417d2c714d92fdee4ea128fc15927dfb4189",
+    "tests/v271/test_note_phasing332.py": "406f299ea3fafa789c8b8828bd8f3e4e77052b99f0786411ad1eba49c55374fb",
+    "web/public/transaction-workspace.html": "41b740460126b2bb1ea187c453a7907e3bc7718b63173006f4d5617d969cd474",
+    "web/public/transaction-workspace.js": "a6d16b21b3c985c75c2848999f7aea0925878b0ce8a6c28bfda2966420fb0edc",
+    "web/public/transaction-workspace.css": "b6b3ac23a84dc71a09c3f943e51c0ef726b4e7cb5a405929dd4f6cd1462bf819",
+    "package.json": "252761bac684d9e94e1892d15bdca832f6cf9930968cf4c0a328b5a35c444a35",
+    "README.md": "3ef50392545e14065977f7341ae12e68764aaca6554151c42f401d6c8aeb789d",
+    "RELEASE_V30_3_2.md": "29f306d62141ebc32ae84fb81484de67d9cd17010f338699e53b2422fb599ebd",
+    "examples/note_phasing_request.json": "baee659cb82d4006bbe78fe6d26e01f75ae672dd475e5438e7d590f66d46cf87",
+    "examples/note_phasing_proof.json": "0067b731b0123cb5e9b728931b2884d40e806f28187f70382ace8e0a9261ca8e"
+  },
+  "frozen_engine_sha256_verified_files": 12,
+  "engine_unchanged_vs": "ENGINE_HASH_AUDIT_V30_3.json"
+}

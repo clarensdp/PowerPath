@@ -1,0 +1,2 @@
+record_id,name,status,planned_date,capacity_mw,state,technology
+EXAMPLE-PJM-001,ILLUSTRATIVE GENERATION QUEUE PROJECT,Study,2029-01-01,160,PA,Solar

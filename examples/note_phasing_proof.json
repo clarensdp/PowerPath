@@ -1,0 +1,257 @@
+{
+  "classification": "SYNTHETIC UNVERIFIED ILLUSTRATION",
+  "request": {
+    "scenario": "base",
+    "site_schedules": [
+      {
+        "site": "Denton",
+        "tranches": [
+          {
+            "mw": 100,
+            "power_month": 20
+          },
+          {
+            "mw": 160,
+            "power_month": 40
+          }
+        ]
+      }
+    ]
+  },
+  "result": {
+    "layer": "LAYER_3_ILLUSTRATIVE_PHASED_POWER_AND_NOTE_SENSITIVITY",
+    "NOT_A_CORE_SCIENTIFIC_VALUATION": true,
+    "scenario": "base",
+    "model_version": "30.3.2-note-phasing-alpha",
+    "note_trigger_mode": "scenario_fixed",
+    "note_trigger_dates": {
+      "rent_commencement": "2029-06-30",
+      "credit_abatement": "2029-10-31"
+    },
+    "first_installment_date": "2029-11-15",
+    "note_trigger_warning": "The trigger dates are hypothetical and are NOT inferred from power delivery. Executed indenture and all revenue-credit provisions must be reviewed.",
+    "site_mw_classification": "UNVERIFIED",
+    "total_unverified_it_mw": 590.0,
+    "phase_schedule": [
+      {
+        "site": "Denton",
+        "tranche": 1,
+        "mw": 100.0,
+        "power_month": 20,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 1,
+        "modeled_rent_start_month": 20,
+        "source": "USER_ASSUMPTION (not utility-confirmed or executed lease)"
+      },
+      {
+        "site": "Denton",
+        "tranche": 2,
+        "mw": 160.0,
+        "power_month": 40,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 1,
+        "modeled_rent_start_month": 40,
+        "source": "USER_ASSUMPTION (not utility-confirmed or executed lease)"
+      },
+      {
+        "site": "Dalton",
+        "tranche": 1,
+        "mw": 175.0,
+        "power_month": 39,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 39,
+        "modeled_rent_start_month": 39,
+        "source": "INHERITED single-date hypothetical scenario"
+      },
+      {
+        "site": "Muskogee",
+        "tranche": 1,
+        "mw": 70.0,
+        "power_month": 39,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 39,
+        "modeled_rent_start_month": 39,
+        "source": "INHERITED single-date hypothetical scenario"
+      },
+      {
+        "site": "Marble",
+        "tranche": 1,
+        "mw": 65.0,
+        "power_month": 39,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 39,
+        "modeled_rent_start_month": 39,
+        "source": "INHERITED single-date hypothetical scenario"
+      },
+      {
+        "site": "Austin",
+        "tranche": 1,
+        "mw": 20.0,
+        "power_month": 39,
+        "construction_ready_month": 2,
+        "lease_eligible_month": 39,
+        "modeled_rent_start_month": 39,
+        "source": "INHERITED single-date hypothetical scenario"
+      }
+    ],
+    "first_rent_month": 20,
+    "full_rent_month": 40,
+    "periods": [
+      {
+        "date": "2026-11-15",
+        "from_month": 1,
+        "through_month": 7,
+        "rent_status": "none",
+        "lease_revenueM": 0,
+        "cfadsM": 0,
+        "scheduled_debt_serviceM": 134.26875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.0,
+        "net_after_scheduled_debt_serviceM": -134.26875,
+        "cumulative_cash_before_reservesM": -134.26875
+      },
+      {
+        "date": "2027-05-15",
+        "from_month": 8,
+        "through_month": 13,
+        "rent_status": "none",
+        "lease_revenueM": 0,
+        "cfadsM": 0,
+        "scheduled_debt_serviceM": 127.875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.0,
+        "net_after_scheduled_debt_serviceM": -127.875,
+        "cumulative_cash_before_reservesM": -262.14375
+      },
+      {
+        "date": "2027-11-15",
+        "from_month": 14,
+        "through_month": 19,
+        "rent_status": "none",
+        "lease_revenueM": 0,
+        "cfadsM": 0,
+        "scheduled_debt_serviceM": 127.875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.0,
+        "net_after_scheduled_debt_serviceM": -127.875,
+        "cumulative_cash_before_reservesM": -390.01875
+      },
+      {
+        "date": "2028-05-15",
+        "from_month": 20,
+        "through_month": 25,
+        "rent_status": "partial",
+        "lease_revenueM": 102,
+        "cfadsM": 87.36,
+        "scheduled_debt_serviceM": 127.875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.6831671554252199,
+        "net_after_scheduled_debt_serviceM": -40.515,
+        "cumulative_cash_before_reservesM": -430.53375
+      },
+      {
+        "date": "2028-11-15",
+        "from_month": 26,
+        "through_month": 31,
+        "rent_status": "partial",
+        "lease_revenueM": 102,
+        "cfadsM": 87.36,
+        "scheduled_debt_serviceM": 127.875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.6831671554252199,
+        "net_after_scheduled_debt_serviceM": -40.515,
+        "cumulative_cash_before_reservesM": -471.04875
+      },
+      {
+        "date": "2029-05-15",
+        "from_month": 32,
+        "through_month": 37,
+        "rent_status": "partial",
+        "lease_revenueM": 104.55000000000001,
+        "cfadsM": 89.60400000000001,
+        "scheduled_debt_serviceM": 127.875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 0.7007155425219942,
+        "net_after_scheduled_debt_serviceM": -38.27099999999999,
+        "cumulative_cash_before_reservesM": -509.3197499999999
+      },
+      {
+        "date": "2029-11-15",
+        "from_month": 38,
+        "through_month": 43,
+        "rent_status": "partial",
+        "lease_revenueM": 493.85,
+        "cfadsM": 432.18800000000005,
+        "scheduled_debt_serviceM": 317.625,
+        "balloonM": 0,
+        "dscr_ex_balloon": 1.3606863439590713,
+        "net_after_scheduled_debt_serviceM": 114.56300000000005,
+        "cumulative_cash_before_reservesM": -394.75674999999984
+      },
+      {
+        "date": "2030-05-15",
+        "from_month": 44,
+        "through_month": 49,
+        "rent_status": "full",
+        "lease_revenueM": 606.9637500000001,
+        "cfadsM": 531.7281,
+        "scheduled_debt_serviceM": 310.2721875,
+        "balloonM": 0,
+        "dscr_ex_balloon": 1.7137472239596083,
+        "net_after_scheduled_debt_serviceM": 221.45591250000007,
+        "cumulative_cash_before_reservesM": -173.30083749999977
+      },
+      {
+        "date": "2030-11-15",
+        "from_month": 50,
+        "through_month": 55,
+        "rent_status": "full",
+        "lease_revenueM": 616.69625,
+        "cfadsM": 540.2927,
+        "scheduled_debt_serviceM": 302.919375,
+        "balloonM": 0,
+        "dscr_ex_balloon": 1.7836188259664802,
+        "net_after_scheduled_debt_serviceM": 237.37332499999997,
+        "cumulative_cash_before_reservesM": 64.07248750000016
+      },
+      {
+        "date": "2031-05-15",
+        "from_month": 56,
+        "through_month": 61,
+        "rent_status": "full",
+        "lease_revenueM": 622.1378437499999,
+        "cfadsM": 545.0813025,
+        "scheduled_debt_serviceM": 295.56656250000003,
+        "balloonM": 2541,
+        "dscr_ex_balloon": 1.8441913655236286,
+        "net_after_scheduled_debt_serviceM": 249.51473999999996,
+        "cumulative_cash_before_reservesM": 313.58722750000004
+      }
+    ],
+    "dsra_balanceM": 344.8,
+    "scheduled_service_before_any_rentM": 390.01875,
+    "simple_pre_rent_reserve_gapM": 45.21875,
+    "peak_cumulative_cash_funding_need_ex_balloonM": 509.3197499999999,
+    "peak_funding_gap_after_static_dsra_ex_balloonM": 164.51974999999987,
+    "cash_funding_method": "Monthly cumulative illustrative CFADS less scheduled note coupons and installments in their payment month, excluding maturity balloon. Assumes all monthly cash is available by the mid-month coupon date (optimistic timing approximation). Positive surplus carries forward; DSRA draws, other financing, taxes, contractual credits and opening operating cash are not modeled.",
+    "balloon_at_maturityM": 2541,
+    "legacy_single_date_reference": {
+      "scheduled_service_before_any_rentM": 773.64375,
+      "simple_pre_rent_reserve_gapM": 428.84374999999994
+    },
+    "delta_vs_legacy_simple_gapM": -383.62499999999994,
+    "source_scenario_not_mutated": true,
+    "warnings": [
+      "All per-site MW are unverified catalog figures; not confirmed leased capacity.",
+      "All tranche dates are illustrative user assumptions, not executed utility or tenant milestones.",
+      "No automatic debt trigger change; revenue credits and indenture definitions are not verified.",
+      "This is not an actual Core Scientific liquidity assessment, financing shortfall or valuation.",
+      "Reserve balance is held constant; permitted withdrawals and replenishment are unknown.",
+      "Maturity balloon is excluded from the funding-need indicator and shown separately."
+    ],
+    "g4": "BLOCKED",
+    "g5": "BLOCKED",
+    "valuation_allowed": false,
+    "lender_certified": false
+  }
+}

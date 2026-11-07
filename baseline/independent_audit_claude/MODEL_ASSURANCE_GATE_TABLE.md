@@ -1,0 +1,17 @@
+# Model Assurance Gate Table — PowerPath v25.8 (independent review, 26 Oct 2026)
+
+| Gate | Bundle's claim | Independent status | Evidence | Missing to close |
+|---|---|---|---|---|
+| **G0 Input provenance** | PASS (source register) | **QUALIFIED** | Manifest SHA-256 verified (0 mismatches); attached HTML equals the deterministic rebuild; 33 dated facts in `VERIFIED_FACTS.csv`, 31 re-opened in this review | APLD 10-K debt footnote (F15); Galaxy Q2 release wording ($1.2B+ vs >$1B, CA-19); primary Helios II notes disclosure; Core per-site MW (F33) |
+| **G1 Public headline normalization** | PASS (5 APLD totals) | **QUALIFIED — tautological** | 5/5 APLD totals reproduce F06/F08–F11 to within $1e-6M, and the portfolio sums to ~1,410 MW / ~$36.2B. This holds by construction (total rent mode) and does not test rent | Per-building lease abstracts; escalators; commencement mechanics |
+| **G2 Engine reconciliation** | PASS (15 scenarios, 37,995 checks) | **FAIL on v25.8 / PASS on v25.8-CA** | The bundled reference ported the JS logic and missed CA-01 and CA-04 (CA-08). A from-scratch reference (`evidence/ca_reference.py`) over 10 cases / 24,320 checks matches the patched engine to a max gap of 1.4e-12 $M; v25.8 diverges in 8 of 10 cases (all explained in `MONTHLY_RECONCILIATION.csv`) | Reviewer-agreed policy for funding-default recovery (CA-04, CA-11) |
+| **G3 Adverse computational tests** | PASS | **FAIL on v25.8 / PASS on v25.8-CA for tested classes** | 9 new tests: 8 fail on v25.8, all pass after the patch. Bundled 21 suites + new = 22/22 pass; 16 cases / 720 stresses with 0 errors and max identity residual 1.8e-12 | Open design items CA-11 to CA-15 |
+| **G4 Real transaction reconciliation** | FAIL / NOT READY | **FAIL** | 0/16 contract-verified. The notes are not integrated (CA-16). Financing scope differs: APLD notes cover 250 of 400 MW; Helios II covers Phase II only; Core amortization is contingent (10-Q assumes 15 Nov 2029). 16/16 cases breach covenants on the generic structure (CA-09) | APLD ComputeCo indenture; Helios II indenture; Core Scientific Finance I indenture; CoreWeave/hyperscaler leases and amendments; utility ESAs and interconnection agreements; Phase I Helios and Building 4 financing documents |
+| **G5 Independent external assurance** | NOT STARTED | **NOT STARTED** | This AI review is not lender-grade assurance | A scoped engagement with a qualified project-finance model auditor and lender-side review of the frozen version |
+
+## Material limitation statements
+1. Every NPV, IRR, DSCR, debt size and recovery figure produced by PowerPath for the 16 public cases is an output of **synthetic common assumptions**: capex, rate, tariff, PUE, exit value, refinance terms and unlimited sponsor support. None is an observed actual or a certified figure.
+2. Matching a disclosed contract **total** is an arithmetic identity in "total" rent mode. It is not evidence about rent timing, escalators or credits.
+3. Gross MW, critical IT MW and "leased power" MW are different quantities. Helios discloses 800 gross / 526 IT (ratio 1.52) while the model assumes PUE 1.30, and the Core sites use leased-power MW as IT MW.
+4. The structured notes calculator is standalone. Its schedules are provisional wherever first-amortization triggers or installment amounts are unknown (all three instruments).
+5. Funding-default results under the new default `halt` policy are a **screening convention** (abandon unfinished buildings, scale the exit to completed MW), not a legal recovery analysis.

@@ -1,0 +1,240 @@
+{
+  "release": "PowerPath v26.3.0 Geographic Intelligence / Critical Path alpha",
+  "scope": "local web foundation and regression; not contractual validation",
+  "passed": 37,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Typescript static compilation",
+      "passed": true,
+      "seconds": 1.23,
+      "details": "\n"
+    },
+    {
+      "name": "legacy.test_claude_audit",
+      "passed": true,
+      "seconds": 0.158,
+      "details": "tion (no phantom financing)  PASS\nP5b terminal leakage is reported  PASS\nP6 APLD first coupon 205/360  PASS\nINV identities reconcile in patched edge cases  PASS\nP8a legacy defaults unchanged (base NPV)  PASS\nP8b leaseTail tenor amortizes within remaining lease less buffer  PASS\nP8c renewal: expected-value rent after expiry  PASS\nP8d contracted exit values vacant MW at vacantValuePct  PASS\nP8e invalid lease-tail policy rejected  PASS\n14/14 passed\n"
+    },
+    {
+      "name": "legacy.test_connectors",
+      "passed": true,
+      "seconds": 0.049,
+      "details": "\nPASS valid snapshot\nPASS persist and reload\nPASS reject unknown source\nPASS reject duplicate hour\nPASS reject unsorted hourly\nPASS reject nonfinite price\nPASS reject empty price feed\nPASS reject non HTTPS source\nPASS EIA BA reported period accepted explicitly\nPASS EPA evidence requires source link identity date\nPASS FERC docket reference recorded not approved\n11 connector checks passed\n"
+    },
+    {
+      "name": "legacy.test_contract_notes258",
+      "passed": true,
+      "seconds": 0.043,
+      "details": "\nPASS 3 public notes and 7 targeted coupon/OID/amort checks\n"
+    },
+    {
+      "name": "legacy.test_credit255",
+      "passed": true,
+      "seconds": 0.058,
+      "details": "\n5 credit-control and refinance transition checks passed\n"
+    },
+    {
+      "name": "legacy.test_credit_readiness",
+      "passed": true,
+      "seconds": 0.065,
+      "details": "\nPASS Unlimited sponsor baseline is unverified\nPASS Sponsor funding default\nPASS Lease-tail blocked credit\nPASS Term-level evidence missing even when liquidity high\n"
+    },
+    {
+      "name": "legacy.test_decision",
+      "passed": true,
+      "seconds": 0.117,
+      "details": "\nPASS project-scoped evidence store\nPASS dated evidence requirement\nPASS explicit schedule linkage\nPASS hard blocked gate\nPASS full-stride decision export\nPASS evidence limitation text\nPASS schedule survives integration\nPASS three scenarios run through original engine\nPASS unverified inputs never approved\n9 decision checks passed\n"
+    },
+    {
+      "name": "legacy.test_delivery24",
+      "passed": true,
+      "seconds": 0.028,
+      "details": "\n11 v24 tests passed\n"
+    },
+    {
+      "name": "legacy.test_development",
+      "passed": true,
+      "seconds": 0.044,
+      "details": "s from dependable MW\nPASS nameplate does not override contracted supply limit\nPASS asset capacity contradictions rejected\nPASS dataset rejects duplicate IDs\nPASS all demonstration assets remain explicitly unverified\nPASS evidence filter and requirement score are separate\nPASS invalid discovery workload is rejected\n26 development checks passed.\nPASS connection delay changes benchmark financial value\n27 total development/integration checks passed.\n"
+    },
+    {
+      "name": "legacy.test_diligence22",
+      "passed": true,
+      "seconds": 0.042,
+      "details": "\nPASS zero coordinate distance\nPASS reasonable distance 1 degree latitude\nPASS coordinates valid\nPASS invalid lat rejected\nPASS tariff volume\nPASS tariff demand\nPASS tariff positive\nPASS invalid utilization rejected\nPASS invalid losses rejected\n9 diligence checks passed\n"
+    },
+    {
+      "name": "legacy.test_engine2",
+      "passed": true,
+      "seconds": 4.441,
+      "details": "rent escalates \nPASS no equipment O&M before opening year1 0 year2 0\nPASS battery replaced at end of life inside hold replacement 50.8M in year 17\nPASS exit taxed on gain over remaining basis exit tax 304.2M on exit 1195M, basis 56M\nPASS pass-through raises NPV \nPASS optimizer improves NPV {\"solar\":70,\"wind\":155,\"nuclear\":0,\"battery\":0,\"batteryHours\":4,\"turbine\":0,\"engine\":30,\"fuelcell\":0} NPV 171.3M after 40 evals in 1729 ms\n22 passed, 0 failed\n"
+    },
+    {
+      "name": "legacy.test_facilities259",
+      "passed": true,
+      "seconds": 0.172,
+      "details": " scoped projects, no shared pool\nPASS multi facility ledger balances and accounting residuals match\nPASS missing building scope rejected rather than treating loans as campus-wide\nPASS duplicate facility IDs rejected\nPASS unfunded debt obligation triggers default with unpaid obligation\nPASS risk warnings and not-certified tag cannot be omitted\nPASS all note and debt ledgers balance for 60 synthetic policy combinations\n12/12 facility suites passed\n"
+    },
+    {
+      "name": "legacy.test_feasibility",
+      "passed": true,
+      "seconds": 0.177,
+      "details": "\nPASS unverified grid is conditional\nPASS denied air permit blocks onsite\nPASS confirmed rights clear scenario\nPASS carbon limit blocks\nPASS unserved energy blocks\nPASS missed energization deadline blocks\nPASS no eligible winner when all blocked\nPASS grid-only removes thermal and storage\nPASS onsite-only removes grid entitlement\naudited 16790 hours 0 0\nPASS full hourly battery audit\nPASS screen three live strategies\n11 v19 checks passed\n"
+    },
+    {
+      "name": "legacy.test_finance",
+      "passed": true,
+      "seconds": 0.065,
+      "details": "lience capital is charged once\nPASS Extra onsite resilience financial direction and break-even\nPASS Extra onsite resilience delay shifts operations but not campus spend\nPASS Lead-time aware cash and NPV reconcile\nPASS Lead-time aware capital is charged once\nPASS Lead-time aware financial direction and break-even\nPASS Lead-time aware delay shifts operations but not campus spend\nPASS reject invalid financial assumptions\n25 financial checks passed.\n"
+    },
+    {
+      "name": "legacy.test_financial_hardening254",
+      "passed": true,
+      "seconds": 0.297,
+      "details": "\nPASS construction loans only finance sponsor-paid construction\nPASS refinance amortization uses refinance term, not construction term\nPASS revenue cannot commence before physical grid power when no tranches\nPASS model contract rental total remains reconciled with later commencement\nPASS default state explicitly disqualifies performing financing\nPASS conservation identities under combined adverse financing assumptions\nTOTAL 6 v25.4 checks\n"
+    },
+    {
+      "name": "legacy.test_lease253",
+      "passed": true,
+      "seconds": 0.076,
+      "details": "\n9 lease calibration assertions passed\n"
+    },
+    {
+      "name": "legacy.test_market_data",
+      "passed": true,
+      "seconds": 0.115,
+      "details": "\nPASS complete UTC full-year snapshot\nPASS reject missing hour\nPASS reject duplicate UTC timestamp\nPASS reject mixed nodes\nPASS reject synthetic evidence\nPASS reject non-UTC timestamps\nPASS no activation by default\nPASS activation is per project\nPASS PJM only\nPASS basis is explicit\nPASS different original base not mutated\nPASS wrong node refuses activation\nPASS reversible\n13 market-data checks passed\n"
+    },
+    {
+      "name": "legacy.test_power_pass2584",
+      "passed": true,
+      "seconds": 0.096,
+      "details": "eaves landlord only unpaid share\nPASS building-specific responsibility respects differing cost policies and staged energization\nPASS do not charge power before energization or after lease expiry\nPASS energy and reimbursements maintain sources/uses and reserve identities\nPASS pass-through reimbursed power is not included in base lease rent reconciliation\nPASS invalid power responsibility and percentages are rejected\nTOTAL 10 pass-through controls\n"
+    },
+    {
+      "name": "legacy.test_power_receipts2585",
+      "passed": true,
+      "seconds": 0.068,
+      "details": "\nPASS zero-lag reimbursed and direct pay have matching levered NPV even with rent collection lag\nPASS lag 1 creates power receivable and reduces first month CFADS\nPASS building lag overrides project lag without contaminating other buildings\nPASS invalid reimbursement lag rejected\nPASS lease last rent month is inclusive (one-based)\nPASS power gross-up preserves sources-and-uses identity\n6 reimbursement and lease-end assertions passed\n"
+    },
+    {
+      "name": "legacy.test_project21",
+      "passed": true,
+      "seconds": 0.032,
+      "details": "\nPASS project21 exports\nPASS calendar month addition\nPASS shift grid phases\nPASS evidence warning\nPASS critical path alert\nPASS source bounded UI\nPASS snapshot excludes invented approvals\n7 v21 checks passed\n"
+    },
+    {
+      "name": "legacy.test_roadmap_phase1a",
+      "passed": true,
+      "seconds": 0.094,
+      "details": "e receivable or WC collections\nPASS explicit working capital collection appears only at exit and reconciles cash\nPASS tenant funding lag creates receivable recoverable at exit only once\nPASS debt payoff cannot exceed resources and no reserve identity is broken by collections\nPASS reject unbounded exit collections or nonboolean rate policy\nPASS previously ignored debt-tenor and DSRA switches cannot mislead users\n\n8 Phase 1A financial tests passed\n"
+    },
+    {
+      "name": "legacy.test_transaction258",
+      "passed": true,
+      "seconds": 0.073,
+      "details": "hly\nPASS full-year funded contractual rent equals specified total with staggered delivery, not double escalated\nPASS impossible building-level tenant funding / credit percentages rejected\nPASS dedicated MW above physical IT capacity rejected\nPASS delayed tenant reimbursements create actual receivable and can exhaust committed liquidity\nPASS calendar-month electric energy reflects actual days and leap-year February\nTOTAL 9 transaction v25.8 tests\n"
+    },
+    {
+      "name": "legacy.test_underwrite25",
+      "passed": true,
+      "seconds": 0.719,
+      "details": "nding gaps, no negative cash\nPASS restricted reserve segregated, released at exit\nPASS all exit debt settled explicitly\nPASS staged power: shared tranche limited to 50MW\nPASS named tranche cannot energize different building\nPASS delay reduces levered NPV\nPASS stress shocks worsen NPV\nPASS maturity shortfall flagged as default without hidden refinancing\nPASS no debt at zero LTC\nPASS randomized sources and uses 300 iterations\nTOTAL 14 v25.1 groups\n"
+    },
+    {
+      "name": "legacy.test_underwrite251",
+      "passed": true,
+      "seconds": 0.695,
+      "details": "nding gaps, no negative cash\nPASS restricted reserve segregated, released at exit\nPASS all exit debt settled explicitly\nPASS staged power: shared tranche limited to 50MW\nPASS named tranche cannot energize different building\nPASS delay reduces levered NPV\nPASS stress shocks worsen NPV\nPASS maturity shortfall flagged as default without hidden refinancing\nPASS no debt at zero LTC\nPASS randomized sources and uses 300 iterations\nTOTAL 14 v25.1 groups\n"
+    },
+    {
+      "name": "legacy.test_underwrite252",
+      "passed": true,
+      "seconds": 0.137,
+      "details": "e of construction capex\nPASS rent credits are time bounded and reduce revenue\nPASS refinance limited by debt yield\nPASS refinance limited by LTV\nPASS refinance limited by DSCR\nPASS mezzanine loan added to debt with own interest and explicit maturity\nPASS reject over 100 percent financed construction\nPASS tenant credits and mezz stress reconcile in every month\nPASS no automatic approval or confirmed power from capacity basis\nTOTAL 12 v25.2 groups\n"
+    },
+    {
+      "name": "legacy.test_underwrite257",
+      "passed": true,
+      "seconds": 0.307,
+      "details": "e if equity paydown cannot be funded\nPASS exit asset proceeds cannot repay more debt than cash available\nPASS adverse sponsor caps retain reconciled accounting despite negative liquidity\nPASS reject inconsistent sponsor commitment\nPASS sponsor limiting is monotonic on total equity cash injections\nPASS stress cross product: delays, senior rates, sponsor funding, annual taxes\nTOTAL 15 v25.7 independent targeted groups (including 36 cross stresses)\n"
+    },
+    {
+      "name": "legacy.test_v23",
+      "passed": true,
+      "seconds": 0.032,
+      "details": "\nPASS valid geodata point import\nPASS exclude invalid geodata points\nPASS limit GeoJSON size\nPASS nearest plant sorting\n4 v23 GIS tests passed\n"
+    },
+    {
+      "name": "legacy.test_waterfall256",
+      "passed": true,
+      "seconds": 0.098,
+      "details": "\nv25.6 waterfall: 6 financing cases, 8 control assertions passed\n"
+    },
+    {
+      "name": "v26 API acceptance",
+      "passed": true,
+      "seconds": 1.359,
+      "details": "nce.test_05_reject_invalid_engine_config) ... ok\ntest_06_facility_engine_outputs (tests.test_api.ApiAcceptance.test_06_facility_engine_outputs) ... ok\ntest_07_evidence_immutable_and_scoped (tests.test_api.ApiAcceptance.test_07_evidence_immutable_and_scoped) ... ok\ntest_08_activity_and_ui (tests.test_api.ApiAcceptance.test_08_activity_and_ui) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.725s\n\nOK\n\n"
+    },
+    {
+      "name": "v26.1 notes Risk/API integration",
+      "passed": true,
+      "seconds": 1.131,
+      "details": "gration.NotesIntegration.test_03_self_reported_claims_do_not_authorize_model) ... ok\ntest_04_rejects_invalid_note_contract (tests.test_notes_integration.NotesIntegration.test_04_rejects_invalid_note_contract) ... ok\ntest_05_legacy_calculator_not_rewritten (tests.test_notes_integration.NotesIntegration.test_05_legacy_calculator_not_rewritten) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.477s\n\nOK\n\n"
+    },
+    {
+      "name": "v26.2 persistent paths PermitIQ sensitivity API",
+      "passed": true,
+      "seconds": 1.062,
+      "details": "t_v262_workflows.WorkflowTests.test_04_explicit_sensitivity_has_lineage_and_preserves_baseline) ... ok\ntest_05_scoped_permit_and_evidence (tests.test_v262_workflows.WorkflowTests.test_05_scoped_permit_and_evidence) ... ok\ntest_06_no_unverified_approval_of_notes (tests.test_v262_workflows.WorkflowTests.test_06_no_unverified_approval_of_notes) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.487s\n\nOK\n\n"
+    },
+    {
+      "name": "v26.3 geographic source and critical path API",
+      "passed": true,
+      "seconds": 0.916,
+      "details": "CriticalPathTests.test_04_critical_path_parallel_vs_serial) ... ok\ntest_05_status_completion_and_scoping (tests.test_v263_geo.GeoCriticalPathTests.test_05_status_completion_and_scoping) ... ok\ntest_06_immutable_underwriting_baseline_and_risk_gate (tests.test_v263_geo.GeoCriticalPathTests.test_06_immutable_underwriting_baseline_and_risk_gate) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.300s\n\nOK\n\n"
+    },
+    {
+      "name": "imported v25.9 red-team regressions",
+      "passed": true,
+      "seconds": 11.167,
+      "details": "tput exactly\n  ---\n  duration_ms: 20.726805\n  type: 'test'\n  ...\n# Subtest: facilities present: every declared MonthRow/Summary/FacilitySummary field is emitted, and nothing else\nok 61 - facilities present: every declared MonthRow/Summary/FacilitySummary field is emitted, and nothing else\n  ---\n  duration_ms: 9.018129\n  type: 'test'\n  ...\n1..61\n# tests 61\n# suites 0\n# pass 61\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 11125.071671\n"
+    },
+    {
+      "name": "imported v25.9 independent reference parity",
+      "passed": true,
+      "seconds": 0.457,
+      "details": "\n{\n \"checks\": 80240,\n \"maxGapM\": 1.4210854715202004e-12,\n \"failures\": []\n}\n"
+    },
+    {
+      "name": "v26.2 Decision Center / PermitIQ browser acceptance",
+      "passed": true,
+      "seconds": 4.631,
+      "details": "\ndesktop main scroll width 1440 viewport 1440 errors []\ntablet main scroll width 1024 viewport 1024 errors []\nmobile main scroll width 390 viewport 390 errors []\nV26.2 BROWSER SUCCESS\n"
+    },
+    {
+      "name": "v26.3 source map / milestone browser acceptance",
+      "passed": true,
+      "seconds": 4.475,
+      "details": "\nPASS desktop map, milestone screens, no overflow, no exceptions\nPASS tablet map, milestone screens, no overflow, no exceptions\nPASS mobile map, milestone screens, no overflow, no exceptions\n"
+    },
+    {
+      "name": "Frozen financial-engine integrity",
+      "passed": true,
+      "seconds": 0,
+      "details": {
+        "underwrite_sha256": "c4e2a090698411e492f5399a52fddbf233539dc3c1871d0877e53fcfb2d9ce29",
+        "facility_sha256": "b02a6961aabbd668b61bfd972c24c6ddbb45fbf3192445c8d964ba6c8b1ab551",
+        "imported_notes_sha256": "17c144e952222a94b70f41b2a417d00498e41034c76b9010f45d9899b7ff9f27",
+        "imported_risk_sha256": "6d09ab48b93f2e828eca4d81fd0ac21779f56d320b26943f2aea848870dbcceb"
+      }
+    }
+  ],
+  "assurance": {
+    "G4": "BLOCKED",
+    "G5": "NOT STARTED",
+    "production_authentication": "NOT IMPLEMENTED"
+  }
+}

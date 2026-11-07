@@ -1,0 +1,30 @@
+{
+ "version": "permit-taxonomy-1.0",
+ "discretion_scale": {"0": "administrative, by right", "1": "administrative, technical standards", "2": "quasi-judicial or agency discretion with public process", "3": "legislative: elected body decides on the merits"},
+ "duration_basis": {
+  "statute": "legal deadline; real durations usually longer",
+  "observed": "measured from documented local cases; n stated",
+  "industry": "industry-reported market figure",
+  "prior": "ASSUMPTION pending calibration from local records; not a sourced fact"
+ },
+ "categories": ["land_use", "state_law", "building", "environmental", "power", "aviation", "construction"],
+ "permit_types": {
+  "LU_LEGISLATIVE": {"name": "Legislative land-use approval (rezoning and/or special exception)", "category": "land_use", "layer": "county", "v82_gate": "Zoning"},
+  "LU_BY_RIGHT": {"name": "By-right / administrative land-use path", "category": "land_use", "layer": "county", "v82_gate": "Zoning"},
+  "LU_SUBSTATION": {"name": "Utility substation land-use approval", "category": "land_use", "layer": "county", "v82_gate": "Zoning"},
+  "LU_2232": {"name": "Comprehensive-plan conformity review for public utility facility (Va. Code § 15.2-2232)", "category": "land_use", "layer": "county", "v82_gate": "Zoning"},
+  "STATE_HEUF_ASSESSMENT": {"name": "High-energy-use facility site assessment and utility disclosure (Va. Code § 15.2-2209.5)", "category": "state_law", "layer": "state", "v82_gate": "Zoning"},
+  "SITE_PLAN": {"name": "Site plan approval", "category": "building", "layer": "county", "v82_gate": null},
+  "LAND_DISTURBANCE": {"name": "Land-disturbing / erosion and stormwater (VESMP) permit", "category": "environmental", "layer": "county", "v82_gate": null},
+  "BUILDING_PERMIT": {"name": "Building, electrical and fire permits", "category": "building", "layer": "county", "v82_gate": null},
+  "AIR_BACKUP": {"name": "Air permit for emergency/backup generators (minor NSR)", "category": "environmental", "layer": "state", "v82_gate": null},
+  "AIR_ONSITE": {"name": "Air permit for on-site prime generation", "category": "environmental", "layer": "state", "v82_gate": "Air permit"},
+  "WETLANDS_404": {"name": "Clean Water Act Section 404/401 authorization", "category": "environmental", "layer": "federal", "v82_gate": null},
+  "FAA_7460": {"name": "FAA notice of proposed construction (Form 7460-1)", "category": "aviation", "layer": "federal", "v82_gate": null},
+  "UTILITY_LARGE_LOAD": {"name": "Utility large-load service (study, agreement, substation, energization)", "category": "power", "layer": "utility", "v82_gate": "Power path"},
+  "SCC_TRANSMISSION": {"name": "State commission certificate for new transmission line", "category": "power", "layer": "state", "v82_gate": "Power path"},
+  "TX_LINE_BUILD": {"name": "Transmission line construction", "category": "power", "layer": "utility", "v82_gate": "Power path"},
+  "ONSITE_EQUIPMENT": {"name": "On-site generation equipment procurement and commissioning", "category": "construction", "layer": "project", "v82_gate": null},
+  "CONSTRUCTION": {"name": "Building construction to ready-for-service", "category": "construction", "layer": "project", "v82_gate": null}
+ }
+}

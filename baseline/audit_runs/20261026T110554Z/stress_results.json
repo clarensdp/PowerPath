@@ -1,0 +1,7202 @@
+[
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -10.569593800605276,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -132.592240286506,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -260.9726783138625,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -256.9182469141392,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -391.4246008806691,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -532.6430827107621,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -503.48293563464233,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -650.2569614748319,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -804.3134871076592,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -48.947251584912124,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -171.06604684462968,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -299.4464848719863,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -295.3780774245904,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -429.898407438792,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -571.1168892688854,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -541.956742192765,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -688.730768032955,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -842.7872936657832,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -87.02980053527983,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 7.105427357601002e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -209.1984339901186,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -337.5788720174754,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -333.49691247601265,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -468.03079458428226,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -609.2492764143745,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -580.0875583972596,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -726.8631551784443,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -880.9196808112719,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -160.6979835362862,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -282.93907323983626,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -411.3195112671925,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -407.23000839066947,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -541.7714338339989,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -682.9899156640926,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -653.8261183020373,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -800.6037944281615,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -954.6603200609892,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -240.10956568511574,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -362.4030011231408,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -490.78343915049834,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -486.69240364861287,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -621.235361717304,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -762.4538435473975,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -733.290046185342,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -880.0677223114659,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Polaris Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -1034.1242479442935,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -223.000047183564,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -282.2153102483496,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -343.6631292298325,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -344.74458070345395,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -409.8813700747189,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -477.4739709543494,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -466.4891142233437,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -537.5474299010862,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -611.2848126788651,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -237.07200380080246,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -296.2872668655881,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -357.73508584707054,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -358.81653732069253,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -423.95332669195716,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -491.545927571588,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -480.5610708405824,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -551.6193865183241,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -625.3567692961029,
+  "defaulted": false,
+  "breachMonths": 50,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -250.9975658859695,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -310.2128289507556,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -371.66064793223734,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -372.74209940585945,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -437.8788887771242,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -505.4714896567549,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -494.4866329257494,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -565.5449486034917,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -639.2823313812709,
+  "defaulted": false,
+  "breachMonths": 46,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -277.56241897835895,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -336.77768204314435,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 0
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -398.22550102462725,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -399.3069524982489,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -464.4437418695139,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -532.0363427491443,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -521.0514860181383,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -592.1098016958802,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -665.8471844736596,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -308.07706775605016,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -367.292330820836,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -428.74014980231823,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -429.8216012759399,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -494.95839064720474,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -562.5509915268354,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -551.5661347958293,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -622.6244504735716,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -696.3618332513503,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -296.1730888239011,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -374.9337020981516,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -456.98321375419613,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -460.55538676533973,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -547.1920613670159,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -637.4465241886649,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -624.9376847067776,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -719.450420635879,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -817.9098346231337,
+  "defaulted": false,
+  "breachMonths": 54,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -315.5545824975751,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -394.315195771827,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -476.3647074278707,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -479.9368804390151,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -566.5735550406912,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -656.8280178623409,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -644.3191783804541,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -738.8319143095559,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -837.2913282968098,
+  "defaulted": false,
+  "breachMonths": 51,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -334.6556823771534,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -413.4162956514049,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -495.46580730745177,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -499.0379803185963,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -585.6746549202724,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -675.929117741922,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -663.420278260035,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -757.9330141891369,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -856.3924281763914,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -371.1425054806304,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -449.90311875488084,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -531.9526304109265,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -535.5248034220701,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -622.1614780237471,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -712.4159408453968,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -699.9071013635096,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -794.4198372926119,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -892.8792512798659,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -411.31786534573007,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -490.07847861998175,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -572.127990276027,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -575.7001632871709,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -662.3368378888476,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -752.5913007104973,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -740.0824612286106,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -834.5951971577122,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Polaris Forge 3",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -933.0546111449667,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -319.10899581997285,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -396.7950707330226,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -478.3001312317342,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -487.8241159871566,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -573.2787983915126,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -662.934364940095,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -656.5392361543392,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -749.7625260499991,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -847.5685986484531,
+  "defaulted": false,
+  "breachMonths": 52,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -338.7357778031357,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -416.4218527161865,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -497.9269132148973,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -507.4508979703193,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -592.9055803746746,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -682.5611469232567,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -676.1660181375012,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -769.3893080331609,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -867.1953806316146,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -358.16808188368066,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -435.8541567967296,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -517.359217295441,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -526.8832020508631,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -612.3378844552175,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -701.9934510037998,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -695.5983222180442,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -788.8216121137046,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -886.6276847121579,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -396.02099341084374,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -473.7070683238933,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -555.2121288226047,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -564.7361135780268,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -650.1907959823818,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -739.8463625309639,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -733.451233745209,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -826.674523640869,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -924.4805962393223,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -436.5127745770646,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -514.1988494901154,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -595.703909988827,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -605.2278947442485,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -690.6825771486035,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -780.3381436971858,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -773.9430149114305,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -867.1663048070905,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 1",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -964.9723774055442,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -219.6349428702011,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -275.3299228621882,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -332.92320239512475,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -331.8003004308062,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -393.0647784219921,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -456.41738590822234,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -443.96565799141155,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -510.79963398179603,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -579.9115694213203,
+  "defaulted": false,
+  "breachMonths": 57,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -232.20077995763614,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -287.8957599496235,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -345.4890394825598,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -344.36613751824115,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -405.63061550942695,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -468.9832229956575,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -456.5314950788466,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -523.3654710692313,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -592.4774065087545,
+  "defaulted": false,
+  "breachMonths": 55,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -244.46338570964195,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -300.1583657016293,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -357.75164523456584,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -356.62874327024707,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -417.893221261433,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -481.24582874766355,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -468.7941008308524,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -535.6280768212373,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -604.740012260761,
+  "defaulted": false,
+  "breachMonths": 48,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -268.7839158112698,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -324.47889580325705,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -382.0721753361937,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -380.9492733718747,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -442.2137513630606,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -505.5663588492912,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -493.11463093248017,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -559.9486069228662,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 0
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -629.06054236239,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -297.8328230130797,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -353.5278030050669,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -411.1210825380037,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -409.9981805736849,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -471.26265856487083,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -534.6152660511016,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -522.1635381342901,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -588.9975141246755,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Delta Forge 2",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -658.1094495641987,
+  "defaulted": false,
+  "breachMonths": 45,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1676.4396579140866,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1542.793375262612,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1401.2992682530305,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1369.9341867990875,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 1222.923275882468,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 1066.0382048113759,
+  "defaulted": false,
+  "breachMonths": 38,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 1063.3619482692986,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 902.9864090875291,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 731.1407286440606,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1592.5947708434662,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1458.9147652035113,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1317.4543811824103,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1286.0250228692523,
+  "defaulted": false,
+  "breachMonths": 23,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 1139.0746821379475,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 982.470681674385,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 979.4382236751933,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 819.137815343008,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 647.930577423866,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1509.8471083165336,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1376.114643117598,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1234.7067186554775,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 1.7053025658242404e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1203.2493225590727,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 1056.3188010233405,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 899.5033907805018,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 896.5013001297199,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 736.3819342284013,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 565.7259726202944,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1350.4266545776068,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1216.579147350373,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1075.2862649165497,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1043.7034589121224,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 896.8669110013938,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 740.7035926297693,
+  "defaulted": false,
+  "breachMonths": 31,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 736.8137735623599,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 576.9320774201344,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 406.9309585271911,
+  "defaulted": false,
+  "breachMonths": 31,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1182.1227233188708,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1048.2534501958924,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 906.9823336578137,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 875.4068357789221,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 728.5629797426584,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 572.9214952457958,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 568.4884467078398,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 408.6281461613997,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Helios CoreWeave phases I\u2013III",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 238.83521774990027,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 665.3512154778282,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 614.5970450435744,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 562.1329023015974,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 562.7669496946901,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 506.93736221701056,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 449.1473311055961,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 460.18268391155226,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 399.27767939044736,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 335.38200710488366,
+  "defaulted": false,
+  "breachMonths": 40,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 632.0178078712288,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 581.2678769779316,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 528.8037342359553,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 529.4377816290477,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 473.6081941513683,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 415.81103578042797,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 426.8535158459099,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 365.94851132480494,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 301.3902766107973,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 599.31973354002,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 548.5655631057663,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 496.1014203637897,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 496.7354677568822,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 440.9058802792025,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 383.1114752048733,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 394.1512019737442,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 333.2461974526395,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 269.13943359762504,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 536.9448631275845,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 486.1906926933307,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 433.7265499513537,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 434.36059734444643,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 378.53100986676696,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 320.74820367310195,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 331.7763315613088,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 270.8713270402041,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 207.13642167406454,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 467.2488332929471,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 416.49466285869323,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 364.0305201167163,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 364.6645675098091,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 308.83498003212935,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 251.0481975085411,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 0
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 262.0803017266712,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 201.17529720556604,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Barber Lake",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 137.2214446474565,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 799.681413361436,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 729.5225319842209,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 656.9121451472586,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 657.0461620232345,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 579.8713925082974,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 499.88772501426524,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 514.4109106850339,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 430.2202530323756,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 341.9905061414745,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 760.7286453682086,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 690.5554734775824,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 617.9593771540315,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 618.0826881629055,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 540.9148165062645,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 460.9514377549276,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 475.452341025192,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 391.26748503914774,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 301.5927915695502,
+  "defaulted": false,
+  "breachMonths": 43,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 722.6860397207627,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 652.515747549917,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 579.9167715065856,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 580.0404172953525,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 502.8760188676242,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 422.89811691337985,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 437.3934836916261,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 353.2248793917018,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 264.1914559659982,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 649.1364441552632,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 578.969146877736,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 506.3671759410857,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 506.4912255215599,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 429.32642330212457,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 349.3529596238543,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 363.8473782965901,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 279.67528382620276,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 191.32652471653302,
+  "defaulted": false,
+  "breachMonths": 38,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 563.7703697426471,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 493.6011149166767,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 421.0011015284697,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 421.125690143347,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 343.96034888950874,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 263.99212661104474,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 278.47981856375867,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 194.3092094135859,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Black Pearl AWS",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 106.39598600177368,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 826.9540238087225,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 744.5795089282593,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 659.4344550943098,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 663.2377872912349,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 572.6258209227262,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 478.8659788680038,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 499.5215507737495,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 400.67213291719474,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 297.4379638075784,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 788.6548636038148,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 706.2680048435034,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 621.1352948894025,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 624.9386270863279,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 534.3266607178188,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 440.53630368050597,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 461.1976971809507,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 362.37297271228687,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 259.1952129745242,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 750.9997975018975,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 668.6073132835351,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 583.4802287874852,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 587.2835609844105,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 496.66665348623184,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 402.89875786364803,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 423.5602357787078,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 324.71790661037,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 221.00575594208027,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 678.4411247823921,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 596.0579379890193,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 510.92155606798065,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 0
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 514.7248882649054,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 424.11292189639653,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 330.36219646325435,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 0
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 350.98848228883713,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 252.15923389086578,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 148.32716173960358,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 585.9306679597457,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 503.5425064566189,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 418.41109924533373,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 422.2144314422592,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 331.6006622767502,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 237.83992627921555,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 0
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 258.47358582244283,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 159.64877706821903,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Denton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 56.3394235976765,
+  "defaulted": false,
+  "breachMonths": 38,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 520.7449739561353,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 468.6988597311764,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 414.5166410834467,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 413.16523956392336,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 355.91451391646865,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 296.16511944026087,
+  "defaulted": false,
+  "breachMonths": 23,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 305.5855051717118,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 243.13016810176129,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 176.50300997582283,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 495.9364394209274,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 443.89032519596867,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 389.70810654823896,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 388.35670502871534,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 331.10597938126074,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 271.3560709081371,
+  "defaulted": false,
+  "breachMonths": 23,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 280.77697063650373,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 218.3216335665536,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 152.0886717516877,
+  "defaulted": false,
+  "breachMonths": 39,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 471.5793459489296,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 419.5332317239712,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 365.3510130762412,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 363.9996115567176,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 306.7488859092628,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 246.94398607206432,
+  "defaulted": false,
+  "breachMonths": 23,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 256.4198771645059,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 193.96454009455573,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 127.97668234894832,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 424.33662702582393,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 372.2913248125514,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 318.10910616482164,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 0
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 316.7577046452979,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 259.506978997843,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 199.77112579106355,
+  "defaulted": false,
+  "breachMonths": 23,
+  "residual": 0
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 209.17797025308673,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 146.72263318313628,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Dalton",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 80.52983982177585,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 0
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 368.59799243659234,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 316.55269022332,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 262.37047157559044,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 261.0190700560665,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 203.76834440861236,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 143.9820317827497,
+  "defaulted": false,
+  "breachMonths": 28,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 153.4393356638554,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 90.98399859390508,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Dalton",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 25.388932492903734,
+  "defaulted": false,
+  "breachMonths": 33,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 192.3206813139569,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 169.86569727278282,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 146.77626672787503,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 147.91346083060898,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 123.21297838531764,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 97.6200504665754,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 103.50624034726161,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 76.56025949785251,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 48.2746654672102,
+  "defaulted": false,
+  "breachMonths": 47,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 182.44475565391656,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 159.98977161274252,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 136.90034106783474,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 138.03753517056867,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 113.33705272527733,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 87.77094096555473,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 93.63031468722127,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 66.6843338378123,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 38.395471221727846,
+  "defaulted": false,
+  "breachMonths": 47,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 172.6959973901622,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 150.24101334898808,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 127.15158280408035,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 128.28877690681426,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 103.58829446152296,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 77.92936573080424,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 83.8815564234669,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 56.93557557405782,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 28.57577871471949,
+  "defaulted": false,
+  "breachMonths": 47,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 153.88173856954037,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 131.42675452836605,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 108.33732398345839,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 109.47451808619233,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 84.77403564090102,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 59.1987944784627,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 65.06729760284483,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 38.12131675343571,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 10.07147328762656,
+  "defaulted": false,
+  "breachMonths": 42,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 132.32103018146935,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 109.86604614029503,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 86.77661559538743,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 87.91380969812133,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 63.213327252830084,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 37.57808535223134,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 3.552713678800501e-15
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 43.50658921477395,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 16.560608365365,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Muskogee",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -11.386008716092732,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 196.92271209481217,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 175.02419960823264,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 152.70727079439314,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 154.74938976520352,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 130.66102602996602,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 106.07966831080262,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 112.57211407708077,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 86.29389909318542,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 59.05128488314733,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 187.14877758298502,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 165.25026509640557,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 142.93333628256596,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 144.97545525337637,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 120.8870915181389,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 96.30675834663592,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 102.7981795652534,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 76.5199645813582,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 49.096779472731484,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 177.809399875169,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 155.91088738858937,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 133.5939585747499,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 135.6360775455603,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 111.5477138103229,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 86.96804584088719,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 93.45880185743746,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 67.1805868735422,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 39.898837246337976,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 159.68574340198856,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 137.78723091540897,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 115.47030210156953,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 117.51242107237982,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 93.4240573371425,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 68.84567562015536,
+  "defaulted": false,
+  "breachMonths": 21,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 75.33514538425709,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 49.05693040036169,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 21.856343429726465,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 134.94526931843043,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 113.04675683185076,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 90.72982801801142,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 92.77194698882171,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 68.68358325358422,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 0
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 44.10673767271321,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 50.59467130069886,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 24.316456316803396,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 5.684341886080802e-14
+ },
+ {
+  "project": "Marble",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -2.8911170954033594,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 3.2592058744907604,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -3.4881762113357837,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -10.43007110161517,
+  "defaulted": false,
+  "breachMonths": 83,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -9.649144872479056,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -17.109605814288543,
+  "defaulted": false,
+  "breachMonths": 67,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -24.686467860394743,
+  "defaulted": false,
+  "breachMonths": 96,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -22.577622810088172,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -30.722923288793694,
+  "defaulted": false,
+  "breachMonths": 79,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -38.92390788976439,
+  "defaulted": false,
+  "breachMonths": 97,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1.6728210114422524,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -5.074267561104733,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -12.110911148223565,
+  "defaulted": false,
+  "breachMonths": 84,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -11.235529735527535,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -18.695594645986432,
+  "defaulted": false,
+  "breachMonths": 67,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -26.30211272588761,
+  "defaulted": false,
+  "breachMonths": 94,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -24.164007673136652,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -32.33343512406206,
+  "defaulted": false,
+  "breachMonths": 80,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -40.50370592298249,
+  "defaulted": false,
+  "breachMonths": 94,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 0.16873044327711284,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -6.5781675616194235,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -13.575287051316622,
+  "defaulted": false,
+  "breachMonths": 84,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -12.739620303692632,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -20.185033560419697,
+  "defaulted": false,
+  "breachMonths": 67,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -27.772195645177348,
+  "defaulted": false,
+  "breachMonths": 91,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -25.66809824130175,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -33.831352767660704,
+  "defaulted": false,
+  "breachMonths": 80,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -41.99925249553074,
+  "defaulted": false,
+  "breachMonths": 91,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -2.755899740841784,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -9.502429259049919,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -16.46832453803836,
+  "defaulted": false,
+  "breachMonths": 84,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -15.664250487811515,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -23.120288091840834,
+  "defaulted": false,
+  "breachMonths": 67,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -30.658844949651254,
+  "defaulted": false,
+  "breachMonths": 85,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -28.59272842542063,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -36.77188808030348,
+  "defaulted": false,
+  "breachMonths": 80,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -44.91931516672504,
+  "defaulted": false,
+  "breachMonths": 85,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": -5.565422860126887,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": -12.311512304762374,
+  "defaulted": false,
+  "breachMonths": 56,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": -19.21924116100098,
+  "defaulted": false,
+  "breachMonths": 78,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": -18.473773607096675,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": -25.916131497414653,
+  "defaulted": false,
+  "breachMonths": 67,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": -33.44896822292306,
+  "defaulted": false,
+  "breachMonths": 79,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": -31.402251544705805,
+  "defaulted": false,
+  "breachMonths": 49,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": -39.527891395878044,
+  "defaulted": false,
+  "breachMonths": 75,
+  "residual": 0
+ },
+ {
+  "project": "Austin",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": -47.728069555214745,
+  "defaulted": false,
+  "breachMonths": 79,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 3646.023667919234,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 3323.5193508437746,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 2988.7478732956297,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 3048.621769976863,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 2693.867021193856,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 2324.131599348743,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 2451.1393064488925,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 2064.1341259583423,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 1655.851605814442,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 3483.457988062438,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 3160.4919377010465,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 2824.843206719269,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 2885.961729666643,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 2530.8166482571987,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 2161.5253727008503,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 2288.3686458337834,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 1900.668455604683,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 1494.1168441810144,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 3316.337031993997,
+  "defaulted": false,
+  "breachMonths": 11,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 2993.3791263353573,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 2658.384545406111,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 2718.2987037714693,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 2363.3917309452636,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 1995.5147913751462,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 2120.756691913518,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 1733.7906212541861,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 1329.0380081297812,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 2993.513010817277,
+  "defaulted": false,
+  "breachMonths": 11,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 2670.9294533399516,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 2336.1179455818246,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 2395.901202519097,
+  "defaulted": false,
+  "breachMonths": 12,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 2041.0982886921488,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 1672.6314927290657,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 1798.1871647927646,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 1411.1851918985913,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 1007.128922191371,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 9.094947017729282e-13
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 2661.7298902410894,
+  "defaulted": false,
+  "breachMonths": 12,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 2339.192781794107,
+  "defaulted": false,
+  "breachMonths": 15,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 2004.3235397189055,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 2064.0506431413496,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 1709.3027973364904,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 1340.9913753040817,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 1466.4266466888328,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 1079.39708872104,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Abilene Lancium Stargate",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 673.66814160132,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 1.8189894035458565e-12
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 722.2233457990279,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 658.2580397574845,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 592.223624359438,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 593.6444028320675,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 523.2825661863698,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 450.53830650830923,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 465.06545986510724,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 388.3070926152551,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 307.7870632172006,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 687.233234626437,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 623.2607467338364,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 557.233513186847,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 558.6542916594766,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 488.290863305376,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 415.5640151442263,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 430.06498870754376,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 353.3169814426643,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 272.82654804056966,
+  "defaulted": false,
+  "breachMonths": 36,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 652.8741019072139,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 588.9064443537902,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 522.8743804676237,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 524.2951589402533,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 453.9333222945555,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 381.1945235993617,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 395.71076115955384,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 318.95784872344126,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 238.76359267660922,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 586.8653645783055,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 522.895594301104,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 456.8656431387154,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 458.28642161134496,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 387.924584965647,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 315.18999826396924,
+  "defaulted": false,
+  "breachMonths": 20,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 329.700055526501,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 252.94911139453183,
+  "defaulted": false,
+  "breachMonths": 14,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 172.82993350717257,
+  "defaulted": false,
+  "breachMonths": 35,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 504.2690041900157,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 440.30156041039913,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 374.2692827504252,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 375.6900612230545,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 305.3282245773569,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 232.59860240555793,
+  "defaulted": false,
+  "breachMonths": 24,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 247.1061593345135,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 170.35275100624233,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 1 initial construction",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 90.26502691601422,
+  "defaulted": false,
+  "breachMonths": 37,
+  "residual": 1.1368683772161603e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1297.1109858403508,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1188.2154471129552,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1074.4067087805643,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1064.4964073757685,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 944.7113147756336,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 819.3186802179853,
+  "defaulted": false,
+  "breachMonths": 26,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 831.8702022187517,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 701.1955557458773,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 0,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 562.9350832561882,
+  "defaulted": false,
+  "breachMonths": 44,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1233.0352174496852,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1124.1150048425986,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 1010.3309403898988,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 1000.3595180138147,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 880.6239196925335,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 755.2376445808528,
+  "defaulted": false,
+  "breachMonths": 26,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 767.7185623351743,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 637.1081606627773,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 3,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 498.0472163053373,
+  "defaulted": false,
+  "breachMonths": 43,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1170.516868203158,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 1061.5384446332337,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 947.812591143371,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 937.8249737236824,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 818.1055704460051,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 692.7240925492597,
+  "defaulted": false,
+  "breachMonths": 26,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 705.0452503053561,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 574.589811416249,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 6,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 436.0494304752233,
+  "defaulted": false,
+  "breachMonths": 41,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 1049.6359604019253,
+  "defaulted": false,
+  "breachMonths": 12,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 940.6459565431218,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 826.9316833421383,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 816.9313042839128,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 697.2205439473936,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 571.8504846682168,
+  "defaulted": false,
+  "breachMonths": 25,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 584.3028581862459,
+  "defaulted": false,
+  "breachMonths": 17,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 453.7089036150166,
+  "defaulted": false,
+  "breachMonths": 18,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 12,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 316.2451869737358,
+  "defaulted": false,
+  "breachMonths": 34,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 0,
+  "npvM": 921.0348033739403,
+  "defaulted": false,
+  "breachMonths": 13,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 200,
+  "npvM": 812.0639147896998,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 0,
+  "shockBps": 400,
+  "npvM": 698.3305263141525,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 0,
+  "npvM": 688.3488806510516,
+  "defaulted": false,
+  "breachMonths": 16,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 200,
+  "npvM": 568.6235056167873,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 10,
+  "shockBps": 400,
+  "npvM": 443.2594700592328,
+  "defaulted": false,
+  "breachMonths": 26,
+  "residual": 2.2737367544323206e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 0,
+  "npvM": 455.583113438298,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 200,
+  "npvM": 325.1077465870313,
+  "defaulted": false,
+  "breachMonths": 19,
+  "residual": 4.547473508864641e-13
+ },
+ {
+  "project": "Sweetwater 2 planned",
+  "delay": 18,
+  "overrun": 20,
+  "shockBps": 400,
+  "npvM": 187.78500412870267,
+  "defaulted": false,
+  "breachMonths": 30,
+  "residual": 2.2737367544323206e-13
+ }
+]

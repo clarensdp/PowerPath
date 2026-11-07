@@ -1,0 +1,26 @@
+[
+  {
+    "name":"Applied Digital / Polaris Forge 1 — APLD ComputeCo 9.250% notes",
+    "faceM":2350,"issuePricePct":97,"couponPct":9.25,
+    "issueDate":"2025-11-20","firstCouponDate":"2026-06-15","maturityDate":"2030-12-15",
+    "originalPrincipalAmortPctYear":null,
+    "source":"https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm",
+    "qualification":"Semiannual amortization begins Dec 15 2027 but installment amounts are governed by the indenture and are not included in this public-term proxy"
+  },
+  {
+    "name":"Galaxy / Helios II — 9.875% 2031 secured notes",
+    "faceM":3507,"issuePricePct":100,"couponPct":9.875,
+    "issueDate":"2026-07-28","firstCouponDate":"2027-02-01","maturityDate":"2031-08-01",
+    "originalPrincipalAmortPctYear":4,
+    "source":"https://investor.galaxy.com/node/11521/pdf",
+    "qualification":"Initial semiannual amortization no earlier than ten months after project completion; completion date unavailable; issue price 100 is a neutral PROXY not confirmed"
+  },
+  {
+    "name":"Core Scientific Finance — 7.750% 2031 secured notes",
+    "faceM":3300,"issuePricePct":99.25,"couponPct":7.75,
+    "issueDate":"2026-05-06","firstCouponDate":"2026-11-15","maturityDate":"2031-05-15",
+    "originalPrincipalAmortPctYear":11.5,
+    "source":"https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+    "qualification":"First amortization date requires rent commencement and abatement of all rent credits, at least 15 days before an eligible payment; not publicly fixed in cited filing"
+  }
+]

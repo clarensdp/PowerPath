@@ -1,0 +1,28 @@
+{
+  "partialTranche": {
+    "month15_oldGrossRentM": 11.200000000000001,
+    "month15_newGrossRentM": 10.6,
+    "month27_oldRentM": 0,
+    "month27_newRentM": 5.6,
+    "oldNpvM": -685.8255064456869,
+    "newNpvM": -686.8834913347329
+  },
+  "closedConstructionDebt": {
+    "oldDrawAfterMaturityM": 147,
+    "newDrawAfterMaturityM": 0,
+    "oldNpvM": -561.6189323124879,
+    "newNpvM": -650.9182553688794
+  },
+  "additiveReserve": {
+    "oldPostRefiReserveM": 27.35782909558265,
+    "newPostRefiReserveM": 39.362159999999996,
+    "oldNpvM": -290.3199008337024,
+    "newNpvM": -150.90579696532507
+  },
+  "tenantCollections": {
+    "sameMonthFundingDefault": false,
+    "lag3FundingDefault": true,
+    "month1ReceivableM": 350,
+    "month4ReceiptM": 350
+  }
+}

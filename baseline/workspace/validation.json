@@ -1,0 +1,21 @@
+{
+  "version": "v13",
+  "source": "Retained v12 source tree (downloaded v12 archive was incomplete)",
+  "development_and_integration_checks": 27,
+  "financial_checks": 25,
+  "existing_regression_tests": 19,
+  "browser_checked": [
+    "initial connection view renders",
+    "edited utility study duration and blocked status update milestones and conditional flag",
+    "connection delay transfers to financial What If",
+    "energy discovery renders separate capacity categories",
+    "energy opportunity creates co-location plan with referenced asset and additional workstreams"
+  ],
+  "limitations": [
+    "Fictional seed opportunities; no live discovery feed",
+    "Generic calendar-day task templates; no jurisdiction-specific legal determination",
+    "Source confidence is user-recorded, not independently verified",
+    "Schedule economics use retained benchmark fixed-dispatch sensitivities",
+    "Browser download events not independently verified"
+  ]
+}

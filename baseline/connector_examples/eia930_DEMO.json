@@ -1,0 +1,18 @@
+{
+  "schema": "powerpath.connector.v1",
+  "source": "eia930",
+  "source_url": "https://www.eia.gov/opendata/",
+  "retrieved_at": "2026-10-25T12:00:00Z",
+  "quality": {
+    "status": "synthetic-demo",
+    "warning": "TEST FIXTURE ONLY; NOT REAL DATA"
+  },
+  "records": [
+    {
+      "period_reported": "2026-10-01T00",
+      "value": 1000,
+      "unit": "MW",
+      "respondent": "DEMO"
+    }
+  ]
+}

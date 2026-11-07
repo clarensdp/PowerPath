@@ -1,0 +1,32 @@
+{
+  "base": {
+    "expected": "47846c474a3e234e72056d86bbc0cfad4b371dc42b3fa21537b00bae9fcdb327",
+    "actual_original_archive": "5f27b4a4b567f0e53339e96b79864877e43cfa277fcd1d78743f75bb585037fd",
+    "matches": false,
+    "exit_code": 0
+  },
+  "capped_sponsor_default": {
+    "expected": "202916e73a513822a5ace6bb5e4d78b617af74ae966546b8b3c65afae11ff508",
+    "actual_original_archive": "202916e73a513822a5ace6bb5e4d78b617af74ae966546b8b3c65afae11ff508",
+    "matches": true,
+    "exit_code": 0
+  },
+  "refinance_failure": {
+    "expected": "e51c44d133c991693c3b1aaa315d62318a1ba6c1760f903f37c0f6ac87c52d4c",
+    "actual_original_archive": "e51c44d133c991693c3b1aaa315d62318a1ba6c1760f903f37c0f6ac87c52d4c",
+    "matches": true,
+    "exit_code": 0
+  },
+  "terminal_recovery": {
+    "expected": "d9fca133851aaf45245425938fefdd71475510eb9c47ee227f0027b3f364373f",
+    "actual_original_archive": "d9fca133851aaf45245425938fefdd71475510eb9c47ee227f0027b3f364373f",
+    "matches": true,
+    "exit_code": 0
+  },
+  "maturity_default_mode": {
+    "expected": "75bc86afceb73386593573b0c09a4d6dcc725586cf93dc39e896bdb654a9004e",
+    "actual_original_archive": "75bc86afceb73386593573b0c09a4d6dcc725586cf93dc39e896bdb654a9004e",
+    "matches": true,
+    "exit_code": 0
+  }
+}

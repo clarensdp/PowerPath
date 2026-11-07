@@ -1,0 +1,477 @@
+{
+  "contract_sha256": "80941033a62ebc89fbd49d1aecdcd4bda4ebc798cab1e52f23f5c17637d267e3",
+  "contract_version": "PP-SCHEMA-30.8.0",
+  "required_columns": {
+    "activity": {
+      "action": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "details_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "INTEGER"
+      },
+      "object_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "delivery_milestones": {
+      "category": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "delay_months": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "evidence_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "float_months": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "path_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "permit_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "planned_month": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "predecessor_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_note": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_url": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "status": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "title": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "updated_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "evidence": {
+      "bytes": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "category": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "citation": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "content_hash": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "evidence_status": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "filename": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "notes": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "stored_filename": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "title": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "geographic_assets": {
+      "asset_type": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "attributes_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "evidence_level": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "latitude": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "longitude": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "name": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_provider": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_record_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_url": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "vintage": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "permit_items": {
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "delay_months": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "detail": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "due_month": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "evidence_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "kind": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "owner": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "path_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "status": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "title": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "updated_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "permit_notes": {
+      "body": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "permit_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "permit_steps": {
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "is_done": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "permit_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "sort_index": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "title": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "power_paths": {
+      "capacity_mw": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "capex_uplift_pct": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "delay_months": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "energy_uplift_pct": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "evidence_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "latitude": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "longitude": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "name": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "power_month": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "source_note": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "status": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "strategy": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "updated_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "projects": {
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "description": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "location": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "name": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "status": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "target_mw": {
+        "primary_key": 0,
+        "type": "REAL"
+      },
+      "updated_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "runs": {
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "engine_sha256": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "finance_sha256": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "input_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "label": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "mode": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "rows_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "scenario_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "scenario_version": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      },
+      "summary_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      }
+    },
+    "scenarios": {
+      "config_json": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "created_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "id": {
+        "primary_key": 1,
+        "type": "TEXT"
+      },
+      "mode": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "name": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "project_id": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "updated_at": {
+        "primary_key": 0,
+        "type": "TEXT"
+      },
+      "version": {
+        "primary_key": 0,
+        "type": "INTEGER"
+      }
+    }
+  },
+  "source": "v30.7.1 original core DDL + v27.1 float migration, extracted without semantic changes"
+}

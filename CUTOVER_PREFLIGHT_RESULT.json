@@ -1,0 +1,20 @@
+{
+  "cutover_executed": false,
+  "preflight_passed": false,
+  "blockers": [
+    "MISSING_CONFIGURATION:POWERPATH_DATABASE_URL",
+    "MISSING_CONFIGURATION:POWERPATH_PG_SCHEMA",
+    "MISSING_CONFIGURATION:POWERPATH_SUPABASE_URL",
+    "MISSING_CONFIGURATION:POWERPATH_SUPABASE_PUBLISHABLE_KEY",
+    "DATABASE_HOST_UNREACHABLE",
+    "MANAGED_IDENTITY_NOT_CONFIGURED",
+    "REQUIRED_AUTH_NOT_CONFIGURED",
+    "REGRESSION_GATE_FAILED",
+    "UNVERIFIED:postgres_live_parity_verified",
+    "UNVERIFIED:tenant_rls_runtime_verified",
+    "UNVERIFIED:browser_acceptance_verified",
+    "RESTORE_DRILL_EVIDENCE_MISSING"
+  ],
+  "database_secrets_included": false,
+  "live_writers_modified": false
+}

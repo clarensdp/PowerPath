@@ -1,0 +1,336 @@
+[
+  {
+    "name": "Polaris Forge 1",
+    "baseNPVM": -10.569593800605276,
+    "leaseTailNPVM": -117.57799723507082,
+    "deltaNPVM": -107.00840343446555,
+    "refiAmortMonths": 129,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 56,
+    "withPoliciesCovenantBreaches": 33,
+    "preExpiryBreaches": 33,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "33 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Polaris Forge 2",
+    "baseNPVM": -223.000047183564,
+    "leaseTailNPVM": -284.8649281576605,
+    "deltaNPVM": -61.86488097409648,
+    "refiAmortMonths": 130,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 52,
+    "withPoliciesCovenantBreaches": 39,
+    "preExpiryBreaches": 39,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "39 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Polaris Forge 3",
+    "baseNPVM": -296.1730888239011,
+    "leaseTailNPVM": -374.746708648802,
+    "deltaNPVM": -78.5736198249009,
+    "refiAmortMonths": 131,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 54,
+    "withPoliciesCovenantBreaches": 36,
+    "preExpiryBreaches": 36,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "36 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Delta Forge 1",
+    "baseNPVM": -319.10899581997285,
+    "leaseTailNPVM": -389.93992938829035,
+    "deltaNPVM": -70.8309335683175,
+    "refiAmortMonths": 134,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 52,
+    "withPoliciesCovenantBreaches": 31,
+    "preExpiryBreaches": 31,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "31 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Delta Forge 2",
+    "baseNPVM": -219.6349428702011,
+    "leaseTailNPVM": -279.26551707518274,
+    "deltaNPVM": -59.630574204981656,
+    "refiAmortMonths": 128,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 57,
+    "withPoliciesCovenantBreaches": 42,
+    "preExpiryBreaches": 42,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "42 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Helios CoreWeave phases I–III",
+    "baseNPVM": 1676.4396579140866,
+    "leaseTailNPVM": 1686.1304643044618,
+    "deltaNPVM": 9.6908063903752,
+    "refiAmortMonths": 137,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 24,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Barber Lake",
+    "baseNPVM": 665.3512154778282,
+    "leaseTailNPVM": 654.1000987298767,
+    "deltaNPVM": -11.251116747951528,
+    "refiAmortMonths": 188,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 13,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Black Pearl AWS",
+    "baseNPVM": 799.681413361436,
+    "leaseTailNPVM": 757.2545868165238,
+    "deltaNPVM": -42.42682654491216,
+    "refiAmortMonths": 129,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 15,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Denton",
+    "baseNPVM": 826.9540238087225,
+    "leaseTailNPVM": 750.4204790967373,
+    "deltaNPVM": -76.5335447119852,
+    "refiAmortMonths": 91,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 15,
+    "withPoliciesCovenantBreaches": 3,
+    "preExpiryBreaches": 3,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "3 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Dalton",
+    "baseNPVM": 520.7449739561353,
+    "leaseTailNPVM": 481.23269603975314,
+    "deltaNPVM": -39.51227791638212,
+    "refiAmortMonths": 94,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 13,
+    "withPoliciesCovenantBreaches": 1,
+    "preExpiryBreaches": 1,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "1 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Muskogee",
+    "baseNPVM": 192.3206813139569,
+    "leaseTailNPVM": 171.77600958909474,
+    "deltaNPVM": -20.544671724862155,
+    "refiAmortMonths": 90,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 16,
+    "withPoliciesCovenantBreaches": 3,
+    "preExpiryBreaches": 3,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "3 modeled DSCR covenant breach month(s); debt service is not covenant-compliant",
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "BLOCKED — not a performing credit case"
+  },
+  {
+    "name": "Marble",
+    "baseNPVM": 196.92271209481217,
+    "leaseTailNPVM": 173.85127542357526,
+    "deltaNPVM": -23.07143667123691,
+    "refiAmortMonths": 84,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 14,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Austin",
+    "baseNPVM": 3.2592058744907604,
+    "leaseTailNPVM": 6.330019609728041,
+    "deltaNPVM": 3.07081373523728,
+    "refiAmortMonths": 24,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 49,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Abilene Lancium Stargate",
+    "baseNPVM": 3646.023667919234,
+    "leaseTailNPVM": 3560.563905699261,
+    "deltaNPVM": -85.45976221997307,
+    "refiAmortMonths": 120,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 17,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Sweetwater 1 initial construction",
+    "baseNPVM": 722.2233457990279,
+    "leaseTailNPVM": 679.8196109319886,
+    "deltaNPVM": -42.40373486703936,
+    "refiAmortMonths": 128,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 14,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  },
+  {
+    "name": "Sweetwater 2 planned",
+    "baseNPVM": 1297.1109858403508,
+    "leaseTailNPVM": 1259.057815202479,
+    "deltaNPVM": -38.053170637871744,
+    "refiAmortMonths": 133,
+    "refiMismatch": false,
+    "baseCovenantBreaches": 19,
+    "withPoliciesCovenantBreaches": 0,
+    "preExpiryBreaches": 0,
+    "postExpiryBreaches": 0,
+    "creditWarnings": [
+      "Sponsor funding is uncapped and not evidenced; this is a sensitivity assumption",
+      "Contractual revenue targets are missing or do not reconcile",
+      "At least one lease has no source reference",
+      "Renewal probability, renewal rent and renewal duration are synthetic assumptions, not signed extensions",
+      "Vacant-MW terminal valuation is a scenario assumption, not an appraisal",
+      "Fixed-rate transaction notes, utility service rights and lender-specific cash waterfalls are not contract-integrated"
+    ],
+    "screeningStatus": "CONDITIONAL — scenario screening only"
+  }
+]

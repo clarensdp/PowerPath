@@ -1,0 +1,24 @@
+--- a/PowerPath_v25_8/audit/reference257.py
++++ b/PowerPath_v25_8/audit/reference257.py
+@@ -133,7 +133,9 @@
+             else:impaired=True
+         elif term_issued and t>maturity:
+             count=max(1,c['refinanceAmortMonths']-(t-maturity-1))
+-            principal_s=min(senior,senior/count)
++            rr=c['refinanceRatePct']/1200  # v25.8-CA P1: annuity repayment consistent with sizing
++            pmt=senior/count if rr==0 else senior*rr/(1-(1+rr)**-count)
++            principal_s=min(senior,max(0.,pmt-senior*rr))
+             senior-=principal_s
+         ds=interest_cash+(0 if t==maturity else principal_s+principal_j)
+         cf=cashflow(t)
+@@ -220,8 +222,8 @@
+       case('CFADS / maintenance / WC / tax',months=120,cashTaxRatePct=18,maintenanceCapexMWYearM=.06,workingCapitalDays=20),
+       case('mezzanine and tenant funding',months=120,ltc=50,mezzLtcPct=15,tenantCapexPct=35,tenantRentCreditPct=20,tenantCreditMonths=10),
+       case('DSRA and cash sweep',months=120,termMonths=24,dsraMonths=6,cashSweepPct=30),
+-      case('capped sponsor',months=120,sponsorCommitmentM=75,termMonths=24),
+-      case('zero borrowing',months=120,ltc=0,mezzLtcPct=0,sponsorCommitmentM=800),
++      case('capped sponsor',months=120,sponsorCommitmentM=75,termMonths=24,fundingDefaultPolicy='continue'),
++      case('zero borrowing',months=120,ltc=0,mezzLtcPct=0,sponsorCommitmentM=800,fundingDefaultPolicy='continue'),
+       case('maturity equity',months=120,loanMaturityMode='equity',cashTaxRatePct=5),
+       case('maturity default',months=120,loanMaturityMode='default'),
+     ]

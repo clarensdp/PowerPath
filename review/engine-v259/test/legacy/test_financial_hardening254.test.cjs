@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');const {evaluate,defaults}=require('../../src/underwrite.cjs');
+const ok=(a,b,tol=1e-7)=>assert.ok(Math.abs(a-b)<tol,`${a} != ${b}`);
+let n=0;function test(label,fn){fn();n++;console.log('PASS',label)}
+const basic=()=>({...defaults(),months:180,buildings:[{name:'A',itMW:20,constructionStart:1,constructionMonths:12,powerMonth:13,leaseMonth:13,leaseTermMonths:60,rentEscalatorPct:0,contractedRentM:100,rentInputMode:'total',leaseSourceRef:'fixture'}],ltc:60,mezzLtcPct:10,initialCash:10,minLiquidity:0,reserveTargetM:0,exitValueM:500,refinanceValueM:300});
+test('construction loans only finance sponsor-paid construction',()=>{let a=basic();a.tenantCapexPct=40;let r=evaluate(a);let capex=r.rows.reduce((s,x)=>s+x.capex,0);ok(r.summary.debtDrawsM,capex*.6*.6);ok(r.summary.mezzDrawsM,capex*.6*.1);ok(r.summary.tenantFundingM,capex*.4)});
+test('refinance amortization uses refinance term, not construction term',()=>{let a=basic();a.refinanceAmortMonths=120;a.amortMonths=360;let r=evaluate(a),m=r.summary.maturityMonth;let old=r.rows[m-1].debt;let first=r.rows[m].principal;ok(first,old/120)});
+test('revenue cannot commence before physical grid power when no tranches',()=>{let a=basic();a.buildings[0].powerMonth=25;let r=evaluate(a);ok(r.rows[12].revenue,0);assert.ok(r.rows[24].revenue>0)});
+test('model contract rental total remains reconciled with later commencement',()=>{let a=basic();a.buildings[0].powerMonth=25;let r=evaluate(a);assert.equal(r.summary.leaseReconciliationBlocked,false);ok(r.rows.slice(24,84).reduce((s,x)=>s+x.grossRevenue,0),100,1e-5)});
+test('default state explicitly disqualifies performing financing',()=>{let a=basic();a.loanMaturityMode='default';let r=evaluate(a);assert.equal(r.summary.defaulted,true);assert.match(r.summary.financeabilityStatus,/DEFAULT/);assert.ok(r.rows.every(x=>x.month<r.summary.maturityMonth||x.month>=a.months||x.distribution===0))});
+test('conservation identities under combined adverse financing assumptions',()=>{for(let i=0;i<80;i++){let a=basic();a.tenantCapexPct=i%5*20;a.refinanceAmortMonths=72+i;a.delayMonths=i%15;a.overrunPct=i%30;a.mezzLtcPct=i%3*10;a.ltc=60;let r=evaluate(a);for(let z of r.rows)ok(z.sourcesUsesResidual,0,1e-5);ok(r.summary.endingDebtM,0,1e-5)}});
+console.log('TOTAL',n,'v25.4 checks');

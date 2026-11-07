@@ -1,0 +1,47 @@
+{
+ "note": "Blind predictions: each case is run with as_of_date = anchor_date and no status, then compared with documented actuals. Rules are the 2026-10-29 rule set applied retroactively, and two Loudoun duration priors were set with these cases in view, so this is a consistency check, not out-of-sample validation.",
+ "cases": [
+  {
+   "id": "cross-mill",
+   "project": {
+    "name": "Cross Mill Center (LEGI-2023-0064)",
+    "anchor_date": "2023-03-01",
+    "anchor_basis": "ESTIMATE: application year from LEGI-2023-0064 / ZMAP-2023-0002; month not published in sources reviewed",
+    "jurisdiction": {"state": "VA", "county": "Loudoun"},
+    "parcel": {"policy_area": "JLMA", "acres_disturbed": 22.73, "residential_within_ft": 1000,
+               "airport_distance_ft": 3000, "airport_longest_runway_ft": 5500, "wetlands_or_streams": false},
+    "parcel_basis": {"airport_distance_ft": "ESTIMATE: site described as just south of Leesburg Executive Airport", "airport_longest_runway_ft": "ESTIMATE", "residential_within_ft": "ESTIMATE"},
+    "design": {"it_mw": 90, "backup_generators": true, "onsite_generation_mw": 0, "new_substations": 0, "max_height_ft": 60, "construction_months": 18},
+    "design_basis": {"it_mw": "ESTIMATE: 556,746 sq ft approved; MW not published"}
+   },
+   "actual": {
+    "pc_hearing_date": "2024-09-24", "pc_recommendation": "approve 6-2-1 on 2024-11-14",
+    "board_events": ["2025-05-06 motions to approve and deny both failed; deferred", "2025-07-15 approved 5-4"],
+    "decision_date": "2025-07-15", "outcome": "approved",
+    "issues_raised": ["building height vs comprehensive plan", "proximity to Leesburg Executive Airport and 230 kV lines", "compatibility"],
+    "substation": "not part of the application",
+    "sources": ["CM-HEARING-NOTICE", "CM-PC", "CM-BOS-MAY", "CM-BOS-JUL"]
+   }
+  },
+  {
+   "id": "spring-valley",
+   "project": {
+    "name": "Spring Valley Technology Park (LEGI-2024-0074)",
+    "anchor_date": "2024-07-01",
+    "anchor_basis": "ESTIMATE: application year from LEGI-2024-0074; month not published in sources reviewed",
+    "jurisdiction": {"state": "VA", "county": "Loudoun"},
+    "parcel": {"policy_area": "Transition", "acres_disturbed": 325, "residential_within_ft": 1000, "wetlands_or_streams": true},
+    "parcel_basis": {"wetlands_or_streams": "Conservancy letter describes converting forest and wetland near Goose Creek", "residential_within_ft": "ESTIMATE"},
+    "design": {"it_mw": 780, "backup_generators": true, "onsite_generation_mw": 100, "new_substations": 3, "construction_months": 24},
+    "design_basis": {"it_mw": "Secondary report of a 780 MW campus; not in primary sources reviewed", "onsite_generation_mw": "PLACEHOLDER: fuel cells and battery storage proposed; capacity not published"}
+   },
+   "actual": {
+    "pc_hearing_date": "2026-07-23", "pc_recommendation": "deny 6-0 (staff also recommended denial), citing Transition Policy Area inconsistency, reservoir, forest, water, air and noise",
+    "board_events": ["2026-10-14 Board hearing deferred indefinitely at the applicant's request"],
+    "decision_date": null, "outcome": "pending as of 2026-10-29",
+    "sources": ["SV-PC", "SV-LWC", "SV-ATLAS", "LWC-OCT2026"]
+   },
+   "live_status": {"LU_LEGISLATIVE": {"state": "pending", "pre_hearing_date": "2026-07-23"}}
+  }
+ ]
+}

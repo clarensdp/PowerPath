@@ -1,0 +1,15 @@
+P1a refi payment equals sizing annuity  PASS
+P1b DSCR-sized refinancing does not open below 1.0x  PASS
+P2 shared tranche with reverse readiness order does not throw and stays allocated  PASS
+P3 gross utility tranche converted to IT MW  PASS
+P4 operatingMWh uses calendar hours  PASS
+P5 funding default halts unfunded construction (no phantom financing)  PASS
+P5b terminal leakage is reported  PASS
+P6 APLD first coupon 205/360  PASS
+INV identities reconcile in patched edge cases  PASS
+P8a legacy defaults unchanged (base NPV)  PASS
+P8b leaseTail tenor amortizes within remaining lease less buffer  PASS
+P8c renewal: expected-value rent after expiry  PASS
+P8d contracted exit values vacant MW at vacantValuePct  PASS
+P8e invalid lease-tail policy rejected  PASS
+14/14 passed

@@ -1,0 +1,47 @@
+{
+  "cases": [
+    {
+      "case": 0,
+      "months": 120,
+      "financing_status": "UNVERIFIED SPONSOR FUNDING \u2014 assumption-driven",
+      "max_cash_residual": 0,
+      "max_debt_residual": 1.1368683772161603e-13,
+      "dsra_deficiency_months": 0
+    },
+    {
+      "case": 1,
+      "months": 120,
+      "financing_status": "UNVERIFIED SPONSOR FUNDING \u2014 assumption-driven",
+      "max_cash_residual": 7.105427357601002e-15,
+      "max_debt_residual": 1.1368683772161603e-13,
+      "dsra_deficiency_months": 0
+    },
+    {
+      "case": 2,
+      "months": 120,
+      "financing_status": "UNVERIFIED SPONSOR FUNDING \u2014 assumption-driven",
+      "max_cash_residual": 5.684341886080802e-14,
+      "max_debt_residual": 1.1368683772161603e-13,
+      "dsra_deficiency_months": 0
+    },
+    {
+      "case": 3,
+      "months": 120,
+      "financing_status": "UNVERIFIED SPONSOR FUNDING \u2014 assumption-driven",
+      "max_cash_residual": 3.552713678800501e-15,
+      "max_debt_residual": 1.1368683772161603e-13,
+      "dsra_deficiency_months": 0
+    },
+    {
+      "case": 4,
+      "months": 120,
+      "financing_status": "DEFAULT \u2014 financing assumptions not performing",
+      "max_cash_residual": 2.2737367544323206e-13,
+      "max_debt_residual": 0,
+      "dsra_deficiency_months": 0
+    }
+  ],
+  "assertions": 2404,
+  "max_independent_cash_residual_millions": 2.2737367544323206e-13,
+  "scope": "Independent arithmetic identities using JS ledger facts; see audit/reference257.py for separate Python property and finance forecast."
+}

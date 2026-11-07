@@ -1,0 +1,12 @@
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+pydantic>=2,<3
+python-multipart>=0.0.9
+
+# True parcel polygon intersections; geodesy and geometry topology
+shapely>=2.0,<3
+pyproj>=3.5,<4
+
+# v30.8.0 migration tooling (PostgreSQL driver deferred until cutover)
+SQLAlchemy>=2.0,<3
+alembic>=1.13,<2

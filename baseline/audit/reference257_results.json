@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "name": "reference baseline",
+      "months": 120,
+      "sponsor_equity_m": 307.8379999999999,
+      "defaulted": false,
+      "npv_m": 438.78920905153547,
+      "max_reference_gap_m": 3.552713678800501e-15
+    },
+    {
+      "name": "CFADS / maintenance / WC / tax",
+      "months": 120,
+      "sponsor_equity_m": 345.08759236954506,
+      "defaulted": false,
+      "npv_m": 272.8778136056384,
+      "max_reference_gap_m": 3.552713678800501e-15
+    },
+    {
+      "name": "mezzanine and tenant funding",
+      "months": 120,
+      "sponsor_equity_m": 210.73422222222231,
+      "defaulted": false,
+      "npv_m": 698.1673456907777,
+      "max_reference_gap_m": 2.4868995751603507e-14
+    },
+    {
+      "name": "DSRA and cash sweep",
+      "months": 120,
+      "sponsor_equity_m": 530.3178403691745,
+      "defaulted": false,
+      "npv_m": 411.1737885333266,
+      "max_reference_gap_m": 2.4868995751603507e-14
+    },
+    {
+      "name": "capped sponsor",
+      "months": 120,
+      "sponsor_equity_m": 75,
+      "defaulted": true,
+      "npv_m": -73.72239086687028,
+      "max_reference_gap_m": 5.684341886080801e-13
+    },
+    {
+      "name": "zero borrowing",
+      "months": 120,
+      "sponsor_equity_m": 800,
+      "defaulted": true,
+      "npv_m": -707.1070141678456,
+      "max_reference_gap_m": 5.684341886080801e-13
+    },
+    {
+      "name": "maturity equity",
+      "months": 120,
+      "sponsor_equity_m": 1080.1595691033863,
+      "defaulted": false,
+      "npv_m": 363.25357573274647,
+      "max_reference_gap_m": 5.684341886080801e-13
+    },
+    {
+      "name": "maturity default",
+      "months": 120,
+      "sponsor_equity_m": 307.8379999999999,
+      "defaulted": true,
+      "npv_m": -189.91647403381992,
+      "max_reference_gap_m": 5.684341886080801e-13
+    }
+  ],
+  "assertions": 24024,
+  "max_gap_m": 5.684341886080801e-13,
+  "note": "Independent Python implementation of monthly property and credit arithmetic under synthetic assumptions. Not validation against an executed lender model."
+}

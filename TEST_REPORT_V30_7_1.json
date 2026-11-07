@@ -1,0 +1,29 @@
+{
+  "release": "PowerPath v30.7.1 Parcel Footprint Alpha",
+  "new_footprint_tests_passed": 23,
+  "new_footprint_tests_failed": 0,
+  "selected_core_regression_passed_including_new": 203,
+  "separate_agent_operations_suite_passed": 9,
+  "separate_agent_auth_suite_passed": 3,
+  "separate_agent_concurrency_suite_passed": 3,
+  "legacy_workflow_suite_isolated_passed": 19,
+  "legacy_geo_suite_isolated_passed": 6,
+  "combined_suite_clean": false,
+  "combined_suite_limitation": "Earlier PowerPath shared DB and auth test-state contamination; new footprint and isolated baseline tests pass",
+  "http_smoke_test": {
+    "route": "/api/permitting/footprint",
+    "parcel_source": "Included Loudoun County versioned GIS fixture",
+    "http_status": 200,
+    "calculated_acres": 29.34174,
+    "clearance": "SCREENING_NOT_CLEARED"
+  },
+  "javascript_syntax_checked": true,
+  "html_ids_unique": true,
+  "browser_visual_verified": false,
+  "browser_limitation": "Environment browser blocked localhost navigation with ERR_BLOCKED_BY_ADMINISTRATOR",
+  "live_fema_service_checked": false,
+  "live_usfws_service_checked": false,
+  "protected_financial_engine_files_unchanged": true,
+  "project_db_schema_changed": false,
+  "production_ready": false
+}

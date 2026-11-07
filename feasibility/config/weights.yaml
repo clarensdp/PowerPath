@@ -1,0 +1,47 @@
+config_version: workbook_v7_frozen
+profiles:
+  training:
+    'Power: availability & speed': 0.3
+    'Power: cost & quality': 0.17
+    Cooling & water: 0.1
+    Connectivity & latency: 0.05
+    Land & buildout: 0.12
+    Regulatory & incentives: 0.1
+    Community & political: 0.08
+    Market demand: 0.08
+  inference:
+    'Power: availability & speed': 0.25
+    'Power: cost & quality': 0.12
+    Cooling & water: 0.08
+    Connectivity & latency: 0.16
+    Land & buildout: 0.11
+    Regulatory & incentives: 0.08
+    Community & political: 0.08
+    Market demand: 0.12
+risk:
+  max_discount: 0.4
+  share_confidence: 0.5
+  share_political: 0.5
+  confidence_mode: spread
+  max_input_noise: 25
+gates:
+  conditional_multiplier: 0.7
+cooling_weights:
+  Evaporative:
+    Expected PUE: 0.4
+    Water stress (WRI Aqueduct): 0.6
+  Closed-loop:
+    Expected PUE: 0.7
+    Water stress (WRI Aqueduct): 0.3
+  Dry:
+    Expected PUE: 0.9
+    Water stress (WRI Aqueduct): 0.1
+phasing_weights:
+  m24: 0.5
+  m36: 0.3
+  m48: 0.2
+pillar_floor: 25
+monte_carlo:
+  trials: 2000
+  perturbation: 0.3
+  seed: 42

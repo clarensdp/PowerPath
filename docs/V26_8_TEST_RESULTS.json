@@ -1,0 +1,174 @@
+{
+  "release": "v27.1.0-alpha",
+  "started_at": "2026-10-27T19:41:33.096116+00:00",
+  "checks": [
+    {
+      "name": "TypeScript build",
+      "exit_code": 0,
+      "elapsed_seconds": 1.06,
+      "pass": true,
+      "tail": ""
+    },
+    {
+      "name": "v26.4\u201326.8 APIs",
+      "exit_code": 0,
+      "elapsed_seconds": 1.75,
+      "pass": true,
+      "tail": "test_01_canonical_source_registry_and_immutability (test_v268_intelligence.FiveMilestones.test_01_canonical_source_registry_and_immutability) ... ok\ntest_02_diff_provenance_and_project_isolation (test_v268_intelligence.FiveMilestones.test_02_diff_provenance_and_project_isolation) ... ok\ntest_03_human_review_no_auto_change (test_v268_intelligence.FiveMilestones.test_03_human_review_no_auto_change) ... ok\ntest_04_independent_readonly_finance_impact_and_approval (test_v268_intelligence.FiveMilestones.test_04_independent_readonly_finance_impact_and_approval) ... ok\ntest_05_ten_role_council_offline_and_no_unapproved_tools (test_v268_intelligence.FiveMilestones.test_05_ten_role_council_offline_and_no_unapproved_tools) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.416s\n\nOK\n"
+    },
+    {
+      "name": "live agent mocked provider",
+      "exit_code": 0,
+      "elapsed_seconds": 1.57,
+      "pass": true,
+      "tail": "test_01_user_must_enable_live_and_share_consent (test_v268_live_workflow.ControlledAgentTests.test_01_user_must_enable_live_and_share_consent) ... ok\ntest_02_local_watch_reads_csv_files_and_creates_diffs (test_v268_live_workflow.ControlledAgentTests.test_02_local_watch_reads_csv_files_and_creates_diffs) ... ok\ntest_03_live_model_provider_is_independent_mocked_ten_calls (test_v268_live_workflow.ControlledAgentTests.test_03_live_model_provider_is_independent_mocked_ten_calls) ... ok\ntest_04_live_does_not_approve_actions (test_v268_live_workflow.ControlledAgentTests.test_04_live_does_not_approve_actions) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.170s\n\nOK\n"
+    },
+    {
+      "name": "red-team API (B/C/D/E/G)",
+      "exit_code": 0,
+      "elapsed_seconds": 3.45,
+      "pass": true,
+      "tail": "ved_versioned_run_and_hash_traces (tests.redteam.test_redteam_api.E_FinanceImpact.test_E02_preview_matches_approved_versioned_run_and_hash_traces) ... ok\ntest_E03_derived_scenario_edit_cannot_bypass_double_count_guard (tests.redteam.test_redteam_api.E_FinanceImpact.test_E03_derived_scenario_edit_cannot_bypass_double_count_guard) ... ok\ntest_E04a_v262_path_sensitivity_rejects_linked_base (tests.redteam.test_redteam_api.E_FinanceImpact.test_E04a_v262_path_sensitivity_rejects_linked_base) ... ok\ntest_E04b_one_delay_convention_across_ui_sensitivities (tests.redteam.test_redteam_api.E_FinanceImpact.test_E04b_one_delay_convention_across_ui_sensitivities)\nPOLICY (open): demo grid path delay 9; permit 'study' (7) linked to milestone chain 5+4=9. v26.3 = 9, v26.2 = 16. ... ok\ntest_E05_preview_base_is_selectable_or_reported (tests.redteam.test_redteam_api.E_FinanceImpact.test_E05_preview_base_is_selectable_or_reported) ... ok\ntest_G01_cross_origin_write_returns_403_not_500 (tests.redteam.test_redteam_api.G_Security.test_G01_cross_origin_write_returns_403_not_500) ... ok\ntest_G02_spoofed_executed_evidence_cannot_unlock_G4_G5 (tests.redteam.test_redteam_api.G_Security.test_G02_spoofed_executed_evidence_cannot_unlock_G4_G5) ... ok\ntest_G03_export_csv_has_no_formula_injection (tests.redteam.test_redteam_api.G_Security.test_G03_export_csv_has_no_formula_injection) ... ok\n\n----------------------------------------------------------------------\nRan 34 tests in 2.083s\n\nOK (expected failures=1)\n"
+    },
+    {
+      "name": "red-team agents (F)",
+      "exit_code": 0,
+      "elapsed_seconds": 2.7,
+      "pass": true,
+      "tail": "ion_reaches_model_and_unsafe_claims_are_stored_unflagged (tests.redteam.test_redteam_agents.F_Live.test_F06_csv_text_injection_reaches_model_and_unsafe_claims_are_stored_unflagged) ... ok\ntest_F07_no_secret_in_persisted_records_or_logs (tests.redteam.test_redteam_agents.F_Live.test_F07_no_secret_in_persisted_records_or_logs) ... ok\ntest_F08_only_agent_tables_and_activity_written (tests.redteam.test_redteam_agents.F_Live.test_F08_only_agent_tables_and_activity_written) ... ok\ntest_F09_mission_text_consent (tests.redteam.test_redteam_agents.F_Live.test_F09_mission_text_consent)\nThe operator mission string is sent verbatim; there is no per-project consent or redaction. ... ok\ntest_F10_rerun_when_model_changes (tests.redteam.test_redteam_agents.F_Live.test_F10_rerun_when_model_changes) ... ok\ntest_F11_cost_accounting_recorded (tests.redteam.test_redteam_agents.F_Live.test_F11_cost_accounting_recorded) ... ok\ntest_W01_future_dated_inbox_file_rejected (tests.redteam.test_redteam_agents.F_Watch.test_W01_future_dated_inbox_file_rejected) ... ok\ntest_W02_stored_hash_is_hash_of_source_file_bytes (tests.redteam.test_redteam_agents.F_Watch.test_W02_stored_hash_is_hash_of_source_file_bytes) ... ok\ntest_W03_watcher_marks_operator_files_as_operator_feed_with_official_url (tests.redteam.test_redteam_agents.F_Watch.test_W03_watcher_marks_operator_files_as_operator_feed_with_official_url) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 1.316s\n\nOK\n"
+    },
+    {
+      "name": "red-team adversarial finance (engine/underwrite25.js)",
+      "exit_code": 0,
+      "elapsed_seconds": 0.13,
+      "pass": true,
+      "tail": " roll-forward closes every month (sweep+dsra+mezz)\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A10 uncapped sponsor flagged and never reported as financeable\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A11 no output claims lender approval, certification or verified valuation\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A12 NPV = monthly-discounted (distributions - sponsor contributions), t0 = -initialCash\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A13 terminal proceeds = exitValue x (1 - exit cost) for a fully built campus\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A14 total capex = sum(IT MW) x $/MW x (1+overrun) when nothing is abandoned\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 1.2} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 1.8} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 2.5} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A16 cash sweep respects minimum liquidity\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A17 unfundable refinancing gap defaults instead of closing\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A18 renewal rent: first renewal year flat, then escalates\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A19 halted campus terminal value scales with completed IT MW\",\n   \"pass\": true,\n   \"msg\": \"\"\n  }\n ]\n}\n"
+    },
+    {
+      "name": "reference parity vs engine/underwrite25.js",
+      "exit_code": 0,
+      "elapsed_seconds": 2.81,
+      "pass": true,
+      "tail": "{\n \"engine\": \"engine/underwrite25.js\",\n \"checks\": 80240,\n \"maxGapM\": 1.4210854715202004e-12,\n \"failures\": []\n}\n"
+    },
+    {
+      "name": "v27.0 security / transaction register (required auth, separate process)",
+      "exit_code": 0,
+      "elapsed_seconds": 1.74,
+      "pass": true,
+      "tail": "test_01_fail_closed (tests.test_v27_security_transaction.V27Tests.test_01_fail_closed) ... ok\ntest_02_tenant_isolation_and_rbac (tests.test_v27_security_transaction.V27Tests.test_02_tenant_isolation_and_rbac) ... ok\ntest_03_public_transaction_registry (tests.test_v27_security_transaction.V27Tests.test_03_public_transaction_registry) ... ok\ntest_04_approver_identity_version_lock (tests.test_v27_security_transaction.V27Tests.test_04_approver_identity_version_lock) ... ok\ntest_05_hash_chain_detects_tampering (tests.test_v27_security_transaction.V27Tests.test_05_hash_chain_detects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.666s\n\nOK\n"
+    },
+    {
+      "name": "v27.1 waterfall oracle (independent identities, hand cases, tests 1-10)",
+      "exit_code": 0,
+      "elapsed_seconds": 2.36,
+      "pass": true,
+      "tail": "ct) ... ok\ntest_pik_capitalises_when_permitted (tests.v271.oracle_waterfall.T03_PIKOnlyWhenEnabled.test_pik_capitalises_when_permitted) ... ok\ntest_pik_refused_without_instrument_term (tests.v271.oracle_waterfall.T03_PIKOnlyWhenEnabled.test_pik_refused_without_instrument_term) ... ok\ntest_default_rate_on_overdue_only (tests.v271.oracle_waterfall.T04_DefaultInterest.test_default_rate_on_overdue_only) ... ok\ntest_invalid_priority_rejected (tests.v271.oracle_waterfall.T05_SeniorMezzPriority.test_invalid_priority_rejected) ... ok\ntest_priority_order (tests.v271.oracle_waterfall.T05_SeniorMezzPriority.test_priority_order) ... ok\ntest_dsra_used_after_refi_shortfall (tests.v271.oracle_waterfall.T06_ReserveRestriction.test_dsra_used_after_refi_shortfall) ... ok\ntest_reserve_policies (tests.v271.oracle_waterfall.T06_ReserveRestriction.test_reserve_policies) ... ok\ntest_default_mode (tests.v271.oracle_waterfall.T07_MaturityWithoutRefinancing.test_default_mode) ... ok\ntest_refi_gap (tests.v271.oracle_waterfall.T08_RefinanceInsufficient.test_refi_gap) ... ok\ntest_exit_liquidation_shortfall (tests.v271.oracle_waterfall.T09_TerminalShortfall.test_exit_liquidation_shortfall) ... ok\ntest_operating_shortfall_becomes_payable (tests.v271.oracle_waterfall.T10_NegativeCFADS.test_operating_shortfall_becomes_payable) ... ok\ntest_parity (tests.v271.oracle_waterfall.T11_LegacyParity.test_parity) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 1.667s\n\nOK\n"
+    },
+    {
+      "name": "v27.1 delay convention and interface parity (tests 11-13)",
+      "exit_code": 0,
+      "elapsed_seconds": 1.91,
+      "pass": true,
+      "tail": "test_independent_paths_take_longest (tests.v271.test_schedule_parity.T11_Parallel.test_independent_paths_take_longest) ... ok\ntest_path_estimate_is_not_added (tests.v271.test_schedule_parity.T11_Parallel.test_path_estimate_is_not_added) ... ok\ntest_unlinked_permit_is_parallel_driver (tests.v271.test_schedule_parity.T11_Parallel.test_unlinked_permit_is_parallel_driver) ... ok\ntest_completed_activity_contributes_nothing (tests.v271.test_schedule_parity.T12_Sequential.test_completed_activity_contributes_nothing) ... ok\ntest_conflicting_linked_permit_flagged (tests.v271.test_schedule_parity.T12_Sequential.test_conflicting_linked_permit_flagged) ... ok\ntest_cycle_rejected (tests.v271.test_schedule_parity.T12_Sequential.test_cycle_rejected) ... ok\ntest_dependent_delay_accumulates (tests.v271.test_schedule_parity.T12_Sequential.test_dependent_delay_accumulates) ... ok\ntest_float_absorbs_delay (tests.v271.test_schedule_parity.T12_Sequential.test_float_absorbs_delay) ... ok\ntest_version_changes_with_inputs_only (tests.v271.test_schedule_parity.T12_Sequential.test_version_changes_with_inputs_only) ... ok\ntest_demo_grid_path_single_answer (tests.v271.test_schedule_parity.T13_InterfaceParity.test_demo_grid_path_single_answer) ... ok\ntest_parity (tests.v271.test_schedule_parity.T13_InterfaceParity.test_parity) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 0.575s\n\nOK\n"
+    },
+    {
+      "name": "v27.1 Core Scientific notes, evidence, immutability, gates (tests 14-17, 19, 20)",
+      "exit_code": 0,
+      "elapsed_seconds": 3.61,
+      "pass": true,
+      "tail": ". ok\ntest_balloon_definition (tests.v271.test_core_scientific.T16_Reconciliation.test_balloon_definition) ... ok\ntest_carrying_amount_roll_forward (tests.v271.test_core_scientific.T16_Reconciliation.test_carrying_amount_roll_forward) ... ok\ntest_maturity_table_and_no_plugs (tests.v271.test_core_scientific.T16_Reconciliation.test_maturity_table_and_no_plugs) ... ok\ntest_public_and_assumptions_cannot_become_executed (tests.v271.test_core_scientific.T17_EvidencePromotionGuard.test_public_and_assumptions_cannot_become_executed) ... ok\ntest_versioned_history (tests.v271.test_core_scientific.T17_EvidencePromotionGuard.test_versioned_history) ... ok\ntest_legacy_fixtures_byte_identical (tests.v271.test_core_scientific.T19_HistoricalImmutability.test_legacy_fixtures_byte_identical) ... ok\ntest_missing_engine_version_means_legacy (tests.v271.test_core_scientific.T19_HistoricalImmutability.test_missing_engine_version_means_legacy) ... ok\ntest_stored_legacy_run_unchanged_and_reproducible (tests.v271.test_core_scientific.T19_HistoricalImmutability.test_stored_legacy_run_unchanged_and_reproducible) ... ok\ntest_unknown_engine_version_rejected (tests.v271.test_core_scientific.T19_HistoricalImmutability.test_unknown_engine_version_rejected) ... ok\ntest_every_transaction_response_blocks_g4_g5 (tests.v271.test_core_scientific.T20_GatesPreserved.test_every_transaction_response_blocks_g4_g5) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 2.245s\n\nOK\n"
+    },
+    {
+      "name": "v27.1 required-auth tenancy and promotion (tests 17-18)",
+      "exit_code": 0,
+      "elapsed_seconds": 1.92,
+      "pass": true,
+      "tail": "test_executed_promotion_requires_approver_and_document (tests.v271.test_v271_required_auth.T17_PromotionPositivePath.test_executed_promotion_requires_approver_and_document) ... ok\ntest_other_tenant_denied_everywhere (tests.v271.test_v271_required_auth.T18_CrossTenant.test_other_tenant_denied_everywhere) ... ok\ntest_viewer_cannot_write (tests.v271.test_v271_required_auth.T18_CrossTenant.test_viewer_cannot_write) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.105s\n\nOK\n"
+    },
+    {
+      "name": "v27.1 adversarial finance (engine/underwrite27.js)",
+      "exit_code": 0,
+      "elapsed_seconds": 0.35,
+      "pass": true,
+      "tail": " roll-forward closes every month (sweep+dsra+mezz)\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A10 uncapped sponsor flagged and never reported as financeable\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A11 no output claims lender approval, certification or verified valuation\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A12 NPV = monthly-discounted (distributions - sponsor contributions), t0 = -initialCash\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A13 terminal proceeds = exitValue x (1 - exit cost) for a fully built campus\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A14 total capex = sum(IT MW) x $/MW x (1+overrun) when nothing is abandoned\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 1.2} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 1.8} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A15 breach months = {dscr < 2.5} excluding maturity month\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A16 cash sweep respects minimum liquidity\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A17 unfundable refinancing gap defaults instead of closing\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A18 renewal rent: first renewal year flat, then escalates\",\n   \"pass\": true,\n   \"msg\": \"\"\n  },\n  {\n   \"name\": \"A19 halted campus terminal value scales with completed IT MW\",\n   \"pass\": true,\n   \"msg\": \"\"\n  }\n ]\n}\n"
+    },
+    {
+      "name": "v27.1 reference parity with changed-treatment localisation",
+      "exit_code": 0,
+      "elapsed_seconds": 2.86,
+      "pass": true,
+      "tail": "es_renew\",\n  \"cases_v2584.json:P6_delay_shock_reimbursed\",\n  \"cases_v2584.json:P8_reimbursed_wc_days\",\n  \"cases_v2584.json:P9_dscr_bound_refi_direct\",\n  \"cases_v2584.json:P10_gross_basis_direct\"\n ],\n \"changedTreatment\": [\n  {\n   \"case\": \"cases.json:C07_funding_default_halt\",\n   \"firstChangedMonth\": 60,\n   \"maxGapAfterM\": 443.257382800714,\n   \"at\": \"debt@m119\",\n   \"legacyMinCashM\": 5.317500000000038,\n   \"v271MinCashM\": 5.317500000000038,\n   \"legacyUnpaidPrincipalAtExitM\": 0,\n   \"v271UnpaidClaimsAtExitM\": 0,\n   \"npvDeltaM\": 0\n  },\n  {\n   \"case\": \"cases.json:C09_refi_gap_default_capped\",\n   \"firstChangedMonth\": 60,\n   \"maxGapAfterM\": 546.3836207905084,\n   \"at\": \"debt@m119\",\n   \"legacyMinCashM\": 10,\n   \"v271MinCashM\": 10,\n   \"legacyUnpaidPrincipalAtExitM\": 0,\n   \"v271UnpaidClaimsAtExitM\": 0,\n   \"npvDeltaM\": 0\n  },\n  {\n   \"case\": \"cases.json:C14_contracted_exit_vacant_halt\",\n   \"firstChangedMonth\": 60,\n   \"maxGapAfterM\": 358.1165379075103,\n   \"at\": \"debt@m96\",\n   \"legacyMinCashM\": 9.302879999999945,\n   \"v271MinCashM\": 0,\n   \"legacyUnpaidPrincipalAtExitM\": 0,\n   \"v271UnpaidClaimsAtExitM\": 0,\n   \"npvDeltaM\": -5.684341886080802e-14\n  },\n  {\n   \"case\": \"cases_v2584.json:P7_halt_mixed\",\n   \"firstChangedMonth\": 60,\n   \"maxGapAfterM\": 350.10276000956287,\n   \"at\": \"debt@m72\",\n   \"legacyMinCashM\": 7.859666666666627,\n   \"v271MinCashM\": 0,\n   \"legacyUnpaidPrincipalAtExitM\": 0,\n   \"v271UnpaidClaimsAtExitM\": 0,\n   \"npvDeltaM\": -5.684341886080802e-14\n  }\n ],\n \"failures\": [],\n \"checks\": 80240\n}\n"
+    },
+    {
+      "name": "v27.1 engine reproducible from frozen v25.8.5 source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.89,
+      "pass": true,
+      "tail": "underwrite27.js reproducible from frozen underwrite25.js: True\n"
+    },
+    {
+      "name": "desktop tablet mobile browser",
+      "exit_code": 1,
+      "elapsed_seconds": 3.49,
+      "pass": false,
+      "tail": "es>...\n        )\n        ^\n    )\n    ^\n  File \"/opt/pyvenv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ~~~~~~~~~~~^^\n  File \"/opt/pyvenv/lib/python3.13/site-packages/playwright/_impl/_browser_type.py\", line 98, in launch\n    await self._channel.send(\n        \"launch\", TimeoutSettings.launch_timeout, params\n    )\n  File \"/opt/pyvenv/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 69, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<3 lines>...\n    )\n    ^\n  File \"/opt/pyvenv/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 559, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.Error: BrowserType.launch: Executable doesn't exist at /home/oai/.cache/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-linux64/chrome-headless-shell\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n"
+    }
+  ],
+  "financial_engine_integrity": {
+    "engine/facility_waterfall259.js": {
+      "unchanged": true,
+      "sha256": "b02a6961aabbd668b61bfd972c24c6ddbb45fbf3192445c8d964ba6c8b1ab551",
+      "expected": "b02a6961aabbd668b61bfd972c24c6ddbb45fbf3192445c8d964ba6c8b1ab551",
+      "reference": "in-tree baseline file"
+    },
+    "engine/fixed_note27.cjs": {
+      "unchanged": true,
+      "sha256": "b89e6a0b7d2b5ee1fdc56a86d4709bb92e1b604b33f7e39f9405c486477a10f0",
+      "expected": "b89e6a0b7d2b5ee1fdc56a86d4709bb92e1b604b33f7e39f9405c486477a10f0",
+      "reference": "in-tree baseline file"
+    },
+    "engine/underwrite25.js": {
+      "unchanged": true,
+      "sha256": "c4e2a090698411e492f5399a52fddbf233539dc3c1871d0877e53fcfb2d9ce29",
+      "expected": "c4e2a090698411e492f5399a52fddbf233539dc3c1871d0877e53fcfb2d9ce29",
+      "reference": "in-tree baseline file"
+    },
+    "engine/underwrite27.js": {
+      "unchanged": true,
+      "sha256": "686215dde5bc75cb7b145d54be290cc425baa6e6d722f9ddc5407f5717325409",
+      "expected": "686215dde5bc75cb7b145d54be290cc425baa6e6d722f9ddc5407f5717325409",
+      "reference": "in-tree baseline file"
+    },
+    "engine/v259_verified/src/assurance.cjs": {
+      "unchanged": true,
+      "sha256": "6d09ab48b93f2e828eca4d81fd0ac21779f56d320b26943f2aea848870dbcceb",
+      "expected": "6d09ab48b93f2e828eca4d81fd0ac21779f56d320b26943f2aea848870dbcceb",
+      "reference": "in-tree baseline file"
+    },
+    "engine/v259_verified/src/facilities.cjs": {
+      "unchanged": true,
+      "sha256": "2c0ceb22126361c87d7c939f047011666c5feebf9b8c9c751fad940ce3b455a5",
+      "expected": "2c0ceb22126361c87d7c939f047011666c5feebf9b8c9c751fad940ce3b455a5",
+      "reference": "in-tree baseline file"
+    },
+    "engine/v259_verified/src/notes.cjs": {
+      "unchanged": true,
+      "sha256": "ee976d38778799b0715f6825a18999e2814498740cfcb7017c5e90cbfd235df9",
+      "expected": "ee976d38778799b0715f6825a18999e2814498740cfcb7017c5e90cbfd235df9",
+      "reference": "in-tree baseline file"
+    },
+    "engine/v259_verified/src/underwrite.cjs": {
+      "unchanged": true,
+      "sha256": "17c144e952222a94b70f41b2a417d00498e41034c76b9010f45d9899b7ff9f27",
+      "expected": "17c144e952222a94b70f41b2a417d00498e41034c76b9010f45d9899b7ff9f27",
+      "reference": "in-tree baseline file"
+    }
+  },
+  "live_model_calls_executed": 0,
+  "lender_certification": "BLOCKED",
+  "source_delivery_verified": false,
+  "full_inherited_audit_rerun": false,
+  "finished_at": "2026-10-27T19:42:05.688520+00:00",
+  "pass": false
+}

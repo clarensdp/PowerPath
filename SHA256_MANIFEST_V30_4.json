@@ -1,0 +1,21 @@
+{
+ "release": "30.4.0",
+ "files": {
+  "permitting/__init__.py": "7b7867661547712f2c67dc96fcaaef2b2ecde90185165670e58f9fcee89eebaf",
+  "permitting/backtest.py": "dbe604f23da205778a43688224e20a0f63235cb0034c110cf82b221ece1a15c7",
+  "permitting/cases/loudoun_backtest.json": "471708c5acb92de47a1153972f1e310c6169e3061e53c8ca3cfb529d56f6da77",
+  "permitting/data/rules/us-federal.json": "b247195285d92b43abeddacc5f7d1713455d612eab94c08c65bf170346eb4730",
+  "permitting/data/rules/us-va-loudoun.json": "06f634a1631e6351a522ac2d2e4277b8aa5e7a5091de32ab7e6982e230b8fdb6",
+  "permitting/data/rules/us-va.json": "2c04febc449f111bf84aa9857aac0e03d03e96b67a49217686da30c21cf5ad3a",
+  "permitting/data/rules/utility-dominion-va.json": "440caba72267e883518ab59eebc68f542b3ccaf39fea112a93de5ccf0b4da130",
+  "permitting/data/sources.json": "3e384327f7b25bbadde8ec6282de630033f14d9a6d69b41b0316ca3360da7020",
+  "permitting/data/taxonomy.json": "097b97b1a1e6a941e8ad4644a4edca1380dcd141a8ceca52e12535f748672e3c",
+  "permitting/engine.py": "14a52a79dff0a1e39f3c310b6d48465b3679d94d2f6353773ff6fa8979074fa6",
+  "permitting/test_permitting.py": "5c86ea7834c607ecb9e619dc615f8996008c5a029a0d814f8a6c12f68f64f7fa",
+  "server/permitting_api.py": "48018f3d044a0bb04811fcabf84f9e658613fc3234fac2c56c3b70efd38a3e28",
+  "server/app.py": "6e8eb064f6b7093371be04620158989e47de836b66cb18fd941248f3f224afd5",
+  "package.json": "24916a4ef03bf0c5ca09d8b1d80a1c5f2b2c6ec333a6787d0dff8e67af502a85",
+  "RELEASE_V30_4.md": "e6075904d766bee8a52836c016014dd2a2cf59605310c56eb7f49dca20d381be"
+ },
+ "engine_unchanged_vs": "ENGINE_HASH_AUDIT_V30_3.json"
+}

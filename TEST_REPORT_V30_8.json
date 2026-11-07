@@ -1,0 +1,31 @@
+{
+  "release": "30.8.0",
+  "reference": "PowerPath v30.7.1",
+  "selected_focus_passed": 203,
+  "selected_focus_includes_new_architecture_tests": 10,
+  "separately_verified_test_groups": {
+    "agent_operations": 9,
+    "agent_auth": 3,
+    "agent_concurrency": 3,
+    "api": 8,
+    "georegistry": 3,
+    "legacy_workflows": 6,
+    "legacy_geo": 6,
+    "institutional_security": 5
+  },
+  "selected_regressions_total": 246,
+  "full_single_process_suite_verified": false,
+  "automated_group_runner_completed_end_to_end": false,
+  "automated_group_runner_limitation": "Runner intermittently stalled while orchestrating legacy suites, despite each required legacy group passing separately.",
+  "javascript_syntax_passed": true,
+  "schema_preflight_passed": true,
+  "schema_contract_tables": 11,
+  "sqlite_backup_verified": true,
+  "alembic_baseline_on_copy_passed": true,
+  "protected_financial_files": 12,
+  "protected_financial_hashes_all_match": true,
+  "postgresql_data_migration_completed": false,
+  "tenant_rls_implemented": false,
+  "browser_acceptance_verified": false,
+  "production_ready": false
+}

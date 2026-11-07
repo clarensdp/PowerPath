@@ -1,0 +1,23 @@
+{
+ "jurisdiction": {"id": "us", "name": "United States (federal)", "layer": "federal"},
+ "last_verified": "2026-10-29",
+ "rules": [
+  {"id": "FAA_7460", "permit_type": "FAA_7460", "authority": "Federal Aviation Administration",
+   "trigger": {"any": [{"field": "design.max_height_ft", "op": "gt", "value": 200},
+                       {"all": [{"field": "parcel.airport_distance_ft", "op": "le", "value": 20000},
+                                {"field": "parcel.airport_longest_runway_ft", "op": "gt", "value": 3200}]},
+                       {"all": [{"field": "parcel.airport_distance_ft", "op": "le", "value": 10000},
+                                {"field": "parcel.airport_longest_runway_ft", "op": "le", "value": 3200}]}]},
+   "trigger_note": "Screening proxy: any site inside the 14 CFR 77.9(b) notice radius is flagged. The actual test is whether the structure penetrates the 100:1 (or 50:1) slope surface; confirm with the FAA Notice Criteria Tool.",
+   "depends_on": [], "gates": ["BUILDING_PERMIT"],
+   "duration": {"p50": 2, "p90": 4, "basis": "prior", "note": "Determination timing not sourced here"},
+   "discretion": 1, "hearings": 0, "paths": "all", "sources": ["FAA-77.9"]},
+  {"id": "WETLANDS_404", "permit_type": "WETLANDS_404", "authority": "U.S. Army Corps of Engineers (Norfolk District for Virginia) with state 401 certification",
+   "trigger": {"field": "parcel.wetlands_or_streams", "op": "true"},
+   "depends_on": [], "gates": ["CONSTRUCTION"],
+   "duration": {"p50": 4, "p90": 9, "basis": "prior", "note": "Nationwide-permit scale impacts; individual permits run far longer. Set parcel.wetland_impact_acres to switch."},
+   "duration_if": [{"when": {"field": "parcel.wetland_impact_acres", "op": "gt", "value": 0.5},
+                    "duration": {"p50": 12, "p90": 24, "basis": "prior", "note": "Individual-permit scale impacts (assumed above 0.5 acre)"}}],
+   "discretion": 2, "hearings": 0, "paths": "all", "sources": []}
+ ]
+}

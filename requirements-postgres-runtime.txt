@@ -1,0 +1,3 @@
+# Candidate adapter dependency; not evidence of runtime acceptance.
+-r requirements.txt
+psycopg[binary]==3.2.10

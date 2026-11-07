@@ -1,0 +1,16 @@
+{
+ "release":"27.0.0-alpha",
+ "status":"DEVELOPMENT_ONLY",
+ "checks":{
+  "v27_isolated_security_transaction":"5/5 PASS, unittest tests.test_v27_security_transaction -q",
+  "inherited_api_intelligence":"13/13 PASS, unittest tests.test_api tests.test_v268_intelligence -q (separate process)",
+  "typescript":"PASS, tsc --noEmit -p tsconfig.json",
+  "production_pentest":"NOT_RUN",
+  "browser_authenticated_ui":"NOT_IMPLEMENTED",
+  "full_inherited_audit":"NOT_RUN",
+  "transaction_cash_flow_reconciliation":"NOT_COMPLETE",
+  "g4_contract_verified":"BLOCKED",
+  "g5_human_model_review":"BLOCKED"
+ },
+ "limitations":"Tests must run in separate processes because inherited suites and the v27 isolated suite configure separate database/auth modes via import-time environment."
+}

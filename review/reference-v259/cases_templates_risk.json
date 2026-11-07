@@ -1,0 +1,837 @@
+{
+ "TPL_apld_computeco_2030": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 3860,
+  "buildings": [
+   {
+    "name": "ELN-02",
+    "itMW": 168,
+    "constructionStart": 5,
+    "constructionMonths": 18,
+    "powerMonth": 23,
+    "leaseMonth": 23,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "ELN-03",
+    "itMW": 168,
+    "constructionStart": 8,
+    "constructionMonths": 18,
+    "powerMonth": 26,
+    "leaseMonth": 26,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "apld_computeco_2030",
+    "name": "APLD ComputeCo senior secured notes due 2030",
+    "type": "fixed_note",
+    "faceM": 2350,
+    "couponPct": 9.25,
+    "issuePricePct": 97,
+    "feePct": 0,
+    "issueDate": "2025-11-20",
+    "firstPaymentDate": "2026-06-15",
+    "maturityDate": "2030-12-15",
+    "buildings": [
+     "ELN-02",
+     "ELN-03"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "unknown"
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 177
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Unknown",
+      "source": "FACILITY_SPEC_v259 s.10: payment and maturity dates not re-confirmed"
+     },
+     "maturityDate": {
+      "label": "Unknown",
+      "source": "FACILITY_SPEC_v259 s.10: not re-confirmed"
+     },
+     "amortization": {
+      "label": "Unknown",
+      "source": "Installments not public; amortization from 2027-12-15 asserted by the bundle (Unknown), not modeled"
+     },
+     "amortStart": {
+      "label": "Unknown",
+      "source": "Bundle asserts 2027-12-15; not used because installments are unknown"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F34",
+      "source": "Indenture s.1.01"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "factId": "F14",
+      "source": "Collateral ELN-02 + ELN-03 (F14); label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ]
+ },
+ "TPL_apld_computeco_2030_stress": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 3860,
+  "buildings": [
+   {
+    "name": "ELN-02",
+    "itMW": 168,
+    "constructionStart": 5,
+    "constructionMonths": 18,
+    "powerMonth": 23,
+    "leaseMonth": 23,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "ELN-03",
+    "itMW": 168,
+    "constructionStart": 8,
+    "constructionMonths": 18,
+    "powerMonth": 26,
+    "leaseMonth": 26,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "apld_computeco_2030",
+    "name": "APLD ComputeCo senior secured notes due 2030",
+    "type": "fixed_note",
+    "faceM": 2350,
+    "couponPct": 9.25,
+    "issuePricePct": 97,
+    "feePct": 0,
+    "issueDate": "2025-11-20",
+    "firstPaymentDate": "2026-06-15",
+    "maturityDate": "2030-12-15",
+    "buildings": [
+     "ELN-02",
+     "ELN-03"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "unknown"
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 177
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Unknown",
+      "source": "FACILITY_SPEC_v259 s.10: payment and maturity dates not re-confirmed"
+     },
+     "maturityDate": {
+      "label": "Unknown",
+      "source": "FACILITY_SPEC_v259 s.10: not re-confirmed"
+     },
+     "amortization": {
+      "label": "Unknown",
+      "source": "Installments not public; amortization from 2027-12-15 asserted by the bundle (Unknown), not modeled"
+     },
+     "amortStart": {
+      "label": "Unknown",
+      "source": "Bundle asserts 2027-12-15; not used because installments are unknown"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F34",
+      "source": "Indenture s.1.01"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "factId": "F14",
+      "source": "Collateral ELN-02 + ELN-03 (F14); label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ],
+  "delayMonths": 9,
+  "powerResponsibility": "reimbursed",
+  "sponsorCommitmentM": 1500
+ },
+ "TPL_galaxy_helios2_2031": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 5510,
+  "buildings": [
+   {
+    "name": "Phase II",
+    "itMW": 501,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "galaxy_helios2_2031",
+    "name": "Galaxy Helios Phase II notes due 2031",
+    "type": "fixed_note",
+    "faceM": 3507,
+    "couponPct": 9.875,
+    "issuePricePct": 99.5,
+    "feePct": 0,
+    "issueDate": "2026-07-28",
+    "firstPaymentDate": "2027-02-01",
+    "maturityDate": "2031-08-01",
+    "buildings": [
+     "Phase II"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 4
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 10
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 285.05
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10: Feb 1 / Aug 1 from 2027-02-01 (label not stated)"
+     },
+     "maturityDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "amortization": {
+      "label": "Public approximate",
+      "source": "Secondary source; indenture s.14.01 not read"
+     },
+     "amortStart": {
+      "label": "Public approximate",
+      "source": "Secondary source; indenture s.14.01 not read (afterFirstRent offset 10)"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F37",
+      "source": "Indenture s.1.01"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "source": "Phase II scope; label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ]
+ },
+ "TPL_galaxy_helios2_2031_stress": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 5510,
+  "buildings": [
+   {
+    "name": "Phase II",
+    "itMW": 501,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "galaxy_helios2_2031",
+    "name": "Galaxy Helios Phase II notes due 2031",
+    "type": "fixed_note",
+    "faceM": 3507,
+    "couponPct": 9.875,
+    "issuePricePct": 99.5,
+    "feePct": 0,
+    "issueDate": "2026-07-28",
+    "firstPaymentDate": "2027-02-01",
+    "maturityDate": "2031-08-01",
+    "buildings": [
+     "Phase II"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 4
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 10
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 285.05
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10: Feb 1 / Aug 1 from 2027-02-01 (label not stated)"
+     },
+     "maturityDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "amortization": {
+      "label": "Public approximate",
+      "source": "Secondary source; indenture s.14.01 not read"
+     },
+     "amortStart": {
+      "label": "Public approximate",
+      "source": "Secondary source; indenture s.14.01 not read (afterFirstRent offset 10)"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F37",
+      "source": "Indenture s.1.01"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "source": "Phase II scope; label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ],
+  "delayMonths": 9,
+  "powerResponsibility": "reimbursed",
+  "sponsorCommitmentM": 1500
+ },
+ "TPL_core_finance1_2031": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 5200,
+  "buildings": [
+   {
+    "name": "Austin",
+    "itMW": 94,
+    "constructionStart": 11,
+    "constructionMonths": 18,
+    "powerMonth": 29,
+    "leaseMonth": 29,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Denton",
+    "itMW": 94,
+    "constructionStart": 14,
+    "constructionMonths": 18,
+    "powerMonth": 32,
+    "leaseMonth": 32,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Dalton",
+    "itMW": 94,
+    "constructionStart": 17,
+    "constructionMonths": 18,
+    "powerMonth": 35,
+    "leaseMonth": 35,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Marble",
+    "itMW": 94,
+    "constructionStart": 20,
+    "constructionMonths": 18,
+    "powerMonth": 38,
+    "leaseMonth": 38,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Muskogee",
+    "itMW": 94,
+    "constructionStart": 23,
+    "constructionMonths": 18,
+    "powerMonth": 41,
+    "leaseMonth": 41,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "core_finance1_2031",
+    "name": "Core Finance 1 notes due 2031",
+    "type": "fixed_note",
+    "faceM": 3300,
+    "couponPct": 7.75,
+    "issuePricePct": 99.25,
+    "feePct": 0,
+    "issueDate": "2026-05-06",
+    "firstPaymentDate": "2026-11-15",
+    "maturityDate": "2031-05-15",
+    "buildings": [
+     "Austin",
+     "Denton",
+     "Dalton",
+     "Marble",
+     "Muskogee"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 11.5
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 1
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 343
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10: May 15 / Nov 15 from 2026-11-15 (label not stated)"
+     },
+     "maturityDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "amortization": {
+      "label": "Executed",
+      "source": "8-K"
+     },
+     "amortStart": {
+      "label": "Executed",
+      "source": "8-K (afterFinalCommencement offset 1)"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F39",
+      "source": "Indenture s.1.01; spec states 'Executed est.' (amount is an estimate)"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "source": "Austin, Denton, Dalton, Marble, Muskogee; label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ]
+ },
+ "TPL_core_finance1_2031_stress": {
+  "calendarStartYear": 2025,
+  "calendarStartMonth": 1,
+  "months": 120,
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "initialCash": 250,
+  "minLiquidity": 25,
+  "reserveTargetM": 25,
+  "rentPerKwMonth": 170,
+  "constructionCostMW": 7,
+  "exitValueM": 5200,
+  "buildings": [
+   {
+    "name": "Austin",
+    "itMW": 94,
+    "constructionStart": 11,
+    "constructionMonths": 18,
+    "powerMonth": 29,
+    "leaseMonth": 29,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Denton",
+    "itMW": 94,
+    "constructionStart": 14,
+    "constructionMonths": 18,
+    "powerMonth": 32,
+    "leaseMonth": 32,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Dalton",
+    "itMW": 94,
+    "constructionStart": 17,
+    "constructionMonths": 18,
+    "powerMonth": 35,
+    "leaseMonth": 35,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Marble",
+    "itMW": 94,
+    "constructionStart": 20,
+    "constructionMonths": 18,
+    "powerMonth": 38,
+    "leaseMonth": 38,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Muskogee",
+    "itMW": 94,
+    "constructionStart": 23,
+    "constructionMonths": 18,
+    "powerMonth": 41,
+    "leaseMonth": 41,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   },
+   {
+    "name": "Synthetic non-collateral building",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 180,
+    "rentEscalatorPct": 2.5,
+    "leaseSourceRef": "SYNTHETIC — no lease reviewed"
+   }
+  ],
+  "facilities": [
+   {
+    "id": "core_finance1_2031",
+    "name": "Core Finance 1 notes due 2031",
+    "type": "fixed_note",
+    "faceM": 3300,
+    "couponPct": 7.75,
+    "issuePricePct": 99.25,
+    "feePct": 0,
+    "issueDate": "2026-05-06",
+    "firstPaymentDate": "2026-11-15",
+    "maturityDate": "2031-05-15",
+    "buildings": [
+     "Austin",
+     "Denton",
+     "Dalton",
+     "Marble",
+     "Muskogee"
+    ],
+    "priority": 1,
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 11.5
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 1
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 343
+    },
+    "lockupDscr": 1.2,
+    "evidence": {
+     "faceM": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "couponPct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "issuePricePct": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "feePct": {
+      "label": "Assumption",
+      "source": "Not in spec; 0% placeholder"
+     },
+     "issueDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "firstPaymentDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10: May 15 / Nov 15 from 2026-11-15 (label not stated)"
+     },
+     "maturityDate": {
+      "label": "Public approximate",
+      "source": "FACILITY_SPEC_v259 s.10 (label not stated)"
+     },
+     "amortization": {
+      "label": "Executed",
+      "source": "8-K"
+     },
+     "amortStart": {
+      "label": "Executed",
+      "source": "8-K (afterFinalCommencement offset 1)"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F39",
+      "source": "Indenture s.1.01; spec states 'Executed est.' (amount is an estimate)"
+     },
+     "buildings": {
+      "label": "Public approximate",
+      "source": "Austin, Denton, Dalton, Marble, Muskogee; label not stated in spec"
+     },
+     "lockupDscr": {
+      "label": "Assumption",
+      "source": "Engine default 1.20; not stated in spec"
+     }
+    }
+   }
+  ],
+  "delayMonths": 9,
+  "powerResponsibility": "reimbursed",
+  "sponsorCommitmentM": 1500
+ }
+}

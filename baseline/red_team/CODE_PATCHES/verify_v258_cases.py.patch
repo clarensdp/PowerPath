@@ -1,0 +1,11 @@
+--- a/PowerPath_v25_8/audit/verify_v258_cases.py
++++ b/PowerPath_v25_8/audit/verify_v258_cases.py
+@@ -17,7 +17,7 @@
+  case('equity maturity with late development',months=70,initialCash=4000,ltc=65,mezzLtcPct=5,minLiquidity=0,reserveTargetM=0,loanMaturityMode='equity',termMonths=10,buildings=late),
+  case('simultaneous reserve and DSRA',months=120,initialCash=3000,termMonths=24,dsraMonths=6,reserveTargetM=12),
+  case('leap year energy month',months=72,calendarStartYear=2028,calendarStartMonth=1,pue=1,powerCostMWh=100,initialCash=1000,ltc=0,mezzLtcPct=0,minLiquidity=0,reserveTargetM=0,buildings=[dict(one[0],constructionMonths=1,powerMonth=2,leaseMonth=2)]),
+- case('tenant funding collection delay',months=72,initialCash=50,sponsorCommitmentM=50,ltc=0,mezzLtcPct=0,minLiquidity=0,reserveTargetM=0,tenantCapexPct=100,tenantFundingLagMonths=3,buildings=one),
++ case('tenant funding collection delay',months=72,initialCash=50,sponsorCommitmentM=50,ltc=0,mezzLtcPct=0,minLiquidity=0,reserveTargetM=0,tenantCapexPct=100,tenantFundingLagMonths=3,buildings=one,fundingDefaultPolicy='continue'),
+  case('staggered all-in contracted rent',months=80,initialCash=1000,ltc=0,mezzLtcPct=0,minLiquidity=0,reserveTargetM=0,buildings=[dict(one[0],rentInputMode='total',contractedRentM=240)],powerTranches=[{'building':'A','mw':50,'month':3},{'building':'A','mw':50,'month':15}]),
+ ]
+ results=compare(checks)

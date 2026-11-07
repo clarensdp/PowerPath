@@ -1,0 +1,11 @@
+{
+  "license_reference": "",
+  "retention_authorized": false,
+  "application_display_authorized": false,
+  "export_authorized": false,
+  "complete_snapshot": false,
+  "county_fips": "31059",
+  "source_url": "https://app.regrid.com/store/samples",
+  "retrieved_at": "REPLACE_WITH_ACTUAL_TIMEZONE_AWARE_RETRIEVAL_TIMESTAMP",
+  "coverage_scope": "REPLACE_WITH_THE_ACTUAL_LICENSED_SOURCE_SCOPE"
+}

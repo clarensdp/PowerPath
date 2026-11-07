@@ -1,0 +1,24 @@
+{
+  "schema": "powerpath.connector.v1",
+  "source": "pjm_lmp",
+  "source_url": "https://dataminer2.pjm.com/",
+  "retrieved_at": "2026-10-25T12:00:00Z",
+  "quality": {
+    "status": "synthetic-demo",
+    "warning": "TEST FIXTURE ONLY; NOT REAL DATA"
+  },
+  "records": [
+    {
+      "time_utc": "2026-10-01T00:00:00Z",
+      "value": 50.0,
+      "unit": "USD/MWh",
+      "node": "DEMO-ONLY"
+    },
+    {
+      "time_utc": "2026-10-01T01:00:00Z",
+      "value": 48.0,
+      "unit": "USD/MWh",
+      "node": "DEMO-ONLY"
+    }
+  ]
+}

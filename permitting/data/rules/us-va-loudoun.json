@@ -1,0 +1,360 @@
+{
+ "jurisdiction": {
+  "id": "us-va-loudoun",
+  "name": "Loudoun County, Virginia",
+  "layer": "county",
+  "parent": "us-va",
+  "utility_default": "utility-dominion-va"
+ },
+ "last_verified": "2026-10-29",
+ "zoning_facts": {
+  "data_center_use": "Special exception (conditional use) since 2025-03-18; no longer by right. Special exception use in IP, GI and MR-HI districts per the Phase 1 amendments (CPAM-2024-0001 / ZOAM-2024-0001).",
+  "where_allowed": "Only on land zoned for office or industrial uses; rural policy area districts (about two-thirds of the county) do not allow data centers.",
+  "moratorium_authority": "County states it lacks legal authority for a moratorium; Virginia law requires each rezoning or special exception be considered within a set period.",
+  "transmission": "County has no formal role approving high-voltage transmission routes; the SCC approves them. County supports undergrounding within 500 ft of residences or schools but cannot require it.",
+  "sources": [
+   "LC-BYRIGHT-2025",
+   "LC-LANDUSE",
+   "CM-HEARING-NOTICE"
+  ]
+ },
+ "rules": [
+  {
+   "id": "LU_LEGISLATIVE",
+   "permit_type": "LU_LEGISLATIVE",
+   "authority": "Loudoun County Board of Supervisors (Planning Commission recommends)",
+   "trigger": {
+    "field": "_derived.legislative_required",
+    "op": "true"
+   },
+   "trigger_note": "Rezoning (ZMAP) when the parcel's district does not allow data centers, plus special exception(s) (SPEX) for the use and any FAR or lot-coverage increases; Loudoun bundles these under one LEGI number.",
+   "steps": [
+    {
+     "id": "pre_hearing",
+     "name": "Acceptance to Planning Commission public hearing (staff review, referrals, resubmissions)",
+     "duration": {
+      "p50": 18,
+      "p90": 28,
+      "basis": "observed",
+      "n": 2,
+      "note": "Cross Mill about 18-19 months and Spring Valley about 24 months, with filing months estimated from application-number years. IN-SAMPLE: these cases also form the backtest."
+     }
+    },
+    {
+     "id": "hearing_to_decision",
+     "name": "Planning Commission hearing to Board decision",
+     "duration": {
+      "p50": 8,
+      "p90": 12,
+      "basis": "observed",
+      "n": 1,
+      "note": "Cross Mill 9.7 months (PC hearing 2024-09-24, approval 2025-07-15). Statutory cap 12 months unless the applicant consents; Loudoun runs the clock from referral to the PC hearing."
+     },
+     "statutory_ref": "zoning_decision_clock",
+     "decision": true
+    }
+   ],
+   "depends_on": [],
+   "gates": [
+    "SITE_PLAN",
+    "LAND_DISTURBANCE",
+    "AIR_BACKUP"
+   ],
+   "discretion": 3,
+   "hearings": 2,
+   "paths": "all",
+   "overlays": [
+    "LC_PAUSE_2026",
+    "LC_PHASE2"
+   ],
+   "sources": [
+    "LC-BYRIGHT-2025",
+    "LC-LANDUSE",
+    "VA-15.2-2286",
+    "LC-PAUSE-NEWS",
+    "CM-HEARING-NOTICE",
+    "CM-BOS-JUL",
+    "SV-PC"
+   ]
+  },
+  {
+   "id": "LU_BY_RIGHT",
+   "permit_type": "LU_BY_RIGHT",
+   "authority": "Loudoun County staff (administrative)",
+   "trigger": {
+    "field": "_derived.by_right_grandfathered",
+    "op": "true"
+   },
+   "trigger_note": "Only for applications under review as of 2025-02-12 that are more than 500 ft from residential areas and not substantially changed.",
+   "depends_on": [],
+   "gates": [
+    "SITE_PLAN",
+    "LAND_DISTURBANCE",
+    "AIR_BACKUP"
+   ],
+   "duration": {
+    "p50": 0,
+    "p90": 0,
+    "basis": "prior",
+    "note": "No separate land-use step; the site plan is the review"
+   },
+   "discretion": 0,
+   "hearings": 0,
+   "paths": "all",
+   "overlays": [
+    "LC_GRANDFATHER_2025"
+   ],
+   "sources": [
+    "LC-BYRIGHT-2025",
+    "VB-GRANDFATHER"
+   ]
+  },
+  {
+   "id": "LU_SUBSTATION",
+   "permit_type": "LU_SUBSTATION",
+   "authority": "Loudoun County Board of Supervisors",
+   "trigger": {
+    "field": "design.new_substations",
+    "op": "gt",
+    "value": 0
+   },
+   "bundle_with": "LU_LEGISLATIVE",
+   "trigger_note": "Utility transmission substation by special exception; filed inside the data center LEGI when there is one (Arcola Grove LEGI-2023-0071, Spring Valley's three substations).",
+   "steps": [
+    {
+     "id": "pre_hearing",
+     "name": "Acceptance to Planning Commission public hearing",
+     "duration": {
+      "p50": 18,
+      "p90": 28,
+      "basis": "observed",
+      "n": 2
+     }
+    },
+    {
+     "id": "hearing_to_decision",
+     "name": "Planning Commission hearing to Board decision",
+     "duration": {
+      "p50": 8,
+      "p90": 12,
+      "basis": "observed",
+      "n": 1
+     },
+     "statutory_ref": "zoning_decision_clock",
+     "decision": true
+    }
+   ],
+   "depends_on": [],
+   "gates": [
+    "ENERGIZATION_GRID"
+   ],
+   "discretion": 3,
+   "hearings": 2,
+   "paths": [
+    "grid",
+    "hyb",
+    "flex"
+   ],
+   "tranche": "grid",
+   "overlays": [
+    "LC_PAUSE_2026",
+    "LC_PHASE2"
+   ],
+   "sources": [
+    "CM-HEARING-NOTICE",
+    "SV-LWC",
+    "LC-PAUSE-NEWS"
+   ]
+  },
+  {
+   "id": "LU_2232",
+   "permit_type": "LU_2232",
+   "authority": "Loudoun County Planning Commission",
+   "trigger": {
+    "all": [
+     {
+      "field": "design.new_substations",
+      "op": "gt",
+      "value": 0
+     },
+     {
+      "field": "parcel.substation_on_comprehensive_plan",
+      "op": "false"
+     }
+    ]
+   },
+   "depends_on": [],
+   "gates": [
+    "ENERGIZATION_GRID"
+   ],
+   "duration": {
+    "p50": 3,
+    "p90": 6,
+    "basis": "prior",
+    "statutory_ref": "conformity_review_clock",
+    "note": "Statute: 60 days then deemed approved unless extended; run concurrently with the legislative case (assumed)"
+   },
+   "discretion": 2,
+   "hearings": 1,
+   "paths": [
+    "grid",
+    "hyb",
+    "flex"
+   ],
+   "tranche": "grid",
+   "sources": [
+    "VA-15.2-2232"
+   ]
+  },
+  {
+   "id": "SITE_PLAN",
+   "permit_type": "SITE_PLAN",
+   "authority": "Loudoun County Building and Development",
+   "trigger": {
+    "field": "design.it_mw",
+    "op": "gt",
+    "value": 0
+   },
+   "depends_on": [
+    "LU_LEGISLATIVE",
+    "LU_BY_RIGHT"
+   ],
+   "gates": [
+    "BUILDING_PERMIT"
+   ],
+   "duration": {
+    "p50": 6,
+    "p90": 12,
+    "basis": "prior",
+    "statutory_ref": "site_plan_clock",
+    "note": "Statute gives 40 days per first review and 30 per resubmission; multiple rounds assumed. Calibrate from LandMARC records."
+   },
+   "discretion": 1,
+   "hearings": 0,
+   "paths": "all",
+   "sources": [
+    "VA-15.2-2259"
+   ]
+  },
+  {
+   "id": "BUILDING_PERMIT",
+   "permit_type": "BUILDING_PERMIT",
+   "authority": "Loudoun County Building and Development",
+   "trigger": {
+    "field": "design.it_mw",
+    "op": "gt",
+    "value": 0
+   },
+   "depends_on": [
+    "SITE_PLAN",
+    "LAND_DISTURBANCE",
+    "FAA_7460"
+   ],
+   "gates": [
+    "CONSTRUCTION"
+   ],
+   "duration": {
+    "p50": 3,
+    "p90": 6,
+    "basis": "prior"
+   },
+   "discretion": 1,
+   "hearings": 0,
+   "paths": "all",
+   "sources": []
+  }
+ ],
+ "overlays": {
+  "LC_PAUSE_2026": {
+   "type": "decision_hold",
+   "v82_gate": "Moratorium",
+   "summary": "Board deferral of final votes on legislative data center and substation applications. Applications can still be filed and heard by the Planning Commission; none become inactive. Administrative (by-right) cases unaffected.",
+   "status": "Proposed. Board directed staff on 2026-09-15 (7-1-1) to draft a resolution, described as retroactive to that date; the county's Sept 16 statement called the pause enacted, but its Oct 20 release calls it a proposal and defers the resolution (item 14p) to the 2026-11-17 business meeting.",
+   "status_class": "pending_formalization",
+   "effective_from": "2026-09-15",
+   "hold_months_from_referral": 12,
+   "release_target": {
+    "p50": "2027-07-31",
+    "p90": "2027-10-31",
+    "basis": "prior",
+    "note": "Phase 2 Board hearing and business meeting scheduled July 2027; P90 assumes a one-quarter slip"
+   },
+   "exceptions": [
+    "Grid-reliability substations",
+    "Applications whose statutory decision period is about to expire"
+   ],
+   "sources": [
+    "LC-PAUSE-NEWS",
+    "LC-PAUSE-STMT",
+    "LC-PAUSE-DEFER",
+    "UL-PAUSE",
+    "LC-PHASE2"
+   ],
+   "default_assumption": "adopted",
+   "assumption_switch": "project.overlay_assumptions.LC_PAUSE_2026 = 'adopted' | 'not_adopted'"
+  },
+  "LC_GRANDFATHER_2025": {
+   "type": "route_risk",
+   "v82_gate": "Zoning",
+   "summary": "By-right treatment for applications under review on 2025-02-12 and more than 500 ft from residential areas. About 17-20 such cases remain. A proposal to rescind it went to the County Attorney; legal opinion due 2026-10-06; no rescission adopted as of the last check.",
+   "status": "Unresolved",
+   "p90_effect": "route converts to legislative review",
+   "sources": [
+    "LC-BYRIGHT-2025",
+    "VB-GRANDFATHER",
+    "LWC-OCT2026"
+   ]
+  },
+  "LC_PHASE2": {
+   "type": "pending_standards",
+   "summary": "Phase 2 amendments in drafting: use-specific standards for data centers and utility substations, building height, on-site power generation and energy storage, noise, parking, and deletion of the Urban Employment district. Planning Commission hearing Feb 2027; Board hearing and vote July 2027.",
+   "adoption_target": "2027-07-31",
+   "flags_designs_with": [
+    "design.onsite_generation_mw",
+    "design.new_substations",
+    "design.max_height_ft"
+   ],
+   "sources": [
+    "LC-PHASE2"
+   ]
+  }
+ },
+ "policy_areas": {
+  "Rural": {
+   "legislative_outcome": "prohibited",
+   "note": "Rural policy area districts do not allow data centers",
+   "sources": [
+    "LC-LANDUSE"
+   ]
+  },
+  "Transition": {
+   "severity": "Major",
+   "note": "Comprehensive plan intends open space, residential and recreational uses; staff and Planning Commission (6-0) recommended denial of Spring Valley Technology Park on 2026-07-23 citing Transition Policy Area inconsistency",
+   "sources": [
+    "SV-PC",
+    "SV-LWC"
+   ]
+  },
+  "JLMA": {
+   "severity": "Moderate",
+   "note": "Joint Land Management Area near Leesburg; Cross Mill rezoned JLMA-20 to PD-IP after a 5-4 vote",
+   "sources": [
+    "CM-BOS-JUL"
+   ]
+  },
+  "Suburban": {
+   "severity": "Moderate",
+   "note": "Default for office/industrial place types; still legislative since 2025-03-18",
+   "sources": [
+    "LC-BYRIGHT-2025"
+   ]
+  },
+  "Urban": {
+   "severity": "Moderate",
+   "note": "Phase 2 proposes deleting the Urban Employment district",
+   "sources": [
+    "LC-PHASE2"
+   ]
+  }
+ }
+}

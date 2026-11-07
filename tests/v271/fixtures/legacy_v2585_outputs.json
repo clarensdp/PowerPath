@@ -1,0 +1,68 @@
+{
+ "engine": "engine/underwrite25.js",
+ "engine_sha256": "c4e2a090698411e492f5399a52fddbf233539dc3c1871d0877e53fcfb2d9ce29",
+ "cases": {
+  "base": {
+   "input": {},
+   "output_sha256": "47846c474a3e234e72056d86bbc0cfad4b371dc42b3fa21537b00bae9fcdb327",
+   "npvM": 438.7892090515354,
+   "minCashM": 0,
+   "unpaidDebtAtExitM": 0
+  },
+  "capped_sponsor_default": {
+   "input": {
+    "sponsorCommitmentM": 60,
+    "initialCash": 50
+   },
+   "output_sha256": "202916e73a513822a5ace6bb5e4d78b617af74ae966546b8b3c65afae11ff508",
+   "npvM": -59.57005396824353,
+   "minCashM": -50.06733596648078,
+   "unpaidDebtAtExitM": 77.62256986700977
+  },
+  "refinance_failure": {
+   "input": {
+    "sponsorCommitmentM": 450,
+    "refinanceValueM": 150
+   },
+   "output_sha256": "e51c44d133c991693c3b1aaa315d62318a1ba6c1760f903f37c0f6ac87c52d4c",
+   "npvM": -189.91647403381992,
+   "minCashM": 10,
+   "unpaidDebtAtExitM": 0
+  },
+  "terminal_recovery": {
+   "input": {
+    "buildings": [
+     {
+      "name": "Solo",
+      "itMW": 10,
+      "constructionStart": 1,
+      "constructionMonths": 1,
+      "powerMonth": 500,
+      "leaseMonth": 500,
+      "leaseTermMonths": 180,
+      "rentEscalatorPct": 2.5
+     }
+    ],
+    "fixedOpexM": 0,
+    "sponsorCommitmentM": 50,
+    "initialCash": 50,
+    "exitValueM": 20,
+    "months": 120
+   },
+   "output_sha256": "d9fca133851aaf45245425938fefdd71475510eb9c47ee227f0027b3f364373f",
+   "npvM": -50,
+   "minCashM": -20.986955555555554,
+   "unpaidDebtAtExitM": 37.49564444444444
+  },
+  "maturity_default_mode": {
+   "input": {
+    "loanMaturityMode": "default",
+    "sponsorCommitmentM": 800
+   },
+   "output_sha256": "75bc86afceb73386593573b0c09a4d6dcc725586cf93dc39e896bdb654a9004e",
+   "npvM": -189.91647403381992,
+   "minCashM": 10,
+   "unpaidDebtAtExitM": 0
+  }
+ }
+}

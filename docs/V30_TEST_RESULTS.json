@@ -1,0 +1,12 @@
+{
+  "api_regression_tests": 23,
+  "required_auth_tests": 3,
+  "result": "passed",
+  "dom_smoke": "passed",
+  "mocked_leaflet_binding_smoke": "passed",
+  "javascript_syntax": "passed",
+  "live_nc_query_and_shortlist": "passed",
+  "live_va_query_and_shortlist": "passed",
+  "financial_engine": "unchanged",
+  "visual_browser_validation": "not completed"
+}

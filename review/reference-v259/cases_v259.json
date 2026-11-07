@@ -1,0 +1,1337 @@
+{
+ "F01_bullet_none": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "notes_2035",
+    "name": "Notes 2035",
+    "type": "fixed_note",
+    "faceM": 1500,
+    "couponPct": 9.0,
+    "issuePricePct": 99,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 116,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "none"
+    },
+    "feePct": 1.5
+   }
+  ]
+ },
+ "F02_unknown_dates_fixed_dsra_evidence": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "computeco_2030",
+    "name": "Computeco 2030",
+    "type": "fixed_note",
+    "faceM": 2350,
+    "couponPct": 9.25,
+    "issuePricePct": 97,
+    "buildings": [
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "unknown"
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "date": "2027-12-15"
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 177.0
+    },
+    "evidence": {
+     "couponPct": {
+      "label": "Executed",
+      "factId": "F34"
+     },
+     "maturity": {
+      "label": "Unknown",
+      "source": "not re-confirmed"
+     },
+     "amortization": {
+      "label": "Unknown"
+     },
+     "dsra": {
+      "label": "Executed",
+      "factId": "F34"
+     },
+     "issuePricePct": {
+      "label": "Public approximate"
+     }
+    },
+    "issueDate": "2026-11-20",
+    "firstPaymentDate": "2027-06-15",
+    "maturityDate": "2030-12-15"
+   }
+  ]
+ },
+ "F03_pct_fixedMonth_nextPeriod": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "term_notes",
+    "name": "Term Notes",
+    "type": "fixed_note",
+    "faceM": 1200,
+    "couponPct": 8.0,
+    "issuePricePct": 100,
+    "issueMonth": 3,
+    "firstPaymentMonth": 9,
+    "maturityMonth": 105,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 10
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "month": 33,
+     "date": "2030-01-01"
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    }
+   }
+  ]
+ },
+ "F04_explicit_afterFirstRent_ctnp": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "b2_notes",
+    "name": "B2 Notes",
+    "type": "fixed_note",
+    "faceM": 1800,
+    "couponPct": 8.5,
+    "issuePricePct": 100,
+    "issueMonth": 1,
+    "firstPaymentMonth": 7,
+    "maturityMonth": 115,
+    "buildings": [
+     "B2"
+    ],
+    "amortization": {
+     "type": "explicit",
+     "amountsM": [
+      25,
+      25,
+      50,
+      50,
+      75,
+      75,
+      100,
+      100
+     ]
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 6
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 120
+    }
+   }
+  ]
+ },
+ "F05_pct_afterFinalCommencement_credits": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31,
+    "tenantCreditMonths": 12
+   }
+  ],
+  "tenantRentCreditPct": 50,
+  "tenantCreditMonths": 6,
+  "facilities": [
+   {
+    "id": "core_finance",
+    "name": "Core Finance",
+    "type": "fixed_note",
+    "faceM": 3300,
+    "couponPct": 7.75,
+    "issuePricePct": 99.25,
+    "issueMonth": 5,
+    "firstPaymentMonth": 11,
+    "maturityMonth": 113,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 11.5
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 1
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 250
+    }
+   }
+  ]
+ },
+ "F06_dsra_draw_before_sponsor": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "heavy_notes",
+    "name": "Heavy Notes",
+    "type": "fixed_note",
+    "faceM": 3000,
+    "couponPct": 10.0,
+    "issuePricePct": 100,
+    "issueMonth": 1,
+    "firstPaymentMonth": 7,
+    "maturityMonth": 115,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 10
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "month": 30
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 200
+    }
+   }
+  ]
+ },
+ "F07_capped_sponsor_halt": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 25,
+    "constructionMonths": 18,
+    "powerMonth": 43,
+    "leaseMonth": 43
+   }
+  ],
+  "sponsorCommitmentM": 800,
+  "facilities": [
+   {
+    "id": "campus_notes",
+    "name": "Campus Notes",
+    "type": "fixed_note",
+    "faceM": 1000,
+    "couponPct": 9.5,
+    "issuePricePct": 100,
+    "issueMonth": 1,
+    "firstPaymentMonth": 7,
+    "maturityMonth": 109,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 5
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 100
+    }
+   }
+  ]
+ },
+ "F08_two_facilities_priority_collateral": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "junior_b3",
+    "name": "Junior B3",
+    "type": "fixed_note",
+    "faceM": 600,
+    "couponPct": 10.5,
+    "issuePricePct": 98,
+    "issueMonth": 4,
+    "firstPaymentMonth": 10,
+    "maturityMonth": 106,
+    "buildings": [
+     "B3"
+    ],
+    "amortization": {
+     "type": "none"
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    },
+    "priority": 2,
+    "lockupDscr": 1.1
+   },
+   {
+    "id": "senior_b1b2",
+    "name": "Senior B1B2",
+    "type": "fixed_note",
+    "faceM": 1400,
+    "couponPct": 7.5,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 6,
+    "maturityMonth": 114,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 8
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 100
+    },
+    "priority": 1,
+    "feePct": 1
+   }
+  ]
+ },
+ "F09_shared_power_tranches": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 19,
+    "mw": 100
+   },
+   {
+    "month": 26,
+    "mw": 60,
+    "building": "B2"
+   },
+   {
+    "month": 30,
+    "mw": 80
+   },
+   {
+    "month": 40,
+    "mw": 100
+   }
+  ],
+  "facilities": [
+   {
+    "id": "powered_notes",
+    "name": "Powered Notes",
+    "type": "fixed_note",
+    "faceM": 1600,
+    "couponPct": 8.75,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 110,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 6
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    }
+   }
+  ]
+ },
+ "F10_lease_renewal": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19,
+    "leaseTermMonths": 48
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25,
+    "leaseTermMonths": 48
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31,
+    "leaseTermMonths": 48
+   }
+  ],
+  "leaseExpiryPolicy": "renew",
+  "renewalProbabilityPct": 75,
+  "renewalRentPct": 95,
+  "renewalTermMonths": 60,
+  "facilities": [
+   {
+    "id": "renewal_notes",
+    "name": "Renewal Notes",
+    "type": "fixed_note",
+    "faceM": 1500,
+    "couponPct": 8.0,
+    "issuePricePct": 100,
+    "issueMonth": 3,
+    "firstPaymentMonth": 9,
+    "maturityMonth": 111,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "explicit",
+     "amountsM": [
+      60,
+      60,
+      60,
+      60,
+      60,
+      60,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90
+     ]
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 120
+    },
+    "lockupDscr": 1.35
+   }
+  ]
+ },
+ "F11_tenant_direct_power": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25,
+    "powerResponsibility": "reimbursed"
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "powerResponsibility": "tenant_direct",
+  "powerPassThroughPct": 100,
+  "facilities": [
+   {
+    "id": "direct_notes",
+    "name": "Direct Notes",
+    "type": "fixed_note",
+    "faceM": 2000,
+    "couponPct": 8.25,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 116,
+    "buildings": [
+     "B1",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 5
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 3
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    }
+   }
+  ]
+ },
+ "F12_delay_months": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "delayMonths": 6,
+  "overrunPct": 10,
+  "facilities": [
+   {
+    "id": "delayed_notes",
+    "name": "Delayed Notes",
+    "type": "fixed_note",
+    "faceM": 1700,
+    "couponPct": 9.0,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 116,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "explicit",
+     "amountsM": [
+      40,
+      40,
+      60,
+      60,
+      80,
+      80,
+      80
+     ]
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 150
+    }
+   }
+  ]
+ },
+ "F13_exit_unpaid": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 1500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "bullet_to_exit",
+    "name": "Bullet To Exit",
+    "type": "fixed_note",
+    "faceM": 2500,
+    "couponPct": 9.5,
+    "issuePricePct": 100,
+    "issueMonth": 1,
+    "firstPaymentMonth": 6,
+    "maturityMonth": 120,
+    "buildings": [
+     "B1",
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 2
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "month": 60
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 150
+    }
+   }
+  ]
+ },
+ "F14_ties_fee_oid_short_explicit": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "tie_a_b1",
+    "name": "Tie A B1",
+    "type": "fixed_note",
+    "faceM": 800,
+    "couponPct": 8.25,
+    "issuePricePct": 97,
+    "issueMonth": 13,
+    "firstPaymentMonth": 19,
+    "maturityMonth": 115,
+    "buildings": [
+     "B1"
+    ],
+    "amortization": {
+     "type": "explicit",
+     "amountsM": [
+      40,
+      40
+     ]
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "month": 49
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    },
+    "feePct": 2,
+    "lockupDscr": 1.5
+   },
+   {
+    "id": "tie_b_b3",
+    "name": "Tie B B3",
+    "type": "fixed_note",
+    "faceM": 700,
+    "couponPct": 9.0,
+    "issuePricePct": 98.5,
+    "issueMonth": 13,
+    "firstPaymentMonth": 22,
+    "maturityMonth": 118,
+    "buildings": [
+     "B3"
+    ],
+    "amortization": {
+     "type": "explicit",
+     "amountsM": [
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+     ]
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 12
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 60
+    },
+    "feePct": 1
+   }
+  ]
+ },
+ "F15_balloon_before_horizon": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 130,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19,
+    "capacityBasis": "gross"
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "short_notes",
+    "name": "Short Notes",
+    "type": "fixed_note",
+    "faceM": 1400,
+    "couponPct": 8.0,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 6,
+    "maturityMonth": 96,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 12
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    }
+   }
+  ]
+ },
+ "F16_none_with_trigger_ctnp": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "trigger_bullet",
+    "name": "Trigger Bullet",
+    "type": "fixed_note",
+    "faceM": 1100,
+    "couponPct": 7.25,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 110,
+    "buildings": [
+     "B2",
+     "B3"
+    ],
+    "amortization": {
+     "type": "none"
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 2
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 90
+    }
+   }
+  ]
+ },
+ "F17_AM2_ctnp_fixedMonth": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "fixed_start_ctnp",
+    "name": "Fixed Start Ctnp",
+    "type": "fixed_note",
+    "faceM": 1300,
+    "couponPct": 8.5,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 8,
+    "maturityMonth": 110,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 8
+    },
+    "amortStart": {
+     "type": "fixedMonth",
+     "month": 40
+    },
+    "dsra": {
+     "type": "constructionThenNextPeriod",
+     "constructionAmountM": 140
+    }
+   }
+  ]
+ },
+ "F18_AM3_construction_lockup_ends": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 4500,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "lockup_notes",
+    "name": "Lockup Notes",
+    "type": "fixed_note",
+    "faceM": 2400,
+    "couponPct": 9.0,
+    "issuePricePct": 99.5,
+    "issueMonth": 1,
+    "firstPaymentMonth": 7,
+    "maturityMonth": 115,
+    "buildings": [
+     "B1",
+     "B3"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 4
+    },
+    "amortStart": {
+     "type": "afterFirstRent",
+     "offsetMonths": 6
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    }
+   }
+  ]
+ },
+ "F19_AM4_partial_exit_recovery": {
+  "ltc": 0,
+  "mezzLtcPct": 0,
+  "months": 120,
+  "exitValueM": 1800,
+  "buildings": [
+   {
+    "name": "B1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   },
+   {
+    "name": "B2",
+    "itMW": 100,
+    "constructionStart": 7,
+    "constructionMonths": 18,
+    "powerMonth": 25,
+    "leaseMonth": 25
+   },
+   {
+    "name": "B3",
+    "itMW": 100,
+    "constructionStart": 13,
+    "constructionMonths": 18,
+    "powerMonth": 31,
+    "leaseMonth": 31
+   }
+  ],
+  "facilities": [
+   {
+    "id": "junior_to_exit",
+    "name": "Junior To Exit",
+    "type": "fixed_note",
+    "faceM": 900,
+    "couponPct": 10.5,
+    "issuePricePct": 100,
+    "issueMonth": 3,
+    "firstPaymentMonth": 6,
+    "maturityMonth": 120,
+    "buildings": [
+     "B3"
+    ],
+    "amortization": {
+     "type": "none"
+    },
+    "dsra": {
+     "type": "nextPeriod"
+    },
+    "priority": 2
+   },
+   {
+    "id": "senior_to_exit",
+    "name": "Senior To Exit",
+    "type": "fixed_note",
+    "faceM": 1800,
+    "couponPct": 8.0,
+    "issuePricePct": 100,
+    "issueMonth": 2,
+    "firstPaymentMonth": 6,
+    "maturityMonth": 120,
+    "buildings": [
+     "B1",
+     "B2"
+    ],
+    "amortization": {
+     "type": "pctOriginalPerYear",
+     "annualPct": 3
+    },
+    "amortStart": {
+     "type": "afterFinalCommencement",
+     "offsetMonths": 0
+    },
+    "dsra": {
+     "type": "fixed",
+     "amountM": 90
+    },
+    "priority": 1
+   }
+  ]
+ }
+}

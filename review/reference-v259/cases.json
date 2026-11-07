@@ -1,0 +1,252 @@
+{
+ "C01_base_refi": {},
+ "C02_dscr_bound_refi_sweep_dsra": {
+  "refinanceValueM": 5000,
+  "cashSweepPct": 50,
+  "dsraMonths": 6
+ },
+ "C03_equity_payoff_mezz": {
+  "loanMaturityMode": "equity",
+  "mezzLtcPct": 15,
+  "termMonths": 30
+ },
+ "C04_tenant_lag_credits": {
+  "tenantCapexPct": 40,
+  "tenantFundingLagMonths": 3,
+  "tenantRentCreditPct": 50,
+  "tenantCreditMonths": 12
+ },
+ "C05_tranches_shared_reverse": {
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 50,
+    "constructionStart": 10,
+    "constructionMonths": 18,
+    "powerMonth": 28,
+    "leaseMonth": 28
+   },
+   {
+    "name": "B",
+    "itMW": 50,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 19,
+    "mw": 50
+   },
+   {
+    "month": 24,
+    "mw": 20,
+    "building": "A"
+   },
+   {
+    "month": 40,
+    "mw": 30
+   }
+  ]
+ },
+ "C06_gross_basis_tranches": {
+  "capacityBasis": "gross",
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 130,
+    "constructionStart": 1,
+    "constructionMonths": 18,
+    "powerMonth": 19,
+    "leaseMonth": 19
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 19,
+    "mw": 65,
+    "building": "A"
+   },
+   {
+    "month": 30,
+    "mw": 65,
+    "building": "A"
+   }
+  ]
+ },
+ "C07_funding_default_halt": {
+  "sponsorCommitmentM": 300
+ },
+ "C08_total_rent_taxes_wc": {
+  "months": 200,
+  "cashTaxRatePct": 21,
+  "workingCapitalDays": 45,
+  "maintenanceCapexMWYearM": 0.05,
+  "buildings": [
+   {
+    "name": "P1",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "rentInputMode": "total",
+    "contractedRentM": 2750,
+    "leaseTermMonths": 180
+   }
+  ]
+ },
+ "C09_refi_gap_default_capped": {
+  "sponsorCommitmentM": 400,
+  "refinanceValueM": 300
+ },
+ "C10_delay_overrun_shock_leap": {
+  "delayMonths": 12,
+  "overrunPct": 20,
+  "rateShockPct": 4,
+  "calendarStartYear": 2027,
+  "calendarStartMonth": 11
+ },
+ "C11_leasetail_all_on": {
+  "months": 150,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 84,
+    "rentEscalatorPct": 3
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 60
+   }
+  ],
+  "refinanceTenorPolicy": "leaseTail",
+  "leaseExpiryPolicy": "renew",
+  "exitValuePolicy": "contracted"
+ },
+ "C12_tenor_only_short_leases": {
+  "months": 150,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 84,
+    "rentEscalatorPct": 3
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 60
+   }
+  ],
+  "refinanceTenorPolicy": "leaseTail",
+  "refinanceValueM": 5000
+ },
+ "C13_renew_only_tranches": {
+  "months": 180,
+  "leaseExpiryPolicy": "renew",
+  "renewalProbabilityPct": 50,
+  "renewalRentPct": 90,
+  "renewalTermMonths": 36,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 84,
+    "rentEscalatorPct": 3
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 60
+   }
+  ],
+  "powerTranches": [
+   {
+    "month": 13,
+    "mw": 30,
+    "building": "A"
+   },
+   {
+    "month": 25,
+    "mw": 70
+   }
+  ]
+ },
+ "C14_contracted_exit_vacant_halt": {
+  "months": 150,
+  "buildings": [
+   {
+    "name": "A",
+    "itMW": 60,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "leaseTermMonths": 84,
+    "rentEscalatorPct": 3
+   },
+   {
+    "name": "B",
+    "itMW": 40,
+    "constructionStart": 6,
+    "constructionMonths": 12,
+    "powerMonth": 18,
+    "leaseMonth": 18,
+    "leaseTermMonths": 60
+   }
+  ],
+  "exitValuePolicy": "contracted",
+  "vacantValuePct": 25,
+  "sponsorCommitmentM": 250
+ },
+ "C15_all_on_dsra_sweep_total_rent": {
+  "months": 200,
+  "dsraMonths": 6,
+  "cashSweepPct": 25,
+  "buildings": [
+   {
+    "name": "P",
+    "itMW": 100,
+    "constructionStart": 1,
+    "constructionMonths": 12,
+    "powerMonth": 13,
+    "leaseMonth": 13,
+    "rentInputMode": "total",
+    "contractedRentM": 1500,
+    "leaseTermMonths": 120
+   }
+  ],
+  "refinanceTenorPolicy": "leaseTail",
+  "leaseExpiryPolicy": "renew",
+  "exitValuePolicy": "contracted"
+ }
+}

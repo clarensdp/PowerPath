@@ -1,0 +1,150 @@
+{
+ "baseline_failing": [],
+ "mutations": [
+  {
+   "name": "W01 cash may go negative (no floor on payment pool)",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall",
+    "tests.v271.test_core_scientific"
+   ]
+  },
+  {
+   "name": "W02 arrears paid from all cash, not cash above minimum liquidity",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W03 unpaid interest silently dropped",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W04 PIK allowed without instrument term",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W05 configured priority ignored",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W06 dsra_only may use base reserve",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W07 exit pays principal before unpaid interest",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W08 distributions not locked by arrears",
+   "file": "engine/underwrite27.js",
+   "detected": false,
+   "detected_by": []
+  },
+  {
+   "name": "W09 default interest on full principal",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "W10 matured principal not made past due",
+   "file": "engine/underwrite27.js",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.oracle_waterfall"
+   ]
+  },
+  {
+   "name": "S01 independent drivers summed",
+   "file": "server/schedule27.py",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_schedule_parity"
+   ]
+  },
+  {
+   "name": "S02 dependent delays not accumulated",
+   "file": "server/schedule27.py",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_schedule_parity"
+   ]
+  },
+  {
+   "name": "S03 float ignored",
+   "file": "server/schedule27.py",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_schedule_parity"
+   ]
+  },
+  {
+   "name": "S04 path estimate added",
+   "file": "server/schedule27.py",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_schedule_parity"
+   ]
+  },
+  {
+   "name": "N01 day count actual/360 in 30/360 branch",
+   "file": "engine/fixed_note27.cjs",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_core_scientific"
+   ]
+  },
+  {
+   "name": "N02 amortisation on outstanding not original principal",
+   "file": "engine/fixed_note27.cjs",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_core_scientific"
+   ]
+  },
+  {
+   "name": "N03 OID ignored in net proceeds",
+   "file": "engine/fixed_note27.cjs",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_core_scientific"
+   ]
+  },
+  {
+   "name": "T01 trigger uses 14 days",
+   "file": "server/transaction271.py",
+   "detected": true,
+   "detected_by": [
+    "tests.v271.test_core_scientific"
+   ]
+  }
+ ],
+ "detected": 17,
+ "total": 18
+}

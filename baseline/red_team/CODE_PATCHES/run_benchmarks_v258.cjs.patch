@@ -1,0 +1,11 @@
+--- a/PowerPath_v25_8/benchmarks/run_benchmarks_v258.cjs
++++ b/PowerPath_v25_8/benchmarks/run_benchmarks_v258.cjs
+@@ -24,7 +24,7 @@
+   return b;
+  });
+  const horizon=Math.min(360,Math.max(144,index(c.last)+totalMonths+12));
+- const spec={...defaults(),months:horizon,buildings,constructionCostMW:7,exitValueM:mw*12,refinanceValueM:mw*8,termMonths:60,initialCash:Math.max(50,mw*.4),minLiquidity:Math.max(10,mw*.05),reserveTargetM:Math.max(10,mw*.05)};
++ const spec={...defaults(),calendarStartYear:2025,calendarStartMonth:1,months:horizon,buildings,constructionCostMW:7,exitValueM:mw*12,refinanceValueM:mw*8,termMonths:60,initialCash:Math.max(50,mw*.4),minLiquidity:Math.max(10,mw*.05),reserveTargetM:Math.max(10,mw*.05)};
+  specs.push({name:c.project,evidenceTier:c.evidenceTier,source:c.source,assumptions:spec});
+  try{
+   const next=evaluate(spec),old=legacy.evaluate(spec);

@@ -1,0 +1,21 @@
+{
+ "jurisdiction": {"id": "utility-dominion-va", "name": "Dominion Energy Virginia", "layer": "utility", "parent": "us-va"},
+ "last_verified": "2026-10-29",
+ "facts": {
+  "queue_threshold_mw": 100, "request_cap_mw": 300,
+  "queue_stages": ["Project initiation (Delivery Point Exchange submission, viability screen, queue placement)", "Project feasibility (system studies, constructible solution, zoning confirmation, preliminary engineering)", "Project development (detailed engineering, permitting, regulatory approvals)", "Project execution (final design, construction, energization)"],
+  "queue_size": "About 70 GW of large-load delivery points; about 25 GW with projected connection dates through 2031; about 45 GW under study",
+  "sources": ["DOM-QUEUE"]
+ },
+ "rules": [
+  {"id": "UTILITY_LARGE_LOAD", "permit_type": "UTILITY_LARGE_LOAD", "authority": "Dominion Energy Virginia",
+   "trigger": {"field": "design.anticipated_utility_mw", "op": "gt", "value": 0},
+   "warnings_if": [{"when": {"field": "design.anticipated_utility_mw", "op": "gt", "value": 300}, "text": "Above Dominion's 300 MW per-request cap: the campus needs multiple requests or phases"}],
+   "depends_on": [],
+   "min_after": [{"rule": "LU_LEGISLATIVE", "lag": {"p50": 24, "p90": 30, "basis": "prior", "note": "Stages 3-4 follow the zoning confirmation required in stage 2"}},
+                 {"rule": "LU_BY_RIGHT", "lag": {"p50": 24, "p90": 30, "basis": "prior"}}],
+   "gates": ["ENERGIZATION_GRID"],
+   "duration": {"p50": 60, "p90": 84, "basis": "industry", "note": "Northern Virginia wait for a 100 MW connection reported at about seven years (JLL 2026); Dominion substation-service queue reported beyond 36 months. P50 set below the headline, P90 at it."},
+   "discretion": 2, "hearings": 0, "paths": ["grid", "hyb", "flex"], "tranche": "grid", "sources": ["DOM-QUEUE", "NOVA-WAIT"]}
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "C01_base_refi": {},
+ "C02_dscr_bound_refi_sweep_dsra": {"refinanceValueM":5000,"cashSweepPct":50,"dsraMonths":6},
+ "C03_equity_payoff_mezz": {"loanMaturityMode":"equity","mezzLtcPct":15,"termMonths":30},
+ "C04_tenant_lag_credits": {"tenantCapexPct":40,"tenantFundingLagMonths":3,"tenantRentCreditPct":50,"tenantCreditMonths":12},
+ "C05_tranches_shared_reverse": {"buildings":[{"name":"A","itMW":50,"constructionStart":10,"constructionMonths":18,"powerMonth":28,"leaseMonth":28},{"name":"B","itMW":50,"constructionStart":1,"constructionMonths":18,"powerMonth":19,"leaseMonth":19}],"powerTranches":[{"month":19,"mw":50},{"month":24,"mw":20,"building":"A"},{"month":40,"mw":30}]},
+ "C06_gross_basis_tranches": {"capacityBasis":"gross","buildings":[{"name":"A","itMW":130,"constructionStart":1,"constructionMonths":18,"powerMonth":19,"leaseMonth":19}],"powerTranches":[{"month":19,"mw":65,"building":"A"},{"month":30,"mw":65,"building":"A"}]},
+ "C07_funding_default_halt": {"sponsorCommitmentM":300},
+ "C08_total_rent_taxes_wc": {"months":200,"cashTaxRatePct":21,"workingCapitalDays":45,"maintenanceCapexMWYearM":0.05,"buildings":[{"name":"P1","itMW":100,"constructionStart":1,"constructionMonths":12,"powerMonth":13,"leaseMonth":13,"rentInputMode":"total","contractedRentM":2750,"leaseTermMonths":180}]},
+ "C09_refi_gap_default_capped": {"sponsorCommitmentM":400,"refinanceValueM":300},
+ "C10_delay_overrun_shock_leap": {"delayMonths":12,"overrunPct":20,"rateShockPct":4,"calendarStartYear":2027,"calendarStartMonth":11}
+}

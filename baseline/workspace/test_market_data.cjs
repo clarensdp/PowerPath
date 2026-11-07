@@ -1,0 +1,20 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const store={};const ctx={globalThis:null,localStorage:{getItem:k=>store[k]||null,setItem:(k,v)=>store[k]=v}};ctx.globalThis=ctx;
+vm.runInNewContext(fs.readFileSync(__dirname+'/market-data.js','utf8'),ctx);const P=ctx.PowerMarketData;
+let n=0;function test(label,fn){fn();n++;console.log('PASS '+label)}
+let base=Date.parse('2025-01-01T00:00:00Z');let records=Array.from({length:8760},(_,i)=>({time_utc:new Date(base+i*3600000).toISOString(),value:50+10*Math.sin(i/24),node:'123'}));let obj={source:'pjm_lmp',records,source_url:'https://api.pjm.com/api/v1/da_hrl_lmps',retrieved_at:'2026-10-25T12:00:00Z'};
+test('complete UTC full-year snapshot',()=>assert.equal(P.normalize(obj).whole.length,8760));
+test('reject missing hour',()=>assert.throws(()=>P.normalize({...obj,records:records.slice(0,-1)})));
+test('reject duplicate UTC timestamp',()=>{const r=records.slice();r[42]={...r[41]};assert.throws(()=>P.normalize({...obj,records:r}))});
+test('reject mixed nodes',()=>{const r=records.slice();r[300]={...r[300],node:'77'};assert.throws(()=>P.normalize({...obj,records:r}))});
+test('reject synthetic evidence',()=>assert.throws(()=>P.normalize({...obj,quality:{status:'synthetic'}})));
+test('reject non-UTC timestamps',()=>{const r=records.slice();r[5]={...r[5],time_utc:r[5].time_utc.replace('Z','')};assert.throws(()=>P.normalize({...obj,records:r}))});
+const conn={get:()=>({pjm_lmp:obj})},b={whole:[2,3],adder:20};
+test('no activation by default',()=>assert.equal(P.select('a',{ba:'PJM'},b,conn).active,false));
+test('activation is per project',()=>{P.set('a',{enabled:true,node:'123',basis:18});assert.equal(P.select('a',{ba:'PJM'},b,conn).active,true);assert.equal(P.select('b',{ba:'PJM'},b,conn).active,false)});
+test('PJM only',()=>assert.equal(P.select('a',{ba:'MISO'},b,conn).active,false));
+test('basis is explicit',()=>assert.equal(P.select('a',{ba:'PJM'},b,conn).base.adder,18));
+test('different original base not mutated',()=>assert.equal(b.adder,20));
+test('wrong node refuses activation',()=>{P.set('a',{enabled:true,node:'124',basis:0});assert.equal(P.select('a',{ba:'PJM'},b,conn).active,false)});
+test('reversible',()=>{P.set('a',{enabled:false});assert.equal(P.select('a',{ba:'PJM'},b,conn).base,b)});
+console.log(n+' market-data checks passed');

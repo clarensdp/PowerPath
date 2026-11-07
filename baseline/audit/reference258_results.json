@@ -1,0 +1,63 @@
+{
+  "cases": [
+    {
+      "name": "partially energized separate cohorts",
+      "months": 72,
+      "sponsor_equity_m": 1350.7741999999998,
+      "defaulted": false,
+      "npv_m": 308.84852128013006,
+      "max_reference_gap_m": 1.1102230246251565e-16
+    },
+    {
+      "name": "power gate despite early dedicated tranche",
+      "months": 72,
+      "sponsor_equity_m": 1350,
+      "defaulted": false,
+      "npv_m": 312.8386127564239,
+      "max_reference_gap_m": 1.1102230246251565e-16
+    },
+    {
+      "name": "equity maturity with late development",
+      "months": 70,
+      "sponsor_equity_m": 4303.575114008536,
+      "defaulted": false,
+      "npv_m": 566.2586403576373,
+      "max_reference_gap_m": 4.547473508864641e-13
+    },
+    {
+      "name": "simultaneous reserve and DSRA",
+      "months": 120,
+      "sponsor_equity_m": 3139.4104355555555,
+      "defaulted": false,
+      "npv_m": -150.90579696532507,
+      "max_reference_gap_m": 1.8189894035458565e-12
+    },
+    {
+      "name": "leap year energy month",
+      "months": 72,
+      "sponsor_equity_m": 1000,
+      "defaulted": false,
+      "npv_m": 327.78907541911997,
+      "max_reference_gap_m": 1.8189894035458565e-12
+    },
+    {
+      "name": "tenant funding collection delay",
+      "months": 72,
+      "sponsor_equity_m": 50,
+      "defaulted": true,
+      "npv_m": -50,
+      "max_reference_gap_m": 1.8189894035458565e-12
+    },
+    {
+      "name": "staggered all-in contracted rent",
+      "months": 80,
+      "sponsor_equity_m": 1353.42582264151,
+      "defaulted": false,
+      "npv_m": 236.7803728002483,
+      "max_reference_gap_m": 1.8189894035458565e-12
+    }
+  ],
+  "assertions": 13971,
+  "max_gap_m": 1.8189894035458565e-12,
+  "note": "Independent Python implementation of monthly property and credit arithmetic under synthetic assumptions. Not validation against an executed lender model."
+}

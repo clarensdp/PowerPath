@@ -1,0 +1,10 @@
+P1a refi payment equals sizing annuity  FAIL  first post-refi senior debt service: 8.4 vs 6.512511059198534
+P1b DSCR-sized refinancing does not open below 1.0x  FAIL  first post-refi DSCR 0.9287387322963798 (sized at 1.25x)
+P2 shared tranche with reverse readiness order does not throw and stays allocated  FAIL  Physical supply allocation fell for B; explicit curtailment required
+P3 gross utility tranche converted to IT MW  FAIL  IT MW energized by 100 gross MW: 100 vs 76.92307692307692
+P4 operatingMWh uses calendar hours  FAIL  MWh: 13238550 vs 13249080
+P5 funding default halts unfunded construction (no phantom financing)  FAIL  min cash -860.9504000000003 (v25.8: about -861)
+P5b terminal leakage is reported  FAIL  receivable at exit: undefined vs 58.33333333333333
+P6 APLD first coupon 205/360  FAIL  first coupon: 108.6875 vs 123.78298611111111
+INV identities reconcile in patched edge cases  PASS
+1/9 passed

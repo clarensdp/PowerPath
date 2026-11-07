@@ -1,0 +1,13 @@
+id,severity,issue,affected_cases,state,needed_to_close
+B1,Blocker,Public fixed-rate project notes not integrated into main debt waterfall,"Applied Digital; Galaxy; Core Scientific",Open,"Integrate contract-specific coupon/principal timing and creditor rules; independently reconcile"
+B2,Blocker,Individual executed lease cash terms and lender indentures absent or incomplete,"All 16, especially 3 priority transactions",Open,"Obtain and normalize complete source documents with authorized rights and reviewer signoff"
+B3,Blocker,Independent external model auditor has not certified exact version,"All",Open,"Scoped professional review and remediated findings"
+M1,Material,Calendar hours fixed; uniform load and tariff remain proxies,"All",Open,"Metered hourly utilization and actual delivered utility tariff reconciliation"
+M2,Material,Utility physical energization schedule not independently confirmed,"All",Open,"Executed utility studies/service agreements and actual delivery histories"
+M3,Material,Tax CFADS and distressed creditor priority proxies,"All",Open,"Tax schedules, contract-specific covenants and recoveries"
+M4,Material,Portfolio minimum revenue or mixed MW treated as if phase-specific,"Galaxy; Cipher; Core; Crusoe; IREN",Qualified,"Preserve floor/scope labels and obtain per-building rent/IT data"
+F1,Fixed,Equity paydown could reopen retired construction debt,"Staged later buildings",Closed,"New regression and independent case"
+F2,Fixed,Staggered power tranches received premature escalator/expiry,"Partial MW phases",Closed,"Power cohort tests and independent case"
+F3,Fixed,Distinct base reserve and DSRA were cross-credited,"Refinanced projects",Closed,"Additive reserve calculation and independent tests"
+F4,Fixed,Tenant-funded construction assumed immediately collected,"Tenant reimbursed facilities",Closed,"Lagged cash and receivable ledger; sponsor default test"
+F5,Fixed,Flat 730-hour month distorted timing and leap-year energy cost,"All",Closed,"Calendar-hour model plus independent leap-year checks"

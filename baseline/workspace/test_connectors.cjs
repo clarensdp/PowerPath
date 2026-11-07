@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+let db={};let ctx={globalThis:null,localStorage:{getItem:k=>db[k]||null,setItem:(k,v)=>db[k]=v}};ctx.globalThis=ctx;vm.runInNewContext(fs.readFileSync(__dirname+'/data-connectors.js','utf8'),ctx);
+const C=ctx.PowerPathConnectors;const base={schema:'powerpath.connector.v1',source:'pjm_lmp',source_url:'https://dataminer2.pjm.com/feed/da_hrl_lmps',retrieved_at:'2026-10-25T12:00:00Z',quality:{status:'unreviewed'},records:[{time_utc:'2026-10-01T00:00:00Z',value:33.5},{time_utc:'2026-10-01T01:00:00Z',value:-1.5}]};
+let n=0;const ok=(name,fn)=>{fn();n++;console.log('PASS',name)};
+ok('valid snapshot',()=>assert.equal(C.validate(base),true));
+ok('persist and reload',()=>{C.store(base);assert.equal(C.get().pjm_lmp.records.length,2)});
+ok('reject unknown source',()=>assert.throws(()=>C.validate({...base,source:'bogus'})));
+ok('reject duplicate hour',()=>assert.throws(()=>C.validate({...base,records:[base.records[0],base.records[0]]})));
+ok('reject unsorted hourly',()=>assert.throws(()=>C.validate({...base,records:[...base.records].reverse()})));
+ok('reject nonfinite price',()=>assert.throws(()=>C.validate({...base,records:[{...base.records[0],value:Infinity}]})));
+ok('reject empty price feed',()=>assert.throws(()=>C.validate({...base,records:[]})));
+ok('reject non HTTPS source',()=>assert.throws(()=>C.validate({...base,source_url:'http://example.com'})));
+ok('EIA BA reported period accepted explicitly',()=>assert.equal(C.validate({...base,source:'eia930',records:[{period_reported:'2026-10-01T00',value:100,unit:'MW'}]}),true));
+ok('EPA evidence requires source link identity date',()=>assert.throws(()=>C.validate({...base,source:'epa_echo',records:[{status:'filed',as_of:'2026-10-01'}]})));
+ok('FERC docket reference recorded not approved',()=>{C.store({...base,source:'ferc_docket',records:[{reference:'ER25-111',status:'filed',as_of:'2026-10-01'}]});assert.equal(C.get().ferc_docket.records[0].status,'filed')});
+console.log(n+' connector checks passed');

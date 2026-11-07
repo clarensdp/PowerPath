@@ -1,0 +1,195 @@
+{
+ "accessed": "2026-10-29",
+ "sources": {
+  "LC-BYRIGHT-2025": {
+   "title": "Loudoun County, Virginia, Eliminates By-Right Data Center Development",
+   "publisher": "Holland & Knight",
+   "date": "2025-04",
+   "url": "https://www.hklaw.com/en/insights/publications/2025/04/loudoun-county-virginia-eliminates-by-right-data-center-development",
+   "class": "secondary-legal"
+  },
+  "LC-LANDUSE": {
+   "title": "Data Centers: Land Use Considerations",
+   "publisher": "Loudoun County",
+   "date": "2026",
+   "url": "https://www.loudoun.gov/6410/Land-Use-Considerations",
+   "class": "primary-county"
+  },
+  "LC-PHASE2": {
+   "title": "Phase 2: Data Center Standards & Locations (schedule and scope)",
+   "publisher": "Loudoun County",
+   "date": "2026",
+   "url": "https://www.loudoun.gov/6222/Phase-2-Data-Center-Standards-Locations",
+   "class": "primary-county"
+  },
+  "LC-PAUSE-NEWS": {
+   "title": "Board Approves Process that Could Pause Legislative Data Center & Substation Applications",
+   "publisher": "Loudoun County",
+   "date": "2026-09-17",
+   "url": "https://www.loudoun.gov/m/NewsFlash/home/detail/10874",
+   "class": "primary-county"
+  },
+  "LC-PAUSE-STMT": {
+   "title": "Statement: Loudoun Board Enacts Pause on Data Centers",
+   "publisher": "Loudoun County",
+   "date": "2026-09-16",
+   "url": "https://www.loudoun.gov/DocumentCenter/View/222331/Statement---Loudoun-Board-Enacts-Pause-on-Data-Centers",
+   "class": "primary-county"
+  },
+  "UL-PAUSE": {
+   "title": "The pause (status tracker; reports Oct 20 vote deferred to Nov 17, 2026)",
+   "publisher": "United Loudoun",
+   "date": "2026-10",
+   "url": "https://unitedloudoun.org/issues/pause",
+   "class": "advocacy-secondary"
+  },
+  "VB-GRANDFATHER": {
+   "title": "Loudoun seeks legal opinion before ending data center grandfather protections",
+   "publisher": "Virginia Business",
+   "date": "2026-09",
+   "url": "https://virginiabusiness.com/loudoun-seeks-legal-opinion-before-ending-data-center-grandfather-protections/",
+   "class": "news"
+  },
+  "LWC-OCT2026": {
+   "title": "Loudoun Data Center Advocacy Happenings October 2026",
+   "publisher": "Loudoun Wildlife Conservancy",
+   "date": "2026-10-01",
+   "url": "https://loudounwildlife.org/2026/10/54835/",
+   "class": "advocacy-secondary"
+  },
+  "VA-HEUF-2026": {
+   "title": "A Roanoke Delegate Helped Write Virginia's New Data Center Law (HB 153 / SB 94, Chapters 567-568, Code \u00a7 15.2-2209.5)",
+   "publisher": "Roanoke Rambler",
+   "date": "2026",
+   "url": "https://www.roanokerambler.com/a-roanoke-delegate-helped-write-virginias-new-data-center-law-heres-what-it-does-and-what-it-doesnt/",
+   "class": "news",
+   "primary": "https://lis.virginia.gov/bill-details/20261/HB153/text/CHAP0567"
+  },
+  "VA-15.2-2286": {
+   "title": "Code of Virginia \u00a7 15.2-2286 (A)(3), (A)(7)",
+   "publisher": "vacode.org mirror of Code of Virginia",
+   "date": "2026",
+   "url": "https://www.vacode.org/downloads/2026/code-html/15.2-2286.html",
+   "class": "statute"
+  },
+  "VA-15.2-2232": {
+   "title": "Code of Virginia \u00a7 15.2-2232 (A), (B)",
+   "publisher": "vacode.org mirror of Code of Virginia",
+   "date": "2026",
+   "url": "https://vacode.org/2026/15.2-2232/",
+   "class": "statute"
+  },
+  "VA-15.2-2259": {
+   "title": "Code of Virginia \u00a7 15.2-2259 (A), (B)",
+   "publisher": "vacode.org mirror of Code of Virginia",
+   "date": "2026",
+   "url": "https://vacode.org/2026/15.2-2259/",
+   "class": "statute"
+  },
+  "VA-9VAC5-80-1160": {
+   "title": "9VAC5-80-1160 Action on permit application (minor NSR)",
+   "publisher": "Justia mirror of Virginia Administrative Code",
+   "date": "2026",
+   "url": "https://regulations.justia.com/states/virginia/title-9/agency-5/chapter-80/part-ii/article-6/section-9vac5-80-1160",
+   "class": "regulation"
+  },
+  "DEQ-DC-GUIDANCE": {
+   "title": "What Data Center Developers Need to Know About Virginia DEQ's Recent Air Permitting Guidance",
+   "publisher": "Hunton Andrews Kurth",
+   "date": "2025",
+   "url": "https://www.hunton.com/the-nickel-report/what-data-center-developers-need-to-know-about-virginia-deqs-recent-air-permitting-guidance",
+   "class": "secondary-legal"
+  },
+  "VESMP-1AC": {
+   "title": "Land Disturbing Permit/VESMP Authority Permit for Projects with More Than 1 Acre of Disturbance",
+   "publisher": "Fauquier County (state program thresholds)",
+   "date": "2026",
+   "url": "https://www.fauquiercounty.gov/government/departments-a-g/community-development/land-development/erosion-stormwater-management/land-disturbing-permit-vesmp-authority-permit-for-projects-with-more-than-1-acre-of-disturbance",
+   "class": "primary-other-locality"
+  },
+  "DOM-SCC": {
+   "title": "SCC review process for transmission lines",
+   "publisher": "Dominion Energy",
+   "date": "n.d.",
+   "url": "https://dominionenergy.com/-/media/pdfs/global/virtual-open-house/dom-scc-review.pdf",
+   "class": "utility"
+  },
+  "DOM-QUEUE": {
+   "title": "Dominion files large-load connection queue plan with state regulators",
+   "publisher": "DatacenterDynamics",
+   "date": "2025-2026",
+   "url": "https://www.datacenterdynamics.com/en/news/dominion-files-large-load-connection-queue-plan-with-state-regulators/",
+   "class": "news"
+  },
+  "NOVA-WAIT": {
+   "title": "How Long It Actually Takes to Power a Data Center in 2026 (cites JLL 2026 Global Data Center Outlook)",
+   "publisher": "Construction Owners Club",
+   "date": "2026-07-01",
+   "url": "https://www.constructionowners.com/insights/how-long-it-actually-takes-to-power-a-data-center-in-2026-a-u-s-market-by-market-reality-check",
+   "class": "industry-secondary"
+  },
+  "FAA-77.9": {
+   "title": "14 CFR 77.9 Construction or alteration requiring notice",
+   "publisher": "Cornell LII",
+   "date": "2026",
+   "url": "https://www.law.cornell.edu/cfr/text/14/77.9",
+   "class": "regulation"
+  },
+  "CM-HEARING-NOTICE": {
+   "title": "Planning Commission public hearing notice, Sept 24, 2024 (LEGI-2023-0064 Cross Mill Center; LEGI-2023-0071 Arcola Grove; LEGI-2023-0060)",
+   "publisher": "Loudoun County via Loudoun Now",
+   "date": "2024-09",
+   "url": "https://bloximages.chicago2.vip.townnews.com/loudounnow.com/content/tncms/assets/v3/editorial/3/1b/31b114ea-7080-11ef-8c39-eba269727d09/66e203c85929e.pdf.pdf",
+   "class": "primary-county"
+  },
+  "CM-PC": {
+   "title": "County Planners Endorse Data Center South of Leesburg",
+   "publisher": "Loudoun Now",
+   "date": "2024-11",
+   "url": "https://www.loudounnow.com/news/county-planners-endorse-data-center-south-of-leesburg/article_1ae6a7a0-a6f1-11ef-b0ae-e77134fa8ca7.html",
+   "class": "news"
+  },
+  "CM-BOS-MAY": {
+   "title": "Leesburg Area Data Center Fails to Earn Board Support",
+   "publisher": "Loudoun Now",
+   "date": "2025-05-06",
+   "url": "https://www.loudounnow.com/news/supervisors-defer-vote-on-leesburg-area-data-center/article_9444a578-f4b8-4205-9efd-2a184db46265.html",
+   "class": "news"
+  },
+  "CM-BOS-JUL": {
+   "title": "Supervisors Narrowly Approve Data Center Near Leesburg",
+   "publisher": "Loudoun Now",
+   "date": "2025-07-16",
+   "url": "https://www.loudounnow.com/news/supervisors-narrowly-approve-data-center-near-leesburg/article_3e355c29-4dbc-42df-bdb9-37d86f3013ad.html",
+   "class": "news"
+  },
+  "SV-PC": {
+   "title": "Planning Commission recommends denying 12-building data center campus near Beaverdam Reservoir",
+   "publisher": "Loudoun Times-Mirror",
+   "date": "2026-07-24",
+   "url": "https://www.loudountimes.com/news/business_and_economy/real_estate_and_development/planning-commission-recommends-denying-12-building-data-center-campus-near-beaverdam-reservoir/article_5311d986-1b04-4b4f-a6b6-59db86636233.html",
+   "class": "news"
+  },
+  "SV-LWC": {
+   "title": "Spring Valley Technology Park",
+   "publisher": "Loudoun Wildlife Conservancy",
+   "date": "2026-07-30",
+   "url": "https://loudounwildlife.org/2026/07/spring-valley-technology-park/",
+   "class": "advocacy-secondary"
+  },
+  "SV-ATLAS": {
+   "title": "Spring Valley Technology Park (LEGI-2024-0074)",
+   "publisher": "Compute Atlas",
+   "date": "2026",
+   "url": "https://www.compute-atlas.com/facilities/active-infrastructure-spring-valley-tech-park-loudoun-va",
+   "class": "tracker"
+  },
+  "LC-PAUSE-DEFER": {
+   "title": "Board of Supervisors to Defer Discussion of Proposed Pause on Some Data Center Applications",
+   "publisher": "Loudoun County",
+   "date": "2026-10-20",
+   "url": "https://www.loudoun.gov/m/newsflash/Home/Detail/10938",
+   "class": "primary-county"
+  }
+ }
+}

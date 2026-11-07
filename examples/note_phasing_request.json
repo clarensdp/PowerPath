@@ -1,0 +1,18 @@
+{
+  "scenario": "base",
+  "site_schedules": [
+    {
+      "site": "Denton",
+      "tranches": [
+        {
+          "mw": 100,
+          "power_month": 20
+        },
+        {
+          "mw": 160,
+          "power_month": 40
+        }
+      ]
+    }
+  ]
+}

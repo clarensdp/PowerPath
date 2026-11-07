@@ -1,0 +1,143 @@
+{
+  "release": "30.8.1-staging-preparation",
+  "selected_tests_passed": 256,
+  "tests_process_isolated": true,
+  "extended_gate_requested": true,
+  "groups": [
+    {
+      "module": "tests/test_v3081_pg_staging.py",
+      "passed": 11,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_v308_database_foundation.py",
+      "passed": 9,
+      "exit_code": 1,
+      "failure_tail": [
+        "/usr/lib/python3.13/contextlib.py:141: in __enter__",
+        "    return next(self.gen)",
+        "           ^^^^^^^^^^^^^^",
+        "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",
+        "",
+        "url = 'postgresql+psycopg://host/db'",
+        "",
+        "    @contextmanager",
+        "    def postgres_db(url):",
+        ">       import psycopg",
+        "E       ModuleNotFoundError: No module named 'psycopg'",
+        "",
+        "server/postgres_runtime.py:172: ModuleNotFoundError",
+        "=========================== short test summary info ============================",
+        "FAILED tests/test_v308_database_foundation.py::test_pg_env_fails_closed - ModuleNotFoundError: No module named 'psycopg'",
+        "1 failed, 9 passed in 3.46s"
+      ]
+    },
+    {
+      "module": "permitting/test_permitting.py",
+      "passed": 30,
+      "exit_code": 0
+    },
+    {
+      "module": "permitting/test_national.py",
+      "passed": 63,
+      "exit_code": 0
+    },
+    {
+      "module": "permitting/test_official_gis.py",
+      "passed": 14,
+      "exit_code": 0
+    },
+    {
+      "module": "permitting/test_footprint.py",
+      "passed": 23,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_regrid_pilot.py",
+      "passed": 8,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_public30.py",
+      "passed": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_notes_integration.py",
+      "passed": 5,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/v271/test_note_phasing332.py",
+      "passed": 11,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/v271/test_note_phasing333.py",
+      "passed": 8,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/v271/test_core_scientific.py",
+      "passed": 16,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/v271/test_schedule_parity.py",
+      "passed": 11,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/agent_ops307_test.py",
+      "passed": 9,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/agent_ops307_concurrency_test.py",
+      "passed": 3,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/agent_ops307_auth_test.py",
+      "passed": 3,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_api.py",
+      "passed": 8,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_geo29.py",
+      "passed": 3,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_v262_workflows.py",
+      "passed": 6,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_v263_geo.py",
+      "passed": 6,
+      "exit_code": 0
+    },
+    {
+      "module": "tests/test_v27_security_transaction.py",
+      "passed": 5,
+      "exit_code": 0
+    }
+  ],
+  "all_selected_passed": false,
+  "protected_engine_files": 12,
+  "protected_engine_unchanged": true,
+  "javascript_check_pass": true,
+  "javascript_check_error": "",
+  "postgres_live_parity_verified": false,
+  "postgres_app_cutover": false,
+  "full_single_process_suite_verified": false,
+  "tenant_rls_runtime_verified": false,
+  "remote_gis_verified": false,
+  "browser_acceptance_verified": false,
+  "production_ready": false
+}

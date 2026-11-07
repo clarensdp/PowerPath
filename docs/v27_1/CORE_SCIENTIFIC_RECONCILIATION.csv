@@ -1,0 +1,17 @@
+item,model_value,filing_value,units,period,variance,status,source,explanation
+Gross principal,3300,3300.0,USD_M,2026-05-06,0.0,RECONCILED,Core 8-K Item 1.01; 10-Q Note 7,Input equals filing.
+Original issue discount,24.75,24.8,USD_M,2026-05-06,-0.05,WITHIN_ROUNDING,10-Q Note 7,"3,300 x (1 - 99.25%) = 24.75; filing rounds to $0.1M."
+Issuance costs,42,42.0,USD_M,2026-05-06,0.0,INPUT_FROM_FILING,10-Q Note 7,Taken from the 10-Q; not independently derivable (fees not itemised).
+Net proceeds,3233.25,3240.0,USD_M,2026-05-06,-6.75,OPEN_UNEXPLAINED,"Core 8-K (""approximately $3.24 billion"") vs 10-Q OID and costs","10-Q-derived 3,233.25 is $6.75M below the 8-K estimate; the 8-K figure is approximate and pre-dates final costs. Not plugged."
+Effective interest rate,8.264,8.3,pct,2026-06-30,-0.036,WITHIN_ROUNDING,10-Q Note 7,"Bond-equivalent yield on net proceeds under the issuer's 2029-11-15 assumption = 8.264%, rounds to 8.3%. The annual-compounded equivalent (8.435%) would round to 8.4%, so the filing appears to use a nominal (semiannual) convention - an inference, not confirmed."
+Principal due 2029,189.75,189.75,USD_M,2029,0.0,RECONCILED,10-Q Note 7 maturity table,"One installment (5.75% x 3,300) on 2029-11-15 under the issuer assumption."
+Principal due 2030,379.5,379.5,USD_M,2030,0.0,RECONCILED,10-Q Note 7 maturity table,Two installments.
+Principal due 2031 (final maturity payment),2730.75,2730.75,USD_M,2031,0.0,RECONCILED,10-Q Note 7 maturity table,Includes the 2031-05-15 scheduled installment of 189.75; the balloon proper is 2541.00. The earlier audit's '$2.73B balloon' is this whole maturity payment.
+Carrying amount (amortised cost),3234.4006,,USD_M,2026-06-30,,NOT_DISCLOSED_IN_SOURCE_READ,10-Q Note 7,"The 10-Q debt table read shows 3,300.0 principal for the notes; a notes-specific net carrying amount was not found. Model value is effective-interest amortised cost."
+Unamortised discount and costs (notes),65.5994,87.033,USD_M,2026-06-30,-21.4336,NOT_COMPARABLE,10-Q Note 7 (aggregate for ALL debt),Filing figure covers all Core Scientific debt; the notes portion modelled here must not exceed it (consistency check only).
+Coupon accrued 2026-05-06 to 06-30,38.3625,48.69,USD_M,Q2 2026,-10.3275,NOT_COMPARABLE,10-Q Note 7 interest table (aggregate),Aggregate Q2 coupon interest also includes other debt (e.g. the term loan repaid May 2026); remainder after the notes is not attributable from the filing read.
+Discount/cost amortisation 2026-05-06 to 06-30,1.1506,3.682,USD_M,Q2 2026,-2.5314,NOT_COMPARABLE,10-Q Note 7 interest table (aggregate),"Notes portion (effective-interest method) is below the aggregate, as it must be."
+Debt service reserve balance,344.8,344.8,USD_M,2026-06-30,0.0,INPUT_FROM_FILING,10-Q Note 2/7,Sizing rule not disclosed: 344.8 equals 1.315x the modelled coupons payable 2026-07-01..2027-06-30 (262.14); no plug applied.
+Restricted cash other than DSRA,436.856,,USD_M,2026-06-30,,OPEN_UNEXPLAINED,10-Q balance sheet,Company-wide restricted cash (781.656) less DSRA; composition and link to the notes not disclosed in the source read.
+"First coupon (stub, 30/360)",134.2688,,USD_M,2026-11-15,,MODEL_DERIVED,Model (day count is an assumption),"189/360 x 7.75% x 3,300. ACT/360 would give 137.11 (+2.84); day count to be confirmed from the indenture."
+Collateral scope,"Issuer + 5 guarantors (Austin, Denton, Dalton, Marble, Muskogee)",Issuer + 5 guarantors,scope,2026-05-06,,RECONCILED,Core 8-K Item 1.01,Completion guarantee excludes Austin; parent does not guarantee the notes.

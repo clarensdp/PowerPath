@@ -1,0 +1,76 @@
+=== JS deterministic test suites ===
+PASS test_claude_audit.cjs
+PASS test_connectors.cjs
+PASS test_contract_notes258.cjs
+PASS test_credit255.cjs
+PASS test_decision.cjs
+PASS test_delivery24.cjs
+PASS test_development.cjs
+PASS test_diligence22.cjs
+PASS test_engine2.cjs
+PASS test_feasibility.cjs
+PASS test_finance.cjs
+PASS test_financial_hardening254.cjs
+PASS test_lease253.cjs
+PASS test_market_data.cjs
+PASS test_project21.cjs
+PASS test_transaction258.cjs
+PASS test_underwrite25.cjs
+PASS test_underwrite251.cjs
+PASS test_underwrite252.cjs
+PASS test_underwrite257.cjs
+PASS test_v23.cjs
+PASS test_waterfall256.cjs
+JS SUITES: 22
+=== Independent Python reference ===
+{
+  "cases": 7,
+  "assertions": 13971,
+  "max_gap_m": 1.8189894035458565e-12
+}
+  ],
+  "assertions": 13971,
+  "max_gap_m": 1.8189894035458565e-12,
+  "note": "Independent Python implementation of monthly property and credit arithmetic under synthetic assumptions. Not validation against an executed lender model."
+}=== Public project stress suite ===
+{
+  "projects": 16,
+  "stressCases": 720,
+  "errors": 0,
+  "disclosedApproxTotalsReconciled": 5,
+  "contractVerified": 0,
+  "maxModelResidual": 0,
+  "maxVersionDelta": 57.525901,
+  "failures": []
+}
+=== Regression impact examples ===
+{
+  "partialTranche": {
+    "month15_oldGrossRentM": 11.200000000000001,
+    "month15_newGrossRentM": 10.6,
+    "month27_oldRentM": 0,
+    "month27_newRentM": 5.6,
+    "oldNpvM": -685.8255064456869,
+    "newNpvM": -686.8834913347329
+  },
+  "closedConstructionDebt": {
+    "oldDrawAfterMaturityM": 147,
+    "newDrawAfterMaturityM": 0,
+    "oldNpvM": -561.6189323124879,
+    "newNpvM": -650.9182553688794
+  },
+  "additiveReserve": {
+    "oldPostRefiReserveM": 27.35782909558265,
+    "newPostRefiReserveM": 39.362159999999996,
+    "oldNpvM": -290.3199008337024,
+    "newNpvM": -150.90579696532507
+  },
+  "tenantCollections": {
+    "sameMonthFundingDefault": false,
+    "lag3FundingDefault": true,
+    "month1ReceivableM": 350,
+    "month4ReceiptM": 350
+  }
+}
+Built PowerPath.html (self-contained, no network or installation required)
+PASS all commands; this proves deterministic arithmetic, NOT lender-grade certification.

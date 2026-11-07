@@ -1,0 +1,12 @@
+{
+ "release": "30.3.3",
+ "files": {
+  "server/note_phasing.py": "6c1c0b3332944c21136a8bd2d9bb5c095c6e2fb86ee6f177cd66f2f6235839f9",
+  "web/public/transaction-workspace.js": "1915c942024116ffa97eed3766ae410740758f15d88dc85130166f3312152b78",
+  "server/app.py": "f9842d96c535f29eacf2554dc3372555df67e92266337b18429fd29f2142b2e7",
+  "package.json": "a8855fc98fa26ecc602a3bdd52b59c529ca665475fc2cc0206e204c22f3ef481",
+  "tests/v271/test_note_phasing333.py": "a03c4a1b3fee3b0abc7c9494c265b165d5a6fbd6c45cb99701d5f450be150404",
+  "RELEASE_V30_3_3.md": "4d5a61928d3a40402a03e3ec931dbc1220ad1133477f41dec240b366a3ee7e4c"
+ },
+ "engine_unchanged_vs": "ENGINE_HASH_AUDIT_V30_3.json"
+}

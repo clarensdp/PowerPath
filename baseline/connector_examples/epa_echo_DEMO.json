@@ -1,0 +1,17 @@
+{
+  "schema": "powerpath.connector.v1",
+  "source": "epa_echo",
+  "source_url": "https://echo.epa.gov/",
+  "retrieved_at": "2026-10-25T12:00:00Z",
+  "quality": {
+    "status": "synthetic-demo",
+    "warning": "TEST FIXTURE ONLY; NOT REAL DATA"
+  },
+  "records": [
+    {
+      "reference": "DEMO-PERMIT-NOT-REAL",
+      "status": "filed",
+      "as_of": "2026-10-01"
+    }
+  ]
+}

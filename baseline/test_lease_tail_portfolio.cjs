@@ -1,0 +1,9 @@
+'use strict';const fs=require('fs'),path=require('path'),assert=require('node:assert/strict');const U=require('./workspace/underwrite25.js');const cases=require('./benchmarks/v258_results/frozen_inputs_16.json');const rs=[];
+for(const c of cases){const base=U.evaluate(c.assumptions),alt=U.evaluate({...c.assumptions,refinanceTenorPolicy:'leaseTail',leaseExpiryPolicy:'renew',exitValuePolicy:'contracted'});const g=s=>s.summary;const d=alt.summary.npvM-base.summary.npvM;
+ for(const x of [base,alt]){assert.ok(x.summary.sourcesUsesMaxResidual<1e-6);assert.ok(x.summary.debtMaxResidual<1e-6);assert.ok(x.summary.reserveMaxResidual<1e-6);assert.equal(x.summary.financialValidationStatus,'NOT INDEPENDENTLY VALIDATED');}
+ const e=Math.max(...c.assumptions.buildings.map(b=>Math.max(b.constructionStart+b.constructionMonths,b.leaseMonth,b.powerMonth)+b.leaseTermMonths-1));
+ const pre=alt.summary.breachMonths.filter(m=>m<=e).length,post=alt.summary.breachMonths.filter(m=>m>e).length;
+ rs.push({name:c.name,baseNPVM:g(base).npvM,leaseTailNPVM:g(alt).npvM,deltaNPVM:d,refiAmortMonths:alt.summary.refinanceAmortMonthsUsed,refiMismatch:alt.summary.leaseTailTenorWarning,baseCovenantBreaches:g(base).breachMonths.length,withPoliciesCovenantBreaches:g(alt).breachMonths.length,preExpiryBreaches:pre,postExpiryBreaches:post,creditWarnings:alt.summary.creditWarnings,screeningStatus:alt.summary.screeningReadiness});
+}
+const p=path.resolve(__dirname,'v2582_lease_tail_case_comparison.json');fs.writeFileSync(p,JSON.stringify(rs,null,2));
+console.log(JSON.stringify({cases:rs.length,postExpiryBreaches:rs.reduce((s,x)=>s+x.postExpiryBreaches,0),preExpiryBreaches:rs.reduce((s,x)=>s+x.preExpiryBreaches,0),npvFalls:rs.filter(x=>x.deltaNPVM<0).length,refiMismatchCases:rs.filter(x=>x.refiMismatch).map(x=>x.name),maxResidual:'under 1e-6 $M',exceptionCases:rs.filter(x=>x.preExpiryBreaches).length},null,2));
