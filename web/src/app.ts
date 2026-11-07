@@ -1,333 +1,1637 @@
 import { workspaceFetch as fetch, enterWorkspace } from './advanced-session.js';
 /** WGS84 point plot in Web Mercator. No raster tiles, no geocoding and no invented coordinates. */
-type Geocoded={id:string;name:string;latitude:number|null;longitude:number|null};
-const esc=(v:unknown)=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]||x));
-const merc=(lat:number)=>Math.log(Math.tan(Math.PI/4+Math.max(-85,Math.min(85,lat))*Math.PI/360));
-function realGeoMap(paths:Geocoded[],assets:Geocoded[],selectedPath:string|null,selectedAsset:string|null,tilesConsent:boolean){
- const points=[...assets.filter(x=>Number.isFinite(x.latitude)&&Number.isFinite(x.longitude)).map(x=>({...x,kind:'source'})),...paths.filter(x=>Number.isFinite(x.latitude)&&Number.isFinite(x.longitude)).map(x=>({...x,kind:'candidate'}))];
- if(!points.length)return `<div class="real-map no-coordinates"><div><b>Geographic intelligence</b><p>No source-backed map coordinates yet.</p><small>Import an EIA-860 plant file or enter a cited site coordinate. Schematic pins are not a substitute.</small></div></div>`;
- const lons=points.map(x=>x.longitude as number), ys=points.map(x=>merc(x.latitude as number));
- const centerX=(Math.min(...lons)+Math.max(...lons))/2,centerY=(Math.min(...ys)+Math.max(...ys))/2;
- const spreadX=Math.max(.20,Math.max(...lons)-Math.min(...lons)),spreadY=Math.max(.14,Math.max(...ys)-Math.min(...ys));
- const aspect=1.65;
- let xSpan=Math.max(spreadX*1.5,spreadY*aspect*1.5),ySpan=xSpan/aspect;
- const x0=centerX-xSpan/2,y0=centerY-ySpan/2;
- const coords=points.map(p=>({p,x:60+760*((p.longitude as number)-x0)/xSpan,y:50+460*(1-(merc(p.latitude as number)-y0)/ySpan)}));
- const grid=Array.from({length:7},(_,i)=>{const v=50+i*75;return `<line x1="50" x2="810" y1="${v}" y2="${v}"/><line y1="50" y2="510" x1="${50+i*(760/6)}" x2="${50+i*(760/6)}"/>`}).join('');
- const markers=coords.map(({p,x,y})=>p.kind==='source'?`<g class="geo-marker ${p.id===selectedAsset?'chosen':''}" data-geo="${esc(p.id)}" role="button" tabindex="0" aria-label="Inspect ${esc(p.name)}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})"><circle r="13" fill="#ffffff" stroke="#297f80" stroke-width="2"/><circle r="6" fill="#258179"/><title>${esc(p.name)} — source location, not available MW</title></g>`:`<g class="geo-marker candidate ${p.id===selectedPath?'chosen':''}" data-path="${esc(p.id)}" role="button" tabindex="0" aria-label="Inspect path ${esc(p.name)}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})"><path d="M0 -14 L13 0 L0 14 L-13 0 Z" fill="#c47d2a" stroke="white" stroke-width="2"/><title>${esc(p.name)} — analyst coordinate, not utility confirmed</title></g>`).join('');
- return `<div class="real-map"><div class="real-map-label">GEOREFERENCED • WGS84 / WEB MERCATOR</div><svg viewBox="0 0 860 560" role="img" aria-label="Geographic point map, accurately projected positions without a basemap"><rect width="860" height="560" fill="#e7f1ef"/><g class="geo-grid">${grid}</g>${markers}<text x="25" y="548" font-size="15" fill="#55777c">Survey vintage and source records shown in inspector • No confirmed grid capacity</text></svg></div>`;
+type Geocoded = { id: string; name: string; latitude: number | null; longitude: number | null };
+const esc = (v: unknown) =>
+  String(v ?? '').replace(
+    /[&<>"']/g,
+    x => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[x] || x
+  );
+const merc = (lat: number) => Math.log(Math.tan(Math.PI / 4 + (Math.max(-85, Math.min(85, lat)) * Math.PI) / 360));
+function realGeoMap(
+  paths: Geocoded[],
+  assets: Geocoded[],
+  selectedPath: string | null,
+  selectedAsset: string | null,
+  tilesConsent: boolean
+) {
+  const points = [
+    ...assets
+      .filter(x => Number.isFinite(x.latitude) && Number.isFinite(x.longitude))
+      .map(x => ({ ...x, kind: 'source' })),
+    ...paths
+      .filter(x => Number.isFinite(x.latitude) && Number.isFinite(x.longitude))
+      .map(x => ({ ...x, kind: 'candidate' }))
+  ];
+  if (!points.length)
+    return `<div class="real-map no-coordinates"><div><b>Geographic intelligence</b><p>No source-backed map coordinates yet.</p><small>Import an EIA-860 plant file or enter a cited site coordinate. Schematic pins are not a substitute.</small></div></div>`;
+  const lons = points.map(x => x.longitude as number),
+    ys = points.map(x => merc(x.latitude as number));
+  const centerX = (Math.min(...lons) + Math.max(...lons)) / 2,
+    centerY = (Math.min(...ys) + Math.max(...ys)) / 2;
+  const spreadX = Math.max(0.2, Math.max(...lons) - Math.min(...lons)),
+    spreadY = Math.max(0.14, Math.max(...ys) - Math.min(...ys));
+  const aspect = 1.65;
+  let xSpan = Math.max(spreadX * 1.5, spreadY * aspect * 1.5),
+    ySpan = xSpan / aspect;
+  const x0 = centerX - xSpan / 2,
+    y0 = centerY - ySpan / 2;
+  const coords = points.map(p => ({
+    p,
+    x: 60 + (760 * ((p.longitude as number) - x0)) / xSpan,
+    y: 50 + 460 * (1 - (merc(p.latitude as number) - y0) / ySpan)
+  }));
+  const grid = Array.from({ length: 7 }, (_, i) => {
+    const v = 50 + i * 75;
+    return `<line x1="50" x2="810" y1="${v}" y2="${v}"/><line y1="50" y2="510" x1="${50 + i * (760 / 6)}" x2="${50 + i * (760 / 6)}"/>`;
+  }).join('');
+  const markers = coords
+    .map(({ p, x, y }) =>
+      p.kind === 'source'
+        ? `<g class="geo-marker ${p.id === selectedAsset ? 'chosen' : ''}" data-geo="${esc(p.id)}" role="button" tabindex="0" aria-label="Inspect ${esc(p.name)}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})"><circle r="13" fill="#ffffff" stroke="#297f80" stroke-width="2"/><circle r="6" fill="#258179"/><title>${esc(p.name)} — source location, not available MW</title></g>`
+        : `<g class="geo-marker candidate ${p.id === selectedPath ? 'chosen' : ''}" data-path="${esc(p.id)}" role="button" tabindex="0" aria-label="Inspect path ${esc(p.name)}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})"><path d="M0 -14 L13 0 L0 14 L-13 0 Z" fill="#c47d2a" stroke="white" stroke-width="2"/><title>${esc(p.name)} — analyst coordinate, not utility confirmed</title></g>`
+    )
+    .join('');
+  return `<div class="real-map"><div class="real-map-label">GEOREFERENCED • WGS84 / WEB MERCATOR</div><svg viewBox="0 0 860 560" role="img" aria-label="Geographic point map, accurately projected positions without a basemap"><rect width="860" height="560" fill="#e7f1ef"/><g class="geo-grid">${grid}</g>${markers}<text x="25" y="548" font-size="15" fill="#55777c">Survey vintage and source records shown in inspector • No confirmed grid capacity</text></svg></div>`;
 }
 
 /* PowerPath v26: dependency-free TypeScript web client, compiled to native browser JS.
    This is a functional web application; React is a possible later refactor, not a runtime dependency. */
 
-type Project={id:string;name:string;location:string;target_mw:number;status:string;description:string;created_at?:string;updated_at?:string;scenarios?:number;evidence_count?:number};
-type Scenario={id:string;project_id:string;name:string;mode:'underwrite'|'facilities'|'notes_v259';config:Record<string,any>;version:number;updated_at:string};
-type Run={id:string;scenario_id:string;scenario_version:number;created_at:string;summary:Record<string,any>;rows:Record<string,any>[];assurance:string;engine_sha256:string};
-type Evidence={id:string;title:string;category:string;evidence_status:string;citation:string;notes:string;filename?:string;content_hash?:string;bytes?:number;created_at:string};
-type Activity={id:number;action:string;object_id:string;created_at:string;details_json:string};
-type View='portfolio'|'overview'|'decision'|'power'|'execution'|'intelligence'|'model'|'facilities'|'evidence'|'history';
-type PathCandidate={id:string;name:string;strategy:string;status:string;capacity_mw:number;power_month:number|null;latitude:number|null;longitude:number|null;delay_months:number;capex_uplift_pct:number;energy_uplift_pct:number;source_note:string;evidence_id:string|null};
-type GeoAsset={id:string;name:string;asset_type:string;latitude:number;longitude:number;source_provider:string;source_url:string;source_record_id:string;vintage:string;evidence_level:string;attributes:Record<string,any>;available_power_verified:boolean};
-type Milestone={id:string;title:string;category:string;status:string;path_id:string;permit_id:string|null;planned_month:number|null;delay_months:number;predecessor_id:string|null;source_url:string;source_note:string;evidence_id:string|null};
-type PermitItem={id:string;path_id:string|null;title:string;kind:string;status:string;owner:string;due_month:number|null;delay_months:number;evidence_id:string|null;detail:string;steps:{id:string;title:string;is_done:number}[];notes:{id:string;body:string;created_at:string}[]};
-const phases=['Originate','Qualify','Design','Permit','Interconnect','Finance','Deliver'];
-const svgIcon=(name:string,size=19)=>{
-const ico:Record<string,string>={grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',layers:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/>',activity:'<path d="M3 12h4l3-6 4 12 3-6h4"/>',bolt:'<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8z"/>',file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',shield:'<path d="m12 22 8-4V6l-8-4-8 4v12z"/><path d="m9 12 2 2 4-4"/>',bank:'<path d="m3 9 9-6 9 6M4 10h16M6 10v9M10 10v9M14 10v9M18 10v9M3 21h18"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',plus:'<path d="M12 4v16M4 12h16"/>',chev:'<path d="m9 18 6-6-6-6"/>',down:'<path d="m7 10 5 5 5-5"/>',arrow:'<path d="M5 12h14m-7-7 7 7-7 7"/>',menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',x:'<path d="M5 5l14 14M19 5 5 19"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',check:'<path d="m4 12 5 5L20 6"/>',alert:'<path d="m12 3 10 18H2z"/><path d="M12 9v5m0 3v.1"/>',building:'<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2m4 0h-2M9 11h2m4 0h-2M9 15h2m4 0h-2M10 21v-3h4v3"/>',search:'<circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M4 12h2m12 0h2M12 4v2m0 12v2"/>'};
-return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ico[name]||ico.grid}</svg>`;};
-const E=(v:any)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));
-const f=(n:any,d=1)=>typeof n==='number'&&Number.isFinite(n)?n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
-const money=(n:any)=>typeof n==='number'&&Number.isFinite(n)?'$'+f(n,1)+'M':'—';
-const pct=(n:any)=>typeof n==='number'&&Number.isFinite(n)?f(n*100,1)+'%':'—';
-const dt=(s?:string)=>s?new Date(s).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
-const badge=(t:string,tone='neutral')=>`<span class="badge ${tone}">${E(t)}</span>`;
-const statusColor=(s:string)=>s==='BLOCKED'?'red':s==='VERIFIED'?'green':s==='CONDITIONAL'?'amber':'gray';
-const projectGuard=`<div class="assurance">${svgIcon('alert',16)} <strong>Screening only.</strong> Model runs are not verified transaction values, lender-grade outputs, or evidence of deliverable power. Contract-specific financing and external assurance are incomplete. <span>G4 / G5 BLOCKED</span></div>`;
-
-const state:{view:View;projects:Project[];selected:string|null;scenarios:Scenario[];evidence:Evidence[];runs:any[];activity:Activity[];activeScenario:string|null;currentRun:Run|null;defaults:any;draft:any;dirty:boolean;modal:string|null;busy:boolean;mobileNav:boolean;paths:PathCandidate[];permits:PermitItem[];selectedPath:string|null;selectedPermit:string|null;geoAssets:GeoAsset[];milestones:Milestone[];selectedGeo:string|null;spatialConsent:boolean;intelSnapshots:any[];intelChanges:any[];intelProposals:any[];intelMeetings:any[];intelSources:any[];schedules?:Record<string,any>}={view:'portfolio',projects:[],selected:null,scenarios:[],evidence:[],runs:[],activity:[],activeScenario:null,currentRun:null,defaults:null,draft:null,dirty:false,modal:null,busy:false,mobileNav:false,paths:[],permits:[],selectedPath:null,selectedPermit:null,geoAssets:[],milestones:[],selectedGeo:null,spatialConsent:false,intelSnapshots:[],intelChanges:[],intelProposals:[],intelMeetings:[],intelSources:[]};
-const api=async(path:string,method='GET',data?:any):Promise<any>=>{
- const opts:RequestInit={method,headers:{}};
- if(data!==undefined){(opts.headers as Record<string,string>)['Content-Type']='application/json';opts.body=JSON.stringify(data);}
- const res=await fetch('/api'+path,opts);
- let v:any;try{v=await res.json()}catch{v={detail:'Unexpected response'};}
- if(!res.ok)throw Error(typeof v.detail==='string'?v.detail:JSON.stringify(v.detail||v));return v;
+type Project = {
+  id: string;
+  name: string;
+  location: string;
+  target_mw: number;
+  status: string;
+  description: string;
+  created_at?: string;
+  updated_at?: string;
+  scenarios?: number;
+  evidence_count?: number;
 };
-const active=()=>state.projects.find(p=>p.id===state.selected)||null;
-const activeScenario=()=>state.scenarios.find(s=>s.id===state.activeScenario)||null;
-const toast=(msg:string,kind='success')=>{const el=document.getElementById('toast');if(!el)return;el.innerHTML=`${svgIcon(kind==='error'?'alert':'check',17)} <span>${E(msg)}</span>`;el.className='toast show '+kind;setTimeout(()=>el.classList.remove('show'),4700);};
-async function refreshProjects(){state.projects=await api('/projects');if(state.selected&&!state.projects.some(p=>p.id===state.selected)){state.selected=null;state.view='portfolio';}}
-async function refreshWorkspace(){if(!state.selected)return;const id=state.selected;
- const [sc,ev,rs,activity,paths,permits,geoAssets,milestones,intelSnapshots,intelChanges,intelProposals,intelMeetings,intelSources]=await Promise.all([api(`/projects/${id}/scenarios`),api(`/projects/${id}/evidence`),api(`/projects/${id}/runs`),api(`/projects/${id}/activity`),api(`/projects/${id}/paths`),api(`/projects/${id}/permits`),api(`/projects/${id}/geo-assets`),api(`/projects/${id}/milestones`),api(`/projects/${id}/intelligence/snapshots`),api(`/projects/${id}/intelligence/changes`),api(`/projects/${id}/intelligence/proposals`),api(`/projects/${id}/agents/meetings`),api(`/intelligence/sources`)]);
- if(id!==state.selected)return;
- state.scenarios=sc;state.evidence=ev;state.runs=rs;state.activity=activity;state.paths=paths;state.permits=permits;state.geoAssets=geoAssets;state.milestones=milestones;state.intelSnapshots=intelSnapshots;state.intelChanges=intelChanges;state.intelProposals=intelProposals;state.intelMeetings=intelMeetings;state.intelSources=intelSources;
- // v27.1: every view reads delay/COD from the canonical schedule engine (one schedule_version per path), never a client-side estimate.
- state.schedules=Object.fromEntries(await Promise.all((paths as any[]).map(async(x:any)=>[x.id,await api(`/projects/${id}/paths/${x.id}/schedule`).catch(()=>null)])));
- if(!geoAssets.some((x:GeoAsset)=>x.id===state.selectedGeo))state.selectedGeo=geoAssets[0]?.id||null;
- if(!paths.some((x:PathCandidate)=>x.id===state.selectedPath))state.selectedPath=paths[0]?.id||null;
- if(!permits.some((x:PermitItem)=>x.id===state.selectedPermit))state.selectedPermit=permits[0]?.id||null;
- if(!state.activeScenario||!sc.some((s:Scenario)=>s.id===state.activeScenario))state.activeScenario=sc[0]?.id||null;
- state.draft=structuredClone(activeScenario()?.config||null);state.dirty=false;
- if(rs.length&&(!state.currentRun||!rs.some((x:any)=>x.id===state.currentRun?.id))){
-  try{state.currentRun=await api(`/projects/${id}/runs/${rs[0].id}`)}catch{state.currentRun=null;}
- }
-}
-async function enterProject(id:string){state.selected=id;state.view='decision';state.currentRun=null;state.activeScenario=null;state.selectedPath=null;state.selectedPermit=null;state.selectedGeo=null;state.spatialConsent=false;state.mobileNav=false;render();try{await refreshWorkspace();render();}catch(e){toast((e as Error).message,'error')}}
-async function goto(view:View){
- if((view==='model'||view==='facilities') && state.selected){
-  const target=view==='model'?'underwrite':'notes_v259';
-  if(!(view==='facilities'&&['facilities','notes_v259'].includes(activeScenario()?.mode||''))&&activeScenario()?.mode!==target){
-   if(state.dirty && !confirm('Discard unsaved changes to change workspaces?'))return;
-   const pick=state.scenarios.find(s=>s.mode===target)||(view==='facilities'?state.scenarios.find(s=>s.mode==='facilities'):undefined);
-   state.activeScenario=pick?.id||null;state.draft=structuredClone(pick?.config||null);state.dirty=false;state.currentRun=null;
-   const last=state.runs.find((r:any)=>r.scenario_id===pick?.id);
-   if(last)try{state.currentRun=await api(`/projects/${state.selected}/runs/${last.id}`)}catch{}
+type Scenario = {
+  id: string;
+  project_id: string;
+  name: string;
+  mode: 'underwrite' | 'facilities' | 'notes_v259';
+  config: Record<string, any>;
+  version: number;
+  updated_at: string;
+};
+type Run = {
+  id: string;
+  scenario_id: string;
+  scenario_version: number;
+  created_at: string;
+  summary: Record<string, any>;
+  rows: Record<string, any>[];
+  assurance: string;
+  engine_sha256: string;
+};
+type Evidence = {
+  id: string;
+  title: string;
+  category: string;
+  evidence_status: string;
+  citation: string;
+  notes: string;
+  filename?: string;
+  content_hash?: string;
+  bytes?: number;
+  created_at: string;
+};
+type Activity = { id: number; action: string; object_id: string; created_at: string; details_json: string };
+type View =
+  | 'portfolio'
+  | 'overview'
+  | 'decision'
+  | 'power'
+  | 'execution'
+  | 'intelligence'
+  | 'model'
+  | 'facilities'
+  | 'evidence'
+  | 'history';
+type PathCandidate = {
+  id: string;
+  name: string;
+  strategy: string;
+  status: string;
+  capacity_mw: number;
+  power_month: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  delay_months: number;
+  capex_uplift_pct: number;
+  energy_uplift_pct: number;
+  source_note: string;
+  evidence_id: string | null;
+};
+type GeoAsset = {
+  id: string;
+  name: string;
+  asset_type: string;
+  latitude: number;
+  longitude: number;
+  source_provider: string;
+  source_url: string;
+  source_record_id: string;
+  vintage: string;
+  evidence_level: string;
+  attributes: Record<string, any>;
+  available_power_verified: boolean;
+};
+type Milestone = {
+  id: string;
+  title: string;
+  category: string;
+  status: string;
+  path_id: string;
+  permit_id: string | null;
+  planned_month: number | null;
+  delay_months: number;
+  predecessor_id: string | null;
+  source_url: string;
+  source_note: string;
+  evidence_id: string | null;
+};
+type PermitItem = {
+  id: string;
+  path_id: string | null;
+  title: string;
+  kind: string;
+  status: string;
+  owner: string;
+  due_month: number | null;
+  delay_months: number;
+  evidence_id: string | null;
+  detail: string;
+  steps: { id: string; title: string; is_done: number }[];
+  notes: { id: string; body: string; created_at: string }[];
+};
+const phases = ['Originate', 'Qualify', 'Design', 'Permit', 'Interconnect', 'Finance', 'Deliver'];
+const svgIcon = (name: string, size = 19) => {
+  const ico: Record<string, string> = {
+    grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    layers: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/>',
+    activity: '<path d="M3 12h4l3-6 4 12 3-6h4"/>',
+    bolt: '<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8z"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',
+    shield: '<path d="m12 22 8-4V6l-8-4-8 4v12z"/><path d="m9 12 2 2 4-4"/>',
+    bank: '<path d="m3 9 9-6 9 6M4 10h16M6 10v9M10 10v9M14 10v9M18 10v9M3 21h18"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    plus: '<path d="M12 4v16M4 12h16"/>',
+    chev: '<path d="m9 18 6-6-6-6"/>',
+    down: '<path d="m7 10 5 5 5-5"/>',
+    arrow: '<path d="M5 12h14m-7-7 7 7-7 7"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    x: '<path d="M5 5l14 14M19 5 5 19"/>',
+    download: '<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',
+    check: '<path d="m4 12 5 5L20 6"/>',
+    alert: '<path d="m12 3 10 18H2z"/><path d="M12 9v5m0 3v.1"/>',
+    building:
+      '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2m4 0h-2M9 11h2m4 0h-2M9 15h2m4 0h-2M10 21v-3h4v3"/>',
+    search: '<circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/>',
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M4 12h2m12 0h2M12 4v2m0 12v2"/>'
+  };
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ico[name] || ico.grid}</svg>`;
+};
+const E = (v: any) =>
+  String(v ?? '').replace(
+    /[&<>"']/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] || c
+  );
+const f = (n: any, d = 1) =>
+  typeof n === 'number' && Number.isFinite(n)
+    ? n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d })
+    : '—';
+const money = (n: any) => (typeof n === 'number' && Number.isFinite(n) ? '$' + f(n, 1) + 'M' : '—');
+const pct = (n: any) => (typeof n === 'number' && Number.isFinite(n) ? f(n * 100, 1) + '%' : '—');
+const dt = (s?: string) =>
+  s ? new Date(s).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+const badge = (t: string, tone = 'neutral') => `<span class="badge ${tone}">${E(t)}</span>`;
+const statusColor = (s: string) =>
+  s === 'BLOCKED' ? 'red' : s === 'VERIFIED' ? 'green' : s === 'CONDITIONAL' ? 'amber' : 'gray';
+const projectGuard = `<div class="assurance">${svgIcon('alert', 16)} <strong>Screening only.</strong> Model runs are not verified transaction values, lender-grade outputs, or evidence of deliverable power. Contract-specific financing and external assurance are incomplete. <span>G4 / G5 BLOCKED</span></div>`;
+
+const state: {
+  view: View;
+  projects: Project[];
+  selected: string | null;
+  scenarios: Scenario[];
+  evidence: Evidence[];
+  runs: any[];
+  activity: Activity[];
+  activeScenario: string | null;
+  currentRun: Run | null;
+  defaults: any;
+  draft: any;
+  dirty: boolean;
+  modal: string | null;
+  busy: boolean;
+  mobileNav: boolean;
+  paths: PathCandidate[];
+  permits: PermitItem[];
+  selectedPath: string | null;
+  selectedPermit: string | null;
+  geoAssets: GeoAsset[];
+  milestones: Milestone[];
+  selectedGeo: string | null;
+  spatialConsent: boolean;
+  intelSnapshots: any[];
+  intelChanges: any[];
+  intelProposals: any[];
+  intelMeetings: any[];
+  intelSources: any[];
+  schedules?: Record<string, any>;
+} = {
+  view: 'portfolio',
+  projects: [],
+  selected: null,
+  scenarios: [],
+  evidence: [],
+  runs: [],
+  activity: [],
+  activeScenario: null,
+  currentRun: null,
+  defaults: null,
+  draft: null,
+  dirty: false,
+  modal: null,
+  busy: false,
+  mobileNav: false,
+  paths: [],
+  permits: [],
+  selectedPath: null,
+  selectedPermit: null,
+  geoAssets: [],
+  milestones: [],
+  selectedGeo: null,
+  spatialConsent: false,
+  intelSnapshots: [],
+  intelChanges: [],
+  intelProposals: [],
+  intelMeetings: [],
+  intelSources: []
+};
+const api = async (path: string, method = 'GET', data?: any): Promise<any> => {
+  const opts: RequestInit = { method, headers: {} };
+  if (data !== undefined) {
+    (opts.headers as Record<string, string>)['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(data);
   }
- }
- state.view=view;state.mobileNav=false;render();}
+  const res = await fetch('/api' + path, opts);
+  let v: any;
+  try {
+    v = await res.json();
+  } catch {
+    v = { detail: 'Unexpected response' };
+  }
+  if (!res.ok) throw Error(typeof v.detail === 'string' ? v.detail : JSON.stringify(v.detail || v));
+  return v;
+};
+const active = () => state.projects.find(p => p.id === state.selected) || null;
+const activeScenario = () => state.scenarios.find(s => s.id === state.activeScenario) || null;
+const toast = (msg: string, kind = 'success') => {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.innerHTML = `${svgIcon(kind === 'error' ? 'alert' : 'check', 17)} <span>${E(msg)}</span>`;
+  el.className = 'toast show ' + kind;
+  setTimeout(() => el.classList.remove('show'), 4700);
+};
+async function refreshProjects() {
+  state.projects = await api('/projects');
+  if (state.selected && !state.projects.some(p => p.id === state.selected)) {
+    state.selected = null;
+    state.view = 'portfolio';
+  }
+}
+async function refreshWorkspace() {
+  if (!state.selected) return;
+  const id = state.selected;
+  const [
+    sc,
+    ev,
+    rs,
+    activity,
+    paths,
+    permits,
+    geoAssets,
+    milestones,
+    intelSnapshots,
+    intelChanges,
+    intelProposals,
+    intelMeetings,
+    intelSources
+  ] = await Promise.all([
+    api(`/projects/${id}/scenarios`),
+    api(`/projects/${id}/evidence`),
+    api(`/projects/${id}/runs`),
+    api(`/projects/${id}/activity`),
+    api(`/projects/${id}/paths`),
+    api(`/projects/${id}/permits`),
+    api(`/projects/${id}/geo-assets`),
+    api(`/projects/${id}/milestones`),
+    api(`/projects/${id}/intelligence/snapshots`),
+    api(`/projects/${id}/intelligence/changes`),
+    api(`/projects/${id}/intelligence/proposals`),
+    api(`/projects/${id}/agents/meetings`),
+    api(`/intelligence/sources`)
+  ]);
+  if (id !== state.selected) return;
+  state.scenarios = sc;
+  state.evidence = ev;
+  state.runs = rs;
+  state.activity = activity;
+  state.paths = paths;
+  state.permits = permits;
+  state.geoAssets = geoAssets;
+  state.milestones = milestones;
+  state.intelSnapshots = intelSnapshots;
+  state.intelChanges = intelChanges;
+  state.intelProposals = intelProposals;
+  state.intelMeetings = intelMeetings;
+  state.intelSources = intelSources;
+  // v27.1: every view reads delay/COD from the canonical schedule engine (one schedule_version per path), never a client-side estimate.
+  state.schedules = Object.fromEntries(
+    await Promise.all(
+      (paths as any[]).map(async (x: any) => [
+        x.id,
+        await api(`/projects/${id}/paths/${x.id}/schedule`).catch(() => null)
+      ])
+    )
+  );
+  if (!geoAssets.some((x: GeoAsset) => x.id === state.selectedGeo)) state.selectedGeo = geoAssets[0]?.id || null;
+  if (!paths.some((x: PathCandidate) => x.id === state.selectedPath)) state.selectedPath = paths[0]?.id || null;
+  if (!permits.some((x: PermitItem) => x.id === state.selectedPermit)) state.selectedPermit = permits[0]?.id || null;
+  if (!state.activeScenario || !sc.some((s: Scenario) => s.id === state.activeScenario))
+    state.activeScenario = sc[0]?.id || null;
+  state.draft = structuredClone(activeScenario()?.config || null);
+  state.dirty = false;
+  if (rs.length && (!state.currentRun || !rs.some((x: any) => x.id === state.currentRun?.id))) {
+    try {
+      state.currentRun = await api(`/projects/${id}/runs/${rs[0].id}`);
+    } catch {
+      state.currentRun = null;
+    }
+  }
+}
+async function enterProject(id: string) {
+  state.selected = id;
+  state.view = 'decision';
+  state.currentRun = null;
+  state.activeScenario = null;
+  state.selectedPath = null;
+  state.selectedPermit = null;
+  state.selectedGeo = null;
+  state.spatialConsent = false;
+  state.mobileNav = false;
+  render();
+  try {
+    await refreshWorkspace();
+    render();
+  } catch (e) {
+    toast((e as Error).message, 'error');
+  }
+}
+async function goto(view: View) {
+  if ((view === 'model' || view === 'facilities') && state.selected) {
+    const target = view === 'model' ? 'underwrite' : 'notes_v259';
+    if (
+      !(view === 'facilities' && ['facilities', 'notes_v259'].includes(activeScenario()?.mode || '')) &&
+      activeScenario()?.mode !== target
+    ) {
+      if (state.dirty && !confirm('Discard unsaved changes to change workspaces?')) return;
+      const pick =
+        state.scenarios.find(s => s.mode === target) ||
+        (view === 'facilities' ? state.scenarios.find(s => s.mode === 'facilities') : undefined);
+      state.activeScenario = pick?.id || null;
+      state.draft = structuredClone(pick?.config || null);
+      state.dirty = false;
+      state.currentRun = null;
+      const last = state.runs.find((r: any) => r.scenario_id === pick?.id);
+      if (last)
+        try {
+          state.currentRun = await api(`/projects/${state.selected}/runs/${last.id}`);
+        } catch {}
+    }
+  }
+  state.view = view;
+  state.mobileNav = false;
+  render();
+}
 
+function renderTop() {
+  const p = active();
+  return `<header class="topbar"><button class="hamburger" data-action="toggle-nav" aria-label="Toggle menu">${svgIcon('menu', 21)}</button>
+<div class="breadcrumb"><span>POWERPATH</span>${svgIcon('chev', 14)}<span>${p ? E(p.name) : 'Portfolio'}</span>${p ? `${svgIcon('chev', 14)}<strong>${E(({ overview: 'Overview', decision: 'Decision Center', execution: 'PermitIQ', intelligence: 'Intelligence', power: 'Power & delivery', model: 'Economics', facilities: 'Debt facilities', evidence: 'Evidence room', history: 'Activity' } as any)[state.view] || 'Overview')}</strong>` : ''}</div>
+<div class="top-actions"><span class="data-mode"><i></i> LOCAL WORKSPACE</span><button class="icon-btn" data-action="refresh" aria-label="Refresh data">${svgIcon('activity', 18)}</button><div class="avatar">PP</div></div></header>`;
+}
+function nav() {
+  const p = active();
+  const groups: [string, [View, string, string][]][] = [
+    [
+      'WORKSPACE',
+      [
+        ['portfolio', 'Portfolio', 'grid'],
+        ['intelligence', 'Intelligence', 'activity']
+      ]
+    ],
+    [
+      'PROJECT',
+      [
+        ['decision', 'Decision Center', 'layers'],
+        ['power', 'Power paths', 'bolt'],
+        ['execution', 'PermitIQ / Execution', 'clock'],
+        ['model', 'Finance & economics', 'activity'],
+        ['facilities', 'Debt facilities', 'bank'],
+        ['evidence', 'Evidence library', 'file']
+      ]
+    ],
+    [
+      'MORE',
+      [
+        ['overview', 'Project overview', 'building'],
+        ['history', 'Run history', 'clock']
+      ]
+    ]
+  ];
+  return `<aside class="sidebar ${state.mobileNav ? 'opened' : ''}"><div class="brand"><span class="brand-logo">${svgIcon('bolt', 19)}</span><div><b>POWERPATH</b><small>DECISION INTELLIGENCE</small></div></div>
+${p ? `<div class="side-project"><span class="project-symbol">${svgIcon('building', 18)}</span><div><strong>${E(p.name)}</strong><small>${E(p.location || 'Site location not confirmed')}</small></div></div>` : ''}
+${groups.map(([group, items]) => `<div class="side-subhead ${group === 'WORKSPACE' ? '' : 'gap-top'}">${group}</div>${items.map(([v, t, ic]) => `<button data-view="${v}" class="nav-item ${state.view === v ? 'active' : ''}" ${group === 'PROJECT' || group === 'MORE' ? (p ? '' : 'disabled') : ''}>${svgIcon(ic)}<span>${t}</span>${v === 'execution' && p ? `<em>${state.permits.length}</em>` : ''}</button>`).join('')}`).join('')}
+<div class="sidebar-foot"><div class="mini-orb">${svgIcon('shield', 18)}</div><div><b>SCREENING / UNVERIFIED</b><small>G4 / G5 remain blocked</small></div></div></aside>`;
+}
+function titleBlock(kicker: string, title: string, description: string, actions = '') {
+  return `<div class="page-head"><div><div class="eyebrow">${E(kicker)}</div><h1>${E(title)}</h1><p>${E(description)}</p></div>${actions ? `<div class="head-actions">${actions}</div>` : ''}</div>`;
+}
+function projectsView() {
+  const list = state.projects;
+  const total = list.reduce((x, p) => x + (p.target_mw || 0), 0);
+  return `<div class="content-in">
+${titleBlock('POWERPATH / PORTFOLIO', 'Your infrastructure decisions', 'One workspace for power delivery, project economics and auditable evidence.', `<button class="btn primary" data-action="new-project">${svgIcon('plus', 16)} New project</button>`)}
+<div class="welcome-panel"><div class="welcome-copy"><span class="pill">LOCAL ALPHA · SCREENING</span><h2>Find the fastest credible path to power.</h2><p>Keep every site, energy alternative, financing scenario, and outstanding document connected to the same decision.</p><button data-action="new-project" class="btn light">Create a project ${svgIcon('arrow', 17)}</button></div><div class="welcome-diagram"><span class="node-dot a"></span><span class="node-dot b"></span><span class="node-dot c"></span><span class="node-dot d"></span><span class="node-center">P<span>POWERPATH</span></span><svg viewBox="0 0 260 180" aria-hidden="true"><path d="M20 145 C75 122 84 40 132 90 S202 133 242 20"/><path d="M13 95 C65 35 155 130 246 99"/></svg></div></div>
+<div class="stat-grid three"><div class="stat"><span>ACTIVE PROJECTS</span><strong>${list.length}</strong><small>Persisted in your local workspace</small></div><div class="stat"><span>MODELED CAPACITY</span><strong>${f(total, 0)} <i>MW</i></strong><small>User-entered; not utility confirmed</small></div><div class="stat"><span>TRANSACTION ASSURANCE</span><strong>0 <i>verified</i></strong><small>G4 and G5 remain blocked</small></div></div>
+<div class="section-heading"><div><h2>Project pipeline</h2><p>Move from feasibility to a financeable decision.</p></div><span class="count">${list.length} ${list.length === 1 ? 'project' : 'projects'}</span></div>
+${
+  !list.length
+    ? `<div class="empty">${svgIcon('layers', 40)}<h3>No projects yet</h3><p>Create one to start storing sources, assumptions and model runs.</p><button class="btn primary" data-action="new-project">Create your first project</button></div>`
+    : `<div class="project-list">${list.map(p => `<button class="project-card" data-project="${E(p.id)}"><div class="project-card-top"><span class="project-tile">${svgIcon('building', 23)}</span><div class="project-name"><strong>${E(p.name)}</strong><small>${E(p.location || 'Location not supplied')}</small></div>${svgIcon('arrow', 19)}</div><div class="card-stats"><div><b>${f(p.target_mw, 0)} MW</b><span>Working capacity</span></div><div><b>${p.scenarios || 0}</b><span>Model scenarios</span></div><div><b>${p.evidence_count || 0}</b><span>Evidence records</span></div></div><div class="card-line"><span>${badge(p.status, 'navy')}</span><span>Document review required</span></div></button>`).join('')}</div>`
+}
+<div class="portfolio-note">${svgIcon('shield', 18)} All capacity, dates, and investment outputs are user-entered screening assumptions unless supported by independently reviewed source documents.</div></div>`;
+}
 
-function renderTop(){const p=active();return `<header class="topbar"><button class="hamburger" data-action="toggle-nav" aria-label="Toggle menu">${svgIcon('menu',21)}</button>
-<div class="breadcrumb"><span>POWERPATH</span>${svgIcon('chev',14)}<span>${p?E(p.name):'Portfolio'}</span>${p?`${svgIcon('chev',14)}<strong>${E(({overview:'Overview',decision:'Decision Center',execution:'PermitIQ',intelligence:'Intelligence',power:'Power & delivery',model:'Economics',facilities:'Debt facilities',evidence:'Evidence room',history:'Activity'} as any)[state.view]||'Overview')}</strong>`:''}</div>
-<div class="top-actions"><span class="data-mode"><i></i> LOCAL WORKSPACE</span><button class="icon-btn" data-action="refresh" aria-label="Refresh data">${svgIcon('activity',18)}</button><div class="avatar">PP</div></div></header>`;}
-function nav(){const p=active();const groups:[string,[View,string,string][]][]=[
- ['WORKSPACE',[['portfolio','Portfolio','grid'],['intelligence','Intelligence','activity']]],
- ['PROJECT',[['decision','Decision Center','layers'],['power','Power paths','bolt'],['execution','PermitIQ / Execution','clock'],['model','Finance & economics','activity'],['facilities','Debt facilities','bank'],['evidence','Evidence library','file']]],
- ['MORE',[['overview','Project overview','building'],['history','Run history','clock']]]];
-return `<aside class="sidebar ${state.mobileNav?'opened':''}"><div class="brand"><span class="brand-logo">${svgIcon('bolt',19)}</span><div><b>POWERPATH</b><small>DECISION INTELLIGENCE</small></div></div>
-${p?`<div class="side-project"><span class="project-symbol">${svgIcon('building',18)}</span><div><strong>${E(p.name)}</strong><small>${E(p.location||'Site location not confirmed')}</small></div></div>`:''}
-${groups.map(([group,items])=>`<div class="side-subhead ${group==='WORKSPACE'?'':'gap-top'}">${group}</div>${items.map(([v,t,ic])=>`<button data-view="${v}" class="nav-item ${state.view===v?'active':''}" ${group==='PROJECT'||group==='MORE'?p?'':'disabled':''}>${svgIcon(ic)}<span>${t}</span>${v==='execution'&&p?`<em>${state.permits.length}</em>`:''}</button>`).join('')}`).join('')}
-<div class="sidebar-foot"><div class="mini-orb">${svgIcon('shield',18)}</div><div><b>SCREENING / UNVERIFIED</b><small>G4 / G5 remain blocked</small></div></div></aside>`;}
-function titleBlock(kicker:string,title:string,description:string,actions=''){return `<div class="page-head"><div><div class="eyebrow">${E(kicker)}</div><h1>${E(title)}</h1><p>${E(description)}</p></div>${actions?`<div class="head-actions">${actions}</div>`:''}</div>`;}
-function projectsView(){const list=state.projects;const total=list.reduce((x,p)=>x+(p.target_mw||0),0);return `<div class="content-in">
-${titleBlock('POWERPATH / PORTFOLIO','Your infrastructure decisions','One workspace for power delivery, project economics and auditable evidence.',`<button class="btn primary" data-action="new-project">${svgIcon('plus',16)} New project</button>`)}
-<div class="welcome-panel"><div class="welcome-copy"><span class="pill">LOCAL ALPHA · SCREENING</span><h2>Find the fastest credible path to power.</h2><p>Keep every site, energy alternative, financing scenario, and outstanding document connected to the same decision.</p><button data-action="new-project" class="btn light">Create a project ${svgIcon('arrow',17)}</button></div><div class="welcome-diagram"><span class="node-dot a"></span><span class="node-dot b"></span><span class="node-dot c"></span><span class="node-dot d"></span><span class="node-center">P<span>POWERPATH</span></span><svg viewBox="0 0 260 180" aria-hidden="true"><path d="M20 145 C75 122 84 40 132 90 S202 133 242 20"/><path d="M13 95 C65 35 155 130 246 99"/></svg></div></div>
-<div class="stat-grid three"><div class="stat"><span>ACTIVE PROJECTS</span><strong>${list.length}</strong><small>Persisted in your local workspace</small></div><div class="stat"><span>MODELED CAPACITY</span><strong>${f(total,0)} <i>MW</i></strong><small>User-entered; not utility confirmed</small></div><div class="stat"><span>TRANSACTION ASSURANCE</span><strong>0 <i>verified</i></strong><small>G4 and G5 remain blocked</small></div></div>
-<div class="section-heading"><div><h2>Project pipeline</h2><p>Move from feasibility to a financeable decision.</p></div><span class="count">${list.length} ${list.length===1?'project':'projects'}</span></div>
-${!list.length?`<div class="empty">${svgIcon('layers',40)}<h3>No projects yet</h3><p>Create one to start storing sources, assumptions and model runs.</p><button class="btn primary" data-action="new-project">Create your first project</button></div>`:
-`<div class="project-list">${list.map(p=>`<button class="project-card" data-project="${E(p.id)}"><div class="project-card-top"><span class="project-tile">${svgIcon('building',23)}</span><div class="project-name"><strong>${E(p.name)}</strong><small>${E(p.location||'Location not supplied')}</small></div>${svgIcon('arrow',19)}</div><div class="card-stats"><div><b>${f(p.target_mw,0)} MW</b><span>Working capacity</span></div><div><b>${p.scenarios||0}</b><span>Model scenarios</span></div><div><b>${p.evidence_count||0}</b><span>Evidence records</span></div></div><div class="card-line"><span>${badge(p.status,'navy')}</span><span>Document review required</span></div></button>`).join('')}</div>`}
-<div class="portfolio-note">${svgIcon('shield',18)} All capacity, dates, and investment outputs are user-entered screening assumptions unless supported by independently reviewed source documents.</div></div>`;}
-
-function assurancePanel(){let n=state.evidence.length;return `<div class="assurance-panel"><div class="assurance-icon">${svgIcon('shield',22)}</div><div><strong>Transaction assurance is incomplete</strong><p>${n} evidence record${n!==1?'s':''}. None of this project's outputs has received contractual and external lender validation. Investment values are assumption-driven.</p></div><span class="grade">CONDITIONAL</span></div>`;}
-function stages(status:string){const index=phases.indexOf(status);return `<div class="stages">${phases.map((x,i)=>`<div class="stage ${i<index?'complete':i===index?'current':''}"><div class="stage-dot">${i<index?svgIcon('check',12):String(i+1).padStart(2,'0')}</div><span>${x}</span></div>`).join('')}</div>`;}
-function overviewView(){const p=active()!;const latest=state.runs[0];let summary:any={};try{summary=latest?JSON.parse(latest.summary_json):{}}catch{};
-return `<div class="content-in">${titleBlock('PROJECT WORKSPACE',p.name,'One connected record for your development and financing decisions.',`<button class="btn outline" data-action="edit-project">${svgIcon('settings',16)} Project settings</button><button class="btn primary" data-view="model">Open economics ${svgIcon('arrow',16)}</button>`)}
-${projectGuard}<div class="project-intro"><div class="intro-main"><span class="eyebrow">CURRENT DEVELOPMENT PHASE</span><h2>${E(p.status)}</h2><p>${E(p.description||'No project summary yet. Add delivery assumptions and evidence as diligence progresses.')}</p>${stages(p.status)}</div><div class="intro-numbers"><span>WORKING CAPACITY</span><strong>${f(p.target_mw,0)} <small>MW</small></strong><p>${E(p.location||'Site location pending')}</p></div></div>
-<div class="stat-grid three"><div class="stat"><span>LATEST SCENARIO NPV</span><strong>${latest?money(summary.npvM):'Not run'}</strong><small>Illustrative, never a transaction valuation</small></div><div class="stat"><span>COVENANT BREACH MONTHS</span><strong>${summary.breachMonths?.length??'—'}</strong><small>Modeled under current assumptions</small></div><div class="stat"><span>SOURCE RECORDS</span><strong>${state.evidence.length}</strong><small>Uploaded or linked supporting material</small></div></div>
+function assurancePanel() {
+  let n = state.evidence.length;
+  return `<div class="assurance-panel"><div class="assurance-icon">${svgIcon('shield', 22)}</div><div><strong>Transaction assurance is incomplete</strong><p>${n} evidence record${n !== 1 ? 's' : ''}. None of this project's outputs has received contractual and external lender validation. Investment values are assumption-driven.</p></div><span class="grade">CONDITIONAL</span></div>`;
+}
+function stages(status: string) {
+  const index = phases.indexOf(status);
+  return `<div class="stages">${phases.map((x, i) => `<div class="stage ${i < index ? 'complete' : i === index ? 'current' : ''}"><div class="stage-dot">${i < index ? svgIcon('check', 12) : String(i + 1).padStart(2, '0')}</div><span>${x}</span></div>`).join('')}</div>`;
+}
+function overviewView() {
+  const p = active()!;
+  const latest = state.runs[0];
+  let summary: any = {};
+  try {
+    summary = latest ? JSON.parse(latest.summary_json) : {};
+  } catch {}
+  return `<div class="content-in">${titleBlock('PROJECT WORKSPACE', p.name, 'One connected record for your development and financing decisions.', `<button class="btn outline" data-action="edit-project">${svgIcon('settings', 16)} Project settings</button><button class="btn primary" data-view="model">Open economics ${svgIcon('arrow', 16)}</button>`)}
+${projectGuard}<div class="project-intro"><div class="intro-main"><span class="eyebrow">CURRENT DEVELOPMENT PHASE</span><h2>${E(p.status)}</h2><p>${E(p.description || 'No project summary yet. Add delivery assumptions and evidence as diligence progresses.')}</p>${stages(p.status)}</div><div class="intro-numbers"><span>WORKING CAPACITY</span><strong>${f(p.target_mw, 0)} <small>MW</small></strong><p>${E(p.location || 'Site location pending')}</p></div></div>
+<div class="stat-grid three"><div class="stat"><span>LATEST SCENARIO NPV</span><strong>${latest ? money(summary.npvM) : 'Not run'}</strong><small>Illustrative, never a transaction valuation</small></div><div class="stat"><span>COVENANT BREACH MONTHS</span><strong>${summary.breachMonths?.length ?? '—'}</strong><small>Modeled under current assumptions</small></div><div class="stat"><span>SOURCE RECORDS</span><strong>${state.evidence.length}</strong><small>Uploaded or linked supporting material</small></div></div>
 <div class="two-col"><div class="panel"><div class="panel-header"><div><h3>Decision workstreams</h3><p>All analysis tied to the active project</p></div></div><div class="workstreams">
-${[['bolt','Power & delivery','Connection pathways and timeline', 'power'],['activity','Economic underwriting','Rent, power, returns and downside cases','model'],['bank','Facility financing','Debt issuance, payment timing and reserves','facilities'],['file','Evidence room','Document sources and validation gaps','evidence']].map(([ic,title,sub,v])=>`<button data-view="${v}" class="workstream"><span>${svgIcon(ic,20)}</span><div><strong>${title}</strong><small>${sub}</small></div>${svgIcon('chev',17)}</button>`).join('')}
-</div></div><div class="panel"><div class="panel-header"><div><h3>Assurance & readiness</h3><p>Required before any lender-facing use</p></div></div><div class="gates">${(summary.risk?Object.entries(summary.risk.gates).map(([g,z]:any)=>[g,z.name,z.status]):[['G0','Input provenance','Conditional'],['G1','Lease economics','Unverified'],['G2','Deterministic reconciliation','Tested scope only'],['G3','Credit stress behavior','Tested scope only'],['G4','Contract reconciliation','Blocked'],['G5','External human assurance','Not started']]).map(([g,n,v])=>`<div class="gate"><span class="gate-id">${g}</span><div><b>${n}</b><small>${v}</small></div><span class="gate-symbol ${v==='Blocked'?'danger':''}">${svgIcon(v==='Blocked'?'alert':'chev',16)}</span></div>`).join('')}</div></div></div>
-${assurancePanel()}</div>`;}
+${[
+  ['bolt', 'Power & delivery', 'Connection pathways and timeline', 'power'],
+  ['activity', 'Economic underwriting', 'Rent, power, returns and downside cases', 'model'],
+  ['bank', 'Facility financing', 'Debt issuance, payment timing and reserves', 'facilities'],
+  ['file', 'Evidence room', 'Document sources and validation gaps', 'evidence']
+]
+  .map(
+    ([ic, title, sub, v]) =>
+      `<button data-view="${v}" class="workstream"><span>${svgIcon(ic, 20)}</span><div><strong>${title}</strong><small>${sub}</small></div>${svgIcon('chev', 17)}</button>`
+  )
+  .join('')}
+</div></div><div class="panel"><div class="panel-header"><div><h3>Assurance & readiness</h3><p>Required before any lender-facing use</p></div></div><div class="gates">${(summary.risk
+    ? Object.entries(summary.risk.gates).map(([g, z]: any) => [g, z.name, z.status])
+    : [
+        ['G0', 'Input provenance', 'Conditional'],
+        ['G1', 'Lease economics', 'Unverified'],
+        ['G2', 'Deterministic reconciliation', 'Tested scope only'],
+        ['G3', 'Credit stress behavior', 'Tested scope only'],
+        ['G4', 'Contract reconciliation', 'Blocked'],
+        ['G5', 'External human assurance', 'Not started']
+      ]
+  )
+    .map(
+      ([g, n, v]) =>
+        `<div class="gate"><span class="gate-id">${g}</span><div><b>${n}</b><small>${v}</small></div><span class="gate-symbol ${v === 'Blocked' ? 'danger' : ''}">${svgIcon(v === 'Blocked' ? 'alert' : 'chev', 16)}</span></div>`
+    )
+    .join('')}</div></div></div>
+${assurancePanel()}</div>`;
+}
 
-function powerView(){const p=active()!;const draft=state.draft?.project||state.draft;const bs=draft?.buildings||[];return `<div class="content-in">${titleBlock('DEVELOPMENT / POWER','Power & delivery','Keep physical milestones separate from contractual and financial assumptions.',`<button class="btn outline" data-view="evidence">${svgIcon('file',16)} Sources</button><button class="btn primary" data-view="model">Open financial model ${svgIcon('arrow',16)}</button>`)}${projectGuard}
-<div class="two-col power-layout"><div class="panel"><div class="panel-header"><div><h3>Delivery milestones</h3><p>Current project phase and documentary status</p></div></div>${stages(p.status)}<div class="divider"></div><div class="field"><label for="stage-select">Update development phase</label><select id="stage-select">${phases.map(x=>`<option ${x===p.status?'selected':''}>${x}</option>`).join('')}</select><small>Internal workflow status only; not a utility-confirmed milestone.</small></div><button class="btn primary" data-action="save-stage">Save phase</button></div>
+function powerView() {
+  const p = active()!;
+  const draft = state.draft?.project || state.draft;
+  const bs = draft?.buildings || [];
+  return `<div class="content-in">${titleBlock('DEVELOPMENT / POWER', 'Power & delivery', 'Keep physical milestones separate from contractual and financial assumptions.', `<button class="btn outline" data-view="evidence">${svgIcon('file', 16)} Sources</button><button class="btn primary" data-view="model">Open financial model ${svgIcon('arrow', 16)}</button>`)}${projectGuard}
+<div class="two-col power-layout"><div class="panel"><div class="panel-header"><div><h3>Delivery milestones</h3><p>Current project phase and documentary status</p></div></div>${stages(p.status)}<div class="divider"></div><div class="field"><label for="stage-select">Update development phase</label><select id="stage-select">${phases.map(x => `<option ${x === p.status ? 'selected' : ''}>${x}</option>`).join('')}</select><small>Internal workflow status only; not a utility-confirmed milestone.</small></div><button class="btn primary" data-action="save-stage">Save phase</button></div>
 <div class="panel"><div class="panel-header"><div><h3>Power assumptions</h3><p>Sample physical model from selected scenario</p></div></div>
-<div class="mini-stats"><div><span>INPUT CAPACITY</span><b>${f(p.target_mw,0)} MW</b></div><div><span>CAPACITY BASIS</span><b>${E(draft?.capacityBasis||'Not assigned')}</b></div><div><span>POWER PAYER</span><b>${E((draft?.powerResponsibility||'Not set').replace('_',' '))}</b></div></div><p class="callout-neutral">These parameters do not prove a utility service commitment or energization date. Record a utility ESA or agreement in Evidence before relying on a delivery milestone.</p><button class="btn outline" data-view="evidence">Document the power source ${svgIcon('arrow',16)}</button></div></div>
-<div class="panel spaced"><div class="panel-header"><div><h3>Building-level timeline</h3><p>Month numbers are scenario assumptions, not forecasted calendar dates.</p></div></div>${!bs.length?'<p class="muted">Select an underwriting scenario to show building-level timing.</p>':`<div class="timeline-table"><div class="timeline-head"><span>BUILDING</span><span>CONSTRUCTION</span><span>POWER</span><span>LEASE</span><span>CAPACITY</span></div>${bs.map((b:any)=>`<div class="timeline-row"><b>${E(b.name)}</b><span>M${b.constructionStart}–M${b.constructionStart+b.constructionMonths-1}</span><span>M${b.powerMonth}</span><span>M${b.leaseMonth}</span><span>${f(b.itMW,0)} ${E(b.capacityBasis||draft.capacityBasis||'IT')} MW</span></div>`).join('')}</div>`}</div>${assurancePanel()}</div>`;}
+<div class="mini-stats"><div><span>INPUT CAPACITY</span><b>${f(p.target_mw, 0)} MW</b></div><div><span>CAPACITY BASIS</span><b>${E(draft?.capacityBasis || 'Not assigned')}</b></div><div><span>POWER PAYER</span><b>${E((draft?.powerResponsibility || 'Not set').replace('_', ' '))}</b></div></div><p class="callout-neutral">These parameters do not prove a utility service commitment or energization date. Record a utility ESA or agreement in Evidence before relying on a delivery milestone.</p><button class="btn outline" data-view="evidence">Document the power source ${svgIcon('arrow', 16)}</button></div></div>
+<div class="panel spaced"><div class="panel-header"><div><h3>Building-level timeline</h3><p>Month numbers are scenario assumptions, not forecasted calendar dates.</p></div></div>${!bs.length ? '<p class="muted">Select an underwriting scenario to show building-level timing.</p>' : `<div class="timeline-table"><div class="timeline-head"><span>BUILDING</span><span>CONSTRUCTION</span><span>POWER</span><span>LEASE</span><span>CAPACITY</span></div>${bs.map((b: any) => `<div class="timeline-row"><b>${E(b.name)}</b><span>M${b.constructionStart}–M${b.constructionStart + b.constructionMonths - 1}</span><span>M${b.powerMonth}</span><span>M${b.leaseMonth}</span><span>${f(b.itMW, 0)} ${E(b.capacityBasis || draft.capacityBasis || 'IT')} MW</span></div>`).join('')}</div>`}</div>${assurancePanel()}</div>`;
+}
 
-function optionsMode(){const target=state.view==='facilities'?'notes_v259':'underwrite';return `${state.scenarios.filter(s=>s.mode===target || (target==='notes_v259'&&s.mode==='facilities')).map(s=>`<option value="${E(s.id)}" ${state.activeScenario===s.id?'selected':''}>${E(s.name)} · v${s.version}</option>`).join('')}`;}
-function editableModel(){const config=state.draft?.project||state.draft;if(!config)return `<div class="empty"><h3>No scenario created</h3><p>Start with a working assumptions model.</p><button class="btn primary" data-action="new-scenario">New scenario</button></div>`;
-return `<div class="config-panel"><div class="panel-header"><div><h3>Operating assumptions</h3><p>Change core drivers, then save and rerun a versioned scenario.</p></div></div><div class="field-grid three">
-${[['rentPerKwMonth','Starting rent','$ / kW-month'],['constructionCostMW','Construction cost','$M / IT MW'],['powerCostMWh','Energy price','$ / MWh'],['pue','PUE','Gross / IT'],['refinanceRatePct','Refinance rate','%'],['months','Model horizon','Months']].map(([k,l,u])=>`<div class="field"><label for="f-${k}">${l}</label><input id="f-${k}" data-config="${k}" type="number" step="any" value="${E(config[k]??'')}"><small>${u}</small></div>`).join('')}</div>
-<div class="field-grid two"><div class="field"><label for="power-mode">Electricity payment responsibility</label><select id="power-mode" data-config="powerResponsibility">${[['landlord','Landlord pays'],['tenant_direct','Tenant pays utility'],['reimbursed','Landlord bills tenant at cost']].map(([v,l])=>`<option value="${v}" ${config.powerResponsibility===v?'selected':''}>${l}</option>`).join('')}</select><small>Contractual responsibility must be source-backed.</small></div><div class="field"><label for="sponsor-cap">Sponsor commitment ($M)</label><input id="sponsor-cap" data-config="sponsorCommitmentM" type="number" step="any" min="0" placeholder="Unverified / unlimited" value="${E(config.sponsorCommitmentM??'')}"><small>Blank means unsupported unlimited funding sensitivity.</small></div></div>
-<details class="advanced"><summary>${svgIcon('settings',17)} Advanced scenario JSON</summary><p>Full configuration for tranches, lease cohorts, timing, debt covenants and power reimbursement. Saving replaces this scenario's assumptions.</p><textarea id="model-json" spellcheck="false" aria-label="Scenario configuration JSON">${E(JSON.stringify(state.draft,null,2))}</textarea><div class="config-json-actions"><button class="btn outline" data-action="apply-json">Apply JSON to editor</button></div></details>
-<div class="editor-actions"><span id="dirty-label">${state.dirty?'Unsaved changes':'Current scenario · '+E(activeScenario()?.version||'')}</span><button class="btn outline" data-action="save-scenario">Save version</button><button class="btn primary" data-action="save-run">${svgIcon('activity',17)} Save & run model</button></div></div>`;}
-function chart(rows:any[],key:string){if(!rows?.length)return `<div class="chart-empty">Run a scenario to view monthly model output.</div>`;
- let out:any[]=[];for(let i=0;i<rows.length;i+=12){let batch=rows.slice(i,i+12),value=batch.reduce((s,r)=>s+(Number(r[key])||0),0);out.push({label:'Y'+(i/12+1),value});}out=out.slice(0,15);
- const w=700,h=216,pad=36;let lo=Math.min(0,...out.map(x=>x.value)),hi=Math.max(0,...out.map(x=>x.value));if(lo===hi)hi=lo+1;
- const X=(i:number)=>pad+i*(w-2*pad)/(Math.max(out.length-1,1)),Y=(v:number)=>h-pad-(v-lo)/(hi-lo)*(h-2*pad);const pts=out.map((x,i)=>`${X(i)},${Y(x.value)}`).join(' '),zero=Y(0);
- return `<div class="chart-wrap"><svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Yearly ${E(key)} modeled in USD millions"><path d="M${pad},${zero} H${w-pad}" class="chart-zero"/>${[0,.25,.5,.75,1].map(z=>`<path d="M${pad},${h-pad-z*(h-2*pad)} H${w-pad}" class="chart-grid"/>`).join('')}<polyline points="${pts}" fill="none" class="chart-line"/>${out.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x.value)}" r="3.5" class="chart-dot"><title>${x.label}: ${money(x.value)}</title></circle>`).join('')}${out.map((x,i)=>`<text x="${X(i)}" y="${h-9}" class="chart-axis" text-anchor="middle">${x.label}</text>`).join('')}<text x="5" y="${pad+3}" class="chart-axis">${f(hi,0)}</text><text x="5" y="${h-pad}" class="chart-axis">${f(lo,0)}</text></svg></div>`;}
-function resultView(fac=false){const r=state.currentRun,mode=fac?'notes_v259':'underwrite';if(!r||!state.runs.some(x=>x.id===r.id)||!state.scenarios.some(s=>s.id===r.scenario_id&&(s.mode===mode || (fac&&s.mode==='facilities'))))return `<div class="placeholder-result">${svgIcon('activity',33)}<b>No saved ${fac?'facility':'underwriting'} run selected</b><span>Save a scenario, run it, and PowerPath will store the exact input version, engine hash and monthly ledger.</span></div>`;
-const s=r.summary;const warnings=s.warnings||s.creditWarnings||[];const rg=s.risk;return `<div class="run-result"><div class="result-meta"><span>${badge('UNVERIFIED SCREENING','amber')} Run ${E(r.id.slice(0,8))}</span><button class="link-button" data-action="export-current">${svgIcon('download',15)} Export CSV</button></div>
-${rg?`<div class="facility-risk-strip"><strong>${E(s.screeningReadiness||rg.uses.screening)}</strong> · Transaction valuation: <strong>BLOCKED</strong> · Lender certification: <strong>BLOCKED</strong> <small>Risk G4: ${E(rg.gates.G4?.status||'FAIL')} · G5: ${E(rg.gates.G5?.status||'NOT STARTED')}</small></div>`:''}<div class="result-kpis"><div><span>SCENARIO EQUITY NPV</span><strong>${money(s.npvM)}</strong><small>${s.defaulted?'Stopped at default':'Assumption-driven'}</small></div><div><span>${fac?'ENDING DEBT':'EQUITY IRR'}</span><strong>${fac?money(s.endingDebtM):pct(s.leveredIRR)}</strong><small>${fac?'Facility scopes unverified':'Not an investable project return'}</small></div><div><span>DSCR BREACH MONTHS</span><strong>${s.facilityDscrBreachMonths?.length??s.breachMonths?.length??'—'}</strong><small>Modeled coverage under assumptions</small></div><div><span>FUNDING DEFAULT</span><strong>${s.defaulted||s.fundingDefault?'YES':'No modeled default'}</strong><small>Not a legal default opinion</small></div></div>
-<div class="panel-header small-head"><div><h3>${fac?'Operating cash available':'Modeled operating CFADS'}</h3><p>Annual sums from stored monthly calculations ($M)</p></div></div>${chart(r.rows,'cfads')}
-${warnings.length?`<div class="warning-list"><h4>${svgIcon('alert',17)} Model limitations & credit flags</h4>${warnings.slice(0,8).map((x:string)=>`<p>${E(x)}</p>`).join('')}</div>`:''}
-<div class="model-provenance">${svgIcon('shield',15)} Inputs and monthly outputs are versioned. The legacy calculator's accounting integrity does not establish contractual accuracy.</div></div>`;}
-function modelView(){const s=activeScenario();return `<div class="content-in">${titleBlock('MODEL / FINANCIAL INTELLIGENCE','Economics & underwriting','Run reproducible financial scenarios tied to your project. Original model mathematics remain frozen.',`<button class="btn outline" data-action="new-scenario">${svgIcon('plus',16)} New scenario</button>`)}${projectGuard}
-<div class="scenario-toolbar"><div class="field"><label for="scenario-select">ACTIVE SCENARIO</label><select id="scenario-select">${optionsMode()}</select></div><div class="small">Model version: <b>${s?'v'+s.version:'—'}</b> · Financial status: <b class="text-amber">UNVERIFIED</b></div></div>
-<div class="model-layout"><div>${editableModel()}</div><div class="model-result panel"><div class="panel-header"><div><h3>Scenario output</h3><p>Latest persisted run for the selected model</p></div></div>${resultView(false)}</div></div>${assurancePanel()}</div>`;}
-function facilitiesView(){const s=activeScenario(),facDraft=state.draft||{};const isFac=['facilities','notes_v259'].includes(s?.mode||'');const facilities=isFac?(facDraft.facilities||[]):[];return `<div class="content-in">${titleBlock('FINANCIAL / CAPITAL STRUCTURE','Debt facilities','Explore multi-facility cash priority and payment timing without making contractual claims.',`<button class="btn primary" data-action="new-facility-scenario">${svgIcon('plus',16)} New v25.9 notes scenario</button>`)}${projectGuard}
-<div class="facility-caution">${svgIcon('shield',20)} <div><b>Alpha facility engine · contractual waterfalls not verified</b><p>Issuance, building scope, coupons and reserves are modeled as screening conventions. Defaulted scenarios stop without fabricated recovery valuations.</p></div></div>
+function optionsMode() {
+  const target = state.view === 'facilities' ? 'notes_v259' : 'underwrite';
+  return `${state.scenarios
+    .filter(s => s.mode === target || (target === 'notes_v259' && s.mode === 'facilities'))
+    .map(
+      s =>
+        `<option value="${E(s.id)}" ${state.activeScenario === s.id ? 'selected' : ''}>${E(s.name)} · v${s.version}</option>`
+    )
+    .join('')}`;
+}
+function editableModel() {
+  const config = state.draft?.project || state.draft;
+  if (!config)
+    return `<div class="empty"><h3>No scenario created</h3><p>Start with a working assumptions model.</p><button class="btn primary" data-action="new-scenario">New scenario</button></div>`;
+  return `<div class="config-panel"><div class="panel-header"><div><h3>Operating assumptions</h3><p>Change core drivers, then save and rerun a versioned scenario.</p></div></div><div class="field-grid three">
+${[
+  ['rentPerKwMonth', 'Starting rent', '$ / kW-month'],
+  ['constructionCostMW', 'Construction cost', '$M / IT MW'],
+  ['powerCostMWh', 'Energy price', '$ / MWh'],
+  ['pue', 'PUE', 'Gross / IT'],
+  ['refinanceRatePct', 'Refinance rate', '%'],
+  ['months', 'Model horizon', 'Months']
+]
+  .map(
+    ([k, l, u]) =>
+      `<div class="field"><label for="f-${k}">${l}</label><input id="f-${k}" data-config="${k}" type="number" step="any" value="${E(config[k] ?? '')}"><small>${u}</small></div>`
+  )
+  .join('')}</div>
+<div class="field-grid two"><div class="field"><label for="power-mode">Electricity payment responsibility</label><select id="power-mode" data-config="powerResponsibility">${[
+    ['landlord', 'Landlord pays'],
+    ['tenant_direct', 'Tenant pays utility'],
+    ['reimbursed', 'Landlord bills tenant at cost']
+  ]
+    .map(([v, l]) => `<option value="${v}" ${config.powerResponsibility === v ? 'selected' : ''}>${l}</option>`)
+    .join(
+      ''
+    )}</select><small>Contractual responsibility must be source-backed.</small></div><div class="field"><label for="sponsor-cap">Sponsor commitment ($M)</label><input id="sponsor-cap" data-config="sponsorCommitmentM" type="number" step="any" min="0" placeholder="Unverified / unlimited" value="${E(config.sponsorCommitmentM ?? '')}"><small>Blank means unsupported unlimited funding sensitivity.</small></div></div>
+<details class="advanced"><summary>${svgIcon('settings', 17)} Advanced scenario JSON</summary><p>Full configuration for tranches, lease cohorts, timing, debt covenants and power reimbursement. Saving replaces this scenario's assumptions.</p><textarea id="model-json" spellcheck="false" aria-label="Scenario configuration JSON">${E(JSON.stringify(state.draft, null, 2))}</textarea><div class="config-json-actions"><button class="btn outline" data-action="apply-json">Apply JSON to editor</button></div></details>
+<div class="editor-actions"><span id="dirty-label">${state.dirty ? 'Unsaved changes' : 'Current scenario · ' + E(activeScenario()?.version || '')}</span><button class="btn outline" data-action="save-scenario">Save version</button><button class="btn primary" data-action="save-run">${svgIcon('activity', 17)} Save & run model</button></div></div>`;
+}
+function chart(rows: any[], key: string) {
+  if (!rows?.length) return `<div class="chart-empty">Run a scenario to view monthly model output.</div>`;
+  let out: any[] = [];
+  for (let i = 0; i < rows.length; i += 12) {
+    let batch = rows.slice(i, i + 12),
+      value = batch.reduce((s, r) => s + (Number(r[key]) || 0), 0);
+    out.push({ label: 'Y' + (i / 12 + 1), value });
+  }
+  out = out.slice(0, 15);
+  const w = 700,
+    h = 216,
+    pad = 36;
+  let lo = Math.min(0, ...out.map(x => x.value)),
+    hi = Math.max(0, ...out.map(x => x.value));
+  if (lo === hi) hi = lo + 1;
+  const X = (i: number) => pad + (i * (w - 2 * pad)) / Math.max(out.length - 1, 1),
+    Y = (v: number) => h - pad - ((v - lo) / (hi - lo)) * (h - 2 * pad);
+  const pts = out.map((x, i) => `${X(i)},${Y(x.value)}`).join(' '),
+    zero = Y(0);
+  return `<div class="chart-wrap"><svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Yearly ${E(key)} modeled in USD millions"><path d="M${pad},${zero} H${w - pad}" class="chart-zero"/>${[0, 0.25, 0.5, 0.75, 1].map(z => `<path d="M${pad},${h - pad - z * (h - 2 * pad)} H${w - pad}" class="chart-grid"/>`).join('')}<polyline points="${pts}" fill="none" class="chart-line"/>${out.map((x, i) => `<circle cx="${X(i)}" cy="${Y(x.value)}" r="3.5" class="chart-dot"><title>${x.label}: ${money(x.value)}</title></circle>`).join('')}${out.map((x, i) => `<text x="${X(i)}" y="${h - 9}" class="chart-axis" text-anchor="middle">${x.label}</text>`).join('')}<text x="5" y="${pad + 3}" class="chart-axis">${f(hi, 0)}</text><text x="5" y="${h - pad}" class="chart-axis">${f(lo, 0)}</text></svg></div>`;
+}
+function resultView(fac = false) {
+  const r = state.currentRun,
+    mode = fac ? 'notes_v259' : 'underwrite';
+  if (
+    !r ||
+    !state.runs.some(x => x.id === r.id) ||
+    !state.scenarios.some(s => s.id === r.scenario_id && (s.mode === mode || (fac && s.mode === 'facilities')))
+  )
+    return `<div class="placeholder-result">${svgIcon('activity', 33)}<b>No saved ${fac ? 'facility' : 'underwriting'} run selected</b><span>Save a scenario, run it, and PowerPath will store the exact input version, engine hash and monthly ledger.</span></div>`;
+  const s = r.summary;
+  const warnings = s.warnings || s.creditWarnings || [];
+  const rg = s.risk;
+  return `<div class="run-result"><div class="result-meta"><span>${badge('UNVERIFIED SCREENING', 'amber')} Run ${E(r.id.slice(0, 8))}</span><button class="link-button" data-action="export-current">${svgIcon('download', 15)} Export CSV</button></div>
+${rg ? `<div class="facility-risk-strip"><strong>${E(s.screeningReadiness || rg.uses.screening)}</strong> · Transaction valuation: <strong>BLOCKED</strong> · Lender certification: <strong>BLOCKED</strong> <small>Risk G4: ${E(rg.gates.G4?.status || 'FAIL')} · G5: ${E(rg.gates.G5?.status || 'NOT STARTED')}</small></div>` : ''}<div class="result-kpis"><div><span>SCENARIO EQUITY NPV</span><strong>${money(s.npvM)}</strong><small>${s.defaulted ? 'Stopped at default' : 'Assumption-driven'}</small></div><div><span>${fac ? 'ENDING DEBT' : 'EQUITY IRR'}</span><strong>${fac ? money(s.endingDebtM) : pct(s.leveredIRR)}</strong><small>${fac ? 'Facility scopes unverified' : 'Not an investable project return'}</small></div><div><span>DSCR BREACH MONTHS</span><strong>${s.facilityDscrBreachMonths?.length ?? s.breachMonths?.length ?? '—'}</strong><small>Modeled coverage under assumptions</small></div><div><span>FUNDING DEFAULT</span><strong>${s.defaulted || s.fundingDefault ? 'YES' : 'No modeled default'}</strong><small>Not a legal default opinion</small></div></div>
+<div class="panel-header small-head"><div><h3>${fac ? 'Operating cash available' : 'Modeled operating CFADS'}</h3><p>Annual sums from stored monthly calculations ($M)</p></div></div>${chart(r.rows, 'cfads')}
+${
+  warnings.length
+    ? `<div class="warning-list"><h4>${svgIcon('alert', 17)} Model limitations & credit flags</h4>${warnings
+        .slice(0, 8)
+        .map((x: string) => `<p>${E(x)}</p>`)
+        .join('')}</div>`
+    : ''
+}
+<div class="model-provenance">${svgIcon('shield', 15)} Inputs and monthly outputs are versioned. The legacy calculator's accounting integrity does not establish contractual accuracy.</div></div>`;
+}
+function modelView() {
+  const s = activeScenario();
+  return `<div class="content-in">${titleBlock('MODEL / FINANCIAL INTELLIGENCE', 'Economics & underwriting', 'Run reproducible financial scenarios tied to your project. Original model mathematics remain frozen.', `<button class="btn outline" data-action="new-scenario">${svgIcon('plus', 16)} New scenario</button>`)}${projectGuard}
+<div class="scenario-toolbar"><div class="field"><label for="scenario-select">ACTIVE SCENARIO</label><select id="scenario-select">${optionsMode()}</select></div><div class="small">Model version: <b>${s ? 'v' + s.version : '—'}</b> · Financial status: <b class="text-amber">UNVERIFIED</b></div></div>
+<div class="model-layout"><div>${editableModel()}</div><div class="model-result panel"><div class="panel-header"><div><h3>Scenario output</h3><p>Latest persisted run for the selected model</p></div></div>${resultView(false)}</div></div>${assurancePanel()}</div>`;
+}
+function facilitiesView() {
+  const s = activeScenario(),
+    facDraft = state.draft || {};
+  const isFac = ['facilities', 'notes_v259'].includes(s?.mode || '');
+  const facilities = isFac ? facDraft.facilities || [] : [];
+  return `<div class="content-in">${titleBlock('FINANCIAL / CAPITAL STRUCTURE', 'Debt facilities', 'Explore multi-facility cash priority and payment timing without making contractual claims.', `<button class="btn primary" data-action="new-facility-scenario">${svgIcon('plus', 16)} New v25.9 notes scenario</button>`)}${projectGuard}
+<div class="facility-caution">${svgIcon('shield', 20)} <div><b>Alpha facility engine · contractual waterfalls not verified</b><p>Issuance, building scope, coupons and reserves are modeled as screening conventions. Defaulted scenarios stop without fabricated recovery valuations.</p></div></div>
 <div class="scenario-toolbar"><div class="field"><label>SCENARIO</label><select id="scenario-select">${optionsMode()}</select></div><span class="small">v25.9 notes runs use the verified module and server-side Risk gates. Legacy runs remain accessible.</span></div>
-<div class="model-layout"><div class="panel padding-panel"><div class="panel-header"><div><h3>Facility schedule</h3><p>New v25.9 notes (with server-side Risk) or legacy alpha facility calculations. All values are illustrative unless sourced.</p></div></div>${!isFac?`<div class="empty-small"><p>The selected scenario is an operating model, not a facilities scenario.</p><button class="btn primary" data-action="new-facility-scenario">Create facility case</button></div>`:`<div class="facility-list">${facilities.map((fa:any)=>`<div class="facility-row"><span>${svgIcon('bank',20)}</span><div><b>${E(fa.id)}</b><small>${E(fa.type)} · ${(fa.buildings||fa.buildingNames||[]).map(E).join(', ')}</small></div>${badge(fa.sourceId?.startsWith('ASSUMPTION')?'ASSUMED':'SOURCE UNREVIEWED','amber')}</div>`).join('')}</div>
-<div class="field-grid two"><div class="field"><label>Note face ($M)</label><input id="facility-face" type="number" min="0" step="any" value="${E(facilities.find((x:any)=>x.type==='note'||x.type==='fixed_note')?.faceM??0)}"></div><div class="field"><label>Note coupon (%)</label><input id="facility-coupon" type="number" min="0" step="any" value="${E(facilities.find((x:any)=>x.type==='note'||x.type==='fixed_note')?.couponPct??0)}"></div></div>
-<details class="advanced"><summary>Advanced: facility JSON</summary><textarea id="facility-json" spellcheck="false" aria-label="Multi-facility scenario JSON">${E(JSON.stringify(facDraft,null,2))}</textarea><button class="btn outline" data-action="apply-facility-json">Apply JSON</button></details><div class="editor-actions"><span>${state.dirty?'Unsaved changes':'Saved version '+s?.version}</span><button class="btn outline" data-action="save-scenario">Save version</button><button class="btn primary" data-action="save-run">Run facility ledger</button></div>`}</div><div class="panel model-result padding-panel"><div class="panel-header"><div><h3>Facility analysis</h3><p>Reproducible monthly cash flows</p></div></div>${resultView(true)}</div></div></div>`;}
-function evidenceView(){const ev=state.evidence;return `<div class="content-in">${titleBlock('DILIGENCE / SOURCE ROOM','Evidence & documents','Tie project assumptions to dated documents. No evidence is automatically certified.',`<button class="btn primary" data-action="new-evidence">${svgIcon('plus',17)} Add evidence</button>`)}${projectGuard}
-<div class="stat-grid three"><div class="stat"><span>TOTAL RECORDS</span><strong>${ev.length}</strong><small>Attached or referenced</small></div><div class="stat"><span>DOCUMENT FILES</span><strong>${ev.filter(e=>e.filename).length}</strong><small>Files stored locally with SHA256</small></div><div class="stat"><span>TRANSACTION VERIFIED</span><strong>0</strong><small>Not independently reviewed</small></div></div>
+<div class="model-layout"><div class="panel padding-panel"><div class="panel-header"><div><h3>Facility schedule</h3><p>New v25.9 notes (with server-side Risk) or legacy alpha facility calculations. All values are illustrative unless sourced.</p></div></div>${
+    !isFac
+      ? `<div class="empty-small"><p>The selected scenario is an operating model, not a facilities scenario.</p><button class="btn primary" data-action="new-facility-scenario">Create facility case</button></div>`
+      : `<div class="facility-list">${facilities.map((fa: any) => `<div class="facility-row"><span>${svgIcon('bank', 20)}</span><div><b>${E(fa.id)}</b><small>${E(fa.type)} · ${(fa.buildings || fa.buildingNames || []).map(E).join(', ')}</small></div>${badge(fa.sourceId?.startsWith('ASSUMPTION') ? 'ASSUMED' : 'SOURCE UNREVIEWED', 'amber')}</div>`).join('')}</div>
+<div class="field-grid two"><div class="field"><label>Note face ($M)</label><input id="facility-face" type="number" min="0" step="any" value="${E(facilities.find((x: any) => x.type === 'note' || x.type === 'fixed_note')?.faceM ?? 0)}"></div><div class="field"><label>Note coupon (%)</label><input id="facility-coupon" type="number" min="0" step="any" value="${E(facilities.find((x: any) => x.type === 'note' || x.type === 'fixed_note')?.couponPct ?? 0)}"></div></div>
+<details class="advanced"><summary>Advanced: facility JSON</summary><textarea id="facility-json" spellcheck="false" aria-label="Multi-facility scenario JSON">${E(JSON.stringify(facDraft, null, 2))}</textarea><button class="btn outline" data-action="apply-facility-json">Apply JSON</button></details><div class="editor-actions"><span>${state.dirty ? 'Unsaved changes' : 'Saved version ' + s?.version}</span><button class="btn outline" data-action="save-scenario">Save version</button><button class="btn primary" data-action="save-run">Run facility ledger</button></div>`
+  }</div><div class="panel model-result padding-panel"><div class="panel-header"><div><h3>Facility analysis</h3><p>Reproducible monthly cash flows</p></div></div>${resultView(true)}</div></div></div>`;
+}
+function evidenceView() {
+  const ev = state.evidence;
+  return `<div class="content-in">${titleBlock('DILIGENCE / SOURCE ROOM', 'Evidence & documents', 'Tie project assumptions to dated documents. No evidence is automatically certified.', `<button class="btn primary" data-action="new-evidence">${svgIcon('plus', 17)} Add evidence</button>`)}${projectGuard}
+<div class="stat-grid three"><div class="stat"><span>TOTAL RECORDS</span><strong>${ev.length}</strong><small>Attached or referenced</small></div><div class="stat"><span>DOCUMENT FILES</span><strong>${ev.filter(e => e.filename).length}</strong><small>Files stored locally with SHA256</small></div><div class="stat"><span>TRANSACTION VERIFIED</span><strong>0</strong><small>Not independently reviewed</small></div></div>
 <div class="panel evidence-panel"><div class="panel-header"><div><h3>Diligence register</h3><p>Evidence classifications are provided by the analyst, not independently authenticated.</p></div></div>
-${!ev.length?`<div class="empty-small">${svgIcon('file',31)}<p>No evidence saved. Add a source record before making a physical, contractual or financing claim.</p><button class="btn primary" data-action="new-evidence">Add evidence</button></div>`:`<div class="evidence-list">${ev.map(e=>`<div class="evidence-row"><span class="evi-icon">${svgIcon('file',20)}</span><div class="evi-main"><strong>${E(e.title)}</strong><small>${E(e.category)} · Added ${dt(e.created_at)} · ${E(e.citation||'No external citation')}</small>${e.notes?`<p>${E(e.notes)}</p>`:''}</div><div class="evi-side">${badge(e.evidence_status.replaceAll('_',' '),e.evidence_status==='executed_document'?'navy':e.evidence_status==='unverified'?'amber':'neutral')}${e.filename?`<a href="/api/projects/${E(state.selected)}/evidence/${E(e.id)}/download" class="link-button" download>${svgIcon('download',14)} ${E(e.filename)}</a>`:`<button data-attach="${E(e.id)}" class="link-button">Attach file</button>`}</div></div>`).join('')}</div>`}</div>
-<div class="small-disclosure">${svgIcon('shield',18)} “Executed document” is an analyst-supplied classification; authenticity, applicability, legal interpretation and independent review are separate requirements.</div></div>`;}
-function historyView(){return `<div class="content-in">${titleBlock('AUDIT / REPRODUCIBILITY','Run history','Trace calculations to saved input versions and frozen financial engine hashes.')}${projectGuard}
-<div class="two-col"><div class="panel"><div class="panel-header"><div><h3>Saved model runs</h3><p>Click a run to inspect its stored monthly calculations.</p></div></div>${!state.runs.length?'<div class="empty-small"><p>No saved model runs yet.</p></div>':`<div class="history-list">${state.runs.map((r:any)=>`<button data-run="${E(r.id)}" class="history-row"><div class="history-icon">${svgIcon(r.mode==='facilities'?'bank':'activity')}</div><div><strong>${E(r.scenario_name)}</strong><small>${dt(r.created_at)} · Version ${r.scenario_version} · ${r.mode}</small></div>${badge('UNVERIFIED','amber')}${svgIcon('chev',17)}</button>`).join('')}</div>`}</div>
-<div class="panel"><div class="panel-header"><div><h3>Activity & changes</h3><p>Local audit trail, not a certified multi-user system</p></div></div><div class="activity-list">${state.activity.slice(0,20).map(a=>`<div class="activity-entry"><span class="activity-dot"></span><div><strong>${E(a.action.replaceAll('.',' · '))}</strong><small>${dt(a.created_at)} · Ref ${E(a.object_id.slice(0,8))}</small></div></div>`).join('')||'<p class="muted pad">No events recorded.</p>'}</div></div></div></div>`;}
-function modalMarkup(){if(!state.modal)return'';const p=active();const s=state.modal;const project= s==='project-edit' && p;return `<div class="modal-cover"><div class="modal" role="dialog" aria-modal="true" aria-label="${s==='evidence'?'Add evidence':s.startsWith('project')?'Project details':s.startsWith('path')?'Power-path assumptions':s.startsWith('permit')?'PermitIQ requirement':'New scenario'}"><div class="modal-head"><h2>${s==='evidence'?'Add evidence':project?'Project settings':s==='project-new'?'Create project':s.startsWith('path')?'Power path':s.startsWith('permit')?'PermitIQ requirement':'Create scenario'}</h2><button class="icon-btn" data-action="close-modal" aria-label="Close">${svgIcon('x',19)}</button></div>
-${s.startsWith('project')?`<form id="project-form" class="modal-body"><div class="field"><label>Project name</label><input name="name" value="${E(project?p!.name:'')}" maxlength="120" required placeholder="e.g. North Ridge Data Center"></div><div class="field"><label>Location</label><input name="location" value="${E(project?p!.location:'')}" placeholder="City / state / market"></div><div class="field-grid two"><div class="field"><label>Working MW</label><input name="target_mw" type="number" step="any" min="0" value="${E(project?p!.target_mw:150)}"></div><div class="field"><label>Development stage</label><select name="status">${phases.map(x=>`<option ${(project?p!.status:'Qualify')===x?'selected':''}>${x}</option>`).join('')}</select></div></div><div class="field"><label>Context</label><textarea name="description" rows="3" placeholder="Site, load, and constraints…">${E(project?p!.description:'')}</textarea></div><p class="modal-disclosure">Working project capacity is not confirmed utility deliverability.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button type="submit" class="btn primary">${project?'Save project':'Create project'}</button></div></form>`:''}
-${s==='scenario'?`<form id="scenario-form" class="modal-body"><div class="field"><label>Scenario name</label><input name="name" required value="Base case" maxlength="100"></div><div class="field"><label>Scenario type</label><select name="mode"><option value="underwrite">Project underwriting</option><option value="notes_v259">Fixed-rate notes v25.9 (Risk gated)</option><option value="facilities">Legacy facilities alpha</option></select></div><p class="modal-disclosure">New scenarios start from illustrative defaults; neither inputs nor outputs become verified automatically.</p><div class="modal-footer"><button type="button" data-action="close-modal" class="btn outline">Cancel</button><button type="submit" class="btn primary">Create scenario</button></div></form>`:''}
-${s==='evidence'?`<form id="evidence-form" class="modal-body"><div class="field"><label>Document title</label><input name="title" required placeholder="e.g. Electric Service Agreement"></div><div class="field-grid two"><div class="field"><label>Category</label><select name="category"><option>Power / Utility</option><option>Lease</option><option>Financing</option><option>Permits</option><option>Construction</option><option>Other</option></select></div><div class="field"><label>Evidence classification</label><select name="evidence_status"><option value="unverified">Unverified</option><option value="public_disclosure">Public disclosure</option><option value="executed_document">Executed document (self-reported)</option><option value="third_party_review">Third-party review (self-reported)</option></select></div></div><div class="field"><label>Source URL / citation</label><input name="citation" placeholder="Optional URL, exhibit or filing reference"></div><div class="field"><label>Notes / unresolved conditions</label><textarea name="notes" rows="3"></textarea></div><div class="field"><label>File (PDF, CSV, text, image, max 5 MB)</label><input id="evidence-file" type="file" accept=".pdf,.csv,.txt,.json,.md,.jpg,.jpeg,.png"></div><p class="modal-disclosure">Uploads stay on this local machine; there is no production authentication or secure multi-tenant access.</p><div class="modal-footer"><button type="button" data-action="close-modal" class="btn outline">Cancel</button><button type="submit" class="btn primary">Record evidence</button></div></form>`:''}
-${s==='path'||s==='path-edit'?(()=>{const x=s==='path-edit'?candidateById():null;return `<form id="path-form" class="modal-body"><div class="field"><label>Power strategy / option name</label><input name="name" required maxlength="140" value="${E(x?.name||'')}" placeholder="e.g. Grid-only scenario"></div><div class="field-grid two"><div class="field"><label>Strategy</label><select name="strategy">${['grid','onsite','hybrid','colocation'].map(y=>`<option value="${y}" ${x?.strategy===y?'selected':''}>${y}</option>`).join('')}</select></div><div class="field"><label>Evidence stage</label><select name="status">${['hypothesis','engagement','study','conditional'].map(y=>`<option value="${y}" ${x?.status===y?'selected':''}>${y}</option>`).join('')}</select></div></div><div class="field-grid two"><div class="field"><label>Working MW</label><input name="capacity_mw" type="number" min="0" step="any" value="${x?.capacity_mw??150}"></div><div class="field"><label>Indicative power month</label><input name="power_month" type="number" min="1" max="360" value="${x?.power_month??''}" placeholder="Model month, optional"></div></div><div class="field-grid three"><div class="field"><label>Delay months</label><input name="delay_months" type="number" min="0" max="120" value="${x?.delay_months??0}"></div><div class="field"><label>Capex uplift %</label><input name="capex_uplift_pct" type="number" min="0" max="500" step="any" value="${x?.capex_uplift_pct??0}"></div><div class="field"><label>Power cost uplift %</label><input name="energy_uplift_pct" type="number" min="0" max="500" step="any" value="${x?.energy_uplift_pct??0}"></div></div><div class="field-grid two"><div class="field"><label>Latitude (optional)</label><input name="latitude" type="number" min="-90" max="90" step="any" value="${x?.latitude??''}"></div><div class="field"><label>Longitude (optional)</label><input name="longitude" type="number" min="-180" max="180" step="any" value="${x?.longitude??''}"></div></div><div class="field"><label>Supporting evidence</label><select name="evidence_id"><option value="">None — unverified</option>${state.evidence.map(y=>`<option value="${E(y.id)}" ${x?.evidence_id===y.id?'selected':''}>${E(y.title)}</option>`).join('')}</select></div><div class="field"><label>Source context / unknowns</label><textarea name="source_note" rows="2">${E(x?.source_note||'')}</textarea></div><p class="modal-disclosure">All fields are analyst assumptions. A source citation does NOT establish utility-confirmed MW, interconnection rights or an energization date.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button class="btn primary" type="submit">Save power path</button></div></form>`})():''}
-${s==='permit'||s==='permit-edit'?(()=>{const x=s==='permit-edit'?permitById():null;return `<form id="permit-form" class="modal-body"><div class="field"><label>Requirement / milestone</label><input name="title" required maxlength="180" value="${E(x?.title||'')}" placeholder="e.g. Utility system impact study"></div><div class="field-grid two"><div class="field"><label>Type</label><select name="kind">${['permit','interconnection','utility','construction','finance'].map(y=>`<option ${x?.kind===y?'selected':''}>${y}</option>`).join('')}</select></div><div class="field"><label>Status</label><select name="status">${['not_started','working','awaiting_third_party','approved','blocked'].map(y=>`<option ${x?.status===y?'selected':''} value="${y}">${y.replaceAll('_',' ')}</option>`).join('')}</select></div></div><div class="field"><label>Owner</label><input name="owner" maxlength="120" value="${E(x?.owner||'')}" placeholder="e.g. Utility liaison"></div><div class="field-grid two"><div class="field"><label>Target month (optional)</label><input name="due_month" type="number" min="1" max="360" value="${x?.due_month??''}"></div><div class="field"><label>Open-risk delay months</label><input name="delay_months" type="number" min="0" max="120" value="${x?.delay_months??0}"></div></div><div class="field"><label>Linked power path</label><select name="path_id"><option value="">Unlinked</option>${state.paths.map(y=>`<option value="${E(y.id)}" ${x?.path_id===y.id?'selected':''}>${E(y.name)}</option>`).join('')}</select></div><div class="field"><label>Supporting evidence</label><select name="evidence_id"><option value="">No source yet</option>${state.evidence.map(y=>`<option value="${E(y.id)}" ${x?.evidence_id===y.id?'selected':''}>${E(y.title)}</option>`).join('')}</select></div><div class="field"><label>Scope / dependencies</label><textarea name="detail" rows="3">${E(x?.detail||'')}</textarea></div><p class="modal-disclosure">Status is internal only: this does not file a permit or certify approval with an authority.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button type="submit" class="btn primary">Save requirement</button></div></form>`})():''}
-</div></div>`;}
+${!ev.length ? `<div class="empty-small">${svgIcon('file', 31)}<p>No evidence saved. Add a source record before making a physical, contractual or financing claim.</p><button class="btn primary" data-action="new-evidence">Add evidence</button></div>` : `<div class="evidence-list">${ev.map(e => `<div class="evidence-row"><span class="evi-icon">${svgIcon('file', 20)}</span><div class="evi-main"><strong>${E(e.title)}</strong><small>${E(e.category)} · Added ${dt(e.created_at)} · ${E(e.citation || 'No external citation')}</small>${e.notes ? `<p>${E(e.notes)}</p>` : ''}</div><div class="evi-side">${badge(e.evidence_status.replaceAll('_', ' '), e.evidence_status === 'executed_document' ? 'navy' : e.evidence_status === 'unverified' ? 'amber' : 'neutral')}${e.filename ? `<a href="/api/projects/${E(state.selected)}/evidence/${E(e.id)}/download" class="link-button" download>${svgIcon('download', 14)} ${E(e.filename)}</a>` : `<button data-attach="${E(e.id)}" class="link-button">Attach file</button>`}</div></div>`).join('')}</div>`}</div>
+<div class="small-disclosure">${svgIcon('shield', 18)} “Executed document” is an analyst-supplied classification; authenticity, applicability, legal interpretation and independent review are separate requirements.</div></div>`;
+}
+function historyView() {
+  return `<div class="content-in">${titleBlock('AUDIT / REPRODUCIBILITY', 'Run history', 'Trace calculations to saved input versions and frozen financial engine hashes.')}${projectGuard}
+<div class="two-col"><div class="panel"><div class="panel-header"><div><h3>Saved model runs</h3><p>Click a run to inspect its stored monthly calculations.</p></div></div>${!state.runs.length ? '<div class="empty-small"><p>No saved model runs yet.</p></div>' : `<div class="history-list">${state.runs.map((r: any) => `<button data-run="${E(r.id)}" class="history-row"><div class="history-icon">${svgIcon(r.mode === 'facilities' ? 'bank' : 'activity')}</div><div><strong>${E(r.scenario_name)}</strong><small>${dt(r.created_at)} · Version ${r.scenario_version} · ${r.mode}</small></div>${badge('UNVERIFIED', 'amber')}${svgIcon('chev', 17)}</button>`).join('')}</div>`}</div>
+<div class="panel"><div class="panel-header"><div><h3>Activity & changes</h3><p>Local audit trail, not a certified multi-user system</p></div></div><div class="activity-list">${
+    state.activity
+      .slice(0, 20)
+      .map(
+        a =>
+          `<div class="activity-entry"><span class="activity-dot"></span><div><strong>${E(a.action.replaceAll('.', ' · '))}</strong><small>${dt(a.created_at)} · Ref ${E(a.object_id.slice(0, 8))}</small></div></div>`
+      )
+      .join('') || '<p class="muted pad">No events recorded.</p>'
+  }</div></div></div></div>`;
+}
+function modalMarkup() {
+  if (!state.modal) return '';
+  const p = active();
+  const s = state.modal;
+  const project = s === 'project-edit' && p;
+  return `<div class="modal-cover"><div class="modal" role="dialog" aria-modal="true" aria-label="${s === 'evidence' ? 'Add evidence' : s.startsWith('project') ? 'Project details' : s.startsWith('path') ? 'Power-path assumptions' : s.startsWith('permit') ? 'PermitIQ requirement' : 'New scenario'}"><div class="modal-head"><h2>${s === 'evidence' ? 'Add evidence' : project ? 'Project settings' : s === 'project-new' ? 'Create project' : s.startsWith('path') ? 'Power path' : s.startsWith('permit') ? 'PermitIQ requirement' : 'Create scenario'}</h2><button class="icon-btn" data-action="close-modal" aria-label="Close">${svgIcon('x', 19)}</button></div>
+${s.startsWith('project') ? `<form id="project-form" class="modal-body"><div class="field"><label>Project name</label><input name="name" value="${E(project ? p!.name : '')}" maxlength="120" required placeholder="e.g. North Ridge Data Center"></div><div class="field"><label>Location</label><input name="location" value="${E(project ? p!.location : '')}" placeholder="City / state / market"></div><div class="field-grid two"><div class="field"><label>Working MW</label><input name="target_mw" type="number" step="any" min="0" value="${E(project ? p!.target_mw : 150)}"></div><div class="field"><label>Development stage</label><select name="status">${phases.map(x => `<option ${(project ? p!.status : 'Qualify') === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div></div><div class="field"><label>Context</label><textarea name="description" rows="3" placeholder="Site, load, and constraints…">${E(project ? p!.description : '')}</textarea></div><p class="modal-disclosure">Working project capacity is not confirmed utility deliverability.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button type="submit" class="btn primary">${project ? 'Save project' : 'Create project'}</button></div></form>` : ''}
+${s === 'scenario' ? `<form id="scenario-form" class="modal-body"><div class="field"><label>Scenario name</label><input name="name" required value="Base case" maxlength="100"></div><div class="field"><label>Scenario type</label><select name="mode"><option value="underwrite">Project underwriting</option><option value="notes_v259">Fixed-rate notes v25.9 (Risk gated)</option><option value="facilities">Legacy facilities alpha</option></select></div><p class="modal-disclosure">New scenarios start from illustrative defaults; neither inputs nor outputs become verified automatically.</p><div class="modal-footer"><button type="button" data-action="close-modal" class="btn outline">Cancel</button><button type="submit" class="btn primary">Create scenario</button></div></form>` : ''}
+${s === 'evidence' ? `<form id="evidence-form" class="modal-body"><div class="field"><label>Document title</label><input name="title" required placeholder="e.g. Electric Service Agreement"></div><div class="field-grid two"><div class="field"><label>Category</label><select name="category"><option>Power / Utility</option><option>Lease</option><option>Financing</option><option>Permits</option><option>Construction</option><option>Other</option></select></div><div class="field"><label>Evidence classification</label><select name="evidence_status"><option value="unverified">Unverified</option><option value="public_disclosure">Public disclosure</option><option value="executed_document">Executed document (self-reported)</option><option value="third_party_review">Third-party review (self-reported)</option></select></div></div><div class="field"><label>Source URL / citation</label><input name="citation" placeholder="Optional URL, exhibit or filing reference"></div><div class="field"><label>Notes / unresolved conditions</label><textarea name="notes" rows="3"></textarea></div><div class="field"><label>File (PDF, CSV, text, image, max 5 MB)</label><input id="evidence-file" type="file" accept=".pdf,.csv,.txt,.json,.md,.jpg,.jpeg,.png"></div><p class="modal-disclosure">Uploads stay on this local machine; there is no production authentication or secure multi-tenant access.</p><div class="modal-footer"><button type="button" data-action="close-modal" class="btn outline">Cancel</button><button type="submit" class="btn primary">Record evidence</button></div></form>` : ''}
+${
+  s === 'path' || s === 'path-edit'
+    ? (() => {
+        const x = s === 'path-edit' ? candidateById() : null;
+        return `<form id="path-form" class="modal-body"><div class="field"><label>Power strategy / option name</label><input name="name" required maxlength="140" value="${E(x?.name || '')}" placeholder="e.g. Grid-only scenario"></div><div class="field-grid two"><div class="field"><label>Strategy</label><select name="strategy">${['grid', 'onsite', 'hybrid', 'colocation'].map(y => `<option value="${y}" ${x?.strategy === y ? 'selected' : ''}>${y}</option>`).join('')}</select></div><div class="field"><label>Evidence stage</label><select name="status">${['hypothesis', 'engagement', 'study', 'conditional'].map(y => `<option value="${y}" ${x?.status === y ? 'selected' : ''}>${y}</option>`).join('')}</select></div></div><div class="field-grid two"><div class="field"><label>Working MW</label><input name="capacity_mw" type="number" min="0" step="any" value="${x?.capacity_mw ?? 150}"></div><div class="field"><label>Indicative power month</label><input name="power_month" type="number" min="1" max="360" value="${x?.power_month ?? ''}" placeholder="Model month, optional"></div></div><div class="field-grid three"><div class="field"><label>Delay months</label><input name="delay_months" type="number" min="0" max="120" value="${x?.delay_months ?? 0}"></div><div class="field"><label>Capex uplift %</label><input name="capex_uplift_pct" type="number" min="0" max="500" step="any" value="${x?.capex_uplift_pct ?? 0}"></div><div class="field"><label>Power cost uplift %</label><input name="energy_uplift_pct" type="number" min="0" max="500" step="any" value="${x?.energy_uplift_pct ?? 0}"></div></div><div class="field-grid two"><div class="field"><label>Latitude (optional)</label><input name="latitude" type="number" min="-90" max="90" step="any" value="${x?.latitude ?? ''}"></div><div class="field"><label>Longitude (optional)</label><input name="longitude" type="number" min="-180" max="180" step="any" value="${x?.longitude ?? ''}"></div></div><div class="field"><label>Supporting evidence</label><select name="evidence_id"><option value="">None — unverified</option>${state.evidence.map(y => `<option value="${E(y.id)}" ${x?.evidence_id === y.id ? 'selected' : ''}>${E(y.title)}</option>`).join('')}</select></div><div class="field"><label>Source context / unknowns</label><textarea name="source_note" rows="2">${E(x?.source_note || '')}</textarea></div><p class="modal-disclosure">All fields are analyst assumptions. A source citation does NOT establish utility-confirmed MW, interconnection rights or an energization date.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button class="btn primary" type="submit">Save power path</button></div></form>`;
+      })()
+    : ''
+}
+${
+  s === 'permit' || s === 'permit-edit'
+    ? (() => {
+        const x = s === 'permit-edit' ? permitById() : null;
+        return `<form id="permit-form" class="modal-body"><div class="field"><label>Requirement / milestone</label><input name="title" required maxlength="180" value="${E(x?.title || '')}" placeholder="e.g. Utility system impact study"></div><div class="field-grid two"><div class="field"><label>Type</label><select name="kind">${['permit', 'interconnection', 'utility', 'construction', 'finance'].map(y => `<option ${x?.kind === y ? 'selected' : ''}>${y}</option>`).join('')}</select></div><div class="field"><label>Status</label><select name="status">${['not_started', 'working', 'awaiting_third_party', 'approved', 'blocked'].map(y => `<option ${x?.status === y ? 'selected' : ''} value="${y}">${y.replaceAll('_', ' ')}</option>`).join('')}</select></div></div><div class="field"><label>Owner</label><input name="owner" maxlength="120" value="${E(x?.owner || '')}" placeholder="e.g. Utility liaison"></div><div class="field-grid two"><div class="field"><label>Target month (optional)</label><input name="due_month" type="number" min="1" max="360" value="${x?.due_month ?? ''}"></div><div class="field"><label>Open-risk delay months</label><input name="delay_months" type="number" min="0" max="120" value="${x?.delay_months ?? 0}"></div></div><div class="field"><label>Linked power path</label><select name="path_id"><option value="">Unlinked</option>${state.paths.map(y => `<option value="${E(y.id)}" ${x?.path_id === y.id ? 'selected' : ''}>${E(y.name)}</option>`).join('')}</select></div><div class="field"><label>Supporting evidence</label><select name="evidence_id"><option value="">No source yet</option>${state.evidence.map(y => `<option value="${E(y.id)}" ${x?.evidence_id === y.id ? 'selected' : ''}>${E(y.title)}</option>`).join('')}</select></div><div class="field"><label>Scope / dependencies</label><textarea name="detail" rows="3">${E(x?.detail || '')}</textarea></div><p class="modal-disclosure">Status is internal only: this does not file a permit or certify approval with an authority.</p><div class="modal-footer"><button type="button" class="btn outline" data-action="close-modal">Cancel</button><button type="submit" class="btn primary">Save requirement</button></div></form>`;
+      })()
+    : ''
+}
+</div></div>`;
+}
 
-function riskStatusStrip(){const r=state.currentRun?.summary;const n=r?.risk;
- const blocked=n?.uses?.lenderCertification==='BLOCKED'||!n;
- return `<div class="decision-risk" role="status"><span class="risk-pip"></span><div><strong>Transaction valuation: BLOCKED · Lender certification: BLOCKED</strong><small>${E(r?.screeningReadiness||r?.assuranceStatus||'Model and physical-delivery evidence require review.')} — all candidate options are screening hypotheses, not utility-confirmed deliverability.</small></div><button class="link-button" data-view="evidence">Review evidence ${svgIcon('arrow',14)}</button></div>`;}
-function candidateById(){return state.paths.find(x=>x.id===state.selectedPath)||state.paths[0]||null;}
-function permitById(){return state.permits.find(x=>x.id===state.selectedPermit)||state.permits[0]||null;}
-function candidateMap(){if(state.geoAssets.length||state.paths.some(x=>x.latitude!=null&&x.longitude!=null))return `<div class="spatial-canvas geo-actual">${realGeoMap(state.paths,state.geoAssets,state.selectedPath,state.selectedGeo,state.spatialConsent)}${state.geoAssets.length?`<div class="geo-source-strip">${state.geoAssets.slice(0,4).map(g=>`<button data-geo="${E(g.id)}" class="geo-source-mini ${state.selectedGeo===g.id?'chosen':''}">${E(g.name)} · ${E(g.vintage)}</button>`).join('')}</div>`:''}<div class="geo-source-caption">Mapped points have recorded coordinates only. They are not utility connection offers, available MW or a relationship to this campus.</div></div>`;const coords=state.paths.length>0&&state.paths.every(x=>x.latitude!=null&&x.longitude!=null);
- const lats=coords?state.paths.map(x=>x.latitude as number):[],lons=coords?state.paths.map(x=>x.longitude as number):[];
- const loLat=Math.min(...lats),hiLat=Math.max(...lats),loLon=Math.min(...lons),hiLon=Math.max(...lons);
- const positions=state.paths.map((x,i)=>({x,
- left:coords?15+70*((x.longitude as number-loLon)/Math.max(0.001,hiLon-loLon)):17+(i*23)%65,
- top:coords?75-55*((x.latitude as number-loLat)/Math.max(0.001,hiLat-loLat)):24+(i*19)%51}));
- return `<div class="spatial-canvas"><div class="spatial-grid"></div><span class="spatial-legend">${coords?'COORDINATE PREVIEW · NOT A UTILITY MAP':'SCHEMATIC ONLY · NO VERIFIED LOCATIONS'}</span><span class="spatial-center">${svgIcon('building',18)} <b>Campus load</b></span>${positions.map(({x,left,top},i)=>`<button class="spatial-pin ${state.selectedPath===x.id?'active':''}" data-left="${left}" data-top="${top}" data-path="${E(x.id)}" title="${E(x.name)}" aria-label="Inspect ${E(x.name)}">${i+1}</button>`).join('')}<span class="spatial-bottom">${coords?'Coordinates entered by analyst. Distances, grid ties and capacity have NOT been verified.':'Pins are layout placeholders, NOT substations or geolocated infrastructure.'}</span></div>`;}
-function pathInspector(){const x=candidateById();if(!x)return `<div class="empty-small"><p>No candidate path yet. Add grid, on-site, hybrid or colocation alternatives to compare.</p><button class="btn primary" data-action="new-path">Add candidate</button></div>`;
-const sch=(state.schedules||{})[x.id];const cod=sch?sch.effective_delay_months:null;const drivers=sch?(sch.critical_drivers||[]).map((d:any)=>d.kind==='activity_chain'?'milestone chain':d.kind==='unlinked_open_permit'?'open permit':'path estimate').join(', '):'';
-return `<div class="inspect-head"><span>${badge(x.strategy,'navy')}${badge(x.status,'amber')}</span><h3>${E(x.name)}</h3><p>${E(x.source_note||'No primary source is attached to this hypothesis.')}</p></div>
-<div class="inspect-grid"><div><span>Working MW</span><strong>${f(x.capacity_mw,0)}</strong></div><div><span>Power target</span><strong>${x.power_month?'M'+x.power_month:'Unknown'}</strong></div><div><span>Path estimate</span><strong>+${x.delay_months} mo</strong></div><div><span>Modelled COD delay</span><strong>${cod===null?'—':'+'+cod+' mo'}</strong></div></div>
-<p class="micro-note">Modelled COD delay uses the canonical schedule (${E(sch?sch.method:'unavailable')}, version ${E(sch?sch.schedule_version:'—')}): delays add along dependencies; independent drivers run in parallel, so COD moves by the longest${drivers?` (driver: ${E(drivers)})`:''}. Analyst-entered; utility capacity remains unconfirmed.</p>
-<div class="inspector-link">${x.latitude!=null?`<a href="https://www.openstreetmap.org/?mlat=${x.latitude}&mlon=${x.longitude}#map=12/${x.latitude}/${x.longitude}" target="_blank" rel="noopener noreferrer">Open coordinates in OpenStreetMap</a>`:''}<button data-action="edit-path" class="link-button">Edit assumption ${svgIcon('arrow',14)}</button></div>
+function riskStatusStrip() {
+  const r = state.currentRun?.summary;
+  const n = r?.risk;
+  const blocked = n?.uses?.lenderCertification === 'BLOCKED' || !n;
+  return `<div class="decision-risk" role="status"><span class="risk-pip"></span><div><strong>Transaction valuation: BLOCKED · Lender certification: BLOCKED</strong><small>${E(r?.screeningReadiness || r?.assuranceStatus || 'Model and physical-delivery evidence require review.')} — all candidate options are screening hypotheses, not utility-confirmed deliverability.</small></div><button class="link-button" data-view="evidence">Review evidence ${svgIcon('arrow', 14)}</button></div>`;
+}
+function candidateById() {
+  return state.paths.find(x => x.id === state.selectedPath) || state.paths[0] || null;
+}
+function permitById() {
+  return state.permits.find(x => x.id === state.selectedPermit) || state.permits[0] || null;
+}
+function candidateMap() {
+  if (state.geoAssets.length || state.paths.some(x => x.latitude != null && x.longitude != null))
+    return `<div class="spatial-canvas geo-actual">${realGeoMap(state.paths, state.geoAssets, state.selectedPath, state.selectedGeo, state.spatialConsent)}${
+      state.geoAssets.length
+        ? `<div class="geo-source-strip">${state.geoAssets
+            .slice(0, 4)
+            .map(
+              g =>
+                `<button data-geo="${E(g.id)}" class="geo-source-mini ${state.selectedGeo === g.id ? 'chosen' : ''}">${E(g.name)} · ${E(g.vintage)}</button>`
+            )
+            .join('')}</div>`
+        : ''
+    }<div class="geo-source-caption">Mapped points have recorded coordinates only. They are not utility connection offers, available MW or a relationship to this campus.</div></div>`;
+  const coords = state.paths.length > 0 && state.paths.every(x => x.latitude != null && x.longitude != null);
+  const lats = coords ? state.paths.map(x => x.latitude as number) : [],
+    lons = coords ? state.paths.map(x => x.longitude as number) : [];
+  const loLat = Math.min(...lats),
+    hiLat = Math.max(...lats),
+    loLon = Math.min(...lons),
+    hiLon = Math.max(...lons);
+  const positions = state.paths.map((x, i) => ({
+    x,
+    left: coords
+      ? 15 + 70 * (((x.longitude as number) - loLon) / Math.max(0.001, hiLon - loLon))
+      : 17 + ((i * 23) % 65),
+    top: coords ? 75 - 55 * (((x.latitude as number) - loLat) / Math.max(0.001, hiLat - loLat)) : 24 + ((i * 19) % 51)
+  }));
+  return `<div class="spatial-canvas"><div class="spatial-grid"></div><span class="spatial-legend">${coords ? 'COORDINATE PREVIEW · NOT A UTILITY MAP' : 'SCHEMATIC ONLY · NO VERIFIED LOCATIONS'}</span><span class="spatial-center">${svgIcon('building', 18)} <b>Campus load</b></span>${positions.map(({ x, left, top }, i) => `<button class="spatial-pin ${state.selectedPath === x.id ? 'active' : ''}" data-left="${left}" data-top="${top}" data-path="${E(x.id)}" title="${E(x.name)}" aria-label="Inspect ${E(x.name)}">${i + 1}</button>`).join('')}<span class="spatial-bottom">${coords ? 'Coordinates entered by analyst. Distances, grid ties and capacity have NOT been verified.' : 'Pins are layout placeholders, NOT substations or geolocated infrastructure.'}</span></div>`;
+}
+function pathInspector() {
+  const x = candidateById();
+  if (!x)
+    return `<div class="empty-small"><p>No candidate path yet. Add grid, on-site, hybrid or colocation alternatives to compare.</p><button class="btn primary" data-action="new-path">Add candidate</button></div>`;
+  const sch = (state.schedules || {})[x.id];
+  const cod = sch ? sch.effective_delay_months : null;
+  const drivers = sch
+    ? (sch.critical_drivers || [])
+        .map((d: any) =>
+          d.kind === 'activity_chain'
+            ? 'milestone chain'
+            : d.kind === 'unlinked_open_permit'
+              ? 'open permit'
+              : 'path estimate'
+        )
+        .join(', ')
+    : '';
+  return `<div class="inspect-head"><span>${badge(x.strategy, 'navy')}${badge(x.status, 'amber')}</span><h3>${E(x.name)}</h3><p>${E(x.source_note || 'No primary source is attached to this hypothesis.')}</p></div>
+<div class="inspect-grid"><div><span>Working MW</span><strong>${f(x.capacity_mw, 0)}</strong></div><div><span>Power target</span><strong>${x.power_month ? 'M' + x.power_month : 'Unknown'}</strong></div><div><span>Path estimate</span><strong>+${x.delay_months} mo</strong></div><div><span>Modelled COD delay</span><strong>${cod === null ? '—' : '+' + cod + ' mo'}</strong></div></div>
+<p class="micro-note">Modelled COD delay uses the canonical schedule (${E(sch ? sch.method : 'unavailable')}, version ${E(sch ? sch.schedule_version : '—')}): delays add along dependencies; independent drivers run in parallel, so COD moves by the longest${drivers ? ` (driver: ${E(drivers)})` : ''}. Analyst-entered; utility capacity remains unconfirmed.</p>
+<div class="inspector-link">${x.latitude != null ? `<a href="https://www.openstreetmap.org/?mlat=${x.latitude}&mlon=${x.longitude}#map=12/${x.latitude}/${x.longitude}" target="_blank" rel="noopener noreferrer">Open coordinates in OpenStreetMap</a>` : ''}<button data-action="edit-path" class="link-button">Edit assumption ${svgIcon('arrow', 14)}</button></div>
 <div class="light-rule"></div><h3>Run a linked sensitivity</h3><p class="muted">Creates a new saved financial scenario; existing inputs and runs are preserved.</p>
-<form id="path-sensitivity-form" class="stack-form"><label for="sens-base">Source underwriting scenario</label>${state.scenarios.some(s=>s.mode==='underwrite')?`<select id="sens-base" name="source_scenario_id" required>${state.scenarios.filter(s=>s.mode==='underwrite').map(s=>`<option value="${E(s.id)}">${E(s.name)} · v${s.version}</option>`).join('')}</select>`:`<div class="empty-inline"><p>This project has no underwriting scenario yet, so there is nothing to apply the pathway to.</p><button type="button" class="btn outline" data-action="new-scenario">${svgIcon('plus',15)} Create underwriting scenario</button></div>`}<p class="micro-note">Applies the modelled COD delay (${cod===null?'—':'+'+cod+' months'}), +${f(x.capex_uplift_pct,0)}% construction cost and +${f(x.energy_uplift_pct,0)}% power cost to the chosen assumptions. Same result as the PermitIQ critical-path sensitivity.</p><button class="btn primary" type="submit" ${state.scenarios.some(s=>s.mode==='underwrite')?'':'disabled'}>Create versioned sensitivity ${svgIcon('arrow',15)}</button></form>`;}
-function comparisonTable(){return !state.paths.length?`<p class="muted pad">No paths added. Create at least two to compare timing and model risk.</p>`:`<div class="compare-scroll"><table class="path-table"><thead><tr><th>Power strategy</th><th>Input MW</th><th>Target</th><th>COD delay</th><th>Capital uplift</th><th>Source</th><th>Decision</th></tr></thead><tbody>${state.paths.map(x=>`<tr class="${state.selectedPath===x.id?'selected':''}"><td><button class="table-link" data-path="${E(x.id)}"><b>${E(x.name)}</b><small>${E(x.strategy)}</small></button></td><td>${f(x.capacity_mw,0)}</td><td>${x.power_month?'Month '+x.power_month:'Unknown'}</td><td>${(state.schedules||{})[x.id]?'+'+(state.schedules as any)[x.id].effective_delay_months+' mo':'—'}</td><td>+${f(x.capex_uplift_pct,0)}%</td><td>${badge(x.evidence_id?'Evidence linked':'Unverified',x.evidence_id?'navy':'amber')}</td><td>${badge('Blocked','red')}</td></tr>`).join('')}</tbody></table></div>`;}
-function decisionView(){const p=active()!;const open=state.permits.filter(x=>!['approved'].includes(x.status));return `<div class="content-in">
-${titleBlock('PROJECT / DECISION CENTER',p.name,'Find the fastest credible path to power, quantify the financial consequences and expose unresolved dependencies.',`<button class="btn outline" data-action="new-path">${svgIcon('plus',15)} New path</button><button class="btn primary" data-view="execution">Open PermitIQ ${svgIcon('arrow',15)}</button>`)}${riskStatusStrip()}
-<div class="decision-metrics"><div><span>LOAD TARGET</span><strong>${f(p.target_mw,0)} <small>MW</small></strong><small>Working target; not deliverable MW</small></div><div><span>PATHS UNDER REVIEW</span><strong>${state.paths.length}</strong><small>None independently confirmed</small></div><div><span>ACTIVE DEPENDENCIES</span><strong>${open.length}</strong><small>Open permits / utility actions</small></div><div><span>VERSIONED RUNS</span><strong>${state.runs.length}</strong><small>Screening, not approved valuation</small></div></div>
-<div class="decision-two"><section class="panel"><div class="panel-header"><div><h3>Power intelligence</h3><p>Choose a hypothetical alternative to inspect its assumptions.</p></div><button data-view="power" class="link-button">All options ${svgIcon('arrow',14)}</button></div>${candidateMap()}</section><section class="panel"><div class="panel-header"><div><h3>Selected power path</h3><p>Evidence, timing and financial sensitivity</p></div></div><div class="decision-inspector">${pathInspector()}</div></section></div>
-<section class="panel spaced"><div class="panel-header"><div><h3>Compare credible paths</h3><p>No automatic ranking: without verified power capacity and contracts, every option remains unverified.</p></div>${badge('Screening only','amber')}</div>${comparisonTable()}</section>
-<div class="decision-two spaced"><section class="panel"><div class="panel-header"><div><h3>Actionable blockers</h3><p>PermitIQ updates remain attached to this project.</p></div><button class="link-button" data-view="execution">See critical path ${svgIcon('arrow',14)}</button></div><div class="action-feed">${open.slice(0,5).map(x=>`<button class="signal" data-permit="${E(x.id)}"><span class="signal-mark ${x.status==='blocked'?'bad':''}">${svgIcon('alert',16)}</span><div><strong>${E(x.title)}</strong><small>${E(x.owner||'Owner needed')} · ${E(x.status.replaceAll('_',' '))} · ${x.delay_months}mo scenario exposure</small></div>${svgIcon('chev',14)}</button>`).join('')||'<p class="muted pad">No active dependency records yet. This does not mean the site is permit-ready.</p>'}</div></section><section class="panel"><div class="panel-header"><div><h3>Decision evidence</h3><p>Inputs, filing references and unverified assumptions</p></div></div><div class="decision-inspector"><p><b>${state.evidence.length}</b> source records in this workspace</p><p class="muted">Risk gates G4/G5 remain blocked regardless of analyst-entered evidence status. Only an independent, scoped review can authorize lender use.</p><button data-view="evidence" class="btn outline">Open evidence register ${svgIcon('arrow',14)}</button></div></section></div>
-</div>`;}
-function powerPathsView(){const p=active()!;return `<div class="content-in">${titleBlock('PROJECT / POWER INTELLIGENCE','Power paths & candidates','Screen grid, on-site, hybrid and colocation alternatives without representing assumed capacity as available.',`<button class="btn primary" data-action="new-path">${svgIcon('plus',15)} Add power path</button>`)}${riskStatusStrip()}
-<div class="decision-two"><section class="panel"><div class="panel-header"><div><h3>Candidate spatial inspector</h3><p>Analyst-entered coordinates, otherwise schematic layout</p></div></div>${candidateMap()}<div class="path-shortlist">${state.paths.map(x=>`<button class="path-list-option ${state.selectedPath===x.id?'active':''}" data-path="${E(x.id)}"><b>${E(x.name)}</b><span>${E(x.strategy)} · ${x.power_month?'M'+x.power_month:'date unknown'}</span></button>`).join('')||'<p class="muted pad">Start by adding an alternative.</p>'}</div></section><section class="panel"><div class="panel-header"><div><h3>Candidate details</h3><p>Select any pin or alternative</p></div></div><div class="decision-inspector">${pathInspector()}</div></section></div>
+<form id="path-sensitivity-form" class="stack-form"><label for="sens-base">Source underwriting scenario</label>${
+    state.scenarios.some(s => s.mode === 'underwrite')
+      ? `<select id="sens-base" name="source_scenario_id" required>${state.scenarios
+          .filter(s => s.mode === 'underwrite')
+          .map(s => `<option value="${E(s.id)}">${E(s.name)} · v${s.version}</option>`)
+          .join('')}</select>`
+      : `<div class="empty-inline"><p>This project has no underwriting scenario yet, so there is nothing to apply the pathway to.</p><button type="button" class="btn outline" data-action="new-scenario">${svgIcon('plus', 15)} Create underwriting scenario</button></div>`
+  }<p class="micro-note">Applies the modelled COD delay (${cod === null ? '—' : '+' + cod + ' months'}), +${f(x.capex_uplift_pct, 0)}% construction cost and +${f(x.energy_uplift_pct, 0)}% power cost to the chosen assumptions. Same result as the PermitIQ critical-path sensitivity.</p><button class="btn primary" type="submit" ${state.scenarios.some(s => s.mode === 'underwrite') ? '' : 'disabled'}>Create versioned sensitivity ${svgIcon('arrow', 15)}</button></form>`;
+}
+function comparisonTable() {
+  return !state.paths.length
+    ? `<p class="muted pad">No paths added. Create at least two to compare timing and model risk.</p>`
+    : `<div class="compare-scroll"><table class="path-table"><thead><tr><th>Power strategy</th><th>Input MW</th><th>Target</th><th>COD delay</th><th>Capital uplift</th><th>Source</th><th>Decision</th></tr></thead><tbody>${state.paths.map(x => `<tr class="${state.selectedPath === x.id ? 'selected' : ''}"><td><button class="table-link" data-path="${E(x.id)}"><b>${E(x.name)}</b><small>${E(x.strategy)}</small></button></td><td>${f(x.capacity_mw, 0)}</td><td>${x.power_month ? 'Month ' + x.power_month : 'Unknown'}</td><td>${(state.schedules || {})[x.id] ? '+' + (state.schedules as any)[x.id].effective_delay_months + ' mo' : '—'}</td><td>+${f(x.capex_uplift_pct, 0)}%</td><td>${badge(x.evidence_id ? 'Evidence linked' : 'Unverified', x.evidence_id ? 'navy' : 'amber')}</td><td>${badge('Blocked', 'red')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function decisionView() {
+  const p = active()!;
+  const open = state.permits.filter(x => !['approved'].includes(x.status));
+  return `<div class="content-in">
+${titleBlock('PROJECT / DECISION CENTER', p.name, 'Find the fastest credible path to power, quantify the financial consequences and expose unresolved dependencies.', `<button class="btn outline" data-action="new-path">${svgIcon('plus', 15)} New path</button><button class="btn primary" data-view="execution">Open PermitIQ ${svgIcon('arrow', 15)}</button>`)}${riskStatusStrip()}
+<div class="decision-metrics"><div><span>LOAD TARGET</span><strong>${f(p.target_mw, 0)} <small>MW</small></strong><small>Working target; not deliverable MW</small></div><div><span>PATHS UNDER REVIEW</span><strong>${state.paths.length}</strong><small>None independently confirmed</small></div><div><span>ACTIVE DEPENDENCIES</span><strong>${open.length}</strong><small>Open permits / utility actions</small></div><div><span>VERSIONED RUNS</span><strong>${state.runs.length}</strong><small>Screening, not approved valuation</small></div></div>
+<div class="decision-two"><section class="panel"><div class="panel-header"><div><h3>Power intelligence</h3><p>Choose a hypothetical alternative to inspect its assumptions.</p></div><button data-view="power" class="link-button">All options ${svgIcon('arrow', 14)}</button></div>${candidateMap()}</section><section class="panel"><div class="panel-header"><div><h3>Selected power path</h3><p>Evidence, timing and financial sensitivity</p></div></div><div class="decision-inspector">${pathInspector()}</div></section></div>
+<section class="panel spaced"><div class="panel-header"><div><h3>Compare credible paths</h3><p>No automatic ranking: without verified power capacity and contracts, every option remains unverified.</p></div>${badge('Screening only', 'amber')}</div>${comparisonTable()}</section>
+<div class="decision-two spaced"><section class="panel"><div class="panel-header"><div><h3>Actionable blockers</h3><p>PermitIQ updates remain attached to this project.</p></div><button class="link-button" data-view="execution">See critical path ${svgIcon('arrow', 14)}</button></div><div class="action-feed">${
+    open
+      .slice(0, 5)
+      .map(
+        x =>
+          `<button class="signal" data-permit="${E(x.id)}"><span class="signal-mark ${x.status === 'blocked' ? 'bad' : ''}">${svgIcon('alert', 16)}</span><div><strong>${E(x.title)}</strong><small>${E(x.owner || 'Owner needed')} · ${E(x.status.replaceAll('_', ' '))} · ${x.delay_months}mo scenario exposure</small></div>${svgIcon('chev', 14)}</button>`
+      )
+      .join('') ||
+    '<p class="muted pad">No active dependency records yet. This does not mean the site is permit-ready.</p>'
+  }</div></section><section class="panel"><div class="panel-header"><div><h3>Decision evidence</h3><p>Inputs, filing references and unverified assumptions</p></div></div><div class="decision-inspector"><p><b>${state.evidence.length}</b> source records in this workspace</p><p class="muted">Risk gates G4/G5 remain blocked regardless of analyst-entered evidence status. Only an independent, scoped review can authorize lender use.</p><button data-view="evidence" class="btn outline">Open evidence register ${svgIcon('arrow', 14)}</button></div></section></div>
+</div>`;
+}
+function powerPathsView() {
+  const p = active()!;
+  return `<div class="content-in">${titleBlock('PROJECT / POWER INTELLIGENCE', 'Power paths & candidates', 'Screen grid, on-site, hybrid and colocation alternatives without representing assumed capacity as available.', `<button class="btn primary" data-action="new-path">${svgIcon('plus', 15)} Add power path</button>`)}${riskStatusStrip()}
+<div class="decision-two"><section class="panel"><div class="panel-header"><div><h3>Candidate spatial inspector</h3><p>Analyst-entered coordinates, otherwise schematic layout</p></div></div>${candidateMap()}<div class="path-shortlist">${state.paths.map(x => `<button class="path-list-option ${state.selectedPath === x.id ? 'active' : ''}" data-path="${E(x.id)}"><b>${E(x.name)}</b><span>${E(x.strategy)} · ${x.power_month ? 'M' + x.power_month : 'date unknown'}</span></button>`).join('') || '<p class="muted pad">Start by adding an alternative.</p>'}</div></section><section class="panel"><div class="panel-header"><div><h3>Candidate details</h3><p>Select any pin or alternative</p></div></div><div class="decision-inspector">${pathInspector()}</div></section></div>
 <section class="panel spaced"><div class="panel-header"><div><h3>Delivery comparison</h3><p>Source provenance and capacity basis must be confirmed before any commitment</p></div></div>${comparisonTable()}</section>
-<div class="spaced"><button class="btn outline" data-view="execution">Follow dependencies in PermitIQ ${svgIcon('arrow',15)}</button></div></div>`;}
-function executionView(){const p=active()!,sel=permitById(),pending=state.permits.filter(x=>x.status!=='approved');return `<div class="content-in">${titleBlock('EXECUTION / PERMITIQ','Critical path & approvals','A live local record of dependencies, checklists, evidence and approvals. No regulator submissions are performed.',`<a class="btn outline" href="/permitiq-national">National screening ↗</a><button class="btn primary" data-action="new-permit">${svgIcon('plus',15)} Add requirement</button>`)}${riskStatusStrip()}
-<div class="decision-metrics"><div><span>TRACKED ITEMS</span><strong>${state.permits.length}</strong><small>Permit / utility / financing tasks</small></div><div><span>OPEN ACTIONS</span><strong>${pending.length}</strong><small>Not externally verified</small></div><div><span>AWAITING OTHERS</span><strong>${pending.filter(x=>x.status==='awaiting_third_party').length}</strong></div><div><span>SCENARIO MAX DELAY</span><strong>${Math.max(0,...pending.map(x=>x.delay_months))} <small>mo</small></strong><small>Not a delivery forecast</small></div></div>
-<section class="panel"><div class="panel-header"><div><h3>Development timeline</h3><p>Relative model months; dates are entered assumptions, not official milestones.</p></div></div><div class="permit-timeline">${state.permits.map(x=>{const off=Math.min(90,Math.max(0,(x.due_month||12)/3.6)),w=Math.min(20,Math.max(8,x.delay_months/2+8));return `<button class="permit-timeline-row" data-permit="${E(x.id)}"><span>${E(x.title)}</span><span class="timeline-track"><i data-left="${off}" data-width="${w}" class="${E(x.status)}"></i></span><b>${x.due_month?'M'+x.due_month:'TBD'}</b></button>`}).join('')||'<p class="muted pad">Add milestones and permit dependencies to populate the timeline.</p>'}</div></section>
-<div class="decision-two spaced"><section class="panel"><div class="panel-header"><div><h3>Permit and interconnection queue</h3><p>Select an item to see details, notes, attachments and checklist.</p></div></div><div class="permit-queue">${state.permits.map(x=>{const count=x.steps.filter(z=>z.is_done).length;return `<button data-permit="${E(x.id)}" class="permit-queue-row ${sel?.id===x.id?'active':''}"><span class="signal-mark">${svgIcon(x.kind==='permit'?'file':'bolt',16)}</span><div><b>${E(x.title)}</b><small>${E(x.kind)} · ${E(x.owner||'Owner not assigned')} · checklist ${count}/${x.steps.length}</small></div>${badge(x.status.replaceAll('_',' '),x.status==='blocked'?'red':x.status==='approved'?'green':'amber')}</button>`}).join('')||'<p class="muted pad">No permits or dependencies recorded yet.</p>'}</div></section><section class="panel permit-detail"><div class="panel-header"><div><h3>${sel?E(sel.title):'Requirement detail'}</h3><p>${sel?'One requirement, one audit trail':'Select or create an item'}</p></div>${sel?`<button class="link-button" data-action="edit-permit">Edit ${svgIcon('arrow',14)}</button>`:''}</div>${sel?`<div class="decision-inspector"><div class="inspect-grid"><div><span>Status</span><strong>${E(sel.status.replaceAll('_',' '))}</strong></div><div><span>Owner</span><strong>${E(sel.owner||'Unassigned')}</strong></div><div><span>Target</span><strong>${sel.due_month?'M'+sel.due_month:'TBD'}</strong></div><div><span>Delay</span><strong>+${sel.delay_months}mo</strong></div></div><p class="micro-note">${E(sel.detail||'No requirement notes recorded.')}</p><div class="light-rule"></div><div class="section-row"><h3>Checklist</h3><span>${sel.steps.filter(x=>x.is_done).length} / ${sel.steps.length}</span></div><div class="permit-steps">${sel.steps.map(z=>`<label class="check-step"><input type="checkbox" data-step="${E(z.id)}" ${z.is_done?'checked':''}><span>${E(z.title)}</span></label>`).join('')||'<p class="muted">No checklist entries. Add the required steps.</p>'}</div><form id="permit-step-form" class="inline-form"><input name="title" required maxlength="200" placeholder="Add a review step"><button type="submit" class="btn outline">Add</button></form><div class="light-rule"></div><div class="section-row"><h3>Notes and activity</h3><small>${sel.notes.length} note(s)</small></div><div class="permit-notes">${sel.notes.map(n=>`<article><p>${E(n.body)}</p><small>${dt(n.created_at)}</small></article>`).join('')||'<p class="muted">No notes yet.</p>'}</div><form id="permit-note-form" class="inline-form"><input name="body" required maxlength="3000" placeholder="Document an update"><button type="submit" class="btn outline">Record</button></form><div class="light-rule"></div><h3>Supporting evidence</h3>${sel.evidence_id?`<p class="micro-note">Linked source: ${E(state.evidence.find(x=>x.id===sel.evidence_id)?.title||'No longer available')}</p>`:'<p class="micro-note">No document linked. Status is self-reported and not an approval.</p>'}<button data-view="evidence" class="link-button">View evidence library ${svgIcon('arrow',14)}</button></div>`:'<div class="empty-small"><p>Choose a requirement from the queue.</p></div>'}</section></div></div>`;}
-function intelligenceView(){const pid=state.selected;const changes=state.intelChanges;const proposals=state.intelProposals;const meetings=state.intelMeetings;
-return `<div class="content-in">${titleBlock('SOURCE WATCH','Intelligence & Agent Council','Dated source imports, attributable row differences, human-reviewed milestone proposals, and model reviews.')}${riskStatusStrip()}
-<div class="stat-grid three"><div class="stat"><span>SOURCE SNAPSHOTS</span><strong>${state.intelSnapshots.length}</strong><small>Original CSV hashes retained</small></div><div class="stat"><span>DETECTED ROW CHANGES</span><strong>${changes.length}</strong><small>Observed, not utility-verified</small></div><div class="stat"><span>AWAITING APPROVAL</span><strong>${proposals.filter(x=>x.status==='pending').length}</strong><small>Milestone changes never auto-apply</small></div></div>
+<div class="spaced"><button class="btn outline" data-view="execution">Follow dependencies in PermitIQ ${svgIcon('arrow', 15)}</button></div></div>`;
+}
+function executionView() {
+  const p = active()!,
+    sel = permitById(),
+    pending = state.permits.filter(x => x.status !== 'approved');
+  return `<div class="content-in">${titleBlock('EXECUTION / PERMITIQ', 'Critical path & approvals', 'A live local record of dependencies, checklists, evidence and approvals. No regulator submissions are performed.', `<a class="btn outline" href="/permitiq-national">National screening ↗</a><button class="btn primary" data-action="new-permit">${svgIcon('plus', 15)} Add requirement</button>`)}${riskStatusStrip()}
+<div class="decision-metrics"><div><span>TRACKED ITEMS</span><strong>${state.permits.length}</strong><small>Permit / utility / financing tasks</small></div><div><span>OPEN ACTIONS</span><strong>${pending.length}</strong><small>Not externally verified</small></div><div><span>AWAITING OTHERS</span><strong>${pending.filter(x => x.status === 'awaiting_third_party').length}</strong></div><div><span>SCENARIO MAX DELAY</span><strong>${Math.max(0, ...pending.map(x => x.delay_months))} <small>mo</small></strong><small>Not a delivery forecast</small></div></div>
+<section class="panel"><div class="panel-header"><div><h3>Development timeline</h3><p>Relative model months; dates are entered assumptions, not official milestones.</p></div></div><div class="permit-timeline">${
+    state.permits
+      .map(x => {
+        const off = Math.min(90, Math.max(0, (x.due_month || 12) / 3.6)),
+          w = Math.min(20, Math.max(8, x.delay_months / 2 + 8));
+        return `<button class="permit-timeline-row" data-permit="${E(x.id)}"><span>${E(x.title)}</span><span class="timeline-track"><i data-left="${off}" data-width="${w}" class="${E(x.status)}"></i></span><b>${x.due_month ? 'M' + x.due_month : 'TBD'}</b></button>`;
+      })
+      .join('') || '<p class="muted pad">Add milestones and permit dependencies to populate the timeline.</p>'
+  }</div></section>
+<div class="decision-two spaced"><section class="panel"><div class="panel-header"><div><h3>Permit and interconnection queue</h3><p>Select an item to see details, notes, attachments and checklist.</p></div></div><div class="permit-queue">${
+    state.permits
+      .map(x => {
+        const count = x.steps.filter(z => z.is_done).length;
+        return `<button data-permit="${E(x.id)}" class="permit-queue-row ${sel?.id === x.id ? 'active' : ''}"><span class="signal-mark">${svgIcon(x.kind === 'permit' ? 'file' : 'bolt', 16)}</span><div><b>${E(x.title)}</b><small>${E(x.kind)} · ${E(x.owner || 'Owner not assigned')} · checklist ${count}/${x.steps.length}</small></div>${badge(x.status.replaceAll('_', ' '), x.status === 'blocked' ? 'red' : x.status === 'approved' ? 'green' : 'amber')}</button>`;
+      })
+      .join('') || '<p class="muted pad">No permits or dependencies recorded yet.</p>'
+  }</div></section><section class="panel permit-detail"><div class="panel-header"><div><h3>${sel ? E(sel.title) : 'Requirement detail'}</h3><p>${sel ? 'One requirement, one audit trail' : 'Select or create an item'}</p></div>${sel ? `<button class="link-button" data-action="edit-permit">Edit ${svgIcon('arrow', 14)}</button>` : ''}</div>${sel ? `<div class="decision-inspector"><div class="inspect-grid"><div><span>Status</span><strong>${E(sel.status.replaceAll('_', ' '))}</strong></div><div><span>Owner</span><strong>${E(sel.owner || 'Unassigned')}</strong></div><div><span>Target</span><strong>${sel.due_month ? 'M' + sel.due_month : 'TBD'}</strong></div><div><span>Delay</span><strong>+${sel.delay_months}mo</strong></div></div><p class="micro-note">${E(sel.detail || 'No requirement notes recorded.')}</p><div class="light-rule"></div><div class="section-row"><h3>Checklist</h3><span>${sel.steps.filter(x => x.is_done).length} / ${sel.steps.length}</span></div><div class="permit-steps">${sel.steps.map(z => `<label class="check-step"><input type="checkbox" data-step="${E(z.id)}" ${z.is_done ? 'checked' : ''}><span>${E(z.title)}</span></label>`).join('') || '<p class="muted">No checklist entries. Add the required steps.</p>'}</div><form id="permit-step-form" class="inline-form"><input name="title" required maxlength="200" placeholder="Add a review step"><button type="submit" class="btn outline">Add</button></form><div class="light-rule"></div><div class="section-row"><h3>Notes and activity</h3><small>${sel.notes.length} note(s)</small></div><div class="permit-notes">${sel.notes.map(n => `<article><p>${E(n.body)}</p><small>${dt(n.created_at)}</small></article>`).join('') || '<p class="muted">No notes yet.</p>'}</div><form id="permit-note-form" class="inline-form"><input name="body" required maxlength="3000" placeholder="Document an update"><button type="submit" class="btn outline">Record</button></form><div class="light-rule"></div><h3>Supporting evidence</h3>${sel.evidence_id ? `<p class="micro-note">Linked source: ${E(state.evidence.find(x => x.id === sel.evidence_id)?.title || 'No longer available')}</p>` : '<p class="micro-note">No document linked. Status is self-reported and not an approval.</p>'}<button data-view="evidence" class="link-button">View evidence library ${svgIcon('arrow', 14)}</button></div>` : '<div class="empty-small"><p>Choose a requirement from the queue.</p></div>'}</section></div></div>`;
+}
+function intelligenceView() {
+  const pid = state.selected;
+  const changes = state.intelChanges;
+  const proposals = state.intelProposals;
+  const meetings = state.intelMeetings;
+  return `<div class="content-in">${titleBlock('SOURCE WATCH', 'Intelligence & Agent Council', 'Dated source imports, attributable row differences, human-reviewed milestone proposals, and model reviews.')}${riskStatusStrip()}
+<div class="stat-grid three"><div class="stat"><span>SOURCE SNAPSHOTS</span><strong>${state.intelSnapshots.length}</strong><small>Original CSV hashes retained</small></div><div class="stat"><span>DETECTED ROW CHANGES</span><strong>${changes.length}</strong><small>Observed, not utility-verified</small></div><div class="stat"><span>AWAITING APPROVAL</span><strong>${proposals.filter(x => x.status === 'pending').length}</strong><small>Milestone changes never auto-apply</small></div></div>
 <div class="decision-two spaced"><section class="panel"><div class="panel-header"><div><h3>Import dated public source</h3><p>Upload a CSV you obtained from the provider. PowerPath checks only the declared provider domain; it does not authenticate the bytes, and the file is stored as operator-supplied.</p></div></div>
-<form id="intel-import-form" class="pad intel-form"><label>Source catalog<select name="source_key" id="intel-source-key">${state.intelSources.map(x=>`<option value="${E(x.key)}">${E(x.name)}</option>`).join('')}</select></label><label>Source URL<input name="source_url" id="intel-source-url" value="${E(state.intelSources[0]?.url||'')}" type="url" required></label><label>Provider publication date (vintage)<input name="source_published_date" type="date" required max="${new Date().toISOString().slice(0,10)}" value=""></label><label>CSV snapshot<input type="file" name="file" accept=".csv,text/csv" required></label><button type="submit" class="btn primary">Import and compare</button><p class="micro-note">EIA/PJM/ERCOT generation data is NOT a commitment to supply this data center. Large-load service and available MW remain unverified.</p></form></section>
-<section class="panel"><div class="panel-header"><div><h3>Ten-role executive review</h3><p>Offline, deterministic issue summaries work now. Live model calls require a local API key and explicit opt-in via CLI.</p></div></div><div class="pad"><button class="btn primary" data-action="run-agent-council">Run offline executive review</button><p class="micro-note spaced">The offline report is not 10 independent AI agents. It performs no external action and cannot approve financing.</p>${meetings.slice(0,4).map(x=>`<div class="intel-item"><b>${E(x.mode)} · ${E(x.status)}</b><small>${dt(x.created_at)} · ${E(x.model||'No API calls')}</small><p>${E(x.mission)}</p><button class="link-button" data-agent-meeting="${E(x.id)}">Open report</button></div>`).join('')}</div></section></div>
-<section class="panel spaced"><div class="panel-header"><div><h3>Changes requiring investigation</h3><p>A status, date or capacity change is an observation in the source — not a project-specific energization change.</p></div></div><div class="intel-list">${changes.slice(0,45).map(c=>`<div class="intel-item"><div class="intel-item-head"><strong>${E(c.source_key)} · ${E(c.record_id)}</strong>${badge(c.change_type,'amber')}</div><small>${dt(c.created_at)}</small><p>${E(Object.keys(c.delta||{}).map(k=>`${k}: ${String(c.delta[k]?.before??'—')} → ${String(c.delta[k]?.after??'—')}`).join(' · ')||'Record added or removed')}</p><form class="intel-proposal-form" data-change="${E(c.id)}"><label>Link to an existing milestone<select name="milestone_id" required><option value="">Select milestone</option>${state.milestones.map(m=>`<option value="${E(m.id)}">${E(m.title)}</option>`).join('')}</select></label><label>Proposed delay (months)<input type="number" min="0" max="120" name="proposed_delay_months" value="0" required></label><label>Reason / evidence gap<input name="reason" minlength="10" maxlength="1000" placeholder="Explain relevance to this specific service path" required></label><button class="btn outline" type="submit">Draft milestone proposal</button></form></div>`).join('')||'<div class="empty-small">No changes yet. Import two dated source snapshots from the same provider to compare records.</div>'}</div></section>
-<section class="panel spaced"><div class="panel-header"><div><h3>Review queue</h3><p>Approval updates the linked internal milestone. It does not approve utility service or silently change the original financial case.</p></div></div><div class="intel-list">${proposals.slice(0,35).map(p=>`<div class="intel-item"><div class="intel-item-head"><b>${E(state.milestones.find(m=>m.id===p.milestone_id)?.title||'Milestone')}</b>${badge(p.status,p.status==='approved'?'green':'amber')}</div><p>Proposed delay: ${p.proposed_delay_months} months · ${E(p.reason)}</p>${p.status==='pending'?`<div class="intel-actions"><button class="btn outline" data-impact="${E(p.id)}">Preview finance impact</button><button class="btn outline" data-proposal-id="${E(p.id)}" data-proposal-decision="reject">Reject</button><button class="btn primary" data-proposal-id="${E(p.id)}" data-proposal-decision="approve">Approve internal milestone change</button></div>`:''}</div>`).join('')||'<div class="empty-small">No proposals. Source changes can be linked to a milestone for review.</div>'}</div></section>
-<section class="panel spaced"><div class="panel-header"><div><h3>Recorded project activity</h3><p>Local audit trail for saved source imports, agent reports, and approved decisions.</p></div></div><div class="action-feed">${state.activity.slice(0,20).map(x=>`<div class="signal static"><span class="signal-mark">${svgIcon('activity',16)}</span><div><b>${E(x.action.replaceAll('.',' / '))}</b><small>${dt(x.created_at)}</small></div>${badge('Recorded','navy')}</div>`).join('')}</div></section></div>`;}
-function geoPanel(){const sel=state.geoAssets.find(x=>x.id===state.selectedGeo)||state.geoAssets[0];const p=active();
- const geocoded=state.paths.filter(x=>x.latitude!==null&&x.longitude!==null);
- const sourceSummary=`<div class="geo-summary-column"><div class="geo-summary-stat"><strong>${state.geoAssets.length}</strong><span>Mapped source records</span></div><div class="geo-summary-stat"><strong>${geocoded.length}</strong><span>Geolocated analyst paths</span></div><p>Geographic distance, plant data and voltage references do not establish utility service rights. All asset locations are associated with their citations, not with this fictional campus.</p><p>To inspect a source in real geographic context, select a record on the right and open OpenStreetMap.</p></div>`;
- const list=state.geoAssets.map(x=>`<button data-geo="${E(x.id)}" class="geo-asset-row ${state.selectedGeo===x.id?'active':''}"><b>${E(x.name)}</b><span>${E(x.asset_type.replaceAll('_',' '))} · ${E(x.source_provider)} · ${E(x.vintage)} · ${E(x.evidence_level.replaceAll('_',' '))}</span></button>`).join('');
- return `<section class="panel geo-suite"><div class="panel-header"><div><h3>Geographic & utility intelligence</h3><p>WGS84 geolocated evidence, not assumed geographic pins or available transmission capacity.</p></div><span class="badge amber">NO VERIFIED AVAILABLE MW</span></div>
+<form id="intel-import-form" class="pad intel-form"><label>Source catalog<select name="source_key" id="intel-source-key">${state.intelSources.map(x => `<option value="${E(x.key)}">${E(x.name)}</option>`).join('')}</select></label><label>Source URL<input name="source_url" id="intel-source-url" value="${E(state.intelSources[0]?.url || '')}" type="url" required></label><label>Provider publication date (vintage)<input name="source_published_date" type="date" required max="${new Date().toISOString().slice(0, 10)}" value=""></label><label>CSV snapshot<input type="file" name="file" accept=".csv,text/csv" required></label><button type="submit" class="btn primary">Import and compare</button><p class="micro-note">EIA/PJM/ERCOT generation data is NOT a commitment to supply this data center. Large-load service and available MW remain unverified.</p></form></section>
+<section class="panel"><div class="panel-header"><div><h3>Ten-role executive review</h3><p>Offline, deterministic issue summaries work now. Live model calls require a local API key and explicit opt-in via CLI.</p></div></div><div class="pad"><button class="btn primary" data-action="run-agent-council">Run offline executive review</button><p class="micro-note spaced">The offline report is not 10 independent AI agents. It performs no external action and cannot approve financing.</p>${meetings
+    .slice(0, 4)
+    .map(
+      x =>
+        `<div class="intel-item"><b>${E(x.mode)} · ${E(x.status)}</b><small>${dt(x.created_at)} · ${E(x.model || 'No API calls')}</small><p>${E(x.mission)}</p><button class="link-button" data-agent-meeting="${E(x.id)}">Open report</button></div>`
+    )
+    .join('')}</div></section></div>
+<section class="panel spaced"><div class="panel-header"><div><h3>Changes requiring investigation</h3><p>A status, date or capacity change is an observation in the source — not a project-specific energization change.</p></div></div><div class="intel-list">${
+    changes
+      .slice(0, 45)
+      .map(
+        c =>
+          `<div class="intel-item"><div class="intel-item-head"><strong>${E(c.source_key)} · ${E(c.record_id)}</strong>${badge(c.change_type, 'amber')}</div><small>${dt(c.created_at)}</small><p>${E(
+            Object.keys(c.delta || {})
+              .map(k => `${k}: ${String(c.delta[k]?.before ?? '—')} → ${String(c.delta[k]?.after ?? '—')}`)
+              .join(' · ') || 'Record added or removed'
+          )}</p><form class="intel-proposal-form" data-change="${E(c.id)}"><label>Link to an existing milestone<select name="milestone_id" required><option value="">Select milestone</option>${state.milestones.map(m => `<option value="${E(m.id)}">${E(m.title)}</option>`).join('')}</select></label><label>Proposed delay (months)<input type="number" min="0" max="120" name="proposed_delay_months" value="0" required></label><label>Reason / evidence gap<input name="reason" minlength="10" maxlength="1000" placeholder="Explain relevance to this specific service path" required></label><button class="btn outline" type="submit">Draft milestone proposal</button></form></div>`
+      )
+      .join('') ||
+    '<div class="empty-small">No changes yet. Import two dated source snapshots from the same provider to compare records.</div>'
+  }</div></section>
+<section class="panel spaced"><div class="panel-header"><div><h3>Review queue</h3><p>Approval updates the linked internal milestone. It does not approve utility service or silently change the original financial case.</p></div></div><div class="intel-list">${
+    proposals
+      .slice(0, 35)
+      .map(
+        p =>
+          `<div class="intel-item"><div class="intel-item-head"><b>${E(state.milestones.find(m => m.id === p.milestone_id)?.title || 'Milestone')}</b>${badge(p.status, p.status === 'approved' ? 'green' : 'amber')}</div><p>Proposed delay: ${p.proposed_delay_months} months · ${E(p.reason)}</p>${p.status === 'pending' ? `<div class="intel-actions"><button class="btn outline" data-impact="${E(p.id)}">Preview finance impact</button><button class="btn outline" data-proposal-id="${E(p.id)}" data-proposal-decision="reject">Reject</button><button class="btn primary" data-proposal-id="${E(p.id)}" data-proposal-decision="approve">Approve internal milestone change</button></div>` : ''}</div>`
+      )
+      .join('') ||
+    '<div class="empty-small">No proposals. Source changes can be linked to a milestone for review.</div>'
+  }</div></section>
+<section class="panel spaced"><div class="panel-header"><div><h3>Recorded project activity</h3><p>Local audit trail for saved source imports, agent reports, and approved decisions.</p></div></div><div class="action-feed">${state.activity
+    .slice(0, 20)
+    .map(
+      x =>
+        `<div class="signal static"><span class="signal-mark">${svgIcon('activity', 16)}</span><div><b>${E(x.action.replaceAll('.', ' / '))}</b><small>${dt(x.created_at)}</small></div>${badge('Recorded', 'navy')}</div>`
+    )
+    .join('')}</div></section></div>`;
+}
+function geoPanel() {
+  const sel = state.geoAssets.find(x => x.id === state.selectedGeo) || state.geoAssets[0];
+  const p = active();
+  const geocoded = state.paths.filter(x => x.latitude !== null && x.longitude !== null);
+  const sourceSummary = `<div class="geo-summary-column"><div class="geo-summary-stat"><strong>${state.geoAssets.length}</strong><span>Mapped source records</span></div><div class="geo-summary-stat"><strong>${geocoded.length}</strong><span>Geolocated analyst paths</span></div><p>Geographic distance, plant data and voltage references do not establish utility service rights. All asset locations are associated with their citations, not with this fictional campus.</p><p>To inspect a source in real geographic context, select a record on the right and open OpenStreetMap.</p></div>`;
+  const list = state.geoAssets
+    .map(
+      x =>
+        `<button data-geo="${E(x.id)}" class="geo-asset-row ${state.selectedGeo === x.id ? 'active' : ''}"><b>${E(x.name)}</b><span>${E(x.asset_type.replaceAll('_', ' '))} · ${E(x.source_provider)} · ${E(x.vintage)} · ${E(x.evidence_level.replaceAll('_', ' '))}</span></button>`
+    )
+    .join('');
+  return `<section class="panel geo-suite"><div class="panel-header"><div><h3>Geographic & utility intelligence</h3><p>WGS84 geolocated evidence, not assumed geographic pins or available transmission capacity.</p></div><span class="badge amber">NO VERIFIED AVAILABLE MW</span></div>
  <div class="geo-columns"><div>${sourceSummary}</div>
- <div class="geo-details"><h3>Source registry</h3><p class="micro-note">${state.geoAssets.length} source record(s), ${geocoded.length} geolocated candidate path(s). Import authoritative EIA-860 or queue records without inferring grid headroom.</p><div class="geo-list">${list||'<p class="micro-note">No source-backed coordinates loaded. You can import an EIA-860 CSV or add a cited point.</p>'}</div>
- ${sel?`<div class="geo-selected"><strong>${E(sel.name)}</strong><small>${E(sel.latitude.toFixed(5))}, ${E(sel.longitude.toFixed(5))}</small><small>Source record ${E(sel.source_record_id)} · vintage ${E(sel.vintage)}</small><p>Available MW: <b>Not established</b></p><a href="${E(sel.source_url)}" target="_blank" rel="noopener noreferrer">Review public source</a><a href="https://www.openstreetmap.org/?mlat=${sel.latitude.toFixed(6)}&amp;mlon=${sel.longitude.toFixed(6)}#map=11/${sel.latitude.toFixed(6)}/${sel.longitude.toFixed(6)}" target="_blank" rel="noopener noreferrer">View on OpenStreetMap ↗</a></div>`:''}
+ <div class="geo-details"><h3>Source registry</h3><p class="micro-note">${state.geoAssets.length} source record(s), ${geocoded.length} geolocated candidate path(s). Import authoritative EIA-860 or queue records without inferring grid headroom.</p><div class="geo-list">${list || '<p class="micro-note">No source-backed coordinates loaded. You can import an EIA-860 CSV or add a cited point.</p>'}</div>
+ ${sel ? `<div class="geo-selected"><strong>${E(sel.name)}</strong><small>${E(sel.latitude.toFixed(5))}, ${E(sel.longitude.toFixed(5))}</small><small>Source record ${E(sel.source_record_id)} · vintage ${E(sel.vintage)}</small><p>Available MW: <b>Not established</b></p><a href="${E(sel.source_url)}" target="_blank" rel="noopener noreferrer">Review public source</a><a href="https://www.openstreetmap.org/?mlat=${sel.latitude.toFixed(6)}&amp;mlon=${sel.longitude.toFixed(6)}#map=11/${sel.latitude.toFixed(6)}/${sel.longitude.toFixed(6)}" target="_blank" rel="noopener noreferrer">View on OpenStreetMap ↗</a></div>` : ''}
  <details class="geo-import"><summary>Import geographic records (.csv)</summary><form id="geo-import-form"><label>CSV file<input name="file" type="file" accept=".csv,text/csv" required></label><label>Source provider<input name="source_provider" value="EIA-860" maxlength="120" required></label><label>Public source URL<input name="source_url" value="https://www.eia.gov/electricity/data/eia860/" required></label><label>Survey / publication vintage<input name="vintage" value="2025" required></label><button class="btn primary" type="submit">Import source points</button><small>Up to 250 rows. Columns: Plant Code, Plant Name, Latitude, Longitude, State, County, Grid Voltage (kV), etc. This stores source references—not a capacity commitment.</small></form></details>
  </div></div></section>`;
 }
-function milestonePanel(){const x=state.paths.find(y=>y.id===state.selectedPath)||state.paths[0];if(!x)return '';
- const items=state.milestones.filter(y=>y.path_id===x.id);const open=items.filter(y=>y.status!=='completed');
- const milestoneRows=items.map(z=>{const pred=items.find(a=>a.id===z.predecessor_id);return `<div class="milestone-row"><div><b>${E(z.title)}</b><small>${E(z.category)} · ${E(z.status)} · ${pred?'Depends on '+E(pred.title):'Parallel workstream'}${z.planned_month?' · target M'+z.planned_month:''}</small></div><div><b>+${z.status==='completed'?0:z.delay_months} mo</b>${z.source_url?`<a href="${E(z.source_url)}" target="_blank" rel="noopener noreferrer">Source</a>`:''}</div></div>`}).join('');
- return `<section class="panel milestone-suite"><div class="panel-header"><div><h3>Linked energization critical path</h3><p>Dependent delays accumulate along a chain; parallel risks use the maximum. All timing remains analyst-entered.</p></div><span class="badge amber">UNVERIFIED SCHEDULE</span></div><div class="milestone-body"><div class="milestone-rail"><h3>${E(x.name)}</h3><p>${open.length} unresolved milestones, ${items.length} total</p>${milestoneRows||'<p class="micro-note">No linked milestones yet. Enter an interconnection or permit dependency below.</p>'}</div>
- <form id="milestone-form" class="milestone-form"><h3>Add dependency</h3><label>Milestone<input name="title" maxlength="180" placeholder="Interconnection study results" required></label><label>Workstream<select name="category"><option value="interconnection">Interconnection</option><option value="utility">Utility service</option><option value="permitting">Permitting</option><option value="construction">Construction</option><option value="finance">Finance</option></select></label><label>Status<select name="status"><option value="planned">Planned</option><option value="submitted">Submitted</option><option value="awaiting">Awaiting other party</option><option value="blocked">Blocked</option><option value="completed">Completed</option></select></label><label>Target model month<input type="number" name="planned_month" min="1" max="360" placeholder="e.g. 18"></label><label>Incremental delay (months)<input type="number" name="delay_months" min="0" max="120" value="0" required></label><label>Depends on<select name="predecessor_id"><option value="">None / parallel</option>${items.map(z=>`<option value="${E(z.id)}">${E(z.title)}</option>`).join('')}</select></label><label>Link to PermitIQ<select name="permit_id"><option value="">No linked requirement</option>${state.permits.filter(y=>y.path_id===x.id).map(y=>`<option value="${E(y.id)}">${E(y.title)}</option>`).join('')}</select></label><label>Public source URL (optional)<input name="source_url" placeholder="https://..." type="url"></label><label>Evidence / assumptions<input name="source_note" placeholder="Expected timing not utility confirmed"></label><button class="btn primary" type="submit">Save milestone</button></form></div>
+function milestonePanel() {
+  const x = state.paths.find(y => y.id === state.selectedPath) || state.paths[0];
+  if (!x) return '';
+  const items = state.milestones.filter(y => y.path_id === x.id);
+  const open = items.filter(y => y.status !== 'completed');
+  const milestoneRows = items
+    .map(z => {
+      const pred = items.find(a => a.id === z.predecessor_id);
+      return `<div class="milestone-row"><div><b>${E(z.title)}</b><small>${E(z.category)} · ${E(z.status)} · ${pred ? 'Depends on ' + E(pred.title) : 'Parallel workstream'}${z.planned_month ? ' · target M' + z.planned_month : ''}</small></div><div><b>+${z.status === 'completed' ? 0 : z.delay_months} mo</b>${z.source_url ? `<a href="${E(z.source_url)}" target="_blank" rel="noopener noreferrer">Source</a>` : ''}</div></div>`;
+    })
+    .join('');
+  return `<section class="panel milestone-suite"><div class="panel-header"><div><h3>Linked energization critical path</h3><p>Dependent delays accumulate along a chain; parallel risks use the maximum. All timing remains analyst-entered.</p></div><span class="badge amber">UNVERIFIED SCHEDULE</span></div><div class="milestone-body"><div class="milestone-rail"><h3>${E(x.name)}</h3><p>${open.length} unresolved milestones, ${items.length} total</p>${milestoneRows || '<p class="micro-note">No linked milestones yet. Enter an interconnection or permit dependency below.</p>'}</div>
+ <form id="milestone-form" class="milestone-form"><h3>Add dependency</h3><label>Milestone<input name="title" maxlength="180" placeholder="Interconnection study results" required></label><label>Workstream<select name="category"><option value="interconnection">Interconnection</option><option value="utility">Utility service</option><option value="permitting">Permitting</option><option value="construction">Construction</option><option value="finance">Finance</option></select></label><label>Status<select name="status"><option value="planned">Planned</option><option value="submitted">Submitted</option><option value="awaiting">Awaiting other party</option><option value="blocked">Blocked</option><option value="completed">Completed</option></select></label><label>Target model month<input type="number" name="planned_month" min="1" max="360" placeholder="e.g. 18"></label><label>Incremental delay (months)<input type="number" name="delay_months" min="0" max="120" value="0" required></label><label>Depends on<select name="predecessor_id"><option value="">None / parallel</option>${items.map(z => `<option value="${E(z.id)}">${E(z.title)}</option>`).join('')}</select></label><label>Link to PermitIQ<select name="permit_id"><option value="">No linked requirement</option>${state.permits
+   .filter(y => y.path_id === x.id)
+   .map(y => `<option value="${E(y.id)}">${E(y.title)}</option>`)
+   .join(
+     ''
+   )}</select></label><label>Public source URL (optional)<input name="source_url" placeholder="https://..." type="url"></label><label>Evidence / assumptions<input name="source_note" placeholder="Expected timing not utility confirmed"></label><button class="btn primary" type="submit">Save milestone</button></form></div>
  <div class="milestone-actions"><button class="btn outline" data-action="new-critical-sensitivity">Calculate critical-path sensitivity</button><span class="micro-note">Creates a new model version; never overwrites base inputs or certifies energization.</span></div></section>`;
 }
-function syncUrl(view:View){try{const q=new URLSearchParams(location.search);if(state.selected)q.set('project',state.selected);else q.delete('project');q.set('view',view);q.delete('action');const next=location.pathname+'?'+q.toString();const cur=new URLSearchParams(location.search);if(next===location.pathname+location.search)return;if(!restoringHistory&&(cur.get('view')!==view||cur.get('project')!==(state.selected||null)))history.pushState(null,'',next);else history.replaceState(null,'',next);}catch{}}
-let restoringHistory=false;
-window.addEventListener('popstate',async()=>{const q=new URLSearchParams(location.search);const v=q.get('view');const pid=q.get('project');restoringHistory=true;try{if(pid&&pid!==state.selected&&state.projects.some(p=>p.id===pid)){state.selected=pid;await refreshWorkspace();}if(v&&['portfolio','overview','decision','execution','intelligence','power','model','facilities','evidence','history'].includes(v))state.view=v as View;state.modal=null;render();}finally{restoringHistory=false;}});
-function applyGeometry(root:ParentNode){root.querySelectorAll<HTMLElement>('[data-left],[data-top],[data-width]').forEach(el=>{const d=el.dataset;if(d.left!==undefined)el.style.left=d.left+'%';if(d.top!==undefined)el.style.top=d.top+'%';if(d.width!==undefined)el.style.width=d.width+'%';});}
-new MutationObserver(()=>applyGeometry(document)).observe(document.documentElement,{childList:true,subtree:true});
-function render(){const root=document.getElementById('app');if(!root)return;const view:View=state.selected?state.view:'portfolio';syncUrl(view);let content=({portfolio:projectsView,overview:overviewView,decision:decisionView,execution:executionView,intelligence:intelligenceView,power:powerPathsView,model:modelView,facilities:facilitiesView,evidence:evidenceView,history:historyView})[view](); if(view==='power')content+='<div class="content-in extended-section">'+geoPanel()+'</div>';if(view==='execution')content+='<div class="content-in extended-section">'+milestonePanel()+'</div>';
-root.innerHTML=`<div class="shell">${nav()}<div class="main-area">${renderTop()}<main id="main" tabindex="-1">${content}</main></div></div>${modalMarkup()}<div class="toast" id="toast" role="status"></div><div class="nav-mask ${state.mobileNav?'visible':''}" data-action="toggle-nav"></div>`;
-bindEvents();}
-async function chooseScenario(id:string){if(state.dirty && !confirm('Discard unsaved changes and switch scenarios?'))return;state.activeScenario=id;state.draft=structuredClone(activeScenario()?.config||null);state.dirty=false;state.currentRun=null;
-const r=state.runs.find((x:any)=>x.scenario_id===id);
-if(r)try{state.currentRun=await api(`/projects/${state.selected}/runs/${r.id}`)}catch{};
-render();}
-function updateDraft(k:string,v:any){const obj=state.draft?.project||state.draft;if(!obj)return;obj[k]=v;state.dirty=true;document.getElementById('dirty-label')?.replaceChildren(document.createTextNode('Unsaved changes'));}
-async function saveDraft(run:boolean){const s=activeScenario();if(!s||!state.selected||!state.draft)throw Error('Select a scenario first');
- // JSON editing is applied explicitly, never guessed from textarea state.
- const updated=await api(`/projects/${state.selected}/scenarios/${s.id}`,'PUT',{name:s.name,mode:s.mode,config:state.draft});s.version=updated.version;s.config=structuredClone(state.draft);state.dirty=false;
- if(run){const r=await api(`/projects/${state.selected}/scenarios/${s.id}/runs`,'POST');state.currentRun=r;}
-
- await refreshWorkspace();if(run){const latest=state.runs.find((x:any)=>x.scenario_id===s.id);if(latest)state.currentRun=await api(`/projects/${state.selected}/runs/${latest.id}`);state.activeScenario=s.id;state.draft=structuredClone(s.config);}
- render();toast(run?'Model calculated and saved as a versioned run':'Scenario version '+s.version+' saved');}
-async function newScenario(mode:'underwrite'|'facilities'|'notes_v259',name='Base case'){
- if(!state.selected)return;const defaults=state.defaults;
- let config:any=mode==='underwrite'?structuredClone(defaults.config):mode==='notes_v259'?structuredClone(defaults.notes):{project:structuredClone(defaults.config),facilities:structuredClone(defaults.facilities)};
- const p=active();if(p&&mode==='underwrite'&&p.target_mw>0){config.buildings=config.buildings.map((b:any)=>({...b}));} // Defaults remain illustrative; never silently assign disclosed MW.
- let unique=name,ix=1;while(state.scenarios.some(s=>s.name===unique)){unique=name+' '+(++ix)}
- const res=await api(`/projects/${state.selected}/scenarios`,'POST',{name:unique,mode,config});await refreshWorkspace();state.activeScenario=res.id;state.draft=structuredClone(res.config||config); /* v30.8.2: keep server-assigned fields (engineVersion) so the next save cannot silently downgrade the engine */state.view=mode==='underwrite'?'model':'facilities';render();toast('Scenario created with illustrative assumptions');}
-async function handleAction(action:string,node:HTMLElement){try{
- if(action==='toggle-nav'){state.mobileNav=!state.mobileNav;render();return;}
- if(action==='run-agent-council'){if(!state.selected)return;const r=await api(`/projects/${state.selected}/agents/meetings`,'POST',{mission:'Review all recent public source changes, identify evidence gaps, assess credit and schedule implications, and propose safe actions.'});await refreshWorkspace();render();toast(`Saved ${r.roles.length}-role OFFLINE review. No model API calls.`);return;}
- if(action==='refresh'){await refreshProjects();await refreshWorkspace();render();toast('Workspace refreshed');return;}
- if(action==='new-critical-sensitivity'){const p=state.paths.find(x=>x.id===state.selectedPath)||state.paths[0];const base=state.scenarios.find(x=>x.mode==='underwrite'&&!x.config?.powerPathLink);if(!p||!base)throw Error('Choose a power path and base underwriting scenario');const v=await api(`/projects/${state.selected}/paths/${p.id}/sensitivity-v263`,'POST',{source_scenario_id:base.id});await api(`/projects/${state.selected}/scenarios/${v.id}/runs`,'POST');await refreshWorkspace();state.activeScenario=v.id;state.draft=structuredClone(state.scenarios.find(x=>x.id===v.id)?.config||v.config);const r=state.runs.find((x:any)=>x.scenario_id===v.id);if(r)state.currentRun=await api(`/projects/${state.selected}/runs/${r.id}`);state.view='model';render();toast(`Saved a critical-path sensitivity (+${v.incremental_delay_months} months); not utility confirmed`);return;}
- if(action==='new-path'){state.modal='path';render();return;}
- if(action==='edit-path'){state.modal='path-edit';render();return;}
- if(action==='new-permit'){state.modal='permit';render();return;}
- if(action==='edit-permit'){state.modal='permit-edit';render();return;}
- if(action==='new-project'){state.modal='project-new';render();return;}
- if(action==='edit-project'){state.modal='project-edit';render();return;}
- if(action==='new-evidence'){state.modal='evidence';render();return;}
- if(action==='new-scenario'){state.modal='scenario';render();return;}
- if(action==='new-facility-scenario'){await newScenario('notes_v259','v25.9 Notes case');return;}
- if(action==='new-legacy-facility-scenario'){await newScenario('facilities','Legacy facilities case');return;}
- if(action==='close-modal'){state.modal=null;render();return;}
- if(action==='save-stage'){const p=active()!;const selected=(document.getElementById('stage-select') as HTMLSelectElement).value;
-  await api(`/projects/${p.id}`,'PATCH',{...p,status:selected});await refreshProjects();render();toast('Project phase updated (internal milestone only)');return;}
- if(action==='apply-json'||action==='apply-facility-json'){const id=action==='apply-json'?'model-json':'facility-json';const val=(document.getElementById(id) as HTMLTextAreaElement)?.value;const parsed=JSON.parse(val);if(typeof parsed!=='object'||!parsed)throw Error('Scenario JSON must be an object');state.draft=parsed;state.dirty=true;render();toast('Advanced JSON applied; save to persist');return;}
- if(action==='save-scenario'||action==='save-run'){
-  const face=document.getElementById('facility-face') as HTMLInputElement|null,coupon=document.getElementById('facility-coupon') as HTMLInputElement|null;
-  if(['facilities','notes_v259'].includes(activeScenario()?.mode||'')&&face&&coupon){const note=state.draft?.facilities?.find((f:any)=>f.type==='note'||f.type==='fixed_note');if(note){note.faceM=Number(face.value);note.couponPct=Number(coupon.value);}}
-  await saveDraft(action==='save-run');return;}
- if(action==='export-current'){if(state.currentRun)window.location.href=`/api/projects/${state.selected}/runs/${state.currentRun.id}/csv`;return;}
- }catch(e){toast((e as Error).message,'error');}}
-function bindEvents(){document.querySelectorAll<HTMLElement>('[data-view]').forEach(el=>el.addEventListener('click',()=>goto(el.dataset.view as View)));
- document.querySelectorAll<HTMLElement>('[data-project]').forEach(el=>el.addEventListener('click',()=>enterProject(el.dataset.project!)));
- document.querySelectorAll<HTMLElement>('[data-action]').forEach(el=>el.addEventListener('click',()=>handleAction(el.dataset.action!,el)));
- document.querySelectorAll<HTMLElement>('[data-path]').forEach(el=>el.addEventListener('click',()=>{state.selectedPath=el.dataset.path||null;render()}));
- document.querySelectorAll<HTMLElement>('[data-geo]').forEach(el=>{const select=()=>{state.selectedGeo=el.dataset.geo||null;render()};el.addEventListener('click',select);el.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();select()}})});
- document.querySelectorAll<HTMLElement>('[data-permit]').forEach(el=>el.addEventListener('click',()=>{state.selectedPermit=el.dataset.permit||null;state.view='execution';render()}));
- document.querySelectorAll<HTMLInputElement>('[data-step]').forEach(el=>el.addEventListener('change',async()=>{try{await api(`/projects/${state.selected}/permits/${state.selectedPermit}/steps/${el.dataset.step}/toggle`,'POST');await refreshWorkspace();render()}catch(e){toast((e as Error).message,'error')}}));
- const sourceSelect=document.getElementById('intel-source-key') as HTMLSelectElement|null;
- sourceSelect?.addEventListener('change',()=>{const src=state.intelSources.find(x=>x.key===sourceSelect.value);const u=document.getElementById('intel-source-url') as HTMLInputElement|null;if(u&&src)u.value=src.url;});
- const importForm=document.getElementById('intel-import-form') as HTMLFormElement|null;
- importForm?.addEventListener('submit',async event=>{event.preventDefault();try{const fd=new FormData(importForm);const file=fd.get('file') as File;if(!file||file.size>1200000)throw Error('CSV must be 1.2 MB or less');const r=await api(`/projects/${state.selected}/intelligence/snapshots`,'POST',{source_key:String(fd.get('source_key')),source_url:String(fd.get('source_url')),source_published_date:String(fd.get('source_published_date')),csv_text:await file.text()});await refreshWorkspace();render();toast(`Imported ${r.count} source row(s); detected ${r.changes} changes`);}catch(e){toast((e as Error).message,'error');}});
- document.querySelectorAll<HTMLFormElement>('.intel-proposal-form').forEach(form=>form.addEventListener('submit',async event=>{event.preventDefault();try{const fd=new FormData(form);await api(`/projects/${state.selected}/intelligence/proposals`,'POST',{change_id:form.dataset.change,milestone_id:String(fd.get('milestone_id')),proposed_delay_months:Number(fd.get('proposed_delay_months')),reason:String(fd.get('reason'))});await refreshWorkspace();render();toast('Proposal saved; awaits explicit approval');}catch(e){toast((e as Error).message,'error');}}));
- document.querySelectorAll<HTMLElement>('[data-impact]').forEach(el=>el.addEventListener('click',async()=>{try{const r=await api(`/projects/${state.selected}/intelligence/proposals/${el.dataset.impact}/impact`);const d=typeof r.npv_deltaM==='number'?money(r.npv_deltaM):'unavailable';alert(`SYNTHETIC SCENARIO ONLY — NOT A TRANSACTION VALUATION\n\nBefore effective delay: ${r.before.delay_months} months\nProposed effective delay: ${r.proposed.delay_months} months\nModeled NPV change: ${d}\n\n${r.warning}`);}catch(e){toast((e as Error).message,'error');}}));
- document.querySelectorAll<HTMLElement>('[data-proposal-decision]').forEach(el=>el.addEventListener('click',async()=>{try{const choice=el.dataset.proposalDecision;const r=await api(`/projects/${state.selected}/intelligence/proposals/${el.dataset.proposalId}/${choice}`,'POST');await refreshWorkspace();render();toast(`Milestone proposal ${r.decision}; underlying finance scenario unchanged`);}catch(e){toast((e as Error).message,'error');}}));
- document.querySelectorAll<HTMLElement>('[data-agent-meeting]').forEach(el=>el.addEventListener('click',async()=>{try{const r=await api(`/projects/${state.selected}/agents/meetings/${el.dataset.agentMeeting}`);alert(r.messages.map((x:any)=>x.role+' ['+x.mode+']\n'+x.content).join('\n\n--------\n\n'));}catch(e){toast((e as Error).message,'error');}}));
- const geoForm=document.getElementById('geo-import-form') as HTMLFormElement|null;geoForm?.addEventListener('submit',async ev=>{ev.preventDefault();try{const fd=new FormData(geoForm);const file=fd.get('file') as File;if(!file||file.size>600000)throw Error('CSV file must be under 600 KB');const csv_text=await file.text();const out=await api(`/projects/${state.selected}/geo-assets/import`,'POST',{csv_text,source_provider:String(fd.get('source_provider')),source_url:String(fd.get('source_url')),vintage:String(fd.get('vintage')),evidence_level:'user_supplied'});await refreshWorkspace();render();toast(`${out.count} geocoded source record(s) imported; no available MW confirmed`)}catch(e){toast((e as Error).message,'error')}});
- const mf=document.getElementById('milestone-form') as HTMLFormElement|null;mf?.addEventListener('submit',async ev=>{ev.preventDefault();try{const z=Object.fromEntries(new FormData(mf)) as Record<string,any>;z.path_id=state.selectedPath||state.paths[0]?.id;z.planned_month=z.planned_month?Number(z.planned_month):null;z.delay_months=Number(z.delay_months)||0;z.predecessor_id=z.predecessor_id||null;z.permit_id=z.permit_id||null;z.evidence_id=null;await api(`/projects/${state.selected}/milestones`,'POST',z);await refreshWorkspace();render();toast('Dependency saved; energization remains unverified')}catch(e){toast((e as Error).message,'error')}});
- const pfsteps=document.getElementById('permit-step-form') as HTMLFormElement|null;pfsteps?.addEventListener('submit',async ev=>{ev.preventDefault();const title=String(new FormData(pfsteps).get('title')||'');try{await api(`/projects/${state.selected}/permits/${state.selectedPermit}/steps`,'POST',{title});await refreshWorkspace();render()}catch(e){toast((e as Error).message,'error')}});
- const pfnotes=document.getElementById('permit-note-form') as HTMLFormElement|null;pfnotes?.addEventListener('submit',async ev=>{ev.preventDefault();const body=String(new FormData(pfnotes).get('body')||'');try{await api(`/projects/${state.selected}/permits/${state.selectedPermit}/notes`,'POST',{body});await refreshWorkspace();render()}catch(e){toast((e as Error).message,'error')}});
- const sens=document.getElementById('path-sensitivity-form') as HTMLFormElement|null;sens?.addEventListener('submit',async ev=>{ev.preventDefault();try{const fd=new FormData(sens);const res=await api(`/projects/${state.selected}/paths/${state.selectedPath}/sensitivity`,'POST',{source_scenario_id:String(fd.get('source_scenario_id')),include_open_permit_delay:true});await api(`/projects/${state.selected}/scenarios/${res.id}/runs`,'POST');await refreshWorkspace();state.activeScenario=res.id;state.draft=structuredClone(state.scenarios.find((x:Scenario)=>x.id===res.id)?.config||res.config);state.currentRun=await api(`/projects/${state.selected}/runs/${state.runs.find((x:any)=>x.scenario_id===res.id).id}`);state.view='model';render();toast('Saved and ran a new path-linked scenario. Previous model unchanged.')}catch(e){toast((e as Error).message,'error')}});
- document.querySelectorAll<HTMLElement>('[data-run]').forEach(el=>el.addEventListener('click',async()=>{try{state.currentRun=await api(`/projects/${state.selected}/runs/${el.dataset.run}`);const loaded=state.currentRun as Run;state.activeScenario=loaded.scenario_id;state.draft=structuredClone(activeScenario()?.config);state.view=['facilities','notes_v259'].includes(activeScenario()?.mode||'')?'facilities':'model';render()}catch(e){toast((e as Error).message,'error')}}));
- const ss=document.getElementById('scenario-select') as HTMLSelectElement|null;ss?.addEventListener('change',()=>chooseScenario(ss.value));
- document.querySelectorAll<HTMLInputElement|HTMLSelectElement>('[data-config]').forEach(el=>el.addEventListener('change',()=>{const value=el instanceof HTMLSelectElement?el.value:el.value===''?null:Number(el.value);updateDraft(el.dataset.config!,value);}));
- document.querySelectorAll<HTMLElement>('[data-attach]').forEach(el=>el.addEventListener('click',()=>{const input=document.createElement('input');input.type='file';input.accept='.pdf,.txt,.csv,.json,.md,.png,.jpg,.jpeg';input.onchange=async()=>{if(!input.files?.length)return;try{const form=new FormData();form.append('attachment',input.files[0]);const res=await fetch(`/api/projects/${state.selected}/evidence/${el.dataset.attach}/file`,{method:'POST',body:form});const body=await res.json();if(!res.ok)throw Error(body.detail||'Upload failed');await refreshWorkspace();render();toast('Evidence attachment stored with SHA-256 hash')}catch(e){toast((e as Error).message,'error')}};input.click()}));
- const pf=document.getElementById('project-form') as HTMLFormElement|null;pf?.addEventListener('submit',async ev=>{ev.preventDefault();const data=Object.fromEntries(new FormData(pf));data.target_mw=Number(data.target_mw) as any;try{if(state.modal==='project-edit'&&state.selected){await api(`/projects/${state.selected}`,'PATCH',data);state.modal=null;await refreshProjects();render();toast('Project saved')}else{const result=await api('/projects','POST',data);state.modal=null;await refreshProjects();await enterProject(result.id);toast('Project created')} }catch(e){toast((e as Error).message,'error')}});
- const sf=document.getElementById('scenario-form') as HTMLFormElement|null;sf?.addEventListener('submit',async ev=>{ev.preventDefault();const fd=Object.fromEntries(new FormData(sf));try{state.modal=null;await newScenario(fd.mode as any,String(fd.name))}catch(e){toast((e as Error).message,'error')}});
- const ef=document.getElementById('evidence-form') as HTMLFormElement|null;ef?.addEventListener('submit',async ev=>{ev.preventDefault();const fd=Object.fromEntries(new FormData(ef));try{const file=(document.getElementById('evidence-file') as HTMLInputElement).files?.[0];const record=await api(`/projects/${state.selected}/evidence`,'POST',fd);if(file){const form=new FormData();form.append('attachment',file);const res=await fetch(`/api/projects/${state.selected}/evidence/${record.id}/file`,{method:'POST',body:form});if(!res.ok){const body=await res.json();throw Error(body.detail||'Attachment failed: record saved without file');}}state.modal=null;await refreshWorkspace();render();toast('Evidence record saved')}catch(e){toast((e as Error).message,'error')}});
- const pathForm=document.getElementById('path-form') as HTMLFormElement|null;pathForm?.addEventListener('submit',async ev=>{ev.preventDefault();const data=Object.fromEntries(new FormData(pathForm)) as any;try{
-  for(const k of ['capacity_mw','power_month','latitude','longitude','delay_months','capex_uplift_pct','energy_uplift_pct'])data[k]=data[k]===''||data[k]==null?null:Number(data[k]);
-  for(const k of ['delay_months','capex_uplift_pct','energy_uplift_pct','capacity_mw'])data[k]=data[k]??0;
-  data.evidence_id=data.evidence_id||null;
-  const existing=state.modal==='path-edit'?candidateById():null;
-  const value=await api(`/projects/${state.selected}/paths${existing?'/'+existing.id:''}`,existing?'PUT':'POST',data);
-  state.selectedPath=value.id;state.modal=null;await refreshWorkspace();state.view='power';render();toast('Power-path assumptions saved; source verification still required');
- }catch(e){toast((e as Error).message,'error')}});
- const permitForm=document.getElementById('permit-form') as HTMLFormElement|null;permitForm?.addEventListener('submit',async ev=>{ev.preventDefault();const data=Object.fromEntries(new FormData(permitForm)) as any;try{
-  for(const k of ['due_month','delay_months'])data[k]=data[k]===''||data[k]==null?null:Number(data[k]);data.delay_months=data.delay_months??0;
-  data.path_id=data.path_id||null;data.evidence_id=data.evidence_id||null;
-  const existing=state.modal==='permit-edit'?permitById():null;
-  const value=await api(`/projects/${state.selected}/permits${existing?'/'+existing.id:''}`,existing?'PUT':'POST',data);
-  state.selectedPermit=value.id;state.modal=null;await refreshWorkspace();state.view='execution';render();toast('Requirement saved and linked to project audit trail');
- }catch(e){toast((e as Error).message,'error')}});
-
+function syncUrl(view: View) {
+  try {
+    const q = new URLSearchParams(location.search);
+    if (state.selected) q.set('project', state.selected);
+    else q.delete('project');
+    q.set('view', view);
+    q.delete('action');
+    const next = location.pathname + '?' + q.toString();
+    const cur = new URLSearchParams(location.search);
+    if (next === location.pathname + location.search) return;
+    if (!restoringHistory && (cur.get('view') !== view || cur.get('project') !== (state.selected || null)))
+      history.pushState(null, '', next);
+    else history.replaceState(null, '', next);
+  } catch {}
 }
-async function init(){try{const [health,defs]=await Promise.all([api('/health'),api('/defaults')]);state.defaults=defs;await refreshProjects();
- if(state.projects.length){state.selected=state.projects.find(p=>p.id===new URLSearchParams(location.search).get('project'))?.id||state.projects[0].id;await refreshWorkspace();const requestedView=new URLSearchParams(location.search).get('view');state.view=(['portfolio','overview','decision','execution','intelligence','power','model','facilities','evidence','history'].includes(requestedView||'')?requestedView:'portfolio') as View;}
- if(state.selected&&new URLSearchParams(location.search).get('action')==='new-scenario'){state.view='model';state.modal='scenario';}
- render();
-}catch(err){const root=document.getElementById('app');if(root)root.innerHTML=`<div class="fatal"><h1>Cannot connect to PowerPath API</h1><p>${E((err as Error).message)}</p><p>Start the local service with <code>./run_local.sh</code> and open http://127.0.0.1:8768</p></div>`;}}
+let restoringHistory = false;
+window.addEventListener('popstate', async () => {
+  const q = new URLSearchParams(location.search);
+  const v = q.get('view');
+  const pid = q.get('project');
+  restoringHistory = true;
+  try {
+    if (pid && pid !== state.selected && state.projects.some(p => p.id === pid)) {
+      state.selected = pid;
+      await refreshWorkspace();
+    }
+    if (
+      v &&
+      [
+        'portfolio',
+        'overview',
+        'decision',
+        'execution',
+        'intelligence',
+        'power',
+        'model',
+        'facilities',
+        'evidence',
+        'history'
+      ].includes(v)
+    )
+      state.view = v as View;
+    state.modal = null;
+    render();
+  } finally {
+    restoringHistory = false;
+  }
+});
+function applyGeometry(root: ParentNode) {
+  root.querySelectorAll<HTMLElement>('[data-left],[data-top],[data-width]').forEach(el => {
+    const d = el.dataset;
+    if (d.left !== undefined) el.style.left = d.left + '%';
+    if (d.top !== undefined) el.style.top = d.top + '%';
+    if (d.width !== undefined) el.style.width = d.width + '%';
+  });
+}
+new MutationObserver(() => applyGeometry(document)).observe(document.documentElement, {
+  childList: true,
+  subtree: true
+});
+function render() {
+  const root = document.getElementById('app');
+  if (!root) return;
+  const view: View = state.selected ? state.view : 'portfolio';
+  syncUrl(view);
+  let content = {
+    portfolio: projectsView,
+    overview: overviewView,
+    decision: decisionView,
+    execution: executionView,
+    intelligence: intelligenceView,
+    power: powerPathsView,
+    model: modelView,
+    facilities: facilitiesView,
+    evidence: evidenceView,
+    history: historyView
+  }[view]();
+  if (view === 'power') content += '<div class="content-in extended-section">' + geoPanel() + '</div>';
+  if (view === 'execution') content += '<div class="content-in extended-section">' + milestonePanel() + '</div>';
+  root.innerHTML = `<div class="shell">${nav()}<div class="main-area">${renderTop()}<main id="main" tabindex="-1">${content}</main></div></div>${modalMarkup()}<div class="toast" id="toast" role="status"></div><div class="nav-mask ${state.mobileNav ? 'visible' : ''}" data-action="toggle-nav"></div>`;
+  bindEvents();
+}
+async function chooseScenario(id: string) {
+  if (state.dirty && !confirm('Discard unsaved changes and switch scenarios?')) return;
+  state.activeScenario = id;
+  state.draft = structuredClone(activeScenario()?.config || null);
+  state.dirty = false;
+  state.currentRun = null;
+  const r = state.runs.find((x: any) => x.scenario_id === id);
+  if (r)
+    try {
+      state.currentRun = await api(`/projects/${state.selected}/runs/${r.id}`);
+    } catch {}
+  render();
+}
+function updateDraft(k: string, v: any) {
+  const obj = state.draft?.project || state.draft;
+  if (!obj) return;
+  obj[k] = v;
+  state.dirty = true;
+  document.getElementById('dirty-label')?.replaceChildren(document.createTextNode('Unsaved changes'));
+}
+async function saveDraft(run: boolean) {
+  const s = activeScenario();
+  if (!s || !state.selected || !state.draft) throw Error('Select a scenario first');
+  // JSON editing is applied explicitly, never guessed from textarea state.
+  const updated = await api(`/projects/${state.selected}/scenarios/${s.id}`, 'PUT', {
+    name: s.name,
+    mode: s.mode,
+    config: state.draft
+  });
+  s.version = updated.version;
+  s.config = structuredClone(state.draft);
+  state.dirty = false;
+  if (run) {
+    const r = await api(`/projects/${state.selected}/scenarios/${s.id}/runs`, 'POST');
+    state.currentRun = r;
+  }
+
+  await refreshWorkspace();
+  if (run) {
+    const latest = state.runs.find((x: any) => x.scenario_id === s.id);
+    if (latest) state.currentRun = await api(`/projects/${state.selected}/runs/${latest.id}`);
+    state.activeScenario = s.id;
+    state.draft = structuredClone(s.config);
+  }
+  render();
+  toast(run ? 'Model calculated and saved as a versioned run' : 'Scenario version ' + s.version + ' saved');
+}
+async function newScenario(mode: 'underwrite' | 'facilities' | 'notes_v259', name = 'Base case') {
+  if (!state.selected) return;
+  const defaults = state.defaults;
+  let config: any =
+    mode === 'underwrite'
+      ? structuredClone(defaults.config)
+      : mode === 'notes_v259'
+        ? structuredClone(defaults.notes)
+        : { project: structuredClone(defaults.config), facilities: structuredClone(defaults.facilities) };
+  const p = active();
+  if (p && mode === 'underwrite' && p.target_mw > 0) {
+    config.buildings = config.buildings.map((b: any) => ({ ...b }));
+  } // Defaults remain illustrative; never silently assign disclosed MW.
+  let unique = name,
+    ix = 1;
+  while (state.scenarios.some(s => s.name === unique)) {
+    unique = name + ' ' + ++ix;
+  }
+  const res = await api(`/projects/${state.selected}/scenarios`, 'POST', { name: unique, mode, config });
+  await refreshWorkspace();
+  state.activeScenario = res.id;
+  state.draft = structuredClone(res.config || config);
+  /* v30.8.2: keep server-assigned fields (engineVersion) so the next save cannot silently downgrade the engine */ state.view =
+    mode === 'underwrite' ? 'model' : 'facilities';
+  render();
+  toast('Scenario created with illustrative assumptions');
+}
+async function handleAction(action: string, node: HTMLElement) {
+  try {
+    if (action === 'toggle-nav') {
+      state.mobileNav = !state.mobileNav;
+      render();
+      return;
+    }
+    if (action === 'run-agent-council') {
+      if (!state.selected) return;
+      const r = await api(`/projects/${state.selected}/agents/meetings`, 'POST', {
+        mission:
+          'Review all recent public source changes, identify evidence gaps, assess credit and schedule implications, and propose safe actions.'
+      });
+      await refreshWorkspace();
+      render();
+      toast(`Saved ${r.roles.length}-role OFFLINE review. No model API calls.`);
+      return;
+    }
+    if (action === 'refresh') {
+      await refreshProjects();
+      await refreshWorkspace();
+      render();
+      toast('Workspace refreshed');
+      return;
+    }
+    if (action === 'new-critical-sensitivity') {
+      const p = state.paths.find(x => x.id === state.selectedPath) || state.paths[0];
+      const base = state.scenarios.find(x => x.mode === 'underwrite' && !x.config?.powerPathLink);
+      if (!p || !base) throw Error('Choose a power path and base underwriting scenario');
+      const v = await api(`/projects/${state.selected}/paths/${p.id}/sensitivity-v263`, 'POST', {
+        source_scenario_id: base.id
+      });
+      await api(`/projects/${state.selected}/scenarios/${v.id}/runs`, 'POST');
+      await refreshWorkspace();
+      state.activeScenario = v.id;
+      state.draft = structuredClone(state.scenarios.find(x => x.id === v.id)?.config || v.config);
+      const r = state.runs.find((x: any) => x.scenario_id === v.id);
+      if (r) state.currentRun = await api(`/projects/${state.selected}/runs/${r.id}`);
+      state.view = 'model';
+      render();
+      toast(`Saved a critical-path sensitivity (+${v.incremental_delay_months} months); not utility confirmed`);
+      return;
+    }
+    if (action === 'new-path') {
+      state.modal = 'path';
+      render();
+      return;
+    }
+    if (action === 'edit-path') {
+      state.modal = 'path-edit';
+      render();
+      return;
+    }
+    if (action === 'new-permit') {
+      state.modal = 'permit';
+      render();
+      return;
+    }
+    if (action === 'edit-permit') {
+      state.modal = 'permit-edit';
+      render();
+      return;
+    }
+    if (action === 'new-project') {
+      state.modal = 'project-new';
+      render();
+      return;
+    }
+    if (action === 'edit-project') {
+      state.modal = 'project-edit';
+      render();
+      return;
+    }
+    if (action === 'new-evidence') {
+      state.modal = 'evidence';
+      render();
+      return;
+    }
+    if (action === 'new-scenario') {
+      state.modal = 'scenario';
+      render();
+      return;
+    }
+    if (action === 'new-facility-scenario') {
+      await newScenario('notes_v259', 'v25.9 Notes case');
+      return;
+    }
+    if (action === 'new-legacy-facility-scenario') {
+      await newScenario('facilities', 'Legacy facilities case');
+      return;
+    }
+    if (action === 'close-modal') {
+      state.modal = null;
+      render();
+      return;
+    }
+    if (action === 'save-stage') {
+      const p = active()!;
+      const selected = (document.getElementById('stage-select') as HTMLSelectElement).value;
+      await api(`/projects/${p.id}`, 'PATCH', { ...p, status: selected });
+      await refreshProjects();
+      render();
+      toast('Project phase updated (internal milestone only)');
+      return;
+    }
+    if (action === 'apply-json' || action === 'apply-facility-json') {
+      const id = action === 'apply-json' ? 'model-json' : 'facility-json';
+      const val = (document.getElementById(id) as HTMLTextAreaElement)?.value;
+      const parsed = JSON.parse(val);
+      if (typeof parsed !== 'object' || !parsed) throw Error('Scenario JSON must be an object');
+      state.draft = parsed;
+      state.dirty = true;
+      render();
+      toast('Advanced JSON applied; save to persist');
+      return;
+    }
+    if (action === 'save-scenario' || action === 'save-run') {
+      const face = document.getElementById('facility-face') as HTMLInputElement | null,
+        coupon = document.getElementById('facility-coupon') as HTMLInputElement | null;
+      if (['facilities', 'notes_v259'].includes(activeScenario()?.mode || '') && face && coupon) {
+        const note = state.draft?.facilities?.find((f: any) => f.type === 'note' || f.type === 'fixed_note');
+        if (note) {
+          note.faceM = Number(face.value);
+          note.couponPct = Number(coupon.value);
+        }
+      }
+      await saveDraft(action === 'save-run');
+      return;
+    }
+    if (action === 'export-current') {
+      if (state.currentRun) window.location.href = `/api/projects/${state.selected}/runs/${state.currentRun.id}/csv`;
+      return;
+    }
+  } catch (e) {
+    toast((e as Error).message, 'error');
+  }
+}
+function bindEvents() {
+  document
+    .querySelectorAll<HTMLElement>('[data-view]')
+    .forEach(el => el.addEventListener('click', () => goto(el.dataset.view as View)));
+  document
+    .querySelectorAll<HTMLElement>('[data-project]')
+    .forEach(el => el.addEventListener('click', () => enterProject(el.dataset.project!)));
+  document
+    .querySelectorAll<HTMLElement>('[data-action]')
+    .forEach(el => el.addEventListener('click', () => handleAction(el.dataset.action!, el)));
+  document.querySelectorAll<HTMLElement>('[data-path]').forEach(el =>
+    el.addEventListener('click', () => {
+      state.selectedPath = el.dataset.path || null;
+      render();
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-geo]').forEach(el => {
+    const select = () => {
+      state.selectedGeo = el.dataset.geo || null;
+      render();
+    };
+    el.addEventListener('click', select);
+    el.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        select();
+      }
+    });
+  });
+  document.querySelectorAll<HTMLElement>('[data-permit]').forEach(el =>
+    el.addEventListener('click', () => {
+      state.selectedPermit = el.dataset.permit || null;
+      state.view = 'execution';
+      render();
+    })
+  );
+  document.querySelectorAll<HTMLInputElement>('[data-step]').forEach(el =>
+    el.addEventListener('change', async () => {
+      try {
+        await api(
+          `/projects/${state.selected}/permits/${state.selectedPermit}/steps/${el.dataset.step}/toggle`,
+          'POST'
+        );
+        await refreshWorkspace();
+        render();
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  const sourceSelect = document.getElementById('intel-source-key') as HTMLSelectElement | null;
+  sourceSelect?.addEventListener('change', () => {
+    const src = state.intelSources.find(x => x.key === sourceSelect.value);
+    const u = document.getElementById('intel-source-url') as HTMLInputElement | null;
+    if (u && src) u.value = src.url;
+  });
+  const importForm = document.getElementById('intel-import-form') as HTMLFormElement | null;
+  importForm?.addEventListener('submit', async event => {
+    event.preventDefault();
+    try {
+      const fd = new FormData(importForm);
+      const file = fd.get('file') as File;
+      if (!file || file.size > 1200000) throw Error('CSV must be 1.2 MB or less');
+      const r = await api(`/projects/${state.selected}/intelligence/snapshots`, 'POST', {
+        source_key: String(fd.get('source_key')),
+        source_url: String(fd.get('source_url')),
+        source_published_date: String(fd.get('source_published_date')),
+        csv_text: await file.text()
+      });
+      await refreshWorkspace();
+      render();
+      toast(`Imported ${r.count} source row(s); detected ${r.changes} changes`);
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  document.querySelectorAll<HTMLFormElement>('.intel-proposal-form').forEach(form =>
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      try {
+        const fd = new FormData(form);
+        await api(`/projects/${state.selected}/intelligence/proposals`, 'POST', {
+          change_id: form.dataset.change,
+          milestone_id: String(fd.get('milestone_id')),
+          proposed_delay_months: Number(fd.get('proposed_delay_months')),
+          reason: String(fd.get('reason'))
+        });
+        await refreshWorkspace();
+        render();
+        toast('Proposal saved; awaits explicit approval');
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-impact]').forEach(el =>
+    el.addEventListener('click', async () => {
+      try {
+        const r = await api(`/projects/${state.selected}/intelligence/proposals/${el.dataset.impact}/impact`);
+        const d = typeof r.npv_deltaM === 'number' ? money(r.npv_deltaM) : 'unavailable';
+        alert(
+          `SYNTHETIC SCENARIO ONLY — NOT A TRANSACTION VALUATION\n\nBefore effective delay: ${r.before.delay_months} months\nProposed effective delay: ${r.proposed.delay_months} months\nModeled NPV change: ${d}\n\n${r.warning}`
+        );
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-proposal-decision]').forEach(el =>
+    el.addEventListener('click', async () => {
+      try {
+        const choice = el.dataset.proposalDecision;
+        const r = await api(
+          `/projects/${state.selected}/intelligence/proposals/${el.dataset.proposalId}/${choice}`,
+          'POST'
+        );
+        await refreshWorkspace();
+        render();
+        toast(`Milestone proposal ${r.decision}; underlying finance scenario unchanged`);
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-agent-meeting]').forEach(el =>
+    el.addEventListener('click', async () => {
+      try {
+        const r = await api(`/projects/${state.selected}/agents/meetings/${el.dataset.agentMeeting}`);
+        alert(r.messages.map((x: any) => x.role + ' [' + x.mode + ']\n' + x.content).join('\n\n--------\n\n'));
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  const geoForm = document.getElementById('geo-import-form') as HTMLFormElement | null;
+  geoForm?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    try {
+      const fd = new FormData(geoForm);
+      const file = fd.get('file') as File;
+      if (!file || file.size > 600000) throw Error('CSV file must be under 600 KB');
+      const csv_text = await file.text();
+      const out = await api(`/projects/${state.selected}/geo-assets/import`, 'POST', {
+        csv_text,
+        source_provider: String(fd.get('source_provider')),
+        source_url: String(fd.get('source_url')),
+        vintage: String(fd.get('vintage')),
+        evidence_level: 'user_supplied'
+      });
+      await refreshWorkspace();
+      render();
+      toast(`${out.count} geocoded source record(s) imported; no available MW confirmed`);
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const mf = document.getElementById('milestone-form') as HTMLFormElement | null;
+  mf?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    try {
+      const z = Object.fromEntries(new FormData(mf)) as Record<string, any>;
+      z.path_id = state.selectedPath || state.paths[0]?.id;
+      z.planned_month = z.planned_month ? Number(z.planned_month) : null;
+      z.delay_months = Number(z.delay_months) || 0;
+      z.predecessor_id = z.predecessor_id || null;
+      z.permit_id = z.permit_id || null;
+      z.evidence_id = null;
+      await api(`/projects/${state.selected}/milestones`, 'POST', z);
+      await refreshWorkspace();
+      render();
+      toast('Dependency saved; energization remains unverified');
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const pfsteps = document.getElementById('permit-step-form') as HTMLFormElement | null;
+  pfsteps?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const title = String(new FormData(pfsteps).get('title') || '');
+    try {
+      await api(`/projects/${state.selected}/permits/${state.selectedPermit}/steps`, 'POST', { title });
+      await refreshWorkspace();
+      render();
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const pfnotes = document.getElementById('permit-note-form') as HTMLFormElement | null;
+  pfnotes?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const body = String(new FormData(pfnotes).get('body') || '');
+    try {
+      await api(`/projects/${state.selected}/permits/${state.selectedPermit}/notes`, 'POST', { body });
+      await refreshWorkspace();
+      render();
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const sens = document.getElementById('path-sensitivity-form') as HTMLFormElement | null;
+  sens?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    try {
+      const fd = new FormData(sens);
+      const res = await api(`/projects/${state.selected}/paths/${state.selectedPath}/sensitivity`, 'POST', {
+        source_scenario_id: String(fd.get('source_scenario_id')),
+        include_open_permit_delay: true
+      });
+      await api(`/projects/${state.selected}/scenarios/${res.id}/runs`, 'POST');
+      await refreshWorkspace();
+      state.activeScenario = res.id;
+      state.draft = structuredClone(state.scenarios.find((x: Scenario) => x.id === res.id)?.config || res.config);
+      state.currentRun = await api(
+        `/projects/${state.selected}/runs/${state.runs.find((x: any) => x.scenario_id === res.id).id}`
+      );
+      state.view = 'model';
+      render();
+      toast('Saved and ran a new path-linked scenario. Previous model unchanged.');
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  document.querySelectorAll<HTMLElement>('[data-run]').forEach(el =>
+    el.addEventListener('click', async () => {
+      try {
+        state.currentRun = await api(`/projects/${state.selected}/runs/${el.dataset.run}`);
+        const loaded = state.currentRun as Run;
+        state.activeScenario = loaded.scenario_id;
+        state.draft = structuredClone(activeScenario()?.config);
+        state.view = ['facilities', 'notes_v259'].includes(activeScenario()?.mode || '') ? 'facilities' : 'model';
+        render();
+      } catch (e) {
+        toast((e as Error).message, 'error');
+      }
+    })
+  );
+  const ss = document.getElementById('scenario-select') as HTMLSelectElement | null;
+  ss?.addEventListener('change', () => chooseScenario(ss.value));
+  document.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-config]').forEach(el =>
+    el.addEventListener('change', () => {
+      const value = el instanceof HTMLSelectElement ? el.value : el.value === '' ? null : Number(el.value);
+      updateDraft(el.dataset.config!, value);
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-attach]').forEach(el =>
+    el.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf,.txt,.csv,.json,.md,.png,.jpg,.jpeg';
+      input.onchange = async () => {
+        if (!input.files?.length) return;
+        try {
+          const form = new FormData();
+          form.append('attachment', input.files[0]);
+          const res = await fetch(`/api/projects/${state.selected}/evidence/${el.dataset.attach}/file`, {
+            method: 'POST',
+            body: form
+          });
+          const body = await res.json();
+          if (!res.ok) throw Error(body.detail || 'Upload failed');
+          await refreshWorkspace();
+          render();
+          toast('Evidence attachment stored with SHA-256 hash');
+        } catch (e) {
+          toast((e as Error).message, 'error');
+        }
+      };
+      input.click();
+    })
+  );
+  const pf = document.getElementById('project-form') as HTMLFormElement | null;
+  pf?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const data = Object.fromEntries(new FormData(pf));
+    data.target_mw = Number(data.target_mw) as any;
+    try {
+      if (state.modal === 'project-edit' && state.selected) {
+        await api(`/projects/${state.selected}`, 'PATCH', data);
+        state.modal = null;
+        await refreshProjects();
+        render();
+        toast('Project saved');
+      } else {
+        const result = await api('/projects', 'POST', data);
+        state.modal = null;
+        await refreshProjects();
+        await enterProject(result.id);
+        toast('Project created');
+      }
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const sf = document.getElementById('scenario-form') as HTMLFormElement | null;
+  sf?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = Object.fromEntries(new FormData(sf));
+    try {
+      state.modal = null;
+      await newScenario(fd.mode as any, String(fd.name));
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const ef = document.getElementById('evidence-form') as HTMLFormElement | null;
+  ef?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = Object.fromEntries(new FormData(ef));
+    try {
+      const file = (document.getElementById('evidence-file') as HTMLInputElement).files?.[0];
+      const record = await api(`/projects/${state.selected}/evidence`, 'POST', fd);
+      if (file) {
+        const form = new FormData();
+        form.append('attachment', file);
+        const res = await fetch(`/api/projects/${state.selected}/evidence/${record.id}/file`, {
+          method: 'POST',
+          body: form
+        });
+        if (!res.ok) {
+          const body = await res.json();
+          throw Error(body.detail || 'Attachment failed: record saved without file');
+        }
+      }
+      state.modal = null;
+      await refreshWorkspace();
+      render();
+      toast('Evidence record saved');
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const pathForm = document.getElementById('path-form') as HTMLFormElement | null;
+  pathForm?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const data = Object.fromEntries(new FormData(pathForm)) as any;
+    try {
+      for (const k of [
+        'capacity_mw',
+        'power_month',
+        'latitude',
+        'longitude',
+        'delay_months',
+        'capex_uplift_pct',
+        'energy_uplift_pct'
+      ])
+        data[k] = data[k] === '' || data[k] == null ? null : Number(data[k]);
+      for (const k of ['delay_months', 'capex_uplift_pct', 'energy_uplift_pct', 'capacity_mw']) data[k] = data[k] ?? 0;
+      data.evidence_id = data.evidence_id || null;
+      const existing = state.modal === 'path-edit' ? candidateById() : null;
+      const value = await api(
+        `/projects/${state.selected}/paths${existing ? '/' + existing.id : ''}`,
+        existing ? 'PUT' : 'POST',
+        data
+      );
+      state.selectedPath = value.id;
+      state.modal = null;
+      await refreshWorkspace();
+      state.view = 'power';
+      render();
+      toast('Power-path assumptions saved; source verification still required');
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+  const permitForm = document.getElementById('permit-form') as HTMLFormElement | null;
+  permitForm?.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const data = Object.fromEntries(new FormData(permitForm)) as any;
+    try {
+      for (const k of ['due_month', 'delay_months'])
+        data[k] = data[k] === '' || data[k] == null ? null : Number(data[k]);
+      data.delay_months = data.delay_months ?? 0;
+      data.path_id = data.path_id || null;
+      data.evidence_id = data.evidence_id || null;
+      const existing = state.modal === 'permit-edit' ? permitById() : null;
+      const value = await api(
+        `/projects/${state.selected}/permits${existing ? '/' + existing.id : ''}`,
+        existing ? 'PUT' : 'POST',
+        data
+      );
+      state.selectedPermit = value.id;
+      state.modal = null;
+      await refreshWorkspace();
+      state.view = 'execution';
+      render();
+      toast('Requirement saved and linked to project audit trail');
+    } catch (e) {
+      toast((e as Error).message, 'error');
+    }
+  });
+}
+async function init() {
+  try {
+    const [health, defs] = await Promise.all([api('/health'), api('/defaults')]);
+    state.defaults = defs;
+    await refreshProjects();
+    if (state.projects.length) {
+      state.selected =
+        state.projects.find(p => p.id === new URLSearchParams(location.search).get('project'))?.id ||
+        state.projects[0].id;
+      await refreshWorkspace();
+      const requestedView = new URLSearchParams(location.search).get('view');
+      state.view = (
+        [
+          'portfolio',
+          'overview',
+          'decision',
+          'execution',
+          'intelligence',
+          'power',
+          'model',
+          'facilities',
+          'evidence',
+          'history'
+        ].includes(requestedView || '')
+          ? requestedView
+          : 'portfolio'
+      ) as View;
+    }
+    if (state.selected && new URLSearchParams(location.search).get('action') === 'new-scenario') {
+      state.view = 'model';
+      state.modal = 'scenario';
+    }
+    render();
+  } catch (err) {
+    const root = document.getElementById('app');
+    if (root)
+      root.innerHTML = `<div class="fatal"><h1>Cannot connect to PowerPath API</h1><p>${E((err as Error).message)}</p><p>Start the local service with <code>./run_local.sh</code> and open http://127.0.0.1:8768</p></div>`;
+  }
+}
 enterWorkspace(init);

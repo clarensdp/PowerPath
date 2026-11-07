@@ -3,12 +3,13 @@
 Not a claim that the legacy PowerPath schema is fully migrated. The remaining
 modules still own their preexisting SQLite DDL and must be consolidated before PG.
 """
+
 from __future__ import annotations
 import hashlib
 from datetime import datetime, timezone
 
-MIGRATION_ID = 'agent_ops_0001'
-MIGRATION_SQL = '''
+MIGRATION_ID = "agent_ops_0001"
+MIGRATION_SQL = """
 CREATE TABLE IF NOT EXISTS agent_ops_config (
  project_id TEXT PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
  enabled INTEGER NOT NULL DEFAULT 0 CHECK(enabled IN (0,1)),
@@ -52,18 +53,24 @@ CREATE TABLE IF NOT EXISTS agent_ops_events (
  created_at TEXT NOT NULL, previous_hash TEXT NOT NULL, event_hash TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS agent_ops_events_project ON agent_ops_events(project_id,id);
-'''
+"""
+
 
 def install_migrations(db):
     """Idempotent release-scoped migration with drift detection."""
     with db() as con:
-        con.execute('CREATE TABLE IF NOT EXISTS schema_migrations(version TEXT PRIMARY KEY, checksum TEXT NOT NULL, applied_at TEXT NOT NULL)')
-        digest=hashlib.sha256(MIGRATION_SQL.encode()).hexdigest()
-        prior=con.execute('SELECT checksum FROM schema_migrations WHERE version=?',(MIGRATION_ID,)).fetchone()
+        con.execute(
+            "CREATE TABLE IF NOT EXISTS schema_migrations(version TEXT PRIMARY KEY, checksum TEXT NOT NULL, applied_at TEXT NOT NULL)"
+        )
+        digest = hashlib.sha256(MIGRATION_SQL.encode()).hexdigest()
+        prior = con.execute("SELECT checksum FROM schema_migrations WHERE version=?", (MIGRATION_ID,)).fetchone()
         if prior:
-            if prior['checksum']!=digest: raise RuntimeError('Agent migration checksum changed; refuse schema drift')
+            if prior["checksum"] != digest:
+                raise RuntimeError("Agent migration checksum changed; refuse schema drift")
             return False
         con.executescript(MIGRATION_SQL)
-        con.execute('INSERT INTO schema_migrations(version,checksum,applied_at) VALUES(?,?,?)',
-                    (MIGRATION_ID,digest,datetime.now(timezone.utc).isoformat()))
+        con.execute(
+            "INSERT INTO schema_migrations(version,checksum,applied_at) VALUES(?,?,?)",
+            (MIGRATION_ID, digest, datetime.now(timezone.utc).isoformat()),
+        )
         return True

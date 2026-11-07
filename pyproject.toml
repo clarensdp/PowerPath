@@ -1,0 +1,5 @@
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+# Protected/validated model code is never auto-formatted.
+extend-exclude = "(engine/|feasibility/|baseline/|review/|migrations/|tests/v271/fixtures/)"

@@ -12,7 +12,7 @@ A database owner with raw file access can still drop triggers. This protects aga
 accidental or role-level tampering; it is not a substitute for backups or WORM storage.
 """
 
-APPEND_ONLY_TABLES = ('runs', 'feasibility_v82_runs', 'activity')
+APPEND_ONLY_TABLES = ("runs", "feasibility_v82_runs", "activity")
 
 _TRIGGERS = [
     *[
@@ -39,10 +39,10 @@ _TRIGGERS = [
 def install(db):
     """Idempotently create the SQLite triggers. No-op for PostgreSQL connections (policies handle it there)."""
     with db() as con:
-        if not hasattr(con, 'executescript'):
+        if not hasattr(con, "executescript"):
             return
         existing = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         for sql in _TRIGGERS:
-            table = sql.split(' ON ', 1)[1].split(' ', 1)[0]
+            table = sql.split(" ON ", 1)[1].split(" ", 1)[0]
             if table in existing:
                 con.execute(sql)

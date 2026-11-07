@@ -3,7 +3,8 @@
 Other feature modules still self-initialize their own legacy schemas.
 Do not use this as a PostgreSQL migration or claim that all DDL is centralized.
 """
-SCHEMA = '''
+
+SCHEMA = """
 CREATE TABLE IF NOT EXISTS projects (
  id TEXT PRIMARY KEY, name TEXT NOT NULL, location TEXT NOT NULL DEFAULT '',
  target_mw REAL NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'Qualify',
@@ -76,11 +77,12 @@ CREATE TABLE IF NOT EXISTS delivery_milestones (
 CREATE INDEX IF NOT EXISTS delivery_milestones_path ON delivery_milestones(path_id);
 CREATE INDEX IF NOT EXISTS power_paths_project ON power_paths(project_id);
 CREATE INDEX IF NOT EXISTS permits_project ON permit_items(project_id);
-'''
+"""
+
 
 def initialize_core_schema(db):
     """Legacy-compatible bootstrap; Alembic is not yet sole DDL authority."""
     with db() as con:
         con.executescript(SCHEMA)
-        if 'float_months' not in {r[1] for r in con.execute('PRAGMA table_info(delivery_milestones)')}:
-            con.execute('ALTER TABLE delivery_milestones ADD COLUMN float_months INTEGER NOT NULL DEFAULT 0')
+        if "float_months" not in {r[1] for r in con.execute("PRAGMA table_info(delivery_milestones)")}:
+            con.execute("ALTER TABLE delivery_milestones ADD COLUMN float_months INTEGER NOT NULL DEFAULT 0")
