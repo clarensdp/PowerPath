@@ -1,3 +1,11 @@
+## v30.8.2-audit — Full technical + UX/UI workflow audit (2026-11-07)
+
+- **Data integrity:** saving a new underwriting scenario no longer silently downgrades it to the legacy v25.8.5 engine (client keeps server config; server PUT preserves the stored engine when an update leaves it out).
+- **Unblocked workflows:** new projects can reach financial comparison (guided scenario creation and an IT-MW mismatch pre-check); transaction review gets a one-click input registration; dead-end empty states now explain the next step.
+- **UI:** CSP-safe geometry (Decision Center pins and timelines render again), WCAG AA contrast (114 → 0 axe violations), mobile project picker and tab cues, consistent six-section navigation, agent operations re-skinned to the shared palette, the `hidden` attribute respected everywhere, URL keeps the open view.
+- **Engineering:** executable launcher, `npm run check` covers all 9 entrypoints, TS→JS drift guard plus pinned TypeScript build, `requirements.lock`, `?allow_empty=true` on latest feasibility, 9 new regression tests.
+- Protected financial engines unchanged (12/12). Extended gate 257/257. See `docs/AUDIT_2026-11-07.md`.
+
 ## v30.8.0 — Infrastructure stabilization baseline
 
 - Central SQLite connection factory and extracted original core schema without changes to model logic.

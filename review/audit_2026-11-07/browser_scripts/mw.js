@@ -1,0 +1,12 @@
+const { chromium } = require('playwright');const B='http://127.0.0.1:8768',O=__dirname+'/flows_after';
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:1440,height:900}});const p=await c.newPage();const H={headers:{Origin:B}};
+const pr=await (await p.request.post(B+'/api/projects',{...H,data:{name:'Mismatch 120 MW',target_mw:120,location:'Synthetic'}})).json();
+const d=await (await p.request.get(B+'/api/defaults')).json();await p.request.post(B+`/api/projects/${pr.id}/scenarios`,{...H,data:{name:'Base',mode:'underwrite',config:d.config}});
+await p.goto(B+'/power-deliverability?project='+pr.id,{waitUntil:'networkidle'});await p.waitForTimeout(800);
+console.log('mw-help:',await p.locator('#mw-help').isVisible(),'|',await p.locator('#mw-help').innerText());
+await p.screenshot({path:O+'/pd_mw_mismatch.png'});
+const projects=await (await p.request.get(B+'/api/projects')).json();const audit=projects.find(x=>x.name==='Audit Test Campus');
+await p.goto(B+'/power-deliverability?project='+audit.id,{waitUntil:'networkidle'});await p.waitForTimeout(800);
+console.log('audit mw-help hidden:',await p.locator('#mw-help').isHidden());await p.check('#ack');await p.click('#compare');await p.waitForTimeout(7000);
+console.log((await p.locator('#state-note').innerText()));await p.screenshot({path:O+'/pd_compare_success.png',fullPage:true});
+await p.request.delete; await b.close()})();

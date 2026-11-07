@@ -1,0 +1,39 @@
+01/21 tests/test_v3081_pg_staging.py: 11 passed (exit 0)
+02/21 tests/test_v308_database_foundation.py: 10 passed (exit 0)
+03/21 permitting/test_permitting.py: 30 passed (exit 0)
+04/21 permitting/test_national.py: 63 passed (exit 0)
+05/21 permitting/test_official_gis.py: 14 passed (exit 0)
+06/21 permitting/test_footprint.py: 23 passed (exit 0)
+07/21 tests/test_regrid_pilot.py: 8 passed (exit 0)
+08/21 tests/test_public30.py: 4 passed (exit 0)
+09/21 tests/test_notes_integration.py: 5 passed (exit 0)
+10/21 tests/v271/test_note_phasing332.py: 11 passed (exit 0)
+11/21 tests/v271/test_note_phasing333.py: 8 passed (exit 0)
+12/21 tests/v271/test_core_scientific.py: 16 passed (exit 0)
+13/21 tests/v271/test_schedule_parity.py: 11 passed (exit 0)
+14/21 tests/agent_ops307_test.py: 9 passed (exit 0)
+15/21 tests/agent_ops307_concurrency_test.py: 3 passed (exit 0)
+16/21 tests/agent_ops307_auth_test.py: 3 passed (exit 0)
+17/21 tests/test_api.py: 8 passed (exit 0)
+18/21 tests/test_geo29.py: 3 passed (exit 0)
+19/21 tests/test_v262_workflows.py: 6 passed (exit 0)
+20/21 tests/test_v263_geo.py: 6 passed (exit 0)
+21/21 tests/test_v27_security_transaction.py: 5 passed (exit 0)
+{
+  "release": "30.8.1-staging-preparation",
+  "selected_tests_passed": 257,
+  "tests_process_isolated": true,
+  "extended_gate_requested": true,
+  "all_selected_passed": true,
+  "protected_engine_files": 12,
+  "protected_engine_unchanged": true,
+  "javascript_check_pass": true,
+  "javascript_check_error": "",
+  "postgres_live_parity_verified": false,
+  "postgres_app_cutover": false,
+  "full_single_process_suite_verified": false,
+  "tenant_rls_runtime_verified": false,
+  "remote_gis_verified": false,
+  "browser_acceptance_verified": false,
+  "production_ready": false
+}

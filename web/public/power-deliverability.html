@@ -5,10 +5,10 @@
 <body><a class="skip" href="#main">Skip to content</a>
 <div class="pwr-layout">
 <aside class="pwr-side"><a class="pwr-brand" href="/">↗ PowerPath</a><p class="pwr-kicker">FEASIBILITY / FINANCIAL BRIDGE</p>
-<nav aria-label="Navigation"><a href="/">Project workspace</a><a class="selected" href="/power-deliverability">Power deliverability</a><a href="/transaction-workspace">Transaction review</a></nav>
+<nav aria-label="PowerPath sections"><a href="/">Project workspace</a><a href="/advanced">Detailed workspace</a><a class="selected" href="/power-deliverability" aria-current="page">Power deliverability</a><a href="/permitiq-national">PermitIQ screening</a><a href="/transaction-workspace">Transaction review</a><a href="/agent-operations">Agent operations</a></nav>
 <div class="pwr-sidenote">Local screening alpha. Analyst assumptions are not utility service guarantees or lender-approved contracts.</div>
 </aside>
-<div class="pwr-page"><header class="pwr-top"><span>PowerPath / Deliverability</span><span class="pwr-pill">v30.3 · LOCAL ALPHA</span></header>
+<div class="pwr-page"><header class="pwr-top"><span>PowerPath / Deliverability</span><span class="pwr-pill">LOCAL ALPHA · SCREENING</span></header>
 <main id="main">
 <div class="pwr-head"><div class="eyebrow">02 / POWER DELIVERABILITY</div><h1>One site. Four ways to power it.</h1>
 <p>Compare when capacity actually becomes available, what it costs to build and how each pathway changes modeled economics. The score never substitutes for utility or contract evidence.</p></div>
@@ -17,6 +17,8 @@
 <label>Original underwriting scenario<select id="scenario"><option>Choose a project first</option></select></label>
 <label>Curtailed compute value treatment<select id="allocation"><option value="tenant_or_compute_operator">Informational / tenant or compute operator</option><option value="owner_contractual_revenue">Owner contractually bears lost rent (assumption)</option></select></label>
 </div><div class="pwr-actions"><label class="pwr-ack"><input type="checkbox" id="ack"> I approve using an illustrative rent adjustment, not an executed contract</label><button id="compare" class="primary">Compare economic scenarios</button></div>
+<p id="scenario-help" class="pwr-note pwr-inline-help" hidden>No underwriting scenario exists for this project, so financial comparison is unavailable. <a id="create-scenario" href="/advanced?view=model&action=new-scenario">Create an underwriting scenario →</a></p>
+<p id="mw-help" class="pwr-note pwr-inline-help" hidden><span></span> <a href="/advanced?view=model">Edit scenario buildings →</a></p>
 <p id="state-note" class="pwr-muted" role="status">Loading project state…</p>
 </section>
 <div id="overview"></div>

@@ -1,9 +1,14 @@
 {
   "name": "powerpath-national-workspace",
-  "version": "30.8.1-pg-staging",
+  "version": "30.8.2-audit",
   "private": true,
   "scripts": {
     "dev": "python3 -m scripts.prepare_local && python3 -m server.seed_demo && python3 -m uvicorn server.app:app --host 127.0.0.1 --port 8768",
-    "check": "node --check web/public/workspace28.js && node --check web/public/power-deliverability.js && node --check web/public/transaction-workspace.js && node --check web/public/agent-operations.js && node --check web/public/advanced-session.js && node --check web/public/app.js"
+    "check": "node --check web/public/workspace28.js && node --check web/public/power-deliverability.js && node --check web/public/transaction-workspace.js && node --check web/public/agent-operations.js && node --check web/public/advanced-session.js && node --check web/public/app.js && node --check web/public/geo.js && node --check web/public/permitiq-national.js && node --check web/public/parcel-footprint.js",
+    "build:ts": "npx --yes -p typescript@5.6.3 tsc -p tsconfig.json",
+    "check:ts-drift": "node scripts/check_ts_drift.cjs"
+  },
+  "engines": {
+    "node": "22.23.4"
   }
 }

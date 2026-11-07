@@ -279,6 +279,12 @@ def update_scenario(pid:str,sid:str,data:ScenarioIn):
             raise HTTPException(422,'powerPathLink lineage is immutable on a derived scenario; create a new scenario from the original base instead')
         if old_link is None and data.config.get('powerPathLink') is not None:
             raise HTTPException(422,'powerPathLink can only be set by the server when a path sensitivity is created')
+        # v30.8.2 audit: an update that omits engineVersion keeps the stored engine. Previously a client that dropped the
+        # field silently re-ran a 27.1.0 scenario on the legacy 25.8.5 engine. Changing engines still requires naming it explicitly.
+        old_engine=json.loads(row['config_json']).get('engineVersion')
+        if data.mode=='underwrite' and 'engineVersion' not in data.config and old_engine is not None:
+            data.config={**data.config,'engineVersion':old_engine}
+        if data.mode=='underwrite':engine_version_of(data.config)
         version=row['version']+1
         try:con.execute('UPDATE scenarios SET name=?,mode=?,config_json=?,version=?,updated_at=? WHERE id=?',
             (data.name,data.mode,as_json(data.config),version,now(),sid))

@@ -1,0 +1,58 @@
+{
+  "release": "30.8.2-audit",
+  "date": "2026-11-07",
+  "environment": {
+    "python": "3.12.3",
+    "node": "22.23.4",
+    "os": "Linux"
+  },
+  "regression_gate_extended": {
+    "groups": 21,
+    "passed": 257,
+    "failed": 0,
+    "protected_engine_files": 12,
+    "protected_engine_unchanged": true
+  },
+  "quick_suite": {
+    "passed": 53,
+    "new_audit_tests": 9
+  },
+  "npm_check_entrypoints": 9,
+  "ts_drift_check": "pass",
+  "pip_audit": "no known vulnerabilities",
+  "browser_sweep": {
+    "surfaces": 6,
+    "viewports": [
+      "1440x900",
+      "820x1180",
+      "390x844"
+    ],
+    "before": {
+      "axe_violation_elements": 114,
+      "page_views_with_violations": 9,
+      "failed_http": 3,
+      "console_errors": 3
+    },
+    "after": {
+      "axe_violation_elements": 0,
+      "page_views_with_violations": 0,
+      "failed_http": 0,
+      "console_errors": 0
+    }
+  },
+  "end_to_end_verified": [
+    "create project -> brief -> explore -> shortlist -> compare -> add pathway -> diligence task -> memo -> JSON export",
+    "deliverability CTA -> create scenario -> set building MW -> Site G -> financial compare (2 paths)",
+    "transaction: register inputs -> review (24 facts) -> debt schedule",
+    "PermitIQ typed coordinates -> county list -> screening",
+    "agent ops: queue review, save schedule with feedback"
+  ],
+  "not_verified": [
+    "PostgreSQL runtime parity",
+    "multi-tenant RLS attacks",
+    "Mac fresh install",
+    "Python 3.12.10 exact",
+    "screen-reader manual pass"
+  ],
+  "production_ready": false
+}

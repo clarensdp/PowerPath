@@ -67,13 +67,16 @@ def install(app,db):
                 'config_sha256':config_digest,'input_sha256':digest,'result':result,'created_at':now}
 
     @router.get('/api/projects/{pid}/feasibility')
-    def latest_run(pid:str):
+    def latest_run(pid:str,allow_empty:bool=False):
         authorized_or_disabled()
         from server.app import project_exists
         with db() as con:
             project_exists(con,pid)
             row=con.execute('SELECT * FROM feasibility_v82_runs WHERE project_id=? ORDER BY created_at DESC,id DESC LIMIT 1',(pid,)).fetchone()
-            if not row:raise HTTPException(404,'No feasibility run for this project')
+            if not row:
+                # v30.8.2: 'no run yet' is a normal state for the UI; keep 404 for existing API callers.
+                if allow_empty:return None
+                raise HTTPException(404,'No feasibility run for this project')
             return {'run_id':row['id'],'model_version':row['model_version'],
                     'mode':row['mode'],'result':json.loads(row['output_json']),
                     'evidence':json.loads(row['evidence_json']),'input_sha256':row['input_sha256'],

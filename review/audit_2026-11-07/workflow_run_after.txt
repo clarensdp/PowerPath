@@ -1,0 +1,110 @@
+
+# Streamlined workspace
+  landing step: 2
+Explore parcels
+  modal fields: name*, target_mw*, location
+  toast: Project created. Confirm the brief, then explore parcels. | step now: 1
+Project brief
+OK   create project via modal
+  toast: Project brief saved
+OK   save brief
+  results text: No displayed parcels. Zoom in, reduce the acreage filter, or inspect the source status below.
+OK   search PIN with no match
+  inspector: PARCEL DEF | 25.0 source acres |  | Area basis: source GIS acreage. Buildable area remains unverified. |  | Wake · NC OneMap · Tax parcel boundary |  | Save to shortlist | Source service ↗ | Availability, ownership rights, buildable acreage and service capacity are unverified. | Source document date: 2025-06-02. Source
+OK   select a parcel from list
+  toast: Parcel saved to project shortlist
+OK   save parcel to shortlist
+  location results: Loudoun County, VA
+OK   location search "Loudoun"
+  compare: 03 / COMPARE OPTIONS | Compare the whole path to power. |  | Keep parcel feasibility and power-pathway assumptions side by side. Schedule and financial calculations remain in the existing versioned model. |  | + Add power pathway | Parcel shortlist | 1 saved | Parcel	Source acres	Feasibility index	Evidence coverage	Open critical checks | Parcel def ↗	25.0	Needs evidence	0%	Power access, Permitting & community | A parcel index is a screening judgment. The power pathways below are project-level analyst assumptions, n
+OK   compare step
+  toast: Pathway saved as an unverified hypothesis
+OK   add power pathway
+  diligence: 04 / DILIGENCE | Make the next action clear. |  | Resolve missing evidence and track who owns each next step. Completing a task never changes a parcel score automatically. |  | Open permits & critical path ↗ | Parcel def | + Task |  | 0% evidence coverage |  | Power access |  | Assess the documented service path, studies, competing load and requested MW. Distance to a substation is insufficient. |  | Permitting & community |  | Review the applicable zoning, allowed use, moratoriums, permit route and documented community concerns
+OK   diligence step
+FAIL assess a factor → no [data-factor] control on diligence
+  toast: Action saved
+OK   add diligence task
+  memo: 05 / DECISION MEMO | A decision with its evidence attached. |  | Export a current screening snapshot. Missing evidence and failed gates remain part of the record. |  | Export evidence JSON | Print / save PDF | POWERPATH · SCREENING MEMO · 2026-11-07 | Audit Test Campus |  | Loudoun County, VA · 200 MW target · Originate |  | Phase 1 100 MW in 2028, full 200 MW by 2030. |  | No investment recommendation or electrical reliability certification. All parcel scores are analyst-rated screening indices. G4/G5 remain blocked; financial outputs require separate evidence and review. | Parcel comparison | Parcel	Screen	Coverage	Missing
+OK   decision memo
+  download: PowerPath_Decision_Memo.json
+OK   export JSON
+  after reload project: Audit Test Campus | step: 2
+Explore parcels
+OK   reload preserves context
+  dialog open after Esc: false | focused: new-project
+OK   keyboard: Esc closes modal & focus returns
+  still open (native validation): true
+OK   validation: create project empty name
+
+# Detailed workspace (/advanced)
+  nav items: ← Streamlined project workspace · Portfolio · Intelligence · Decision Center · Power paths · PermitIQ / Execution
+0 · Finance & economics · Debt facilities · Evidence library · Project overview · Run history
+FAIL open view: ← Streamlined project workspace → locator.click: Timeout 30000ms exceeded.
+   h1= "Your infrastructure decisions" url= /advanced?project=325b44e065217fd08f54aed0&view=portfolio
+OK   open view: Portfolio
+   h1= "Intelligence & Agent Council" url= /advanced?project=325b44e065217fd08f54aed0&view=intelligence
+OK   open view: Intelligence
+   h1= "Audit Test Campus" url= /advanced?project=325b44e065217fd08f54aed0&view=decision
+OK   open view: Decision Center
+   h1= "Power paths & candidates" url= /advanced?project=325b44e065217fd08f54aed0&view=power
+OK   open view: Power paths
+FAIL open view: PermitIQ / Execution
+0 → locator.click: Timeout 30000ms exceeded.
+   h1= "Economics & underwriting" url= /advanced?project=325b44e065217fd08f54aed0&view=model
+OK   open view: Finance & economics
+   h1= "Debt facilities" url= /advanced?project=325b44e065217fd08f54aed0&view=facilities
+OK   open view: Debt facilities
+   h1= "Evidence & documents" url= /advanced?project=325b44e065217fd08f54aed0&view=evidence
+OK   open view: Evidence library
+   h1= "Audit Test Campus" url= /advanced?project=325b44e065217fd08f54aed0&view=overview
+OK   open view: Project overview
+   h1= "Run history" url= /advanced?project=325b44e065217fd08f54aed0&view=history
+OK   open view: Run history
+   buttons: New scenario / New scenario
+FAIL run a scenario (Finance & economics) → no run button found
+   h1= Critical path & approvals
+OK   direct deep link ?view=execution
+
+# Power deliverability
+  state: No feasibility run yet; you can load a synthetic 200 MW test.
+  sample buttons disabled: false false
+   results: Select a project with a saved feasibility assessment.
+OK   compare without ack
+   projects: Audit Test Campus · 200 MW / Illustrative 150 MW Campus · 150 MW
+   disabled now: false
+   overview: SCREENING TIER | 1 Decision-ready | DECISION | Conditional | SELECTED POWER PATH | Hybrid | FIRST / FULL POWER | 17 / 44 mo |  | Model workbook_v8_2 · Source claims are user supplied, not independently verified. The screening tier and site score are not proof of power availability.
+OK   select the 200MW Audit Test Campus and load Site G
+   results: This project has no underwriting scenario yet. Create one in the detailed workspace, then return here to compare.
+OK   ack + compare economics
+
+# Transaction review
+  authBox hidden: true | workspace hidden: false
+   projects: Select a project / Audit Test Campus / Illustrative 150 MW Campus
+  !! http 409 GET /api/projects/325b44e065217fd08f54aed0/transactions/core-scientific-2026/inputs
+  !! console Failed to load resource: the server responded with a status of 409 (Conflict)
+   message: No financing inputs registered for this project yet.
+   review hidden: true
+OK   load review
+FAIL show debt schedule → page.click: Timeout 30000ms exceeded.
+FAIL click Sign out in local mode → page.click: Timeout 30000ms exceeded.
+
+# PermitIQ national
+   county options: 134 Not selected — local rules unmapped / Accomack County · 51001 (analyst selected) / Albemarle County · 51003 (analyst selected) / Alexandria city · 51510 (analyst selected)
+   preview panel: ASSESSMENT / 2026-11-07 | Virginia, Accomack County | INCOMPLETE |  | County boundary: UNVERIFIED · Local rules: UNMAPPED | State law: PARTIAL_RULE_PREVIEW · Schedule: NOT_CALIBRATED |  | NOT A PERMIT APPROVAL. Only 8 selectively mapped rule triggers are assessed. Unmapped local and state rules can still be legally required. No site-level GIS overlays, land control or grid service are verified. | POTENTIALLY REQUIRED | 0 | FACTS TO VERIFY | 8 | Mapped rule previews | FAA_7460POSSIBLE VERIFY | federal · Federal Aviation Adm
+OK   enter Loudoun coords + screening
+   parcel options: No parcel selected / 233388942000 · loudoun-county / 234378457000 · loudoun-county
+OK   find cached parcels near point
+OK   run full-footprint screening with nothing selected
+  !! http 422 POST /api/permitting/screen
+  !! console Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)
+   validity: Value must be less than or equal to 90.
+OK   invalid lat 999
+
+# Agent operations
+  login form visible: false
+   notice: Chief of Staff review queued. It will run when a worker is started (see release notes).
+   jobs: Chief of Staff	executive_brief	rules	queued	2026-11-07T15:01:34	View
+OK   queue a review
+   notice: Schedule saved: daily offline-rules reviews enabled. Jobs run only while a worker is started.
+OK   save schedule enabled

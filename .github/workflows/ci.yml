@@ -16,10 +16,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.23.4'
-      - run: python -m pip install -r requirements.txt -r requirements-feasibility.txt -r requirements-postgres-runtime.txt
+      - run: python -m pip install -r requirements.lock
+      - run: test -x run_local.sh
       - run: python -m scripts.prepare_local
       - run: npm run check
-      - run: python -m pytest -q tests/test_cofounder_handoff.py tests/test_managed_identity.py tests/test_runtime_policies.py tests/test_postgres_runtime_candidate.py
+      - run: npm run check:ts-drift
+      - run: python -m pytest -q tests/test_cofounder_handoff.py tests/test_audit_v3082.py tests/test_managed_identity.py tests/test_runtime_policies.py tests/test_postgres_runtime_candidate.py
       - run: python -m scripts.run_v3081_gate --extended
         env:
           POWERPATH_V27_AUTH_MODE: local_only
