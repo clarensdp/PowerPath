@@ -224,15 +224,39 @@ def list_projects(request:Request):
         return res
 
 @app.post('/api/projects',status_code=201)
-def create_project(data:ProjectIn,request:Request):
+def create_project(data:ProjectIn,request:Request,starter_scenario:bool=False):
     id=uid();ts=now();val=data.model_dump()
+    starter=None
+    if starter_scenario and val['target_mw']>0:
+        # v30.8.2: explicit opt-in only. Engine defaults with buildings sized to the stated target MW.
+        from server.starter import starter_config, STARTER_NAME
+        starter={**starter_config(calculate('defaults',{})['project'],val['target_mw']),'engineVersion':CURRENT_ENGINE_VERSION}
     with db() as con:
         con.execute('INSERT INTO projects(id,name,location,target_mw,status,description,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?)',
                     (id,val['name'],val['location'],val['target_mw'],val['status'],val['description'],ts,ts))
         if os.environ.get('POWERPATH_V27_AUTH_MODE','local_only')=='required':
             con.execute('INSERT INTO v27_project_tenants VALUES(?,?)',(id,request.state.tenant_id))
         audit(con,id,'project.created',id,{'name':val['name']})
-    return {'id':id,**val,'created_at':ts,'updated_at':ts}
+        if starter:
+            sid=uid();con.execute('INSERT INTO scenarios VALUES (?,?,?,?,?,?,?,?)',(sid,id,STARTER_NAME,'underwrite',as_json(starter),1,ts,ts))
+            audit(con,id,'scenario.created',sid,{'mode':'underwrite','starter':True,'sized_to_target_mw':val['target_mw']})
+    return {'id':id,**val,'created_at':ts,'updated_at':ts,'starter_scenario_id':starter and sid}
+
+@app.post('/api/projects/{pid}/starter-scenario',status_code=201)
+def create_starter_scenario(pid:str):
+    """v30.8.2: explicit user action. Adds the illustrative working scenario (engine defaults, buildings sized to the
+    project's target MW) to an existing project. Refuses if the project has no MW target."""
+    from server.starter import starter_config, STARTER_NAME
+    with db() as con:
+        p=project_exists(con,pid)
+        if not p['target_mw'] or p['target_mw']<=0:raise HTTPException(422,'Set a target MW in the project brief first')
+        name=STARTER_NAME;n=1
+        while con.execute('SELECT 1 FROM scenarios WHERE project_id=? AND name=?',(pid,name)).fetchone():n+=1;name=f'{STARTER_NAME} {n}'
+        cfg={**starter_config(calculate('defaults',{})['project'],p['target_mw']),'engineVersion':CURRENT_ENGINE_VERSION}
+        sid=uid();ts=now()
+        con.execute('INSERT INTO scenarios VALUES (?,?,?,?,?,?,?,?)',(sid,pid,name,'underwrite',as_json(cfg),1,ts,ts))
+        audit(con,pid,'scenario.created',sid,{'mode':'underwrite','starter':True,'sized_to_target_mw':p['target_mw']})
+    return {'id':sid,'project_id':pid,'name':name,'mode':'underwrite','config':cfg,'version':1}
 
 @app.get('/api/projects/{pid}')
 def get_project(pid:str):
@@ -728,3 +752,7 @@ install_agent_ops(app,db,project_exists,audit,ROOT)
 # v30.7.1: read-only footprint intersections; no model/financial mutation.
 from server.footprint_api import install as install_footprint
 install_footprint(app,db,ROOT)
+
+# v30.8.2: financial outputs and their audit evidence are append-only (Nov 4 review P0). Installed last so every table exists.
+from server.append_only import install as install_append_only
+install_append_only(db)

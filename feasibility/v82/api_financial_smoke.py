@@ -47,9 +47,12 @@ assert bad.status_code==404,bad.text
 # Tampered input or drifting config cannot be silently used for financial comparisons.
 with db() as con:
     old=con.execute('SELECT config_sha256 FROM feasibility_v82_runs WHERE id=?',(rid,)).fetchone()[0]
+    con.execute('DROP TRIGGER IF EXISTS pp_append_only_feasibility_v82_runs_no_update')  # simulate raw-file tampering (bypasses v30.8.2 append-only trigger)
     con.execute('UPDATE feasibility_v82_runs SET config_sha256=? WHERE id=?',('x'*64,rid))
 invalid=client.post(f'/api/projects/{pid}/feasibility/{rid}/financial-preview',json={'source_scenario_id':sid})
 assert invalid.status_code==409,invalid.text
 with db() as con:
     con.execute('UPDATE feasibility_v82_runs SET config_sha256=? WHERE id=?',(old,rid))
+from server.append_only import install as _reinstall_append_only
+_reinstall_append_only(db)
 print('FINANCIAL PREVIEW API: OK, read-only, project-scoped and config drift protected')

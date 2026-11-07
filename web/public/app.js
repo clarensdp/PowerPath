@@ -378,10 +378,29 @@ function syncUrl(view) { try {
     q.set('view', view);
     q.delete('action');
     const next = location.pathname + '?' + q.toString();
-    if (next !== location.pathname + location.search)
+    const cur = new URLSearchParams(location.search);
+    if (next === location.pathname + location.search)
+        return;
+    if (!restoringHistory && (cur.get('view') !== view || cur.get('project') !== (state.selected || null)))
+        history.pushState(null, '', next);
+    else
         history.replaceState(null, '', next);
 }
 catch { } }
+let restoringHistory = false;
+window.addEventListener('popstate', async () => { const q = new URLSearchParams(location.search); const v = q.get('view'); const pid = q.get('project'); restoringHistory = true; try {
+    if (pid && pid !== state.selected && state.projects.some(p => p.id === pid)) {
+        state.selected = pid;
+        await refreshWorkspace();
+    }
+    if (v && ['portfolio', 'overview', 'decision', 'execution', 'intelligence', 'power', 'model', 'facilities', 'evidence', 'history'].includes(v))
+        state.view = v;
+    state.modal = null;
+    render();
+}
+finally {
+    restoringHistory = false;
+} });
 function applyGeometry(root) { root.querySelectorAll('[data-left],[data-top],[data-width]').forEach(el => { const d = el.dataset; if (d.left !== undefined)
     el.style.left = d.left + '%'; if (d.top !== undefined)
     el.style.top = d.top + '%'; if (d.width !== undefined)

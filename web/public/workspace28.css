@@ -11,3 +11,14 @@
   .mapconsent{left:52px;right:10px}
 }
 .tag.gray{color:#4f605b}
+/* v30.8.2 single-flow + Economics */
+.flowactions{align-items:center;flex-wrap:wrap;gap:14px;margin-top:6px}
+.moretools{font-size:13px}.moretools summary{cursor:pointer;color:#40585c}.moretools a{display:block;margin:6px 0 0 4px}
+.econbar{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}.econbar label{display:flex;flex-direction:column;gap:4px;font-size:12px;min-width:280px}
+table.econ td{vertical-align:top}table.econ small{display:block;color:#56676a;font-size:11.5px;margin-top:3px}table.econ .tag{margin:4px 4px 0 0}
+.npvbar{height:5px;background:#edf2ef;border-radius:3px;margin-top:6px;max-width:150px}.npvbar i{display:block;height:100%;border-radius:3px;background:#2f7a5c}.npvbar i.neg{background:#b0493d}
+label.check{flex-direction:row!important;align-items:flex-start;gap:8px;font-size:13px;line-height:1.4}label.check input{width:auto;margin-top:3px}
+.loading{color:#56676a}
+@media(max-width:760px){.econbar label{min-width:0;width:100%}}
+.toolsh{font-size:10px;letter-spacing:.12em;margin:8px 0 4px;opacity:.8}
+table.econ small.warn{color:#8a5a16;font-weight:600}.notice.warnbox{border-color:#e7c98f;background:#fdf6e7}

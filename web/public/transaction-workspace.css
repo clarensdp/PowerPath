@@ -5,3 +5,13 @@
 /* v30.8.2 audit: the HTML hidden attribute must always win over component display rules */
 [hidden]{display:none!important}
 .brand a{color:inherit;text-decoration:none}.pp-sections{flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px}.pp-sections a{color:#cfe0f2;text-decoration:none}.pp-sections a:hover,.pp-sections a[aria-current]{color:#fff;text-decoration:underline}.callout{border:1px solid #d6dfe9;background:#f4f8fc;border-radius:8px;padding:12px 14px;margin-top:12px}.callout p{margin:0 0 10px}
+/* v30.8.2: aligned with the shared PowerPath palette (was a separate navy system) */
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#142b31;background:#f6f8f5}
+header{background:#132e31}.brand span{color:#cfe1da}.status{color:#f3d9a4}
+.pp-sections a{color:#cfe1da}
+p{color:#40585c}.panel{border-color:#dae3e1;box-shadow:none;border-radius:12px}
+input,select{border-color:#9fb3ad;border-radius:7px}
+button{background:#236950;border-color:#236950;border-radius:7px}button:hover{background:#1c5841}
+.secondary{background:#fff;color:#236950}
+.callout{border-color:#dae3e1;background:#f1f6f2}
+th{color:#56676a}

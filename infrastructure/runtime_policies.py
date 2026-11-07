@@ -7,6 +7,9 @@ import re
 
 GLOBAL_READ = {'geo29_sources','geo29_versions','geo29_parcels','geo29_bounds','geo30_latest','schema_migrations'}
 IDENTITY = {'v27_users','v27_memberships','v27_tenants','v27_sessions','v27_project_tenants','v27_audit'}
+# v30.8.2: financial outputs and the activity log are insert-only; evidence may only attach its file once.
+APPEND_ONLY = {'runs','feasibility_v82_runs','activity'}
+ATTACH_ONCE = {'evidence'}
 INDIRECT = {
  'runs': ('scenarios','scenario_id','id'),
  'permit_steps': ('permit_items','permit_id','id'),
@@ -69,7 +72,11 @@ $policy$;''']
         else: raise ValueError('unclassified table: '+table)
         if read:
             sql += [f'GRANT SELECT ON {qualified} TO {role};',f'CREATE POLICY read_allowed ON {qualified} FOR SELECT TO {role} USING ({read});']
-        if write:
+        if write and table in APPEND_ONLY|ATTACH_ONCE:
+            sql += [f'GRANT INSERT ON {qualified} TO {role};',f'CREATE POLICY insert_allowed ON {qualified} FOR INSERT TO {role} WITH CHECK ({write});']
+            if table in ATTACH_ONCE:
+                sql += [f'GRANT UPDATE ON {qualified} TO {role};',f"CREATE POLICY attach_file_once ON {qualified} FOR UPDATE TO {role} USING ({write} AND stored_filename='') WITH CHECK ({write} AND stored_filename<>'');"]
+        elif write:
             sql += [f'GRANT UPDATE,DELETE ON {qualified} TO {role};',f'CREATE POLICY update_allowed ON {qualified} FOR UPDATE TO {role} USING ({write}) WITH CHECK ({write});',f'CREATE POLICY delete_allowed ON {qualified} FOR DELETE TO {role} USING ({write});']
             if table!='projects':
                 sql += [f'GRANT INSERT ON {qualified} TO {role};',f'CREATE POLICY insert_allowed ON {qualified} FOR INSERT TO {role} WITH CHECK ({write});']

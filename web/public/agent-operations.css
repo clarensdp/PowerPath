@@ -21,3 +21,4 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;max-height:550p
 footer{margin-top:30px;color:#56676a;font-size:.78rem}
 @media(max-width:660px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:18px 16px}.panel{padding:14px}.eyebrow{float:none;display:block}h1{font-size:1.7rem}}
 [hidden]{display:none!important}
+dialog#ask{border:1px solid #dae3e1;border-radius:12px;padding:22px;max-width:480px;width:calc(100% - 32px)}dialog#ask::backdrop{background:#142b3166}dialog#ask textarea{width:100%;font:inherit;border:1px solid #c6d3d0;border-radius:7px;padding:9px}dialog#ask .err{color:#a3352f;font-size:.85rem;min-height:1em}dialog#ask [data-ok]{background:#236950;color:#fff;border-color:#236950}
