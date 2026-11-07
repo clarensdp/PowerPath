@@ -1,6 +1,6 @@
 {
   "name": "powerpath-national-workspace",
-  "version": "30.8.2-audit",
+  "version": "30.8.3",
   "private": true,
   "scripts": {
     "dev": "python3 -m scripts.prepare_local && python3 -m server.seed_demo && python3 -m uvicorn server.app:app --host 127.0.0.1 --port 8768",

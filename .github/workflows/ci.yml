@@ -22,6 +22,37 @@ jobs:
       - run: npm run check
       - run: npm run check:ts-drift
       - run: python -m pytest -q tests/test_cofounder_handoff.py tests/test_audit_v3082.py tests/test_managed_identity.py tests/test_runtime_policies.py tests/test_postgres_runtime_candidate.py
+      - run: python -m scripts.restore_drill
       - run: python -m scripts.run_v3081_gate --extended
         env:
           POWERPATH_V27_AUTH_MODE: local_only
+
+  # v30.8.3: PostgreSQL staging acceptance on a throwaway PostGIS service container (never Supabase/production).
+  pg-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    services:
+      postgis:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: powerpath_stage_admin
+          POSTGRES_PASSWORD: ci-only-throwaway
+          POSTGRES_DB: postgres
+        ports: ['55432:5432']
+        options: >-
+          --health-cmd "pg_isready -U powerpath_stage_admin" --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+      - run: sudo apt-get update -q && sudo apt-get install -y -q postgresql-client
+      - run: python -m pip install -r requirements.lock
+      - run: ./scripts/pg_acceptance.sh
+        env:
+          PP_PG_HOST: 127.0.0.1
+          PP_PG_PORT: '55432'
+          PP_PG_USER: powerpath_stage_admin
+          PGPASSWORD: ci-only-throwaway

@@ -587,7 +587,7 @@ function bind() {
           state.short.map(s => api(prefix() + '/parcels28/' + encodeURIComponent(s.parcel_id)))
         );
         const out = {
-          release: '30.8.2-audit',
+          release: '30.8.3',
           generated_at: new Date().toISOString(),
           project: project(),
           sources: national?.sources,

@@ -1,3 +1,14 @@
+## v30.8.3 — Single flow, in-flow economics, append-only records, PostgreSQL acceptance (2026-11-07)
+
+- Six-step flow (Brief → Parcels → Power paths → **Economics** → Diligence → Memo); the detailed workspace and standalone pages become Expert tools.
+- New Economics step: every pathway through the frozen 27.1.0 underwriter side by side (read-only); results land in the memo and the evidence export; pathway timing mismatches disclosed.
+- Opt-in illustrative starter scenario sized to the project's MW target (create-project checkbox, plus a button for existing projects).
+- Append-only `runs`, `feasibility_v82_runs`, `activity`; evidence attach-once (SQLite triggers + PostgreSQL grants/policies/guard triggers). Closes the Nov 4 P0.
+- PostgreSQL acceptance script + CI job: stage import with geometry quarantine (137+1 reproduced), runtime RLS, a 24-check adversarial test, pg_dump/pg_restore drill.
+- SQLite backups now include evidence files with a hash manifest; restore drill in CI.
+- "Verified viable" disclosed as analyst-asserted; leaked synthetic test parcels relabelled; in-page dialogs; back/forward in the detailed workspace; diligence → factor scoring.
+- black + prettier formatting pass (AST-verified no logic change). Engines unchanged 12/12; gate 257/257. See `RELEASE_V30_8_3.md`.
+
 ## v30.8.2-audit — Full technical + UX/UI workflow audit (2026-11-07)
 
 - **Data integrity:** saving a new underwriting scenario no longer silently downgrades it to the legacy v25.8.5 engine (client keeps server config; server PUT preserves the stored engine when an update leaves it out).

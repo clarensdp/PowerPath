@@ -278,7 +278,7 @@ async def basic_hardening(request: Request, call_next):
 def health():
     return {
         "status": "ok",
-        "release": "v30.8.1-postgres-staging-local-alpha",
+        "release": "v30.8.3-local-alpha",
         "mode": "LOCAL_ONLY",
         "engine_hash": sha(ENGINE / "underwrite25.js"),
         "facility_engine_hash": sha(ENGINE / "facility_waterfall259.js"),

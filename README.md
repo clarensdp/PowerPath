@@ -1,6 +1,6 @@
 # PowerPath
 
-**Power infrastructure decision and underwriting workspace — engineering alpha (v30.8.2-audit).**
+**Power infrastructure decision and underwriting workspace — engineering alpha (v30.8.3).**
 
 > Edit TypeScript in `web/src/`, then run `npm run build:ts`. Never hand-edit `web/public/app.js` or `geo.js`; CI fails on drift.
 
@@ -17,20 +17,24 @@ python -m pip install -r requirements.lock   # exact pins verified Nov 7 (ranges
 ./run_local.sh
 ```
 
-Visit [workspace](http://127.0.0.1:8768/) or [detailed workspace](http://127.0.0.1:8768/advanced). The first launch copies a **synthetic** SQLite fixture into `data/`; subsequent launches never overwrite local data. No cloud connection, Supabase secrets or live database is needed. Do not expose the local service publicly.
+Visit the [workspace](http://127.0.0.1:8768/): create a project (keep "illustrative working scenario" ticked), then follow the six steps. The [detailed workspace](http://127.0.0.1:8768/advanced) and other pages are expert tools. The first launch copies a **synthetic** SQLite fixture into `data/`; subsequent launches never overwrite local data. No cloud connection, Supabase secrets or live database is needed. Do not expose the local service publicly.
 
 ## Checks
 
 ```bash
 npm run check && npm run check:ts-drift
 python -m pytest -q tests/test_cofounder_handoff.py tests/test_audit_v3082.py tests/test_managed_identity.py tests/test_runtime_policies.py
+python -m scripts.restore_drill                 # SQLite backup + evidence + restore drill
 python -m scripts.run_v3081_gate --extended
+# Optional, disposable LOCAL PostgreSQL 16 + PostGIS only (never Supabase/production):
+# PP_PG_HOST=127.0.0.1 PP_PG_PORT=55432 PP_PG_USER=... PGPASSWORD=... ./scripts/pg_acceptance.sh
 ```
 
 The PostgreSQL runtime adapter is **experimental, disabled by default and not accepted for deployment**. Do not set `POWERPATH_DATABASE_URL` in the local demo or assume v30.9 is a new application release.
 
 ## Start here
 
+- **[v30.8.3 release: single flow, economics, append-only, PostgreSQL acceptance](RELEASE_V30_8_3.md)**
 - **[Nov 7 technical + UX audit: findings, fixes and open items](docs/AUDIT_2026-11-07.md)**
 - [Push to private GitHub](GITHUB_PUSH_GUIDE.md)
 - [Verification record and remaining checks](VERIFICATION_2026-11-07.md)

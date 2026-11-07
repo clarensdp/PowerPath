@@ -1,0 +1,22 @@
+== 1. stage import
+{
+  "application_backend": "sqlite",
+  "financial_output_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "parcel_geometries": 137,
+  "parcel_geometries_quarantined": 1,
+  "production_cutover": false,
+  "rows_reconciled": 182,
+  "schema": "powerpath_stage_v3081",
+  "status": "staging_loaded",
+  "tables_reconciled": 45
+}
+== 2. runtime schema + policies + append-only triggers
+== 3. adversarial RLS / append-only checks (source)
+psql:tests/pg/rls_append_only_attack.sql:89: NOTICE:  ALL 24 CHECKS PASSED
+source : rls=40 policies=124 triggers=4 geoms=137+1 projects=3a1c4ad70d2391b09ea19cf34ead9c28 scenarios=eb2368c8cae7fd99b608befff08b1f3a runs=none
+== 4. backup + restore drill
+backup sha256: 8b20ac1589dc88c85d01a3e2f6c9150000f6be75c8940051761aa8f4b66392bb
+restore: rls=40 policies=124 triggers=4 geoms=137+1 projects=3a1c4ad70d2391b09ea19cf34ead9c28 scenarios=eb2368c8cae7fd99b608befff08b1f3a runs=none
+== 5. adversarial checks (restored copy)
+psql:tests/pg/rls_append_only_attack.sql:89: NOTICE:  ALL 24 CHECKS PASSED
+PG ACCEPTANCE: PASS (local disposable instance; not Supabase, not production)

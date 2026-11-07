@@ -122,6 +122,37 @@ $policy$;""",
                     f"GRANT INSERT ON {qualified} TO {role};",
                     f"CREATE POLICY insert_allowed ON {qualified} FOR INSERT TO {role} WITH CHECK ({write});",
                 ]
+    # v30.8.2 defence in depth: triggers apply to every role (including the owner) and can compare OLD/NEW, which RLS
+    # policies cannot. Mirrors server/append_only.py so SQLite and PostgreSQL enforce identical rules.
+    present = set(tables)
+    guarded = sorted(APPEND_ONLY & present)
+    if guarded or "evidence" in present:
+        sql += [
+            f"""CREATE FUNCTION {prefix}pp_refuse_mutation() RETURNS trigger
+LANGUAGE plpgsql SECURITY INVOKER SET search_path={schema},pg_catalog AS $guard$
+BEGIN RAISE EXCEPTION '% is append-only: create a new record instead', TG_TABLE_NAME USING ERRCODE='insufficient_privilege'; END
+$guard$;"""
+        ]
+        for table in guarded:
+            sql.append(
+                f"CREATE TRIGGER pp_append_only BEFORE UPDATE OR DELETE ON {prefix}{table} FOR EACH ROW EXECUTE FUNCTION {prefix}pp_refuse_mutation();"
+            )
+    if "evidence" in present:
+        sql += [
+            f"""CREATE FUNCTION {prefix}pp_evidence_attach_once() RETURNS trigger
+LANGUAGE plpgsql SECURITY INVOKER SET search_path={schema},pg_catalog AS $guard$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'evidence is append-only: records cannot be deleted' USING ERRCODE='insufficient_privilege'; END IF;
+ IF OLD.stored_filename<>'' OR NEW.stored_filename='' OR NEW.id IS DISTINCT FROM OLD.id OR NEW.project_id IS DISTINCT FROM OLD.project_id
+    OR NEW.title IS DISTINCT FROM OLD.title OR NEW.category IS DISTINCT FROM OLD.category OR NEW.evidence_status IS DISTINCT FROM OLD.evidence_status
+    OR NEW.citation IS DISTINCT FROM OLD.citation OR NEW.notes IS DISTINCT FROM OLD.notes OR NEW.created_at IS DISTINCT FROM OLD.created_at THEN
+  RAISE EXCEPTION 'evidence is immutable once its file is attached: create a new record' USING ERRCODE='insufficient_privilege';
+ END IF;
+ RETURN NEW;
+END
+$guard$;""",
+            f"CREATE TRIGGER pp_evidence_attach_once BEFORE UPDATE OR DELETE ON {prefix}evidence FOR EACH ROW EXECUTE FUNCTION {prefix}pp_evidence_attach_once();",
+        ]
     sql += [
         f"REVOKE ALL ON ALL FUNCTIONS IN SCHEMA {schema} FROM PUBLIC,anon,authenticated,service_role;",
         f"GRANT EXECUTE ON FUNCTION {prefix}pp_tenant_access(text,integer),{prefix}pp_project_access(text,integer) TO {role};",

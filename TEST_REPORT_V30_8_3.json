@@ -1,0 +1,64 @@
+{
+  "release": "30.8.3",
+  "date": "2026-11-07",
+  "environment": {
+    "python": "3.12.3",
+    "node": "22.23.4",
+    "postgresql": "16 + PostGIS 3.4 (local, disposable)"
+  },
+  "regression_gate_extended": {
+    "passed": 257,
+    "failed": 0,
+    "protected_engine_unchanged": true
+  },
+  "quick_suite": {
+    "passed": 58,
+    "audit_tests": 14
+  },
+  "postgres_acceptance": {
+    "stage_import": "137 valid + 1 quarantined geometries; 45 tables / 182 rows reconciled; financial fingerprint matched",
+    "runtime": "RLS forced 40/40, 124 policies, 4 guard triggers",
+    "adversarial_checks": "24/24 passed",
+    "restore_drill": "pg_dump/pg_restore parity identical; 24/24 passed on restored copy"
+  },
+  "sqlite_restore_drill": {
+    "drill": "PP-RESTORE-DRILL-30.8.2",
+    "passed": true,
+    "checks": {
+      "backup_manifest_verified": true,
+      "records_identical_after_restore": true,
+      "evidence_files_restored_and_hash_verified": true,
+      "append_only_triggers_survive_restore": true,
+      "has_runs": true
+    },
+    "backup_sha256": "33830226ce59ca455a8902eb37d0d29d2db978c284ab3f5226852ab517c89a39",
+    "evidence_files": 1,
+    "projects": 2,
+    "runs": 1
+  },
+  "browser_sweep": {
+    "surfaces": 6,
+    "viewports": 3,
+    "axe_violation_elements": 0,
+    "failed_http": 0,
+    "console_errors": 0
+  },
+  "workflow": {
+    "landing_to_two_pathway_economics_seconds": 10.3,
+    "steps": [
+      "brief",
+      "explore",
+      "power paths",
+      "economics",
+      "diligence",
+      "memo"
+    ]
+  },
+  "not_verified": [
+    "HTTP application running on PostgreSQL with Supabase identity",
+    "Mac fresh install",
+    "Python 3.12.10 exact",
+    "manual screen-reader pass"
+  ],
+  "production_ready": false
+}

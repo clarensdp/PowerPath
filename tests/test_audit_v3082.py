@@ -143,3 +143,11 @@ class AuditStatic(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def test_restore_drill_passes():
+    """Backup (DB + evidence files) -> verify -> restore into an empty dir -> identical API state + triggers."""
+    from scripts.restore_drill import run
+
+    result = run()
+    assert result["passed"], result["checks"]

@@ -1,0 +1,15 @@
+{
+  "drill": "PP-RESTORE-DRILL-30.8.2",
+  "passed": true,
+  "checks": {
+    "backup_manifest_verified": true,
+    "records_identical_after_restore": true,
+    "evidence_files_restored_and_hash_verified": true,
+    "append_only_triggers_survive_restore": true,
+    "has_runs": true
+  },
+  "backup_sha256": "33830226ce59ca455a8902eb37d0d29d2db978c284ab3f5226852ab517c89a39",
+  "evidence_files": 1,
+  "projects": 2,
+  "runs": 1
+}

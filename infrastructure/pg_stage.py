@@ -234,10 +234,26 @@ def stage_extensions_sql() -> list[str]:
             JOIN {s}.pp_overlay_features_v1 f ON ST_Intersects(p.geom,f.geom)
             JOIN {s}.pp_overlay_sources_v1 o ON o.id=f.source_id
             GROUP BY p.record_id,f.source_id,f.constraint_kind,p.geom""",
+        # v30.8.2: invalid source geometries are quarantined with their PostGIS reason instead of aborting the whole
+        # import (the archived importer failed on one self-intersecting Loudoun ring; the live DB was loaded by an
+        # uncommitted variant). Nothing is repaired or dropped silently: every parcel is either valid or quarantined.
+        f"""CREATE TABLE {s}.pp_parcel_geometry_quarantine_v1 (
+            record_id INTEGER PRIMARY KEY REFERENCES {s}.geo29_parcels(rid) ON DELETE RESTRICT,
+            source_version_id TEXT NOT NULL REFERENCES {s}.geo29_versions(id),
+            geometry_fingerprint_md5 TEXT NOT NULL,
+            reason TEXT NOT NULL,
+            quarantined_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        )""",
+        f"""INSERT INTO {s}.pp_parcel_geometry_quarantine_v1(record_id,source_version_id,geometry_fingerprint_md5,reason)
+            SELECT rid,version_id,md5(feature_json),
+                   coalesce(ST_IsValidReason(g),'not a valid polygon') || CASE WHEN ST_GeometryType(g) IN ('ST_Polygon','ST_MultiPolygon') THEN '' ELSE ' / type '||ST_GeometryType(g) END
+            FROM (SELECT rid,version_id,feature_json,ST_SetSRID(ST_GeomFromGeoJSON((feature_json::jsonb->'geometry')::text),4326) g FROM {s}.geo29_parcels) x
+            WHERE NOT ST_IsValid(g) OR ST_GeometryType(g) NOT IN ('ST_Polygon','ST_MultiPolygon')""",
         f"""INSERT INTO {s}.pp_parcel_geometry_v1(record_id,source_version_id,geometry_fingerprint_md5,geom)
             SELECT rid,version_id,md5(feature_json),
                    ST_SetSRID(ST_GeomFromGeoJSON((feature_json::jsonb->'geometry')::text),4326)
-            FROM {s}.geo29_parcels""",
+            FROM {s}.geo29_parcels
+            WHERE rid NOT IN (SELECT record_id FROM {s}.pp_parcel_geometry_quarantine_v1)""",
         f"""CREATE TABLE {s}.pp_footprint_assessments_v1 (
             id TEXT PRIMARY KEY,
             project_id TEXT NOT NULL REFERENCES {s}.projects(id) ON DELETE RESTRICT,
@@ -346,7 +362,10 @@ def stage_postgres(snapshot: Path, dsn: str, allow_execute: bool = False) -> dic
                     bad = [name for name in actual if actual[name] != expected["tables"][name]]
                     raise ValueError("PostgreSQL reconciliation failed: " + ",".join(bad))
                 full_geom = root.execute(text(f"SELECT count(*) FROM {STAGING_SCHEMA}.pp_parcel_geometry_v1")).scalar()
-                if full_geom != expected["tables"]["geo29_parcels"]["count"]:
+                quarantined = root.execute(
+                    text(f"SELECT count(*) FROM {STAGING_SCHEMA}.pp_parcel_geometry_quarantine_v1")
+                ).scalar()
+                if full_geom + quarantined != expected["tables"]["geo29_parcels"]["count"]:
                     raise ValueError("Geometry derivation lost records")
                 from_pg = conn.execute(select(metadata.tables["runs"])).mappings().all()
                 financial = [{col: r[col] for col in FINANCIAL_COLUMNS} for r in from_pg]
@@ -373,6 +392,7 @@ def stage_postgres(snapshot: Path, dsn: str, allow_execute: bool = False) -> dic
                     "tables_reconciled": len(actual),
                     "rows_reconciled": expected["row_count"],
                     "parcel_geometries": full_geom,
+                    "parcel_geometries_quarantined": quarantined,
                     "production_cutover": False,
                     "application_backend": "sqlite",
                 }
