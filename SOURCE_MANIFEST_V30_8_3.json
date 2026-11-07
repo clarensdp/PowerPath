@@ -545,6 +545,7 @@
   "review/reference-v259/powerpath_reference.py": "087875769215ad94b80bd2cb74315a322773f57e1e9d770005bbaeebe1bdf7ee",
   "review/reference-v259/reference_v259.py": "5fe921cfcd45dafd5c68b8415c529c1ce7ed365d77b7b62d1c5642ade0c276c9",
   "review/reference-v259/self_checks.py": "08a08993984dca7757e715fee64d530414068fab8f92d70651fb1d199ee48e4f",
+  "review/v30_8_3/changes_vs_v30_8_2.patch": "fdabbe811ba7c9b60d31766d033ef4529b303997dc97a4d6ae9f570683cc7bc1",
   "review/v30_8_3/pg_acceptance_run.txt": "7b90e73bdcc893c2dc1470963c247e903d03556532657239502367ec24f38dbd",
   "review/v30_8_3/regression_gate.txt": "930d402ac3f86090390778a9688c8858834fe8669b2d4ccf24cb0c90a2d72b8a",
   "review/v30_8_3/restore_drill.json": "a26571dc51d36a1627db5462dec65e65bb9060f36831ca9e5c9aa0aeb12fb3a1",
