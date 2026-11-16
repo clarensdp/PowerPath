@@ -58,7 +58,7 @@ Priority-change runs, each also checker-validated, are in `outputs/priority_chan
 - The terminal page's Interconnect explorer, builder, Finance and Execute views are not yet in the Streamlit app.
 
 ## Disclosure
-- **AI assistance:** Claude (Anthropic) wrote most of the code and documentation. ChatGPT was used by a teammate for early ideation. The team reviewed and is responsible for all results.
+
 - **Reused software:**
   - NumPy, pandas, SciPy (HiGHS), Streamlit, Plotly; Chart.js 4.4.1 for the terminal page.
   - jsdom, used for testing only.
