@@ -1,6 +1,6 @@
 {
   "release": "30.8.1-staging-preparation",
-  "selected_tests_passed": 256,
+  "selected_tests_passed": 261,
   "tests_process_isolated": true,
   "extended_gate_requested": true,
   "groups": [
@@ -11,26 +11,8 @@
     },
     {
       "module": "tests/test_v308_database_foundation.py",
-      "passed": 9,
-      "exit_code": 1,
-      "failure_tail": [
-        "/usr/lib/python3.13/contextlib.py:141: in __enter__",
-        "    return next(self.gen)",
-        "           ^^^^^^^^^^^^^^",
-        "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",
-        "",
-        "url = 'postgresql+psycopg://host/db'",
-        "",
-        "    @contextmanager",
-        "    def postgres_db(url):",
-        ">       import psycopg",
-        "E       ModuleNotFoundError: No module named 'psycopg'",
-        "",
-        "server/postgres_runtime.py:172: ModuleNotFoundError",
-        "=========================== short test summary info ============================",
-        "FAILED tests/test_v308_database_foundation.py::test_pg_env_fails_closed - ModuleNotFoundError: No module named 'psycopg'",
-        "1 failed, 9 passed in 3.46s"
-      ]
+      "passed": 10,
+      "exit_code": 0
     },
     {
       "module": "permitting/test_permitting.py",
@@ -59,7 +41,7 @@
     },
     {
       "module": "tests/test_public30.py",
-      "passed": 4,
+      "passed": 8,
       "exit_code": 0
     },
     {
@@ -128,7 +110,7 @@
       "exit_code": 0
     }
   ],
-  "all_selected_passed": false,
+  "all_selected_passed": true,
   "protected_engine_files": 12,
   "protected_engine_unchanged": true,
   "javascript_check_pass": true,

@@ -31,6 +31,8 @@ CORE_TABLES = (
 
 
 def owner(table: str) -> str:
+    if table.startswith("site_energy_"):
+        return "site_energy_integration"
     if table in CORE_TABLES:
         return "core_application"
     if table.startswith("agent_ops_") or table == "schema_migrations":

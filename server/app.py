@@ -1313,7 +1313,11 @@ install_intelligence(app, db, project_exists, _link_exists, audit, calculate)
 
 from server.parcels28 import install as install_parcels28
 
-install_parcels28(app, db, project_exists, audit, ROOT)
+parcel_store = install_parcels28(app, db, project_exists, audit, ROOT)
+
+from server.site_energy_api import install as install_site_energy
+
+install_site_energy(app, db, parcel_store, project_exists, audit, ROOT, calculate)
 
 
 @app.get("/advanced")

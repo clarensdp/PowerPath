@@ -254,3 +254,5 @@ def install(app, db, project_exists, audit, root):
                 raise HTTPException(404, "Task not found")
             audit(con, pid, "parcel.task.updated", parcel, data.model_dump(mode="json"))
         return {"updated": True}
+
+    return store

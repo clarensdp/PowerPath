@@ -30,7 +30,7 @@ Visit `http://127.0.0.1:8768/` for the streamlined workspace and `/advanced` for
 - Backend: FastAPI + Python (`server/`); workspace: vanilla JS/TypeScript (`web/`); financial model bridge (`engine/`).
 - Site feasibility / GIS / permitting: `feasibility/`, `data_sources/`, `permitting/` and `infrastructure/`.
 - Bounded agent scheduling: `agents/` (opt-in, local-first).
-- Source integrity and regression tooling: `scripts/run_v3081_gate.py`, `ENGINE_HASH_AUDIT_V30_3.json`, `SOURCE_MANIFEST_COFUNDER_2026-11-07.json`.
+- Source integrity and regression tooling: `scripts/run_v3081_gate.py`, `docs/manifests/ENGINE_HASH_AUDIT_V30_3.json`, `docs/manifests/SOURCE_MANIFEST_COFUNDER_2026-11-07.json`.
 
 To validate:
 
@@ -50,7 +50,7 @@ Node 22.23.4 and Python 3.12.10 are recommended based on November 4 review; actu
 4. **P1:** Pin dependencies and run fresh Mac/Linux installs, fuller browser accessibility tests, backed-up restoration, and controlled financial regression reruns under the reviewed Node version.
 5. **P1:** Link utility milestones, executed lease/capex/DSRA terms, full-parcel GIS coverage and verifiable evidence before making investment-grade claims.
 
-The source includes `runtime_migration_preview.sql` for provenance only. Never execute it on a real database without an approved migration review and independent backup.
+The source includes `docs/archive/runtime_migration_preview.sql` for provenance only. Never execute it on a real database without an approved migration review and independent backup.
 
 ## Suggested ownership
 

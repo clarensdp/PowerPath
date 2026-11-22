@@ -8,6 +8,8 @@ from datetime import datetime, timezone
 from fastapi import HTTPException, Query
 from server.geo29 import geometry_bounds, parse_bbox, stamp
 
+DEFAULT_MIN_ACRES = 50
+
 SOURCES = {
     "37": {
         "id": "nc-onemap",
@@ -117,7 +119,8 @@ class PublicParcels:
         source = SOURCES[state]
         where = "1=1"
         if state == "37" and min_acres:
-            where = "gisacres >= " + str(float(min_acres))
+            # Missing source acreage is calculated from geometry after retrieval.
+            where = "(gisacres >= " + str(float(min_acres)) + " OR gisacres IS NULL)"
         params = {
             "f": "geojson",
             "where": where,
@@ -194,7 +197,7 @@ class PublicParcels:
                 self.cache.popitem(last=False)
         return payload, False
 
-    def query(self, bbox, min_acres=0, pin="", limit=200, state=None):
+    def query(self, bbox, min_acres=DEFAULT_MIN_ACRES, pin="", limit=200, state=None):
         if bbox[2] - bbox[0] > 0.8 or bbox[3] - bbox[1] > 0.8:
             return {
                 "type": "FeatureCollection",
@@ -229,8 +232,9 @@ class PublicParcels:
                     messages.append(str(payload["invalid_records"]) + " invalid records omitted.")
             except Exception:
                 failures += 1
-                cached = self.store.query(bbox, sf, min_acres, limit=limit)["features"]
-                features += cached
+                cached = self.store.query(bbox, sf, min_acres, limit=limit)
+                features += cached["features"]
+                has_more |= cached["has_more"]
                 messages.append(
                     src["name"]
                     + " unavailable; showing previously fetched records where available. These may be stale."
@@ -239,7 +243,8 @@ class PublicParcels:
         features = [
             f
             for f in features
-            if (f["properties"].get("area_sqft", f["properties"].get("PA_LEGAL_SQFT")) or 0) / 43560 >= min_acres
+            if f["properties"].get("area_sqft", f["properties"].get("PA_LEGAL_SQFT")) is not None
+            and f["properties"].get("area_sqft", f["properties"].get("PA_LEGAL_SQFT")) / 43560 >= min_acres
             and (
                 not pin
                 or pin.casefold()
@@ -282,7 +287,7 @@ def install(app, store):
     @app.get("/api/geo30/parcels")
     def parcels(
         bbox: str,
-        min_acres: float = Query(0, ge=0, le=1000000),
+        min_acres: float = Query(DEFAULT_MIN_ACRES, ge=0, le=1000000),
         pin: str = Query("", max_length=80),
         limit: int = Query(200, ge=1, le=200),
         state: str | None = None,

@@ -22,3 +22,14 @@ label.check{flex-direction:row!important;align-items:flex-start;gap:8px;font-siz
 @media(max-width:760px){.econbar label{min-width:0;width:100%}}
 .toolsh{font-size:10px;letter-spacing:.12em;margin:8px 0 4px;opacity:.8}
 table.econ small.warn{color:#8a5a16;font-weight:600}.notice.warnbox{border-color:#e7c98f;background:#fdf6e7}
+/* Public energy references extend the existing parcel inspector. */
+.energy-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.energy-grid > section { min-width: 0; }
+.energy-point { padding: 12px 0; border-bottom: 1px solid #dce4df; overflow-wrap: anywhere; }
+.energy-point small { display: block; margin-top: 5px; }
+.energy-assets { max-height: 220px; overflow-y: auto; }
+.energy-assets button { display: block; text-align: left; margin: 7px 0; }
+#site-energy { margin-top: 24px; overflow-wrap: anywhere; }
+#site-energy details { margin: 14px 0; }
+#site-energy select, #site-energy input { max-width: 100%; min-width: 0; }
+@media (max-width: 1100px) { .energy-grid { grid-template-columns: 1fr; } }

@@ -1,3 +1,5 @@
+import { createSiteEnergy } from './site-energy.js';
+
 const $ = s => document.querySelector(s),
   E = v =>
     String(v ?? '').replace(
@@ -22,6 +24,7 @@ const instructions = {
   delivery: 'Review equipment availability, construction dependencies and credible energization milestones.',
   connectivity: 'Review documented fiber access and water/cooling requirements for the proposed design.'
 };
+const DEFAULT_MIN_ACRES = 50;
 let state = {
   step: 1,
   projects: [],
@@ -31,7 +34,7 @@ let state = {
   short: [],
   detail: null,
   paths: [],
-  min: 0,
+  min: DEFAULT_MIN_ACRES,
   query: '',
   only: false,
   tiles: false
@@ -39,6 +42,11 @@ let state = {
 let map, polygons, tileLayer, mapBounds;
 let sessionToken = '';
 let memberships = [];
+const siteEnergy = createSiteEnergy({
+  api,
+  selection: () => ({pid: state.pid, parcel: state.selected}),
+  onApplied: () => { state.econ = null; }
+});
 async function api(path, method = 'GET', body) {
   const headers = {};
   if (body) headers['Content-Type'] = 'application/json';
@@ -114,6 +122,7 @@ async function refreshProject() {
   if (state.selected) state.detail = await api(prefix() + '/parcels28/' + encodeURIComponent(state.selected));
 }
 function render() {
+  siteEnergy.draw(null);
   if (map) {
     map.remove();
     map = null;
@@ -194,7 +203,7 @@ function inspect() {
     })
     .join(
       ''
-    )}${!saved ? '<p class="nodata">Save the parcel to begin a project-specific assessment.</p>' : ''}</section></div>`;
+    )}${!saved ? '<p class="nodata">Save the parcel to begin a project-specific assessment.</p>' : ''}</section></div>${siteEnergy.html()}`;
 }
 function drawMap() {
   mapBounds = false;
@@ -205,6 +214,7 @@ function drawMap() {
   map = L.map('map', { zoomControl: true, preferCanvas: true }).setView([39.035, -77.5], 11);
   if (state.tiles) addTiles();
   updatePolygons();
+  siteEnergy.draw(map);
 }
 function addTiles() {
   if (tileLayer && map.hasLayer(tileLayer)) return;
@@ -245,8 +255,11 @@ function updatePolygons() {
 }
 async function selectParcel(id) {
   state.selected = id;
+  const pid = state.pid;
   try {
-    state.detail = await api(prefix() + '/parcels28/' + encodeURIComponent(id));
+    const detail = await api(prefix() + '/parcels28/' + encodeURIComponent(id));
+    if (state.pid !== pid || state.selected !== id || state.step !== 1) return;
+    state.detail = detail;
     $('#inspector').innerHTML = inspect();
     $('#results').innerHTML = resultList(visible());
     bindParcel();
@@ -256,6 +269,7 @@ async function selectParcel(id) {
       const l = polygons.getLayers().find(l => sid(l.feature) === id);
       if (l) map.fitBounds(l.getBounds(), { padding: [60, 60], maxZoom: 15 });
     }
+    siteEnergy.load();
   } catch (e) {
     toast(e.message);
   }
@@ -406,6 +420,7 @@ function bindParcel() {
   document.querySelectorAll('[data-parcel]').forEach(el => (el.onclick = () => selectParcel(el.dataset.parcel)));
 }
 function bindInspector() {
+  siteEnergy.bind();
   const b = $('#save-parcel');
   if (b)
     b.onclick = async () => {
@@ -526,7 +541,7 @@ function bind() {
       update();
     };
     $('#reset-filters').onclick = () => {
-      state.min = 0;
+      state.min = DEFAULT_MIN_ACRES;
       state.query = '';
       state.only = false;
       render();
@@ -707,6 +722,7 @@ drawMap = function () {
   });
   updatePolygons();
   loadViewport();
+  siteEnergy.draw(map);
 };
 async function loadViewport() {
   if (!map) return;
@@ -892,6 +908,7 @@ async function loadEconomics() {
       target = Number(p.target_mw);
     box.innerHTML = `<section class="panel panelpad econbar"><label>Base scenario<select id="econ-base">${bases.map(b => `<option value="${E(b.id)}" ${b.id === chosen.id ? 'selected' : ''}>${E(b.name)} · v${b.version} · ${scenarioMW(b).toFixed(0)} MW</option>`).join('')}</select></label><div class="muted">Engine ${E(chosen.config?.engineVersion || '25.8.5')} · ${ok.length} of ${results.length} pathways calculated · ${E(new Date(state.econ.at).toLocaleString())}</div></section>
  ${Math.abs(mw - target) > 1e-6 ? `<div class="notice">The base scenario models ${mw.toFixed(1)} MW of IT load; this project targets ${target.toFixed(1)} MW. Results reflect the scenario, not the target. <a href="${advanced('model')}">Edit buildings ↗</a></div>` : ''}
+ <section class="panel panelpad"><h3>Energy input provenance</h3><p>Applied electricity cost: $${E(chosen.config.powerCostMWh ?? 85)}/MWh · ${E(chosen.config.siteEnergyInputs && chosen.config.siteEnergyInputs.effective_power_cost_mwh === chosen.config.powerCostMWh ? chosen.config.siteEnergyInputs.effective_electricity.status : "scenario assumption / explicit override")}.</p><p>${E(chosen.config.siteEnergyInputs?.electricity.methodology || "Illustrative saved assumption; no public reference selected.")}</p><p class="muted">Construction: $${E(chosen.config.constructionCostMW ?? 7)}M/MW · scenario assumption. Building schedules, load, lease and finance inputs remain scenario assumptions.</p></section>
  <section class="panel"><div class="tablewrap"><table class="econ"><thead><tr><th>Pathway</th><th>First revenue</th><th>Modelled NPV</th><th>Levered IRR</th><th>Min DSCR</th><th>Interest carried before revenue</th><th>Covenant breach months</th><th>Sponsor equity</th></tr></thead><tbody>${results
    .map(({ path, r, error }) => {
      if (error)

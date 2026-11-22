@@ -31,7 +31,7 @@ def assess():
         failures.append("MANAGED_IDENTITY_NOT_CONFIGURED")
     if os.environ.get("POWERPATH_V27_AUTH_MODE") != "required":
         failures.append("REQUIRED_AUTH_NOT_CONFIGURED")
-    report = ROOT / "TEST_REPORT_V30_8_1.json"
+    report = ROOT / "docs/reports/TEST_REPORT_V30_8_1.json"
     if report.exists():
         results = json.loads(report.read_text())
         if not results.get("all_selected_passed"):

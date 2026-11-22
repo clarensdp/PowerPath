@@ -65,6 +65,6 @@ print(('PASS' if same else 'FAIL'),'financial module hashes')
 report={'release':'PowerPath v26.3.0 Geographic Intelligence / Critical Path alpha','scope':'local web foundation and regression; not contractual validation',
   'passed':sum(x['passed'] for x in results),'failed':sum(not x['passed'] for x in results),
   'checks':results,'assurance':{'G4':'BLOCKED','G5':'NOT STARTED','production_authentication':'NOT IMPLEMENTED'}}
-(ROOT/'V26_AUDIT.json').write_text(json.dumps(report,indent=2))
+(ROOT/'docs/reports/V26_AUDIT.json').write_text(json.dumps(report,indent=2))
 print(f"{report['passed']} PASSED, {report['failed']} FAILED")
 if report['failed']:sys.exit(1)

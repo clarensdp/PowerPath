@@ -86,7 +86,6 @@ def _column_for(headers, kind):
     exact = [h for h in headers if normalize_header(h) == normalize_header(kind)]
     return exact[0] if exact else next((h for h in headers if normalize_header(h) in alias), None)
 
-
 def parse_data(raw, warnings=None):
     raw = raw.lstrip("﻿")  # RT-B11: UTF-8 BOM from spreadsheet exports
     reader = csv.DictReader(io.StringIO(raw))

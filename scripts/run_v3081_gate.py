@@ -73,7 +73,7 @@ def main():
             fail.append(module)
         records.append(record)
         print(f"{i+1:02d}/{len(selected)} {module}: {count} passed (exit {code})", flush=True)
-    audit = json.loads((ROOT / "ENGINE_HASH_AUDIT_V30_3.json").read_text())["files"]
+    audit = json.loads((ROOT / "docs/manifests/ENGINE_HASH_AUDIT_V30_3.json").read_text())["files"]
     hashes = {
         p: hashlib.sha256((ROOT / "engine" / p).read_bytes()).hexdigest() == v["sha256"] for p, v in audit.items()
     }
@@ -100,7 +100,7 @@ def main():
         "browser_acceptance_verified": False,
         "production_ready": False,
     }
-    (ROOT / "TEST_REPORT_V30_8_1.json").write_text(json.dumps(report, indent=2) + "\n")
+    (ROOT / "docs/reports/TEST_REPORT_V30_8_1.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k != "groups"}, indent=2), flush=True)
     return 0 if not fail and all(hashes.values()) and js_code == 0 else 1
 

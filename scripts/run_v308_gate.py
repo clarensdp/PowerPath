@@ -72,7 +72,7 @@ def main():
         print(name + f": {count} passed, exit={x.returncode}", flush=True)
         if x.returncode:
             all_ok = False
-    baseline = json.loads((ROOT / "ENGINE_HASH_AUDIT_V30_3.json").read_text())["files"]
+    baseline = json.loads((ROOT / "docs/manifests/ENGINE_HASH_AUDIT_V30_3.json").read_text())["files"]
     hashes = {
         k: (hashlib.sha256((ROOT / "engine" / k).read_bytes()).hexdigest() == v["sha256"]) for k, v in baseline.items()
     }

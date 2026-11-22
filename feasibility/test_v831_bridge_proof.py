@@ -35,7 +35,7 @@ def run(cfg):
 
 def test_engine_files_unchanged_from_v30_3_audit():
     import hashlib
-    audit = json.loads((ENGINE.parent / 'ENGINE_HASH_AUDIT_V30_3.json').read_text())['files']
+    audit = json.loads((ENGINE.parent / 'docs/manifests/ENGINE_HASH_AUDIT_V30_3.json').read_text())['files']
     for rel, meta in audit.items():
         assert hashlib.sha256((ENGINE / rel).read_bytes()).hexdigest() == meta['sha256'], rel
 

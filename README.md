@@ -32,16 +32,30 @@ python -m scripts.run_v3081_gate --extended
 
 The PostgreSQL runtime adapter is **experimental, disabled by default and not accepted for deployment**. Do not set `POWERPATH_DATABASE_URL` in the local demo or assume v30.9 is a new application release.
 
+## Repository layout
+
+- `web/` — frontend pages, styles and TypeScript/JavaScript.
+- `server/` — backend API, database access and external data providers.
+- `engine/`, `feasibility/`, `permitting/`, `agents/` — calculation and workflow logic.
+- `data/` — local runtime database and uploaded evidence; `data_sources/` — reference datasets.
+- `tests/`, `scripts/`, `infrastructure/`, `migrations/` — verification, operations and database tooling.
+- `docs/` — setup guides and technical documentation; see the [documentation index](docs/README.md).
+- `docs/releases/` — release history and older quickstarts.
+- `docs/manifests/` — historical file fingerprints and protected-engine hash baselines.
+- `docs/reports/` — audit and test results, including regenerated release-gate reports.
+- `docs/archive/` — historical supporting artifacts.
+
 ## Start here
 
-- **[v30.8.3 release: single flow, economics, append-only, PostgreSQL acceptance](RELEASE_V30_8_3.md)**
+- [Real-world site energy integrations: setup, sources, API, Virginia example and limitations](docs/SITE_ENERGY_INTEGRATION.md)
+- **[v30.8.3 release: single flow, economics, append-only, PostgreSQL acceptance](docs/releases/RELEASE_V30_8_3.md)**
 - **[Nov 7 technical + UX audit: findings, fixes and open items](docs/AUDIT_2026-11-07.md)**
-- [Push to private GitHub](GITHUB_PUSH_GUIDE.md)
-- [Verification record and remaining checks](VERIFICATION_2026-11-07.md)
+- [Push to private GitHub](docs/GITHUB_PUSH_GUIDE.md)
+- [Verification record and remaining checks](docs/VERIFICATION_2026-11-07.md)
 - [Cofounder handoff, provenance and blockers](docs/COFOUNDER_HANDOFF.md)
-- [PostgreSQL candidate limitations](POSTGRES_RUNTIME_CANDIDATE_STATUS.md)
+- [PostgreSQL candidate limitations](docs/POSTGRES_RUNTIME_CANDIDATE_STATUS.md)
 - [Staging and cutover runbook](docs/POSTGRES_CUTOVER_RUNBOOK_V3081.md)
-- [History](CHANGELOG.md)
-- [Earlier v30.8.1 details](RELEASE_V30_8_1_POSTGRES_STAGING.md)
+- [History](docs/CHANGELOG.md)
+- [Earlier v30.8.1 details](docs/releases/RELEASE_V30_8_1_POSTGRES_STAGING.md)
 
 **Data classification:** Local databases, uploaded evidence, migration snapshots and credentials are intentionally excluded from Git. A single curated synthetic fixture is versioned for developer onboarding. Review third-party GIS rights before any public distribution.
