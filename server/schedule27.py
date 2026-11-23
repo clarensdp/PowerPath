@@ -259,7 +259,9 @@ def apply_to_config(config: dict, path: dict, schedule: dict) -> dict:
     x["delayMonths"] = int(config.get("delayMonths", 0)) + int(schedule["effective_delay_months"])
     x["constructionCostMW"] = float(config.get("constructionCostMW", 7)) * (1 + float(path["capex_uplift_pct"]) / 100)
     x["powerCostMWh"] = float(config.get("powerCostMWh", 85)) * (1 + float(path["energy_uplift_pct"]) / 100)
-    if path.get("power_month") is not None or path.get("power_phases") is not None:
+    # Legacy rows default capacity_mw to 0, meaning "not entered", not "zero supply".
+    # Only an explicit phase list or an entered positive capacity constrains delivery.
+    if path.get("power_phases") or (path.get("power_month") is not None and (path.get("capacity_mw") or 0) > 0):
         phases = path.get("power_phases") or [{'month': path['power_month'], 'mw': path['capacity_mw']}]
         x = constrain(x, phases, path.get('capacity_basis', 'IT'))
     return x

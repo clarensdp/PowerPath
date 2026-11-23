@@ -61,7 +61,7 @@ def fetch_layers(geometry, threshold=15, fetch=_http_json):
     layers,stats,warnings=official_overlays(geometry,consent=True,fetch=fetch)
     for key in ('water','slope','protected_land'):
         try:
-            layer=terrain(geometry,threshold,fetch) if key=='slope' else _get_layer('water',geometry,fetch)[0]
+            layer=terrain(geometry,threshold,fetch) if key=='slope' else _get_layer(key,geometry,fetch)[0]
             layers.append(layer);stats[key]={'status':'available','coverage':'UNCONFIRMED','sampling':layer.get('sampling')}
         except (ValueError,KeyError,TypeError,OSError,TimeoutError,GEOSException) as exc:
             stats[key]={'status':'unavailable','error_type':type(exc).__name__};warnings.append(f'{key} source unavailable; no clearance inferred')

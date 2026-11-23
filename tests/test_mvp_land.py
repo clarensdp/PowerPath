@@ -37,3 +37,26 @@ def test_terrain_has_mapped_exclusions_and_no_declared_extent():
     r=terrain(mapping(box(-77,38,-76.99,38.01)),15,samples)
     assert len(r['features']['features'])==100
     assert r['coverage_geometry'] is None
+
+
+def test_fetch_layers_queries_each_named_source(monkeypatch):
+    # Regression: protected_land previously re-fetched the water layer.
+    monkeypatch.setenv('POWERPATH_PERMITIQ_REMOTE_OVERLAYS', '1')
+    from permitting import land_sources
+    calls = []
+
+    def fake(url, params):
+        calls.append(url)
+        if 'getSamples' in url:
+            points = json.loads(params['geometry'])['points']
+            return {'samples': [{'location': {'x': x, 'y': y}, 'value': 100} for x, y in points]}
+        if params.get('returnIdsOnly'):
+            return {'objectIds': []}
+        return {'type': 'FeatureCollection', 'features': []}
+
+    layers, stats, _ = land_sources.fetch_layers(mapping(box(-77, 38, -76.99, 38.01)), fetch=fake)
+    kinds = [layer['kind'] for layer in layers]
+    assert sorted(kinds) == sorted(['flood', 'wetlands', 'water', 'slope', 'protected_land'])
+    assert sum(land_sources.PAD in url for url in calls) >= 1
+    assert sum(land_sources.WATER in url for url in calls) == 1
+    assert stats['protected_land']['status'] == 'available'

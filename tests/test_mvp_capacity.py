@@ -37,3 +37,17 @@ def test_legacy_and_invalid():
     assert apply_to_config(c,p,{'effective_delay_months':0})==c
     for phases in [[{'month':20,'mw':30},{'month':30,'mw':20}],[{'month':2.5,'mw':2}]]:
         with pytest.raises(ValueError):constrain(c,phases)
+
+
+def test_legacy_month_without_entered_capacity_is_unconstrained():
+    # capacity_mw defaults to 0 on legacy paths; that means "not entered", not zero supply.
+    c=config();p=dict(strategy='grid',capacity_mw=0,power_month=12,capex_uplift_pct=0,energy_uplift_pct=0)
+    x=apply_to_config(c,p,{'effective_delay_months':0})
+    assert 'powerTranches' not in x or x['powerTranches']==c.get('powerTranches')
+    assert max(row['onlineMW'] for row in calculate('underwrite',x)['rows'])==75
+
+
+def test_explicit_zero_phase_still_means_zero_supply():
+    c=config();p=dict(capacity_mw=0,power_month=1,power_phases=[{'month':1,'mw':0}],capex_uplift_pct=0,energy_uplift_pct=0)
+    x=apply_to_config(c,p,{'effective_delay_months':0})
+    assert max(row['onlineMW'] for row in calculate('underwrite',x)['rows'])==0
