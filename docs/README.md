@@ -4,6 +4,7 @@ Start with the [project README](../README.md) for installation and commands.
 
 ## Current guides
 
+- [v31.5 underwriting layer](UNDERWRITING_V31_5.md): evidence register and ledger, deliverability, returns bridge, change review, forecasts, MCP server.
 - [Site energy integration](SITE_ENERGY_INTEGRATION.md): EIA, solar, infrastructure and scenario inputs.
 - [Architecture](ARCHITECTURE.md): application structure.
 - [Engineering handoff](COFOUNDER_HANDOFF.md): project context and operational boundaries.

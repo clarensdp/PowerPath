@@ -48,6 +48,7 @@ The PostgreSQL runtime adapter is **experimental, disabled by default and not ac
 ## Start here
 
 - [Connected parcel feasibility and reports](docs/CONNECTED_FEASIBILITY.md)
+- [v31.5 underwriting layer](docs/UNDERWRITING_V31_5.md)
 
 - [Real-world site energy integrations: setup, sources, API, Virginia example and limitations](docs/SITE_ENERGY_INTEGRATION.md)
 - **[v30.8.3 release: single flow, economics, append-only, PostgreSQL acceptance](docs/releases/RELEASE_V30_8_3.md)**

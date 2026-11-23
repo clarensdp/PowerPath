@@ -1370,6 +1370,10 @@ install_site_energy(app, db, parcel_store, project_exists, audit, ROOT, calculat
 from server.site_feasibility_api import install as install_site_feasibility
 install_site_feasibility(app, db, parcel_store, project_exists, calculate)
 
+from server.underwriting.api import install as install_underwriting
+
+install_underwriting(app, db, project_exists, audit, calculate, _schedule, path_inputs)
+
 
 @app.get("/advanced")
 def advanced_workspace():
