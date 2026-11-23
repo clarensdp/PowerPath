@@ -27,6 +27,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel, Field
 from server import schedule27
+from server.services.data_provenance import path_inputs, save_path_inputs
 
 from server.database import ROOT, DATA, EVIDENCE, DB, sqlite_db as db
 
@@ -112,7 +113,15 @@ class EvidenceIn(BaseModel):
     notes: str = Field(default="", max_length=2000)
 
 
+class PowerPhase(BaseModel):
+    month: int = Field(ge=1, le=600)
+    mw: float = Field(ge=0, le=100000, allow_inf_nan=False)
+
+
 class PathIn(BaseModel):
+    parcel_id: str | None = None
+    power_phases: list[PowerPhase] | None = Field(default=None, min_length=1, max_length=100)
+    capacity_basis: str = Field(default='IT', pattern='^(IT|gross)$')
     name: str = Field(min_length=2, max_length=140)
     strategy: str = Field(pattern="^(grid|onsite|hybrid|colocation)$")
     status: str = Field(default="hypothesis", pattern="^(hypothesis|engagement|study|conditional)$")
@@ -711,9 +720,24 @@ def get_paths(pid: str):
     with db() as con:
         project_exists(con, pid)
         return [
-            record(x)
+            path_inputs(con, record(x))
             for x in con.execute("SELECT * FROM power_paths WHERE project_id=? ORDER BY created_at,id", (pid,))
         ]
+
+
+@contextmanager
+def _write_path():
+    with db() as con:
+        if os.environ.get('POWERPATH_DATABASE_URL'):
+            yield con
+            return
+        con.execute('BEGIN IMMEDIATE')
+        try:
+            yield con
+            con.execute('COMMIT')
+        except Exception:
+            con.execute('ROLLBACK')
+            raise
 
 
 @app.post("/api/projects/{pid}/paths", status_code=201)
@@ -722,7 +746,18 @@ def create_path(pid: str, data: PathIn):
     id = uid()
     ts = now()
     d = data.model_dump()
-    with db() as con:
+    if d['power_phases'] is not None:
+        from server.services.power_capacity import tranches
+        try:
+            tranches(d['power_phases'], 1, d['capacity_basis'])
+        except ValueError as exc:
+            raise HTTPException(422, str(exc))
+    if d['power_phases']:
+        d['capacity_mw'] = d['power_phases'][-1]['mw']
+        d['power_month'] = next((p['month'] for p in d['power_phases'] if p['mw'] > 0), None)
+    if os.environ.get('POWERPATH_DATABASE_URL') and (d['parcel_id'] or d['power_phases'] or d['capacity_basis'] != 'IT'):
+        raise HTTPException(503, 'Parcel pathway settings require the local SQLite workspace')
+    with _write_path() as con:
         project_exists(con, pid)
         _link_exists(con, "evidence", pid, d["evidence_id"], "Evidence")
         con.execute(
@@ -746,6 +781,7 @@ def create_path(pid: str, data: PathIn):
                 ts,
             ),
         )
+        save_path_inputs(con, pid, id, d)
         audit(
             con,
             pid,
@@ -760,8 +796,19 @@ def create_path(pid: str, data: PathIn):
 def update_path(pid: str, pathid: str, data: PathIn):
     _check_coords(data)
     d = data.model_dump()
+    if d['power_phases'] is not None:
+        from server.services.power_capacity import tranches
+        try:
+            tranches(d['power_phases'], 1, d['capacity_basis'])
+        except ValueError as exc:
+            raise HTTPException(422, str(exc))
+    if d['power_phases']:
+        d['capacity_mw'] = d['power_phases'][-1]['mw']
+        d['power_month'] = next((p['month'] for p in d['power_phases'] if p['mw'] > 0), None)
+    if os.environ.get('POWERPATH_DATABASE_URL') and (d['parcel_id'] or d['power_phases'] or d['capacity_basis'] != 'IT'):
+        raise HTTPException(503, 'Parcel pathway settings require the local SQLite workspace')
     ts = now()
-    with db() as con:
+    with _write_path() as con:
         _link_exists(con, "power_paths", pid, pathid, "Path")
         _link_exists(con, "evidence", pid, d["evidence_id"], "Evidence")
         con.execute(
@@ -783,6 +830,7 @@ def update_path(pid: str, pathid: str, data: PathIn):
                 pathid,
             ),
         )
+        save_path_inputs(con, pid, pathid, d)
         audit(con, pid, "path.updated", pathid, {"status": d["status"], "delay_months": d["delay_months"]})
     return {"id": pathid, "project_id": pid, **d, "updated_at": ts}
 
@@ -1190,7 +1238,7 @@ def _schedule_sensitivity(pid, pathid, data, route, action="milestone.sensitivit
     with db() as con:
         project_exists(con, pid)
         scheduled = _schedule(con, pid, pathid)
-        path = dict(con.execute("SELECT * FROM power_paths WHERE id=?", (pathid,)).fetchone())
+        path = path_inputs(con, dict(con.execute("SELECT * FROM power_paths WHERE id=?", (pathid,)).fetchone()))
         base = scenario_exists(con, pid, data.source_scenario_id)
         if base["mode"] != "underwrite":
             raise HTTPException(422, "Use an underwriting base scenario")
@@ -1264,7 +1312,7 @@ def schedule_impact(pid: str, pathid: str, source_scenario_id: str | None = None
     with db() as con:
         project_exists(con, pid)
         scheduled = _schedule(con, pid, pathid)
-        path = dict(con.execute("SELECT * FROM power_paths WHERE id=?", (pathid,)).fetchone())
+        path = path_inputs(con, dict(con.execute("SELECT * FROM power_paths WHERE id=?", (pathid,)).fetchone()))
         if source_scenario_id:
             base = scenario_exists(con, pid, source_scenario_id)
         else:
@@ -1318,6 +1366,9 @@ parcel_store = install_parcels28(app, db, project_exists, audit, ROOT)
 from server.site_energy_api import install as install_site_energy
 
 install_site_energy(app, db, parcel_store, project_exists, audit, ROOT, calculate)
+
+from server.site_feasibility_api import install as install_site_feasibility
+install_site_feasibility(app, db, parcel_store, project_exists, calculate)
 
 
 @app.get("/advanced")

@@ -1,3 +1,4 @@
+import { createSiteFeasibility } from './site-feasibility.js';
 import { createSiteEnergy } from './site-energy.js';
 
 const $ = s => document.querySelector(s),
@@ -35,6 +36,8 @@ let state = {
   detail: null,
   paths: [],
   min: DEFAULT_MIN_ACRES,
+  usableMin:50,
+  usableFilter:false,
   query: '',
   only: false,
   tiles: false
@@ -46,6 +49,10 @@ const siteEnergy = createSiteEnergy({
   api,
   selection: () => ({pid: state.pid, parcel: state.selected}),
   onApplied: () => { state.econ = null; }
+});
+const connected = createSiteFeasibility({
+  api, selection: () => ({pid:state.pid,parcel:state.selected}),
+  onChange: async () => { await refreshProject(); updatePolygons(); const results=$('#results'); if(results){results.innerHTML=resultList(visible());bindParcel();} }
 });
 async function api(path, method = 'GET', body) {
   const headers = {};
@@ -100,10 +107,11 @@ function head(eye, title, subtitle, actions = '') {
   return `<div class="pagehead"><div><div class="eyebrow">${eye}</div><h1>${title}</h1><p>${subtitle}</p></div><div class="actions">${actions}</div></div>`;
 }
 function visible() {
-  return state.catalog.features
+  const pool=state.usableFilter ? state.short.map(s=>s.feature).filter(Boolean) : state.catalog.features;
+  return pool
     .filter(
       f =>
-        acres(f) >= state.min &&
+        (state.usableFilter ? (state.short.find(s=>s.parcel_id===sid(f))?.usable_acres ?? -1) >= state.usableMin : acres(f) >= state.min) &&
         (!state.query ||
           String(f.properties.parcelnumb || sid(f))
             .toLowerCase()
@@ -123,6 +131,7 @@ async function refreshProject() {
 }
 function render() {
   siteEnergy.draw(null);
+  connected.clear();
   if (map) {
     map.remove();
     map = null;
@@ -203,7 +212,7 @@ function inspect() {
     })
     .join(
       ''
-    )}${!saved ? '<p class="nodata">Save the parcel to begin a project-specific assessment.</p>' : ''}</section></div>${siteEnergy.html()}`;
+    )}${!saved ? '<p class="nodata">Save the parcel to begin a project-specific assessment.</p>' : ''}</section></div>${siteEnergy.html()}${saved ? connected.markup() : ""}`;
 }
 function drawMap() {
   mapBounds = false;
@@ -362,7 +371,7 @@ function memo() {
       'Export a current screening snapshot. Missing evidence and failed gates remain part of the record.',
       `<button id="export-json">Export evidence JSON</button><button id="print-memo" class="primary">Print / save PDF</button>`
     ) +
-    `<article class="panel panelpad report"><div class="eyebrow">POWERPATH · SCREENING MEMO · ${new Date().toISOString().slice(0, 10)}</div><h1>${E(p.name)}</h1><p>${E(p.location)} · ${E(p.target_mw)} MW target · ${E(p.status)}</p><p>${E(p.description || 'Project constraints not yet recorded.')}</p><div class="notice">No investment recommendation or electrical reliability certification. All parcel scores are analyst-rated screening indices. G4/G5 remain blocked; financial outputs require separate evidence and review.</div><h2>Parcel comparison</h2><div class="tablewrap"><table><thead><tr><th>Parcel</th><th>Screen</th><th>Coverage</th><th>Missing factors / failed gates</th></tr></thead><tbody>${state.short.map(s => `<tr><td title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</td><td>${status(s.assessment)}</td><td>${s.assessment.coverage_pct}%</td><td>${E(s.assessment.missing_factors.join(', '))}${s.assessment.failed_gates.length ? '<br>FAILED: ' + E(s.assessment.failed_gates.join(', ')) : ''}</td></tr>`).join('') || '<tr><td colspan="4">No shortlisted parcels</td></tr>'}</tbody></table></div><h2>Evidence register</h2>${state.short.map(s => `<h3>Parcel ${E(plabel(s.parcel_id))} <small class="muted">${E(s.parcel_id)}</small></h3>${s.factors.map(f => `<p><strong>${names[f.factor]} · ${E(f.gate)} · ${f.rating ?? '—'}/5</strong><br>${E(f.notes)}<br><small>${E(f.source_date || 'Undated')} · Analyst-entered</small> <a target="_blank" rel="noopener" href="${E(f.source_url || '#')}">${E(f.source_url || 'No source')}</a></p>`).join('') || '<p class="muted">No assessments entered.</p>'}`).join('')}${memoEconomics()}<h2>Power-pathway hypotheses</h2>${state.paths.map(p => `<p><strong>${E(p.name)}</strong> · ${E(p.strategy)} · ${p.capacity_mw} MW assumed · ${p.power_month ? 'Project month ' + p.power_month : 'Timing unknown'}<br>${E(p.source_note)}</p>`).join('') || '<p>No pathways entered.</p>'}<h2>Source & methodology</h2><p>Parcel source versions: ${state.short.map(s => E(s.source_version || 'Legacy Loudoun snapshot')).join(', ') || 'No parcels saved'}. See exported evidence JSON for each parcel’s source URL, retrieval date and retained geometry. Connected snapshots are not a complete inventory. Recorded area is not buildable acreage. No power or sale availability is implied.</p><p>PP-SITE-1.0 uses weighted analyst ratings (0–5): power 30%, permitting 20%, land 15%, environment 15%, delivery 10%, connectivity 10%. Index is withheld below 60% current coverage or without power and permitting assessments. Any failed gate blocks the index. Evidence older than 180 days does not count toward coverage; adverse gates remain active pending review.</p></article>`
+    `<div id="connected-comparison" class="panel panelpad"></div><article class="panel panelpad report"><div class="eyebrow">POWERPATH · SCREENING MEMO · ${new Date().toISOString().slice(0, 10)}</div><h1>${E(p.name)}</h1><p>${E(p.location)} · ${E(p.target_mw)} MW target · ${E(p.status)}</p><p>${E(p.description || 'Project constraints not yet recorded.')}</p><div class="notice">No investment recommendation or electrical reliability certification. All parcel scores are analyst-rated screening indices. G4/G5 remain blocked; financial outputs require separate evidence and review.</div><h2>Parcel comparison</h2><div class="tablewrap"><table><thead><tr><th>Parcel</th><th>Screen</th><th>Coverage</th><th>Missing factors / failed gates</th></tr></thead><tbody>${state.short.map(s => `<tr><td title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</td><td>${status(s.assessment)}</td><td>${s.assessment.coverage_pct}%</td><td>${E(s.assessment.missing_factors.join(', '))}${s.assessment.failed_gates.length ? '<br>FAILED: ' + E(s.assessment.failed_gates.join(', ')) : ''}</td></tr>`).join('') || '<tr><td colspan="4">No shortlisted parcels</td></tr>'}</tbody></table></div><h2>Evidence register</h2>${state.short.map(s => `<h3>Parcel ${E(plabel(s.parcel_id))} <small class="muted">${E(s.parcel_id)}</small></h3>${s.factors.map(f => `<p><strong>${names[f.factor]} · ${E(f.gate)} · ${f.rating ?? '—'}/5</strong><br>${E(f.notes)}<br><small>${E(f.source_date || 'Undated')} · Analyst-entered</small> <a target="_blank" rel="noopener" href="${E(f.source_url || '#')}">${E(f.source_url || 'No source')}</a></p>`).join('') || '<p class="muted">No assessments entered.</p>'}`).join('')}${memoEconomics()}<h2>Power-pathway hypotheses</h2>${state.paths.map(p => `<p><strong>${E(p.name)}</strong> · ${E(p.strategy)} · ${p.capacity_mw} MW assumed · ${p.power_month ? 'Project month ' + p.power_month : 'Timing unknown'}<br>${E(p.source_note)}</p>`).join('') || '<p>No pathways entered.</p>'}<h2>Source & methodology</h2><p>Parcel source versions: ${state.short.map(s => E(s.source_version || 'Legacy Loudoun snapshot')).join(', ') || 'No parcels saved'}. See exported evidence JSON for each parcel’s source URL, retrieval date and retained geometry. Connected snapshots are not a complete inventory. Recorded area is not buildable acreage. No power or sale availability is implied.</p><p>PP-SITE-1.0 uses weighted analyst ratings (0–5): power 30%, permitting 20%, land 15%, environment 15%, delivery 10%, connectivity 10%. Index is withheld below 60% current coverage or without power and permitting assessments. Any failed gate blocks the index. Evidence older than 180 days does not count toward coverage; adverse gates remain active pending review.</p></article>`
   );
 }
 function dialog(title, body, callback) {
@@ -421,6 +430,7 @@ function bindParcel() {
 }
 function bindInspector() {
   siteEnergy.bind();
+  connected.parcel(map);
   const b = $('#save-parcel');
   if (b)
     b.onclick = async () => {
@@ -557,11 +567,19 @@ function bind() {
     $('#new-path').onclick = () =>
       dialog(
         'Add a power pathway',
-        `<div class="formgrid"><label class="span2">Pathway name<input name="name" required minlength="2" maxlength="140" placeholder="e.g. Colocation + phased grid connection"></label><label>Strategy<select name="strategy">${['grid', 'colocation', 'onsite', 'hybrid'].map(s => `<option>${s}</option>`).join('')}</select></label><label>Assumed capacity · MW<input name="capacity_mw" type="number" required min="0" max="100000" step="any"></label><label>First-power project month<input name="power_month" type="number" min="1" max="360" placeholder="Leave unknown"></label><label>Incremental delay · months<input name="delay_months" type="number" min="0" max="120" value="0"></label><label>Capex uplift · %<input name="capex_uplift_pct" type="number" min="0" max="500" value="0" step="any"></label><label>Energy cost uplift · %<input name="energy_uplift_pct" type="number" min="0" max="500" value="0" step="any"></label><label class="span2">Source / assumptions<textarea name="source_note" required minlength="10" maxlength="1200"></textarea></label></div>`,
+        `<div class="formgrid"><label class="span2">Pathway name<input name="name" required minlength="2" maxlength="140" placeholder="e.g. Colocation + phased grid connection"></label><label>Strategy<select name="strategy">${['grid', 'colocation', 'onsite', 'hybrid'].map(s => `<option>${s}</option>`).join('')}</select></label><label>Assumed capacity · MW<input name="capacity_mw" type="number" required min="0" max="100000" step="any"></label><label>Parcel<select name="parcel_id"><option value="">Project hypothesis</option>${state.short.map(s=>`<option value="${E(s.parcel_id)}">${E(plabel(s.parcel_id))}</option>`).join('')}</select></label><label>Capacity basis<select name="capacity_basis"><option value="IT">IT MW</option><option value="gross">Gross MW</option></select></label><label>Phases (optional cumulative month, MW per line)<textarea name="phase_lines"></textarea></label><label>First-power project month<input name="power_month" type="number" min="1" max="360" placeholder="Leave unknown"></label><label>Incremental delay · months<input name="delay_months" type="number" min="0" max="120" value="0"></label><label>Capex uplift · %<input name="capex_uplift_pct" type="number" min="0" max="500" value="0" step="any"></label><label>Energy cost uplift · %<input name="energy_uplift_pct" type="number" min="0" max="500" value="0" step="any"></label><label class="span2">Source / assumptions<textarea name="source_note" required minlength="10" maxlength="1200"></textarea></label></div>`,
         async d => {
           for (const k of ['capacity_mw', 'delay_months', 'capex_uplift_pct', 'energy_uplift_pct']) d[k] = Number(d[k]);
           d.power_month = d.power_month ? Number(d.power_month) : null;
+          d.parcel_id = d.parcel_id || null;
+          d.power_phases = d.phase_lines.trim() ? d.phase_lines.trim().split(/\n/).map(line=>{
+            const [month,mw,...rest]=line.split(',');
+            if(!month?.trim() || !mw?.trim() || rest.length)throw Error('Enter one month, MW per line');
+            return {month:Number(month),mw:Number(mw)};
+          }) : null;
+          delete d.phase_lines;
           await api(prefix() + '/paths', 'POST', d);
+          state.econ = null;
           await refreshProject();
           render();
           toast('Pathway saved as an unverified hypothesis');
@@ -594,6 +612,7 @@ function bind() {
   );
   if (state.step === 4 && project()) loadTasks();
   if (state.step === 3 && project()) loadEconomics();
+  if (state.step === 3 || state.step === 5) connected.comparison({report:state.step===5});
   if ($('#print-memo')) $('#print-memo').onclick = () => window.print();
   if ($('#export-json'))
     $('#export-json').onclick = async () => {
@@ -692,6 +711,7 @@ explore = function () {
       '<div class="filterbar">',
       `<section class="panel panelpad"><h2>National coverage</h2><p>Live public parcels: North Carolina + Virginia. Other states: navigation only. No paid parcel subscription. Internet required; source completeness and dates vary.</p><div class="actions"><button id="jump-nc">Explore North Carolina</button><button id="jump-va">Explore Virginia</button></div><div class="filterbar"><select id="state-nav" aria-label="Choose state"><option value="">United States</option>${(national?.states || []).map(s => `<option value="${s.fips}">${E(s.name)} · ${['37', '51'].includes(s.fips) ? 'live public source' : s.parcel_records ? s.parcel_records + ' cached records' : 'navigation only'}</option>`).join('')}</select><input id="location-query" aria-label="State or county name" placeholder="Search a state or county"><button id="location-search">Find location</button></div><div id="location-results" role="status"></div><details><summary>Connected sources and dates</summary>${(liveSources?.sources || []).map(s => `<p><a href="${E(s.url)}" target="_blank" rel="noopener">${E(s.name)}</a><br>${E(s.scope)}<br>${E(s.license)}</p>`).join('')}</details></section><div class="filterbar">`
     )
+    .replace('<div id="inspector">', `<div class="filterbar"><label><input type="checkbox" id="usable-mode" ${state.usableFilter?'checked':''}> Filter saved parcels by usable acreage</label><label>Minimum estimated usable acres<input type="number" id="usable-min" min="0" step="any" value="${state.usableMin ?? 50}"></label><small>Only parcels with declared coverage for all required constraints qualify.</small></div><div id="inspector">`)
     .replace('Eastern Loudoun County, VA', 'National map · connected parcels')
     .replace('Bounded county snapshot', 'Viewport results, up to 200')
     .replace('County boundaries are ready', 'State and connected parcel boundaries are ready');
@@ -739,7 +759,7 @@ async function loadViewport() {
         new URLSearchParams({
           bbox: [west, south, east, north].join(','),
           limit: 200,
-          min_acres: state.min,
+          min_acres: state.usableFilter ? 0 : state.min,
           pin: state.query
         })
     );
@@ -757,6 +777,14 @@ async function loadViewport() {
 }
 bind = function () {
   originalBind();
+  const applyUsable = () => {
+    state.usableFilter=$('#usable-mode')?.checked || false;
+    state.usableMin=Math.max(0,Number($('#usable-min')?.value || 0));
+    render();
+    loadViewport();
+  };
+  $('#usable-mode')?.addEventListener('change',applyUsable);
+  $('#usable-min')?.addEventListener('change',applyUsable);
   if (!$('#state-nav')) return;
   $('#jump-nc').onclick = () => map?.setView([35.78, -78.64], 13);
   $('#jump-va').onclick = () => map?.setView([39.04, -77.53], 13);
@@ -816,15 +844,8 @@ const pct = v => (v === null || v === undefined || !isFinite(v) ? '—' : (v * 1
 const dscr = v => (v === null || v === undefined || !isFinite(v) ? '—' : Number(v).toFixed(2) + 'x');
 const baseScenarios = () =>
   (state.econ?.scenarios || []).filter(x => x.mode === 'underwrite' && !x.config?.powerPathLink);
-const modelledPower = (sc, r) => {
-  const bs = sc?.config?.buildings || [];
-  if (!bs.length) return null;
-  return (
-    Math.min(...bs.map(b => Number(b.powerMonth) || 1e9)) +
-    Number(sc.config.delayMonths || 0) +
-    Number(r.schedule.effective_delay_months || 0)
-  );
-};
+const modelledPower = r =>
+  r.revised.power_periods?.find(row=>row.operating_it_mw>0)?.month ?? null;
 const scenarioMW = sc => (sc?.config?.buildings || []).reduce((a, b) => a + Number(b.itMW || 0), 0);
 function economics() {
   const p = project();
@@ -835,7 +856,7 @@ function economics() {
       'Every pathway is run through the same frozen, versioned underwriter on one base scenario. Read-only: nothing here changes saved scenarios or runs.',
       `<button id="econ-refresh">Recalculate</button>`
     ) +
-    `<div id="econ"><section class="panel empty"><p class="loading">Running each pathway through the underwriter…</p></section></div>`
+    `<div id="connected-comparison" class="panel panelpad"></div><div id="econ"><section class="panel empty"><p class="loading">Running each pathway through the underwriter…</p></section></div>`
   );
 }
 async function loadEconomics() {
@@ -917,19 +938,21 @@ async function loadEconomics() {
        dl = r.deltas,
        carry = (v.interest_paid_before_first_revenueM || 0) + (v.interest_capitalised_before_first_revenueM || 0);
      return `<tr><td><strong>${E(path.name)}</strong><small>${E(path.strategy)} · ${r.schedule.effective_delay_months} mo schedule delay</small>${(() => {
-       const mp = modelledPower(chosen, r);
+       const mp = modelledPower(r);
        return path.power_month && mp !== null && mp !== Number(path.power_month)
-         ? `<small class="warn">Entered first power M${path.power_month}; modelled energisation M${mp}</small>`
+         ? `<small class="warn">Entered first power M${path.power_month}; first modeled operations M${mp}</small>`
          : '';
-     })()}${best === ok.find(x => x.path === path) ? badge('Highest modelled NPV') : ''}${earliest === ok.find(x => x.path === path) ? badge('Earliest revenue', 'amber') : ''}</td><td>${v.first_revenue_month ? 'Month ' + v.first_revenue_month : '—'}</td><td><strong>${money(v.npvM)}</strong><div class="npvbar"><i data-npv="${v.npvM}" data-max="${maxAbs}" class="${v.npvM < 0 ? 'neg' : ''}"></i></div><small>${dl.npvM ? money(dl.npvM) + ' from delay' : 'No delay effect'}</small></td><td>${pct(v.leveredIRR)}</td><td>${dscr(v.minDSCR)}</td><td>${money(carry)}</td><td>${v.breach_months ? `<span class="tag red">${v.breach_months}</span>` : '0'}${v.defaulted ? ' · <span class="tag red">Default</span>' : ''}</td><td>${money(v.sponsor_equityM)}</td></tr>`;
+     })()}${v.power_periods
+      ? `<small>Peak operating ${Math.max(...v.power_periods.map(m=>m.operating_it_mw)).toFixed(2)} IT MW · ${v.power_periods.filter(m=>m.unmet_target_it_mw>1e-7).length} months below target supply</small>`
+      : '<small>Supply timing unknown. Capacity was not tested in this sensitivity.</small>'}${best === ok.find(x => x.path === path) ? badge('Highest modelled NPV') : ''}${earliest === ok.find(x => x.path === path) ? badge('Earliest revenue', 'amber') : ''}</td><td>${v.first_revenue_month ? 'Month ' + v.first_revenue_month : '—'}</td><td><strong>${money(v.npvM)}</strong><div class="npvbar"><i data-npv="${v.npvM}" data-max="${maxAbs}" class="${v.npvM < 0 ? 'neg' : ''}"></i></div><small>${dl.npvM ? money(dl.npvM) + ' from delay' : 'No delay effect'}</small></td><td>${pct(v.leveredIRR)}</td><td>${dscr(v.minDSCR)}</td><td>${money(carry)}</td><td>${v.breach_months ? `<span class="tag red">${v.breach_months}</span>` : '0'}${v.defaulted ? ' · <span class="tag red">Default</span>' : ''}</td><td>${money(v.sponsor_equityM)}</td></tr>`;
    })
    .join('')}</tbody></table></div></section>
  ${
    ok.some(x => {
-     const mp = modelledPower(chosen, x.r);
+     const mp = modelledPower(x.r);
      return x.path.power_month && mp !== null && mp !== Number(x.path.power_month);
    })
-     ? `<div class="notice warnbox"><strong>Timing note.</strong> The underwriter applies each pathway's <em>delay months</em> to the base scenario's building schedule; it does not use the pathway's entered first-power month. Where the two differ (flagged above), first revenue reflects the building schedule. To model a pathway's timing exactly, set the building power months in a scenario for that pathway. <a href="${advanced('model')}">Open the versioned model ↗</a></div>`
+     ? `<div class="notice warnbox"><strong>Timing note.</strong> Operations require both delivered capacity and a ready building. Schedule delays and lease readiness can move operations later than the entered delivery month. <a href="${advanced('model')}">Open the versioned model ↗</a></div>`
      : ''
  }
  <div class="notice"><strong>Screening sensitivity, not a valuation.</strong> Pathway timing, costs and capacity are analyst-entered hypotheses; nothing is utility-confirmed, contract-verified or lender-reviewed. "Highest" and "earliest" describe the model output only and are not recommendations. G4/G5 remain blocked.</div>

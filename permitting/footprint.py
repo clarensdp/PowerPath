@@ -18,7 +18,7 @@ VERSION = 'permitiq-footprint-0.1'
 ACRE_M2 = 4046.8564224
 MAX_POLY_VERTICES = 12000
 MAX_FEATURES = 250
-VALID_KINDS = {'flood','wetlands','zoning','protected_land','setback','easement','other'}
+VALID_KINDS = {'flood','wetlands','zoning','protected_land','setback','easement','other','water','slope'}
 
 class FootprintError(ValueError):
     pass
@@ -128,6 +128,7 @@ def assess(parcel_geojson, layers, *, parcel_source=None):
         complete=extent is not None and mapped_area >= pa-1e-8*max(pa,1)
         status='FULL_EXTENT_DECLARED' if complete else 'PARTIAL_EXTENT_DECLARED' if extent is not None else 'EXTENT_UNKNOWN'
         item={'kind':kind,'source':source,'coverage_status':status,'mapped_extent_acres':round(mapped_area,5) if extent is not None else None,
+              'query_generalization_degrees':layer.get('query_generalization_degrees'),
               'polygon_count':len(features),'intersecting_features':len(hits),
               'intersection_acres':round(acres,5),'intersection_pct':round(100*acres/pa,3),
               'intersection_geometry':mapping(transform(inverse,union)) if union is not None else None,
@@ -138,14 +139,26 @@ def assess(parcel_geojson, layers, *, parcel_source=None):
             item['zoning_authority_verified']=False
             zoning_seen.append(item)
         if kind in hazard_coverage:hazard_coverage[kind].append(complete)
-        if kind in ('flood','wetlands','protected_land','setback','easement','other') and union is not None:total_hazards.append(union)
+        if kind in ('flood','wetlands','protected_land','setback','easement','other','water','slope') and union is not None:total_hazards.append(union)
         reported.append(item)
     # This is exclusively a geometric residual against the *supplied* layers;
     # missing overlays or permit constraints make it nonbuildable-eligibility evidence.
     covered_hazards=all(hazard_coverage[k] and all(hazard_coverage[k]) for k in hazard_coverage)
     combination=unary_union(total_hazards) if total_hazards else None
     constraint_area=min(pa,combination.area/ACRE_M2) if combination is not None else 0.0
-    measured={'intersecting_supplied_constraints_acres':round(constraint_area,5),
+    residual = p.difference(combination) if combination is not None else p
+    components = [residual] if residual.geom_type == 'Polygon' else [g for g in getattr(residual, 'geoms', []) if g.geom_type == 'Polygon']
+    required = ('flood', 'wetlands', 'water', 'slope', 'protected_land')
+    missing = [k for k in required if not any(x['kind']==k for x in reported)]
+    incomplete = [k for k in required if not any(x['kind']==k and x['coverage_status']=='FULL_EXTENT_DECLARED' for x in reported)]
+    measured={'potentially_usable_acres':round(residual.area/ACRE_M2,5),
+              'largest_contiguous_acres':round(max((g.area for g in components),default=0)/ACRE_M2,5),
+              'residual_geometry':mapping(transform(inverse,residual)),
+              'excluded_geometry':mapping(transform(inverse,combination)) if combination is not None else None,
+              'missing_constraint_kinds':missing, 'incomplete_constraint_kinds':incomplete,
+              'assessment_complete':not incomplete,
+              'assessment_status':'COVERAGE_DECLARED_NOT_LEGALLY_VERIFIED' if not incomplete else 'INCOMPLETE_UPPER_BOUND',
+              'intersecting_supplied_constraints_acres':round(constraint_area,5),
               'no_mapped_overlap_acres':round(max(0,pa-constraint_area),5),
               'no_mapped_overlap_is_buildable':False,
               'complete_flood_wetlands_extent_declared':covered_hazards,

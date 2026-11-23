@@ -10,6 +10,7 @@ from shapely.ops import transform
 from server.providers.base import ProviderError, ProviderResult, number, unavailable
 
 LINES = 'https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/US_Electric_Power_Transmission_Lines/FeatureServer/0'
+CHATHAM_TERRITORIES = 'https://gisservices.chathamcountync.gov/opendataagol/rest/services/AdministrativeArea/Chatham_ElectricDistricts/MapServer/0'
 NAME = 'US electric transmission lines (federal FWS-hosted HIFLD-derived layer)'
 
 
@@ -71,12 +72,12 @@ def normalize(payload, parcel, ts, url=LINES, name=NAME, kind='transmission_line
             voltage = number(props.get('VOLTAGE'))
             features.append({'type': 'Feature', 'id': str(identity), 'geometry': geometry, 'properties': {
                 'source_id': str(identity), 'kind': kind,
-                'name': str(props.get('NAME') or props.get('OWNER') or f'{kind} {identity}'),
+                'name': str(props.get('NAME') or (props.get('SERVICE') if kind == 'service_territory' else None) or props.get('OWNER') or f'{kind} {identity}'),
                 'owner': props.get('OWNER'), 'voltage_kv': voltage if voltage is not None and voltage > 0 else None,
                 'distance_km': round(distance, 3), 'distance_status': 'estimated',
                 'distance_methodology': 'Shortest parcel-boundary/footprint to mapped geometry distance in local WGS84 azimuthal equidistant projection; km. Not a connection route.',
                 'source_name': name, 'source_url': url, 'retrieved_at': ts,
-                'effective_date': source_date(props.get('SOURCEDATE')), 'status': 'observed',
+                'effective_date': source_date(props.get('SOURCEDATE')), 'record_edited_at': source_date(props.get('last_edited_date')), 'status': 'observed',
                 'available_capacity_mw': None, 'energization_date': None, 'connection_cost_usd': None,
                 'availability_status': 'unavailable', 'source_attributes': props}})
         except (ValueError, KeyError, TypeError):
@@ -106,7 +107,7 @@ def configured_layer(variable):
     return url
 
 
-def fetch(http, project_id, parcel, kind='transmission_line'):
+def fetch(http, project_id, parcel, kind='transmission_line', county_fips=None):
     url, name = LINES, NAME
     if kind != 'transmission_line':
         env = 'POWERPATH_TERRITORY_LAYER_URL' if kind == 'service_territory' else 'POWERPATH_SUBSTATION_LAYER_URL'
@@ -114,9 +115,14 @@ def fetch(http, project_id, parcel, kind='transmission_line'):
             url = configured_layer(env)
         except (ProviderError, ValueError) as exc:
             return unavailable(kind, '', str(exc))
+        county_layer = (not url and kind == 'service_territory' and county_fips == '37125'
+                        and os.environ.get('POWERPATH_CHATHAM_TERRITORY_OPT_IN') == '1')
+        if county_layer:
+            url = CHATHAM_TERRITORIES
         if not url:
             return unavailable(kind, '', f'No verified accessible {kind} layer configured; set {env} after reviewing source ownership and coverage')
-        name = os.environ.get(env.replace('_URL', '_NAME'), '').strip()
+        name = ('Chatham County GIS Electric Districts · county only · vintage unknown' if county_layer
+                else os.environ.get(env.replace('_URL', '_NAME'), '').strip())
         if not name:
             return unavailable(kind, url, 'Configure the layer source NAME with publisher and vintage after source review')
     w, s, e, n = shape(parcel).bounds

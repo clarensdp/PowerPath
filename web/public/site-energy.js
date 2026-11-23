@@ -67,6 +67,8 @@ export function createSiteEnergy({api, selection, onApplied}) {
       ${result ? `<div class="notice" id="energy-run-result">${result}</div>` : ''}
       <details><summary>Record utility study / engineering findings</summary><p>User transcription requires a supporting file in this project’s evidence room. PowerPath does not independently certify the findings.</p>
       <form id="energy-study" class="formgrid"><label>Attached evidence<select name="evidence_id" required>${evidence.map(e => `<option value="${E(e.id)}">${E(e.title)}</option>`).join('')}</select></label>
+      <label>Evidence classification<select name="source_kind"><option value="study">Utility study / supplied evidence</option><option value="analyst_attested_utility_confirmation">Utility confirmation (analyst attestation)</option></select></label>
+      ${field('Issuing utility (required for confirmation attestation)', 'issuer')}
       ${field('Document date', 'source_date', '', 'type="date" required')}${field('Source URL', 'source_url', '', 'type="url" required')}
       ${field('Documented available capacity · MW', 'capacity_mw', '', 'type="number" min="0" step="any"')}
       ${field('Documented connection cost · USD', 'connection_cost_usd', '', 'type="number" min="0" step="any"')}

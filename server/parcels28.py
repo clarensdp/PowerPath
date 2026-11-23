@@ -1,6 +1,6 @@
 """Public parcel screening: evidence completeness is not electrical reliability."""
 
-import json, math
+import json, math, os
 from datetime import date, datetime, timezone
 from urllib.parse import urlparse
 from fastapi import HTTPException
@@ -141,9 +141,17 @@ def install(app, db, project_exists, audit, root):
                 parcel = row["parcel_id"]
                 aa = rows(con, pid, parcel)
                 record = store.get(parcel, pid)
+                from server.services.feasibility_store import latest
+                land = latest(con, pid, parcel, 'land') if not os.environ.get('POWERPATH_DATABASE_URL') else None
+                usable = None
+                if land and record and land['body']['parcel_source_version'] == record['version_id']:
+                    summary = land['body']['summary']
+                    if summary['assessment_complete']:
+                        usable = summary['potentially_usable_acres']
                 result.append(
                     {
                         "parcel_id": parcel,
+                        "usable_acres": usable,
                         "assessment": score(aa),
                         "factors": aa,
                         "feature": json.loads(record["feature_json"]) if record else None,

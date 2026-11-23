@@ -9,6 +9,16 @@ from server.providers.infrastructure import public_grid
 from server.providers.renewables import nrel
 
 
+def record_county(parcel):
+    props = parcel['feature']['properties']
+    # Public parcels use five-digit GEOIDs. Source catalogs store a separate county suffix.
+    geoid = props.get('geoid') or props.get('county_geoid')
+    if geoid:
+        return str(geoid)
+    source = parcel['source']
+    return str(source.get('state_fips') or '') + str(source.get('county_fips') or '')
+
+
 class SiteEnergyService:
     def __init__(self, db, store, root):
         self.db, self.store = db, store
@@ -38,7 +48,8 @@ class SiteEnergyService:
             jobs['eia'] = lambda: eia.fetch(self.http, pid, parcel['state'])
         if category in (None, 'infrastructure'):
             for kind in ('transmission_line', 'substation', 'service_territory'):
-                jobs[kind] = lambda kind=kind: public_grid.fetch(self.http, pid, parcel['feature']['geometry'], kind)
+                jobs[kind] = lambda kind=kind: public_grid.fetch(self.http, pid, parcel['feature']['geometry'], kind,
+                    record_county(parcel))
         if category in (None, 'renewables'):
             jobs['solar'] = lambda: nrel.fetch(self.http, pid, parcel['latitude'], parcel['longitude'])
         def safe(job):

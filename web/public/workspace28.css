@@ -33,3 +33,19 @@ table.econ small.warn{color:#8a5a16;font-weight:600}.notice.warnbox{border-color
 #site-energy details { margin: 14px 0; }
 #site-energy select, #site-energy input { max-width: 100%; min-width: 0; }
 @media (max-width: 1100px) { .energy-grid { grid-template-columns: 1fr; } }
+
+#connected-parcel,#connected-comparison{margin-block:16px}
+#connected-parcel fieldset{min-width:0;border:1px solid var(--line);border-radius:6px;padding:12px}
+#connected-parcel input[type=checkbox],#usable-mode{width:auto;display:inline-block}
+#connected-parcel form{margin-block:12px}
+#connected-parcel details,#connected-parcel .actions{margin-block:8px}
+.connected-report-parcel,.case-result{border-top:1px solid var(--line);margin-top:14px;padding-top:10px;overflow-wrap:anywhere}
+#connected-comparison label{min-width:0}
+@media print{
+  body:not(.print-connected) #connected-comparison{display:none}
+  body.print-connected #main > :not(#connected-comparison),
+  body.print-connected #connected-comparison > :not(#connected-snapshot),
+  body.print-connected .connected-export{display:none!important}
+  body.print-connected #connected-comparison{break-inside:auto;border:0;padding:0}
+  body.print-connected .case-result{break-inside:avoid}
+}

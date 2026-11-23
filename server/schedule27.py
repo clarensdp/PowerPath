@@ -18,6 +18,7 @@ This is a screening convention, not an engineering CPM schedule or a utility-con
 """
 
 from __future__ import annotations
+from server.services.power_capacity import constrain, period_capacity
 import hashlib, json
 
 METHOD_VERSION = "schedule-27.1.0"
@@ -258,6 +259,9 @@ def apply_to_config(config: dict, path: dict, schedule: dict) -> dict:
     x["delayMonths"] = int(config.get("delayMonths", 0)) + int(schedule["effective_delay_months"])
     x["constructionCostMW"] = float(config.get("constructionCostMW", 7)) * (1 + float(path["capex_uplift_pct"]) / 100)
     x["powerCostMWh"] = float(config.get("powerCostMWh", 85)) * (1 + float(path["energy_uplift_pct"]) / 100)
+    if path.get("power_month") is not None or path.get("power_phases") is not None:
+        phases = path.get("power_phases") or [{'month': path['power_month'], 'mw': path['capacity_mw']}]
+        x = constrain(x, phases, path.get('capacity_basis', 'IT'))
     return x
 
 
@@ -275,6 +279,7 @@ def financial_impact(calculate, config: dict, path: dict, schedule: dict) -> dic
         carry_interest = sum((x.get("cashInterest") or 0) for x in pre_rev)
         carry_capitalised = sum((x.get("capitalizedInterest") or 0) for x in pre_rev)
         return {
+            "power_periods": period_capacity(cfg, rows) if cfg.get('powerCapacityAssumptions') else None,
             "npvM": s.get("npvM"),
             "leveredIRR": s.get("leveredIRR"),
             "minDSCR": s.get("minDSCR"),

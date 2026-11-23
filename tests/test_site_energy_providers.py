@@ -156,3 +156,31 @@ def test_missing_credentials_are_explicit(monkeypatch, db):
 def test_datapoint_rejects_nonfinite():
     with pytest.raises(ValidationError):
         DataPoint(value=float('nan'),unit='MW',source_name='test',retrieved_at=TS,status='observed',methodology='test')
+
+
+def test_configured_infrastructure_with_provenance_and_county_scope(monkeypatch):
+    parcel = mapping(Point(-79.25, 35.75).buffer(.005))
+    calls = []
+
+    class HTTP:
+        def get(self, project, url, params, ttl):
+            calls.append(url)
+            territory = 'Chatham_ElectricDistricts' in url
+            feature = {'type':'Feature', 'properties':{'OBJECTID':1, 'SERVICE':'Synthetic utility',
+                'NAME':None if territory else 'Synthetic station','VOLTAGE':230,'last_edited_date':1666638166000},
+                'geometry':parcel if territory else mapping(Point(-79.26,35.75))}
+            return {'type':'FeatureCollection','features':[feature]},TS,False
+
+    monkeypatch.setenv('POWERPATH_SUBSTATION_LAYER_URL','https://example.gov/stations/FeatureServer/0')
+    monkeypatch.setenv('POWERPATH_SUBSTATION_LAYER_NAME','Synthetic station layer · test vintage')
+    monkeypatch.delenv('POWERPATH_TERRITORY_LAYER_URL',raising=False)
+    monkeypatch.setenv('POWERPATH_CHATHAM_TERRITORY_OPT_IN','1')
+    station=public_grid.fetch(HTTP(),'one',parcel,'substation')
+    territory=public_grid.fetch(HTTP(),'one',parcel,'service_territory','37125')
+    assert station['features'][0]['properties']['distance_km']>0
+    assert station['features'][0]['properties']['available_capacity_mw'] is None
+    props=territory['features'][0]['properties']
+    assert props['name']=='Synthetic utility' and props['distance_km']==0
+    assert props['effective_date'] is None and props['record_edited_at'].startswith('2022-')
+    assert public_grid.fetch(HTTP(),'one',parcel,'service_territory','51107')['status']=='unavailable'
+    assert len(calls)==2

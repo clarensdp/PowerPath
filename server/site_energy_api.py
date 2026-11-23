@@ -17,6 +17,8 @@ from server.services.site_energy_data import SiteEnergyService
 class Study(BaseModel):
     model_config = ConfigDict(allow_inf_nan=False, extra='forbid')
     evidence_id: str
+    source_kind: Literal['study', 'analyst_attested_utility_confirmation'] = 'study'
+    issuer: str = Field(default='', max_length=200)
     source_date: date
     source_url: str = Field(pattern=r'^https?://', max_length=1500)
     notes: str = Field(min_length=10, max_length=3000)
@@ -26,6 +28,8 @@ class Study(BaseModel):
 
     @model_validator(mode='after')
     def historical_source(self):
+        if self.source_kind == 'analyst_attested_utility_confirmation' and not self.issuer.strip():
+            raise ValueError('Enter the issuing utility for a confirmation attestation')
         if self.source_date > date.today():
             raise ValueError('Source date cannot be in the future')
         return self

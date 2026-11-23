@@ -57,6 +57,10 @@ def normalize_generation(payload, system, ts, cached=False):
         warnings=['Installed capacity is user-assumed; no acreage-to-capacity conversion. Generation is intermittent and does not establish utility availability.']).model_dump()
     result['system_assumptions'] = {**system.model_dump(), 'status': 'assumed', 'module_type': 0,
                                     'array_type': 0, 'dc_ac_ratio': 1.2, 'inv_eff': 96}
+    monthly = outputs.get('ac_monthly')
+    if isinstance(monthly,list) and len(monthly)==12:
+        values=[number(x) for x in monthly]
+        if all(x is not None and x>=0 for x in values):result['monthly_mwh']=[x/1000 for x in values]
     result['weather_station'] = station
     result['model_version'] = payload.get('version')
     return result
