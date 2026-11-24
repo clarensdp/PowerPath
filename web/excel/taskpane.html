@@ -13,30 +13,36 @@
 <body>
 <header><strong>↗ PowerPath</strong><small>Underwriting in Excel · read-only</small></header>
 <main>
-  <section id="connect">
-    <h2>Connect</h2>
-    <label>PowerPath address<input id="base-url" type="url" placeholder="https://powerpath.example.com"></label>
-    <details><summary>Sign in (required-auth installations)</summary>
-      <label>Email<input id="email" type="email" autocomplete="username"></label>
-      <label>Password<input id="password" type="password" autocomplete="current-password"></label>
-      <button id="sign-in">Sign in</button>
-    </details>
-    <button id="load-projects" class="primary">Load projects</button>
+  <section id="account">
+    <p id="who" class="muted"></p>
+    <button id="sign-in" class="primary">Sign in to PowerPath</button>
+    <button id="sign-out" hidden>Sign out</button>
   </section>
   <section id="project-box" hidden>
     <h2>Project</h2>
     <select id="project"></select>
     <p class="muted" id="case-line"></p>
-    <h3>Insert a sheet</h3>
+
+    <h3>Build a formula</h3>
+    <label>Formula<select id="b-kind"><option value="GET">PP.GET: one value</option><option value="TABLE">PP.TABLE: a table</option><option value="BRIDGE">PP.BRIDGE: what-if by cause</option></select></label>
+    <label id="b-field-l">Field<select id="b-field"></select></label>
+    <label id="b-arg-l">Input<select id="b-arg"></select></label>
+    <label id="b-case-l">Case<select id="b-case"><option>base</option><option>upside</option><option>downside</option></select></label>
+    <label id="b-conf-l">Configuration<select id="b-conf"></select></label>
+    <label id="b-path-l">Power path<select id="b-path"></select></label>
+    <label id="b-range-l">Driver range (two columns: input key, new value)<input id="b-range" value="A2:B4"></label>
+    <pre id="b-preview"></pre>
+    <p class="muted" id="b-help"></p>
+    <button id="b-insert" class="primary">Insert into selected cell</button>
+
+    <h3>Insert a sheet of values</h3>
     <button data-insert="priorities">Diligence ranked by NPV at risk</button>
     <button data-insert="paths">Power path returns, by cause</button>
     <button data-insert="deliverability">Deliverability ranges</button>
-    <button id="refresh">Recalculate all PowerPath formulas</button>
-    <h3>Formulas</h3>
-    <pre id="examples"></pre>
+    <button id="refresh">Refresh all PowerPath formulas</button>
   </section>
   <p id="status" role="status"></p>
-  <p class="muted foot">Values come from the approved case. Proposed changes and approvals stay in PowerPath; nothing here can approve or save.</p>
+  <p class="muted foot">Values come from the approved case. Proposed changes and approvals stay in PowerPath; nothing here can approve or save. Sheets of values are stamped and do not change after you send them.</p>
 </main>
 </body>
 </html>

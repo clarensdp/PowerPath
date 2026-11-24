@@ -19,6 +19,8 @@ FILES = {
     'functions.js': 'text/javascript; charset=utf-8',
     'functions.json': 'application/json',
     'powerpath-core.js': 'text/javascript; charset=utf-8',
+    'login.html': 'text/html; charset=utf-8',
+    'login.js': 'text/javascript; charset=utf-8',
     'icon-32.png': 'image/png',
     'icon-80.png': 'image/png',
 }

@@ -114,11 +114,74 @@
       deliverability: function (project) { return get(uw(project) + '/deliverability'); },
       pathBridge: function (project, pathId) { return get(uw(project) + '/paths/' + encodeURIComponent(pathId) + '/bridge'); },
       bridge: function (project, drivers) { return post(uw(project) + '/bridge', { drivers: drivers }); },
-      login: function (email, password) { return post('/v27/auth/login', { email: email, password: password }); }
+      logout: function () { return post('/v27/auth/logout', {}); }
     };
   }
 
-  var api = { metric: metric, prioritiesTable: prioritiesTable, bridgeTable: bridgeTable, driversFromRange: driversFromRange,
+  // ---- =PP.GET(project, field, [arg1], [arg2]) and =PP.TABLE(project, name, [arg]) -------------
+  var GET_FIELDS = {
+    npv: { needs: 'case', help: 'Approved-case NPV ($M)' },
+    irr: { needs: 'case', help: 'Approved-case levered IRR' },
+    dscr: { needs: 'case', help: 'Approved-case minimum DSCR' },
+    breach_months: { needs: 'case', help: 'Covenant breach months' },
+    exposure: { needs: 'priorities', arg: 'input key', help: 'NPV change ($M) at the input\'s downside' },
+    source: { needs: 'priorities', arg: 'input key', help: 'Source · date · verification · review state' },
+    confidence: { needs: 'priorities', arg: 'input key', help: 'Confidence label (low / medium / high)' },
+    value: { needs: 'priorities', arg: 'input key', help: 'Value used in the approved case' },
+    rank: { needs: 'priorities', arg: 'input key', help: 'Diligence rank by NPV at risk' },
+    deliverable_mw: { needs: 'deliverability', arg: 'case', arg2: 'configuration', help: 'Firm MW at the target month' },
+    time_to_target: { needs: 'deliverability', arg: 'case', arg2: 'configuration', help: 'Project month the MW target is reached' }
+  };
+  var TABLES = { priorities: 'Diligence ranked by NPV at risk', pathbridge: 'A power path\'s returns change by cause (arg: path name)',
+    deliverability: 'Deliverability ranges by configuration', fields: 'Every PP.GET field and table' };
+
+  function priorityItem(pr, key) {
+    var p = pr.priorities.filter(function (x) { return x.key === key; })[0];
+    if (!p) throw new Error('Unknown input "' + key + '". Use =PP.TABLE(project,"fields") for the list.');
+    return p;
+  }
+
+  function resolveGet(data, field, arg1, arg2) {
+    var f = String(field || '').trim().toLowerCase();
+    var spec = GET_FIELDS[f];
+    if (!spec) throw new Error('Unknown field "' + field + '". Use =PP.TABLE(project,"fields").');
+    if (spec.needs === 'case') return metric(data.case, f);
+    if (spec.needs === 'deliverability') return deliverable(data.deliverability, arg2 || '', arg1 || 'base', f === 'time_to_target' ? 'month' : 'mw');
+    if (!arg1) throw new Error('Field "' + f + '" needs an input key, e.g. energization_delay_months');
+    if (f === 'source') return sourceText(data.priorities, arg1);
+    var p = priorityItem(data.priorities, arg1);
+    if (f === 'exposure') {
+      if (!p.exposure || typeof p.exposure.npv_delta_m !== 'number') throw new Error('No downside quantified for ' + arg1);
+      return p.exposure.npv_delta_m;
+    }
+    if (f === 'confidence') return p.confidence.label;
+    if (f === 'rank') return p.rank;
+    var v = fmtValue(p.value);
+    return typeof v === 'number' ? v : String(v);
+  }
+
+  function fieldsTable() {
+    var rows = [['Formula', 'Field / table', 'Argument', 'Returns']];
+    Object.keys(GET_FIELDS).forEach(function (k) {
+      var s = GET_FIELDS[k];
+      rows.push(['PP.GET', k, [s.arg, s.arg2].filter(Boolean).join(', '), s.help]);
+    });
+    Object.keys(TABLES).forEach(function (k) { rows.push(['PP.TABLE', k, k === 'pathbridge' ? 'path name' : '', TABLES[k]]); });
+    rows.push(['PP.BRIDGE', '(two-column range)', 'input key, new value', 'What-if: change in NPV, IRR, DSCR by cause']);
+    return rows;
+  }
+
+  function deliverabilityTable(d) {
+    var rows = [['Configuration', 'Firm MW at target: downside', 'Base', 'Upside', 'Target month: upside', 'Base', 'Downside', 'Evidence quality', 'Answer']];
+    d.body.configurations.forEach(function (cf) {
+      var m = cf.deliverable_mw_at_target, t = cf.time_to_target_month;
+      rows.push([cf.name, m.low, m.base, m.high, t.low === null ? '' : t.low, t.base === null ? '' : t.base, t.high === null ? 'not reached' : t.high, cf.evidence_quality.label, cf.answer]);
+    });
+    return rows;
+  }
+
+  var api = { resolveGet: resolveGet, fieldsTable: fieldsTable, deliverabilityTable: deliverabilityTable, GET_FIELDS: GET_FIELDS, TABLES: TABLES,
+    metric: metric, prioritiesTable: prioritiesTable, bridgeTable: bridgeTable, driversFromRange: driversFromRange,
     deliverable: deliverable, sourceText: sourceText, client: client, METRICS: METRICS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PowerPathCore = api;
 })(typeof self !== 'undefined' ? self : this);

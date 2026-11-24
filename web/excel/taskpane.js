@@ -1,64 +1,141 @@
-/* PowerPath task pane: connect, choose a project, insert sourced sheets. Read-only. */
+/* PowerPath task pane: sign in (dialog), choose a project, build PP formulas, insert stamped sheets. Read-only. */
 (function () {
   'use strict';
   var core = self.PowerPathCore;
   var $ = function (id) { return document.getElementById(id); };
   var pp = function () { return self.PowerPathClient; };
+  var session = function () { return self.PowerPathSession; };
+  var cache = { priorities: null, deliverability: null, paths: [] };
 
   function status(msg, isError) { var s = $('status'); s.textContent = msg; s.className = isError ? 'error' : ''; }
   function project() { return $('project').value; }
+  function q(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }
+  function options(sel, items) {
+    sel.innerHTML = '';
+    items.forEach(function (it) { var o = document.createElement('option'); o.value = it[0]; o.textContent = it[1]; sel.appendChild(o); });
+  }
+  function show(id, on) { $(id).hidden = !on; }
 
-  async function loadProjects() {
-    try {
-      localStorage.setItem('pp.baseUrl', $('base-url').value.trim() || location.origin);
-      pp().clear();
-      var list = await pp().projects();
-      $('project').innerHTML = list.map(function (p) {
-        var o = document.createElement('option'); o.value = p.id; o.textContent = p.name + ' · ' + p.target_mw + ' MW'; return o.outerHTML;
-      }).join('');
-      $('project-box').hidden = !list.length;
-      status(list.length ? list.length + ' project(s) available' : 'No projects visible with these credentials');
-      if (list.length) await describe();
-    } catch (e) { status(e.message, true); }
+  // ------------------------------------------------------------------ account
+  async function account() {
+    var me = {};
+    try { me = await fetch('/api/v27/me', { headers: session().token() ? { Authorization: 'Bearer ' + session().token() } : {} }).then(function (r) { return r.json(); }); }
+    catch (e) { me = {}; }
+    var info = session().info();
+    if (me.mode === 'LOCAL_ONLY') {
+      $('who').textContent = 'Local workspace: no sign-in needed.';
+      show('sign-in', false); show('sign-out', false);
+      return true;
+    }
+    if (info && me.id) {
+      $('who').textContent = 'Signed in as ' + (info.email || me.email) + (info.expires_at ? ' · session until ' + new Date(info.expires_at).toLocaleTimeString() : '');
+      show('sign-in', false); show('sign-out', true);
+      return true;
+    }
+    session().clear();
+    $('who').textContent = 'Sign in with your PowerPath account to load projects.';
+    show('sign-in', true); show('sign-out', false); show('project-box', false);
+    return false;
   }
 
-  async function signIn() {
-    try {
-      localStorage.setItem('pp.baseUrl', $('base-url').value.trim() || location.origin);
-      var r = await pp().login($('email').value, $('password').value);
-      localStorage.setItem('pp.token', r.token || r.access_token || '');
-      $('password').value = '';
-      status('Signed in');
-      await loadProjects();
-    } catch (e) { status(e.message, true); }
+  function signIn() {
+    Office.context.ui.displayDialogAsync(location.origin + '/excel/login.html', { height: 50, width: 30, displayInIframe: true }, function (res) {
+      if (res.status !== Office.AsyncResultStatus.Succeeded) { status('Could not open the sign-in window: ' + res.error.message, true); return; }
+      var dialog = res.value;
+      dialog.addEventHandler(Office.EventType.DialogMessageReceived, async function (arg) {
+        dialog.close();
+        var msg = {};
+        try { msg = JSON.parse(arg.message); } catch (e) { msg = {}; }
+        if (msg.type !== 'session' || !msg.token) { status('Sign-in was not completed', true); return; }
+        session().set({ token: msg.token, expires_at: msg.expires_at, email: msg.email });
+        pp().clear();
+        status('Signed in');
+        await start();
+      });
+      dialog.addEventHandler(Office.EventType.DialogEventReceived, function () { status('Sign-in window closed'); });
+    });
+  }
+
+  async function signOut() {
+    try { await pp().logout(); } catch (e) { /* session may already be gone */ }
+    session().clear(); pp().clear();
+    status('Signed out');
+    await account();
+  }
+
+  // ------------------------------------------------------------------ project
+  async function loadProjects() {
+    var list = await pp().projects();
+    options($('project'), list.map(function (p) { return [p.id, p.name + ' · ' + p.target_mw + ' MW']; }));
+    show('project-box', list.length > 0);
+    status(list.length ? '' : 'No projects visible with this account');
+    if (list.length) await describe();
   }
 
   async function describe() {
     var id = project();
-    $('examples').textContent = [
-      '=POWERPATH.METRIC("' + id + '","npv")',
-      '=POWERPATH.EXPOSURE("' + id + '","energization_delay_months")',
-      '=POWERPATH.SOURCE("' + id + '","construction_cost_mw")',
-      '=POWERPATH.PRIORITIES("' + id + '")',
-      '=POWERPATH.BRIDGE("' + id + '",A2:B4)',
-      '=POWERPATH.PATHBRIDGE("' + id + '","Grid utility service")',
-      '=POWERPATH.DELIVERABLE("' + id + '","","base","month")'
-    ].join('\n');
+    cache = { priorities: null, deliverability: null, paths: [] };
     try {
       var c = await pp().approvedCase(id), r = c.result;
       $('case-line').textContent = 'Approved case: NPV $' + r.npvM.toFixed(1) + 'M · IRR ' + (r.leveredIRR * 100).toFixed(1) + '% · ' +
         Object.keys(c.assignments).length + ' approved assumption(s) · ' + c.fingerprint.slice(0, 10);
     } catch (e) { $('case-line').textContent = e.message; }
+    try { cache.priorities = await pp().priorities(id); } catch (e) { cache.priorities = null; }
+    try { cache.deliverability = await pp().deliverability(id); } catch (e) { cache.deliverability = null; }
+    try { cache.paths = await pp().paths(id); } catch (e) { cache.paths = []; }
+    builderOptions();
   }
 
+  // ------------------------------------------------------------------ formula builder
+  function builderOptions() {
+    var kind = $('b-kind').value;
+    if (kind === 'GET') options($('b-field'), Object.keys(core.GET_FIELDS).map(function (k) { return [k, k + ': ' + core.GET_FIELDS[k].help]; }));
+    if (kind === 'TABLE') options($('b-field'), Object.keys(core.TABLES).map(function (k) { return [k, k + ': ' + core.TABLES[k]]; }));
+    options($('b-arg'), (cache.priorities ? cache.priorities.priorities : []).map(function (p) { return [p.key, p.label]; }));
+    options($('b-conf'), [['', 'First configuration']].concat(cache.deliverability ? cache.deliverability.body.configurations.map(function (c) { return [c.name, c.name]; }) : []));
+    options($('b-path'), cache.paths.map(function (p) { return [p.name, p.name]; }));
+    preview();
+  }
+
+  function formula() {
+    var kind = $('b-kind').value, field = $('b-field').value, id = q(project());
+    if (kind === 'BRIDGE') return '=PP.BRIDGE(' + id + ',' + ($('b-range').value.trim() || 'A2:B4') + ')';
+    if (kind === 'TABLE') return '=PP.TABLE(' + id + ',' + q(field) + (field === 'pathbridge' ? ',' + q($('b-path').value) : '') + ')';
+    var spec = core.GET_FIELDS[field] || {};
+    if (spec.needs === 'priorities') return '=PP.GET(' + id + ',' + q(field) + ',' + q($('b-arg').value) + ')';
+    if (spec.needs === 'deliverability') return '=PP.GET(' + id + ',' + q(field) + ',' + q($('b-case').value) + ($('b-conf').value ? ',' + q($('b-conf').value) : '') + ')';
+    return '=PP.GET(' + id + ',' + q(field) + ')';
+  }
+
+  function preview() {
+    var kind = $('b-kind').value, field = $('b-field').value, spec = core.GET_FIELDS[field] || {};
+    show('b-field-l', kind !== 'BRIDGE');
+    show('b-arg-l', kind === 'GET' && spec.needs === 'priorities');
+    show('b-case-l', kind === 'GET' && spec.needs === 'deliverability');
+    show('b-conf-l', kind === 'GET' && spec.needs === 'deliverability');
+    show('b-path-l', kind === 'TABLE' && field === 'pathbridge');
+    show('b-range-l', kind === 'BRIDGE');
+    $('b-preview').textContent = formula();
+    $('b-help').textContent = kind === 'BRIDGE' ? 'Put input keys in the first column and new values in the second. Use =PP.TABLE(project,"fields") to list keys.'
+      : kind === 'TABLE' ? 'Spills into the cells below and to the right; leave them empty.' : '';
+  }
+
+  async function insertFormula() {
+    try {
+      var f = formula();
+      await Excel.run(async function (ctx) { ctx.workbook.getSelectedRange().getCell(0, 0).formulas = [[f]]; await ctx.sync(); });
+      status('Inserted ' + f);
+    } catch (e) { status(e.message, true); }
+  }
+
+  // ------------------------------------------------------------------ sheets of values
   async function writeSheet(name, blocks) {
     await Excel.run(async function (ctx) {
       var sheets = ctx.workbook.worksheets;
       var existing = sheets.getItemOrNullObject(name);
       await ctx.sync();
       if (!existing.isNullObject) existing.delete();
-      var ws = sheets.add(name);
-      var row = 0;
+      var ws = sheets.add(name), row = 0;
       blocks.forEach(function (b) {
         if (b.title) { ws.getRangeByIndexes(row, 0, 1, 1).values = [[b.title]]; ws.getRangeByIndexes(row, 0, 1, 1).format.font.bold = true; row += 1; }
         if (b.note) { ws.getRangeByIndexes(row, 0, 1, 1).values = [[b.note]]; ws.getRangeByIndexes(row, 0, 1, 1).format.font.color = '#5d6d69'; row += 1; }
@@ -66,8 +143,7 @@
           var width = b.rows[0].length;
           var rows = b.rows.map(function (r) { return r.concat(Array(width - r.length).fill('')); });
           ws.getRangeByIndexes(row, 0, rows.length, width).values = rows;
-          var t = ws.tables.add(ws.getRangeByIndexes(row, 0, rows.length, width), true);
-          t.style = 'TableStyleLight9';
+          ws.tables.add(ws.getRangeByIndexes(row, 0, rows.length, width), true).style = 'TableStyleLight9';
           row += rows.length;
         }
         row += 1;
@@ -78,7 +154,7 @@
     });
   }
 
-  async function insert(kind) {
+  async function insertSheet(kind) {
     var id = project();
     status('Running PowerPath…');
     try {
@@ -96,28 +172,32 @@
         blocks.push({ note: 'Shapley attribution: causes add up to the total change regardless of order. Measured from the approved case.' });
         await writeSheet('PP Path bridges', blocks);
       } else {
-        var d = await pp().deliverability(id), body = d.body, rows = [['Configuration', 'Firm MW at target (downside)', 'Base', 'Upside', 'Target month (upside)', 'Base', 'Downside', 'Evidence quality', 'Answer']];
-        body.configurations.forEach(function (cf) {
-          var m = cf.deliverable_mw_at_target, t = cf.time_to_target_month;
-          rows.push([cf.name, m.low, m.base, m.high, t.low === null ? '' : t.low, t.base === null ? '' : t.base, t.high === null ? 'not reached' : t.high, cf.evidence_quality.label, cf.answer]);
-        });
-        await writeSheet('PP Deliverability', [{ title: 'Deliverability: ' + body.target_mw + ' MW by month ' + body.target_month, note: 'Assessment v' + d.version + ' · ' + d.created_at + ' · scenario bounds, not probabilities' }, { rows: rows }]);
+        var d = await pp().deliverability(id);
+        await writeSheet('PP Deliverability', [{ title: 'Deliverability: ' + d.body.target_mw + ' MW by month ' + d.body.target_month,
+          note: 'Assessment v' + d.version + ' · ' + d.created_at + ' · scenario bounds, not probabilities' }, { rows: core.deliverabilityTable(d) }]);
       }
       status('Sheet inserted');
     } catch (e) { status(e.message, true); }
   }
 
+  async function start() {
+    try { if (await account()) await loadProjects(); } catch (e) { status(e.message, true); }
+  }
+
   Office.onReady(function () {
-    $('base-url').value = localStorage.getItem('pp.baseUrl') || location.origin;
-    $('load-projects').onclick = loadProjects;
     $('sign-in').onclick = signIn;
+    $('sign-out').onclick = signOut;
     $('project').onchange = describe;
+    $('b-kind').onchange = builderOptions;
+    ['b-field', 'b-arg', 'b-case', 'b-conf', 'b-path'].forEach(function (id) { $(id).onchange = preview; });
+    $('b-range').oninput = preview;
+    $('b-insert').onclick = insertFormula;
     $('refresh').onclick = async function () {
       pp().clear();
-      try { await Excel.run(async function (ctx) { ctx.workbook.application.calculate(Excel.CalculationType.full); await ctx.sync(); }); status('Recalculated'); }
+      try { await Excel.run(async function (ctx) { ctx.workbook.application.calculate(Excel.CalculationType.full); await ctx.sync(); }); status('Refreshed'); }
       catch (e) { status(e.message, true); }
     };
-    document.querySelectorAll('[data-insert]').forEach(function (b) { b.onclick = function () { insert(b.dataset.insert); }; });
-    loadProjects();
+    document.querySelectorAll('[data-insert]').forEach(function (b) { b.onclick = function () { insertSheet(b.dataset.insert); }; });
+    start();
   });
 })();

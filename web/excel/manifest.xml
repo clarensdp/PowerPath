@@ -7,7 +7,7 @@
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
   <Id>ac2e1bb9-3b01-43cc-9ad5-e0c01a0a08c5</Id>
-  <Version>31.5.0.0</Version>
+  <Version>31.5.1.0</Version>
   <ProviderName>PowerPath</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="PowerPath"/>
@@ -90,14 +90,14 @@
         <bt:Url id="Functions.Metadata.Url" DefaultValue="https://localhost:8768/excel/functions.json"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="Functions.Namespace" DefaultValue="POWERPATH"/>
+        <bt:String id="Functions.Namespace" DefaultValue="PP"/>
         <bt:String id="Group.Label" DefaultValue="PowerPath"/>
         <bt:String id="Button.Label" DefaultValue="PowerPath"/>
         <bt:String id="GetStarted.Title" DefaultValue="PowerPath is ready"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="Button.Tooltip" DefaultValue="Open PowerPath to insert sourced underwriting sheets."/>
-        <bt:String id="GetStarted.Description" DefaultValue="Open PowerPath from the Home tab, or type =POWERPATH. in a cell."/>
+        <bt:String id="GetStarted.Description" DefaultValue="Open PowerPath from the Home tab, or type =PP. in a cell."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

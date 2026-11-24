@@ -2,65 +2,36 @@
   "allowCustomDataForDataTypeAny": false,
   "functions": [
     {
-      "id": "METRIC", "name": "METRIC",
-      "description": "Approved-case NPV ($M), levered IRR, minimum DSCR or covenant breach months.",
-      "result": { "type": "number" },
+      "id": "GET", "name": "GET",
+      "description": "One PowerPath value: npv, irr, dscr, breach_months, exposure, source, confidence, value, rank, deliverable_mw or time_to_target.",
+      "helpUrl": "https://localhost:8768/excel/taskpane.html",
+      "result": { "type": "any" },
       "parameters": [
         { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "metric", "description": "npv, irr, dscr or breach_months", "type": "string", "optional": true }
+        { "name": "field", "description": "npv, irr, dscr, breach_months, exposure, source, confidence, value, rank, deliverable_mw, time_to_target", "type": "string" },
+        { "name": "arg1", "description": "Input key (exposure, source, confidence, value, rank) or case: upside, base, downside (deliverability)", "type": "string", "optional": true },
+        { "name": "arg2", "description": "Configuration name (deliverability fields; blank for the first)", "type": "string", "optional": true }
       ]
     },
     {
-      "id": "EXPOSURE", "name": "EXPOSURE",
-      "description": "NPV change ($M) if one underwriting input moves to its downside.",
-      "result": { "type": "number" },
-      "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "key", "description": "Input key, e.g. energization_delay_months", "type": "string" }
-      ]
-    },
-    {
-      "id": "SOURCE", "name": "SOURCE",
-      "description": "Source, date, verification and review state behind an underwriting input.",
-      "result": { "type": "string" },
-      "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "key", "description": "Input key, e.g. construction_cost_mw", "type": "string" }
-      ]
-    },
-    {
-      "id": "PRIORITIES", "name": "PRIORITIES",
-      "description": "Diligence priorities ranked by NPV at risk, with sources and next actions.",
+      "id": "TABLE", "name": "TABLE",
+      "description": "A spilled PowerPath table: priorities, pathbridge, deliverability or fields.",
+      "helpUrl": "https://localhost:8768/excel/taskpane.html",
       "result": { "type": "any", "dimensionality": "matrix" },
-      "parameters": [ { "name": "project", "description": "PowerPath project id", "type": "string" } ]
+      "parameters": [
+        { "name": "project", "description": "PowerPath project id", "type": "string" },
+        { "name": "name", "description": "priorities, pathbridge, deliverability or fields", "type": "string" },
+        { "name": "arg", "description": "Power path name (pathbridge only)", "type": "string", "optional": true }
+      ]
     },
     {
       "id": "BRIDGE", "name": "BRIDGE",
       "description": "What-if on the approved case. Splits the change in NPV, IRR and DSCR by cause; parts add up to the total.",
+      "helpUrl": "https://localhost:8768/excel/taskpane.html",
       "result": { "type": "any", "dimensionality": "matrix" },
       "parameters": [
         { "name": "project", "description": "PowerPath project id", "type": "string" },
         { "name": "drivers", "description": "Two-column range: input key, new value", "type": "any", "dimensionality": "matrix" }
-      ]
-    },
-    {
-      "id": "PATHBRIDGE", "name": "PATHBRIDGE",
-      "description": "Why a power path changes returns, split by cause.",
-      "result": { "type": "any", "dimensionality": "matrix" },
-      "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "path", "description": "Power path name or id", "type": "string" }
-      ]
-    },
-    {
-      "id": "DELIVERABLE", "name": "DELIVERABLE",
-      "description": "Latest deliverability: firm MW at the target month, or the month the target is reached.",
-      "result": { "type": "number" },
-      "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "configuration", "description": "Configuration name (blank for the first)", "type": "string", "optional": true },
-        { "name": "case", "description": "upside, base or downside", "type": "string", "optional": true },
-        { "name": "field", "description": "mw or month", "type": "string", "optional": true }
       ]
     }
   ]

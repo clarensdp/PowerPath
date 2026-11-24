@@ -19,6 +19,23 @@ assert.throws(() => core.driversFromRange([['', '']]));
 assert.strictEqual(core.deliverable(fx.deliverability, '', 'base', 'month'), fx.deliverability.body.configurations[0].time_to_target_month.base);
 assert.throws(() => core.deliverable(fx.deliverability, 'nope', 'base', 'mw'));
 assert.ok(core.sourceText(fx.priorities, 'construction_cost_mw').includes('EPC quote'));
+// PP.GET / PP.TABLE resolution
+assert.strictEqual(core.resolveGet({ case: fx.case }, 'NPV'), fx.case.result.npvM);
+assert.strictEqual(core.resolveGet({ case: fx.case }, 'dscr'), fx.case.result.minDSCR);
+const delay = fx.priorities.priorities.find(p => p.key === 'energization_delay_months');
+assert.strictEqual(core.resolveGet({ priorities: fx.priorities }, 'exposure', 'energization_delay_months'), delay.exposure.npv_delta_m);
+assert.strictEqual(core.resolveGet({ priorities: fx.priorities }, 'rank', 'energization_delay_months'), delay.rank);
+assert.strictEqual(core.resolveGet({ priorities: fx.priorities }, 'value', 'construction_cost_mw'), 8);
+assert.ok(['low', 'medium', 'high'].includes(core.resolveGet({ priorities: fx.priorities }, 'confidence', 'construction_cost_mw')));
+assert.ok(core.resolveGet({ priorities: fx.priorities }, 'source', 'construction_cost_mw').includes('EPC quote'));
+assert.strictEqual(core.resolveGet({ deliverability: fx.deliverability }, 'time_to_target', 'base'), fx.deliverability.body.configurations[0].time_to_target_month.base);
+assert.strictEqual(core.resolveGet({ deliverability: fx.deliverability }, 'deliverable_mw', 'upside'), fx.deliverability.body.configurations[0].deliverable_mw_at_target.high);
+assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'exposure'), /needs an input key/);
+assert.throws(() => core.resolveGet({}, 'moic'), /Unknown field/);
+assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'value', 'nope'), /Unknown input/);
+const ft = core.fieldsTable();
+assert.ok(ft.length === 1 + Object.keys(core.GET_FIELDS).length + Object.keys(core.TABLES).length + 1);
+assert.strictEqual(core.deliverabilityTable(fx.deliverability).length, fx.deliverability.body.configurations.length + 1);
 // client caches GETs and sends the bearer token
 let calls = 0;
 const c = core.client({ baseUrl: () => 'https://pp.test', token: () => 'tok', fetch: (url, o) => { calls++; assert.strictEqual(o.headers.Authorization, 'Bearer tok'); return Promise.resolve({ ok: true, json: () => Promise.resolve([]) }); } });

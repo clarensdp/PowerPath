@@ -10,25 +10,49 @@ gets the relaxed security headers Office needs: Office.js from
 `appsforoffice.microsoft.com`, and framing by Office hosts. The app and the API keep
 `frame-ancestors 'none'`.
 
-## Formulas (namespace `POWERPATH`)
+## Formulas (namespace `PP`)
+
+Office web add-ins always name a function `NAMESPACE.FUNCTION`, so a bare `=PP()` isn't
+possible. Three formulas cover everything:
 
 | Formula | Returns |
 |---|---|
-| `=POWERPATH.METRIC(project, "npv"\|"irr"\|"dscr"\|"breach_months")` | Approved-case result |
-| `=POWERPATH.EXPOSURE(project, key)` | NPV change ($M) at the input's downside |
-| `=POWERPATH.SOURCE(project, key)` | Source · date · verification · review state |
-| `=POWERPATH.PRIORITIES(project)` | Spilled diligence table ranked by NPV at risk |
-| `=POWERPATH.BRIDGE(project, A2:B4)` | What-if; spilled attribution by cause, with a reconciling total row |
-| `=POWERPATH.PATHBRIDGE(project, "Grid utility service")` | A power path's change in returns, by cause |
-| `=POWERPATH.DELIVERABLE(project, config, "base", "mw"\|"month")` | Firm MW at the target month, or the month the target is reached |
+| `=PP.GET(project, field, [arg1], [arg2])` | One value |
+| `=PP.TABLE(project, name, [arg])` | A spilled table |
+| `=PP.BRIDGE(project, A2:B4)` | What-if: the change in NPV, IRR and DSCR by cause, with a reconciling total row |
 
-Input keys are the same as the underwriting catalog (`docs/UNDERWRITING_V31_5.md`).
-GET results are cached for 60 seconds. **Recalculate** in the task pane clears the cache.
+`PP.GET` fields:
 
-The task pane also inserts three formatted sheets: Diligence, Path bridges and
-Deliverability. Each sheet is stamped with the approved case's fingerprint and the time
-it was calculated. They are values, not live formulas, so a sheet you send someone
-doesn't change after it's sent.
+- **Approved-case results:** `npv`, `irr`, `dscr`, `breach_months`.
+- **Per input (arg1 = input key):** `exposure`, `source`, `confidence`, `value`, `rank`.
+- **Deliverability:** `deliverable_mw` and `time_to_target`. Here arg1 is the case
+  (upside, base or downside) and arg2 is the configuration.
+
+`PP.TABLE` names: `priorities`, `pathbridge` (arg = path name), `deliverability`,
+`fields`. `=PP.TABLE(project, "fields")` lists every field and table.
+
+The task pane's **Build a formula** panel fills in the project, field, input, case or path
+from dropdowns and inserts the formula into the selected cell, much like FactSet's Insert
+Formula. Results are cached for 60 seconds. **Refresh** clears the cache and recalculates.
+
+The pane also inserts three formatted sheets: Diligence, Path bridges and Deliverability.
+Each is stamped with the approved case's fingerprint and the time it was calculated. They
+are values, not live formulas, so a workbook you send someone doesn't change and doesn't
+break for readers without PowerPath access.
+
+## Sign-in
+
+On an installation that requires login, **Sign in to PowerPath** opens a sign-in window
+(the Office Dialog API) served by PowerPath itself.
+
+- The window sends the credentials to `/api/v27/auth/login` on the same origin, and
+  returns only the session token to the task pane.
+- The token is kept in memory and `sessionStorage`, never persistent storage, so it ends
+  when Excel closes. It also expires on the server (8 hours for local identity).
+- **Sign out** revokes the session on the server.
+- In the local workspace, no sign-in is needed.
+- Production should add Microsoft 365 single sign-on, so users don't type a separate
+  PowerPath password.
 
 ## Try it
 
@@ -47,8 +71,8 @@ doesn't change after it's sent.
   headers, that the manifest and function metadata agree, and the formula logic against
   real API responses (run in Node). Microsoft's manifest validator still needs to be
   run.
-- **The sign-in token is kept in the add-in's local storage.** Production should use
-  Office single sign-on, or a short-lived token issued for the add-in.
+- **Single sign-on isn't built yet.** Users sign in with a PowerPath password in the
+  sign-in window. Microsoft 365 single sign-on is the next step for enterprise use.
 - **No AppSource listing.** That needs a hosted HTTPS deployment, a privacy policy and
   Microsoft review.
 - **The Host header allow-list may need your public hostname** before the add-in loads

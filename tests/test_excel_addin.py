@@ -31,9 +31,20 @@ def test_manifest_and_function_metadata_agree():
     assert urls and all(u.startswith('https://localhost:8768') or 'schemas.microsoft.com' in u for u in urls)
     meta = {f['id'] for f in json.loads((ROOT / 'web/excel/functions.json').read_text())['functions']}
     code = set(re.findall(r"CustomFunctions\.associate\('([A-Z]+)'", (ROOT / 'web/excel/functions.js').read_text()))
-    assert meta == code == {'METRIC', 'EXPOSURE', 'SOURCE', 'PRIORITIES', 'BRIDGE', 'PATHBRIDGE', 'DELIVERABLE'}
+    assert meta == code == {'GET', 'TABLE', 'BRIDGE'}
+    assert '<bt:String id="Functions.Namespace" DefaultValue="PP"/>' in manifest
     for f in (ROOT / 'web/excel').glob('*.js'):  # the add-in never calls the approval routes
         assert '/approvals' not in f.read_text(), f.name
+
+
+def test_sign_in_dialog_and_session_handling():
+    for f in ('login.html', 'login.js'):
+        assert C.get(f'/excel/{f}').status_code == 200
+    js = {f.name: f.read_text() for f in (ROOT / 'web/excel').glob('*.js')}
+    # Tokens are never written to localStorage; the dialog hands back only the session.
+    assert all('localStorage' not in t for t in js.values())
+    assert 'messageParent' in js['login.js'] and 'password' not in js['login.js'].split('messageParent')[1].split(')')[0]
+    assert 'displayDialogAsync' in js['taskpane.js'] and 'sessionStorage' in js['functions.js']
 
 
 def test_manifest_generator_requires_https():
