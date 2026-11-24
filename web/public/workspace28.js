@@ -1,5 +1,6 @@
 import { createSiteFeasibility } from './site-feasibility.js';
 import { createSiteEnergy } from './site-energy.js';
+import { createUnderwritingUI } from './underwriting-ui.js';
 
 const $ = s => document.querySelector(s),
   E = v =>
@@ -7,7 +8,7 @@ const $ = s => document.querySelector(s),
       /[&<>"']/g,
       c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
     );
-const steps = ['Project brief', 'Explore parcels', 'Power paths', 'Economics', 'Diligence', 'Decision memo'];
+const steps = ['Project brief', 'Explore parcels', 'Power paths', 'Returns', 'Diligence', 'Decision memo'];
 const names = {
   power: 'Power access',
   permitting: 'Permitting & community',
@@ -54,6 +55,7 @@ const connected = createSiteFeasibility({
   api, selection: () => ({pid:state.pid,parcel:state.selected}),
   onChange: async () => { await refreshProject(); updatePolygons(); const results=$('#results'); if(results){results.innerHTML=resultList(visible());bindParcel();} }
 });
+const uw = createUnderwritingUI({ api, toast: t => toast(t), pid: () => state.pid, dialog: (...a) => dialog(...a) });
 async function api(path, method = 'GET', body) {
   const headers = {};
   if (body) headers['Content-Type'] = 'application/json';
@@ -138,7 +140,7 @@ function render() {
   }
   const p = project();
   $('#workspace').innerHTML =
-    `<div class="shell"><aside class="sidebar"><div><div class="brand"><span>↗</span> PowerPath</div><div class="edition">DEVELOPMENT WORKSPACE</div></div><label>ACTIVE PROJECT<select id="project-select"><option value="">Select a project</option>${state.projects.map(x => `<option value="${E(x.id)}" ${x.id === state.pid ? 'selected' : ''}>${E(x.name)}</option>`).join('')}</select></label><button id="new-project">+ New project</button><nav class="nav" aria-label="Project process">${steps.map((s, i) => `<button data-step="${i}" class="${i === state.step ? 'active' : ''}" ${i === state.step ? 'aria-current="step"' : ''}><span class="stepnum">${i + 1}</span>${s}</button>`).join('')}</nav><footer><p>LOCAL DEVELOPMENT ALPHA<br>v30 · NC + VA parcels</p><p>Screening evidence supports a decision. Utility service and engineering reliability require separate confirmation.</p><p class="toolsh">EXPERT TOOLS</p><a href="${advanced()}">Detailed workspace ↗</a><br><a href="/power-deliverability?project=${encodeURIComponent(state.pid || '')}">Power deliverability ↗</a><br><a href="/transaction-workspace">Transaction review ↗</a><br><a href="/permitiq-national">PermitIQ national screening ↗</a><br><a href="/agent-operations">Executive agents ↗</a></footer></aside><div><header class="topbar"><span class="crumb">Workspace / ${E(p?.name || 'No project selected')}</span><div class="actions">${badge('● Local alpha · Screening', 'amber')}${sessionToken ? '<button id="logout">Sign out</button>' : ''}</div></header><main id="main" class="page" tabindex="-1">${!p ? welcome() : [brief, explore, compare, economics, diligence, memo][state.step]()}</main></div></div>`;
+    `<div class="shell"><aside class="sidebar"><div><div class="brand"><span>↗</span> PowerPath</div><div class="edition">DEVELOPMENT WORKSPACE</div></div><label>ACTIVE PROJECT<select id="project-select"><option value="">Select a project</option>${state.projects.map(x => `<option value="${E(x.id)}" ${x.id === state.pid ? 'selected' : ''}>${E(x.name)}</option>`).join('')}</select></label><button id="new-project">+ New project</button><nav class="nav" aria-label="Project process">${steps.map((s, i) => `<button data-step="${i}" class="${i === state.step ? 'active' : ''}" ${i === state.step ? 'aria-current="step"' : ''}><span class="stepnum">${i + 1}</span>${s}</button>`).join('')}</nav><footer><p>LOCAL DEVELOPMENT ALPHA<br>v30 · NC + VA parcels</p><p>Screening evidence supports a decision. Utility service and engineering reliability require separate confirmation.</p><p class="toolsh">EXPERT TOOLS</p><a href="${advanced()}">Detailed workspace ↗</a><br><a href="/power-deliverability?project=${encodeURIComponent(state.pid || '')}">Power deliverability ↗</a><br><a href="/permitiq-national">PermitIQ screening ↗</a><br><a href="/transaction-workspace">Transaction review ↗</a><br><a href="/agent-operations">Agent operations ↗</a></footer></aside><div><header class="topbar"><span class="crumb">Workspace / ${E(p?.name || 'No project selected')}</span><div class="actions">${badge('● Local alpha · Screening', 'amber')}${sessionToken ? '<button id="logout">Sign out</button>' : ''}</div></header><main id="main" class="page" tabindex="-1">${!p ? welcome() : [brief, explore, compare, economics, diligence, memo][state.step]()}</main></div></div>`;
   bind();
   if (p && state.step === 1) drawMap();
 }
@@ -316,11 +318,11 @@ function diligence() {
   return (
     head(
       '05 / DILIGENCE',
-      'Make the next action clear.',
-      'Resolve missing evidence and track who owns each next step. Completing a task never changes a parcel score automatically.',
+      'Diligence what moves the money first.',
+      'Every underwriting input ranked by NPV at risk and how well it is sourced. New values wait for approval before they change the case. Parcel evidence tasks follow below.',
       `<a href="${advanced('execution')}">Open permits & critical path ↗</a>`
     ) +
-    `<div class="grid2">${state.short.map(s => `<section class="panel panelpad"><div class="row"><h2 title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</h2><div class="actions"><button data-open-parcel="${E(s.parcel_id)}">Assess evidence</button><button data-add-task="${E(s.parcel_id)}">+ Task</button></div></div><p class="muted">${s.assessment.coverage_pct}% evidence coverage</p>${s.assessment.missing_factors.map(k => `<div class="factor"><strong>${names[k]}</strong><p class="nodata">${instructions[k]}</p></div>`).join('')}<div data-tasks="${E(s.parcel_id)}"><p class="muted">Loading saved tasks…</p></div></section>`).join('') || '<section class="panel empty">Save a parcel first to create diligence tasks.</section>'}</div>`
+    `<div id="uw-diligence"></div><h2 class="sectionhead">Parcel evidence</h2><div class="grid2">${state.short.map(s => `<section class="panel panelpad"><div class="row"><h2 title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</h2><div class="actions"><button data-open-parcel="${E(s.parcel_id)}">Assess evidence</button><button data-add-task="${E(s.parcel_id)}">+ Task</button></div></div><p class="muted">${s.assessment.coverage_pct}% evidence coverage</p>${s.assessment.missing_factors.map(k => `<div class="factor"><strong>${names[k]}</strong><p class="nodata">${instructions[k]}</p></div>`).join('')}<div data-tasks="${E(s.parcel_id)}"><p class="muted">Loading saved tasks…</p></div></section>`).join('') || '<section class="panel empty">Parcel evidence tasks appear here once you save a parcel in Explore. The ranking above works without one.</section>'}</div>`
   );
 }
 async function loadTasks() {
@@ -371,7 +373,7 @@ function memo() {
       'Export a current screening snapshot. Missing evidence and failed gates remain part of the record.',
       `<button id="export-json">Export evidence JSON</button><button id="print-memo" class="primary">Print / save PDF</button>`
     ) +
-    `<div id="connected-comparison" class="panel panelpad"></div><article class="panel panelpad report"><div class="eyebrow">POWERPATH · SCREENING MEMO · ${new Date().toISOString().slice(0, 10)}</div><h1>${E(p.name)}</h1><p>${E(p.location)} · ${E(p.target_mw)} MW target · ${E(p.status)}</p><p>${E(p.description || 'Project constraints not yet recorded.')}</p><div class="notice">No investment recommendation or electrical reliability certification. All parcel scores are analyst-rated screening indices. G4/G5 remain blocked; financial outputs require separate evidence and review.</div><h2>Parcel comparison</h2><div class="tablewrap"><table><thead><tr><th>Parcel</th><th>Screen</th><th>Coverage</th><th>Missing factors / failed gates</th></tr></thead><tbody>${state.short.map(s => `<tr><td title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</td><td>${status(s.assessment)}</td><td>${s.assessment.coverage_pct}%</td><td>${E(s.assessment.missing_factors.join(', '))}${s.assessment.failed_gates.length ? '<br>FAILED: ' + E(s.assessment.failed_gates.join(', ')) : ''}</td></tr>`).join('') || '<tr><td colspan="4">No shortlisted parcels</td></tr>'}</tbody></table></div><h2>Evidence register</h2>${state.short.map(s => `<h3>Parcel ${E(plabel(s.parcel_id))} <small class="muted">${E(s.parcel_id)}</small></h3>${s.factors.map(f => `<p><strong>${names[f.factor]} · ${E(f.gate)} · ${f.rating ?? '—'}/5</strong><br>${E(f.notes)}<br><small>${E(f.source_date || 'Undated')} · Analyst-entered</small> <a target="_blank" rel="noopener" href="${E(f.source_url || '#')}">${E(f.source_url || 'No source')}</a></p>`).join('') || '<p class="muted">No assessments entered.</p>'}`).join('')}${memoEconomics()}<h2>Power-pathway hypotheses</h2>${state.paths.map(p => `<p><strong>${E(p.name)}</strong> · ${E(p.strategy)} · ${p.capacity_mw} MW assumed · ${p.power_month ? 'Project month ' + p.power_month : 'Timing unknown'}<br>${E(p.source_note)}</p>`).join('') || '<p>No pathways entered.</p>'}<h2>Source & methodology</h2><p>Parcel source versions: ${state.short.map(s => E(s.source_version || 'Legacy Loudoun snapshot')).join(', ') || 'No parcels saved'}. See exported evidence JSON for each parcel’s source URL, retrieval date and retained geometry. Connected snapshots are not a complete inventory. Recorded area is not buildable acreage. No power or sale availability is implied.</p><p>PP-SITE-1.0 uses weighted analyst ratings (0–5): power 30%, permitting 20%, land 15%, environment 15%, delivery 10%, connectivity 10%. Index is withheld below 60% current coverage or without power and permitting assessments. Any failed gate blocks the index. Evidence older than 180 days does not count toward coverage; adverse gates remain active pending review.</p></article>`
+    `<div id="connected-comparison" class="panel panelpad"></div><article class="panel panelpad report"><div class="eyebrow">POWERPATH · SCREENING MEMO · ${new Date().toISOString().slice(0, 10)}</div><h1>${E(p.name)}</h1><p>${E(p.location)} · ${E(p.target_mw)} MW target · ${E(p.status)}</p><p>${E(p.description || 'Project constraints not yet recorded.')}</p><div class="notice">No investment recommendation or electrical reliability certification. All parcel scores are analyst-rated screening indices. Not reviewed by a lender; financial outputs require separate evidence and review.</div><h2>Parcel comparison</h2><div class="tablewrap"><table><thead><tr><th>Parcel</th><th>Screen</th><th>Coverage</th><th>Missing factors / failed gates</th></tr></thead><tbody>${state.short.map(s => `<tr><td title="${E(s.parcel_id)}">Parcel ${E(plabel(s.parcel_id))}</td><td>${status(s.assessment)}</td><td>${s.assessment.coverage_pct}%</td><td>${E(s.assessment.missing_factors.join(', '))}${s.assessment.failed_gates.length ? '<br>FAILED: ' + E(s.assessment.failed_gates.join(', ')) : ''}</td></tr>`).join('') || '<tr><td colspan="4">No shortlisted parcels</td></tr>'}</tbody></table></div><h2>Evidence register</h2>${state.short.map(s => `<h3>Parcel ${E(plabel(s.parcel_id))} <small class="muted">${E(s.parcel_id)}</small></h3>${s.factors.map(f => `<p><strong>${names[f.factor]} · ${E(f.gate)} · ${f.rating ?? '—'}/5</strong><br>${E(f.notes)}<br><small>${E(f.source_date || 'Undated')} · Analyst-entered</small> <a target="_blank" rel="noopener" href="${E(f.source_url || '#')}">${E(f.source_url || 'No source')}</a></p>`).join('') || '<p class="muted">No assessments entered.</p>'}`).join('') || '<p class="muted">No parcel evidence yet. Underwriting inputs and their sources are ranked in Diligence.</p>'}${memoEconomics()}<h2>Power-pathway hypotheses</h2>${state.paths.map(p => `<p><strong>${E(p.name)}</strong> · ${E(p.strategy)} · ${p.capacity_mw} MW assumed · ${p.power_month ? 'Project month ' + p.power_month : 'Timing unknown'}<br>${E(p.source_note)}</p>`).join('') || '<p>No pathways entered.</p>'}<h2>Source & methodology</h2><p>Parcel source versions: ${state.short.map(s => E(s.source_version || 'Legacy Loudoun snapshot')).join(', ') || 'No parcels saved'}. See exported evidence JSON for each parcel’s source URL, retrieval date and retained geometry. Connected snapshots are not a complete inventory. Recorded area is not buildable acreage. No power or sale availability is implied.</p><p>PP-SITE-1.0 uses weighted analyst ratings (0–5): power 30%, permitting 20%, land 15%, environment 15%, delivery 10%, connectivity 10%. Index is withheld below 60% current coverage or without power and permitting assessments. Any failed gate blocks the index. Evidence older than 180 days does not count toward coverage; adverse gates remain active pending review.</p></article>`
   );
 }
 function dialog(title, body, callback) {
@@ -610,7 +612,7 @@ function bind() {
           }
         ))
   );
-  if (state.step === 4 && project()) loadTasks();
+  if (state.step === 4 && project()) { loadTasks(); uw.loadDiligence($('#uw-diligence')); }
   if (state.step === 3 && project()) loadEconomics();
   if (state.step === 3 || state.step === 5) connected.comparison({report:state.step===5});
   if ($('#print-memo')) $('#print-memo').onclick = () => window.print();
@@ -851,8 +853,8 @@ function economics() {
   const p = project();
   return (
     head(
-      '04 / ECONOMICS',
-      'What each pathway does to the investment case.',
+      '04 / RETURNS',
+      'What each pathway does to the investment case, and why.',
       'Every pathway is run through the same frozen, versioned underwriter on one base scenario. Read-only: nothing here changes saved scenarios or runs.',
       `<button id="econ-refresh">Recalculate</button>`
     ) +
@@ -944,9 +946,10 @@ async function loadEconomics() {
          : '';
      })()}${v.power_periods
       ? `<small>Peak operating ${Math.max(...v.power_periods.map(m=>m.operating_it_mw)).toFixed(2)} IT MW · ${v.power_periods.filter(m=>m.unmet_target_it_mw>1e-7).length} months below target supply</small>`
-      : '<small>Supply timing unknown. Capacity was not tested in this sensitivity.</small>'}${best === ok.find(x => x.path === path) ? badge('Highest modelled NPV') : ''}${earliest === ok.find(x => x.path === path) ? badge('Earliest revenue', 'amber') : ''}</td><td>${v.first_revenue_month ? 'Month ' + v.first_revenue_month : '—'}</td><td><strong>${money(v.npvM)}</strong><div class="npvbar"><i data-npv="${v.npvM}" data-max="${maxAbs}" class="${v.npvM < 0 ? 'neg' : ''}"></i></div><small>${dl.npvM ? money(dl.npvM) + ' from delay' : 'No delay effect'}</small></td><td>${pct(v.leveredIRR)}</td><td>${dscr(v.minDSCR)}</td><td>${money(carry)}</td><td>${v.breach_months ? `<span class="tag red">${v.breach_months}</span>` : '0'}${v.defaulted ? ' · <span class="tag red">Default</span>' : ''}</td><td>${money(v.sponsor_equityM)}</td></tr>`;
+      : '<small>Supply timing unknown. Capacity was not tested in this sensitivity.</small>'}${best === ok.find(x => x.path === path) ? badge('Highest modelled NPV') : ''}${earliest === ok.find(x => x.path === path) ? badge('Earliest revenue', 'amber') : ''}</td><td>${v.first_revenue_month ? 'Month ' + v.first_revenue_month : '—'}</td><td><strong>${money(v.npvM)}</strong><div class="npvbar"><i data-npv="${v.npvM}" data-max="${maxAbs}" class="${v.npvM < 0 ? 'neg' : ''}"></i></div><small>${dl.npvM ? money(dl.npvM) + ' from delay' : 'No delay effect'}</small></td><td>${pct(v.leveredIRR)}</td><td>${dscr(v.minDSCR)}${v.minDSCR === 0 && v.breach_months ? `<small class="warn">Debt payments fall due before first revenue${v.first_revenue_month ? ' (M' + v.first_revenue_month + ')' : ''}: ${v.breach_months} months with no operating cash flow</small>` : ''}</td><td>${money(carry)}</td><td>${v.breach_months ? `<span class="tag red">${v.breach_months}</span>` : '0'}${v.defaulted ? ' · <span class="tag red">Default</span>' : ''}</td><td>${money(v.sponsor_equityM)}</td></tr>`;
    })
    .join('')}</tbody></table></div></section>
+ <div id="uw-bridge"></div>
  ${
    ok.some(x => {
      const mp = modelledPower(x.r);
@@ -955,8 +958,9 @@ async function loadEconomics() {
      ? `<div class="notice warnbox"><strong>Timing note.</strong> Operations require both delivered capacity and a ready building. Schedule delays and lease readiness can move operations later than the entered delivery month. <a href="${advanced('model')}">Open the versioned model ↗</a></div>`
      : ''
  }
- <div class="notice"><strong>Screening sensitivity, not a valuation.</strong> Pathway timing, costs and capacity are analyst-entered hypotheses; nothing is utility-confirmed, contract-verified or lender-reviewed. "Highest" and "earliest" describe the model output only and are not recommendations. G4/G5 remain blocked.</div>
+ <div class="notice"><strong>Screening sensitivity, not a valuation.</strong> Pathway timing, costs and capacity are analyst-entered hypotheses; nothing is utility-confirmed, contract-verified or lender-reviewed. "Highest" and "earliest" describe the model output only and are not recommendations. Not reviewed by a lender.</div>
  <div class="actions flowactions"><button data-step="4" class="primary">Continue to diligence →</button><details class="moretools"><summary>Expert tools</summary><a href="${advanced('model')}">Edit base scenario in the versioned model ↗</a><a href="/power-deliverability?project=${encodeURIComponent(pid)}">Feasibility & four-path deliverability ↗</a></details></div>`;
+    uw.loadBridges($('#uw-bridge'), state.paths, chosen.id);
     box.querySelectorAll('[data-npv]').forEach(el => {
       const v = Number(el.dataset.npv),
         m = Number(el.dataset.max);

@@ -236,6 +236,18 @@ def install(app, db, project_exists, audit, calculate, schedule_for, path_inputs
                 return {'assumption': proposal, 'change': change}
             return guard(go)
 
+    @app.get(root + '/approved-case')
+    def approved_case(pid: str, scenario_id: str | None = None):
+        with db() as con:
+            open_project(con, pid)
+
+            def go():
+                case = EV.approved_case(con, pid, scenario_id)
+                from server.underwriting import drivers as DR
+                return {**{k: case[k] for k in ('scenario_id', 'scenario_version', 'assignments', 'fingerprint')},
+                        'result': DR.summarize(calculate('underwrite', case['config'])), 'calculated_at': S.now()}
+            return guard(go)
+
     @app.get(root + '/priorities')
     def priorities(pid: str, scenario_id: str | None = None, scope: str = 'project'):
         with db() as con:
@@ -362,7 +374,7 @@ def install(app, db, project_exists, audit, calculate, schedule_for, path_inputs
             return guard(go)
 
     @app.get(root + '/paths/{pathid}/bridge')
-    def path_bridge(pid: str, pathid: str, scenario_id: str | None = None):
+    def path_bridge(pid: str, pathid: str, scenario_id: str | None = None, include_approved: bool = True):
         with db() as con:
             open_project(con, pid)
             schedule = schedule_for(con, pid, pathid)
@@ -371,11 +383,15 @@ def install(app, db, project_exists, audit, calculate, schedule_for, path_inputs
 
             def go():
                 case = EV.approved_case(con, pid, scenario_id)
+                if not include_approved:  # match the raw-scenario schedule-impact table
+                    sid, version, cfg = EV.base_config(con, pid, scenario_id)
+                    case = {**case, 'config': cfg, 'assignments': {}, 'approved_not_applied': case['assignments']}
                 changes = B.path_drivers(case['config'], path, schedule)
                 if not changes:
                     raise ValueError('This path makes no schedule, capex, energy or capacity change to bridge')
                 result = B.run(calculate, case['config'], changes, ['grid_capacity', 'energization_delay_months', 'construction_cost_mw', 'power_cost_mwh'])
                 result['path'] = {'id': pathid, 'name': path['name'], 'strategy': path['strategy']}
+                result['approved_not_applied'] = case.get('approved_not_applied', {})
                 return result
             return guard(go)
 

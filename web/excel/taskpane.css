@@ -1,0 +1,8 @@
+body{margin:0;font:13px/1.45 "Segoe UI",system-ui,sans-serif;color:#1d2b28;background:#f6f8f7}
+header{background:#13302b;color:#fff;padding:12px 14px;display:flex;flex-direction:column}header small{color:#b9cbc4;font-size:11px;letter-spacing:.04em}
+main{padding:12px 14px}h2{font-size:14px;margin:12px 0 8px}h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#56676a;margin:16px 0 6px}
+label{display:block;margin:6px 0;font-size:12px;color:#40514d}input,select{display:block;width:100%;box-sizing:border-box;margin-top:3px;padding:6px 8px;border:1px solid #c9d4cf;border-radius:6px;font:inherit;background:#fff}
+button{display:block;width:100%;margin:6px 0;padding:7px 10px;border:1px solid #c9d4cf;border-radius:6px;background:#fff;font:inherit;text-align:left;cursor:pointer}button:hover{border-color:#2f6f55}
+button.primary{background:#245f4a;color:#fff;border-color:#245f4a;text-align:center}
+pre{white-space:pre-wrap;background:#fff;border:1px solid #dfe6e2;border-radius:6px;padding:8px;font-size:11.5px}
+.muted{color:#5d6d69;font-size:11.5px}#status{min-height:1.4em;font-size:12px}#status.error{color:#a3402b}.foot{margin-top:18px}

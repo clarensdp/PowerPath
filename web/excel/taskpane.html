@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PowerPath for Excel</title>
+<link rel="stylesheet" href="/excel/taskpane.css">
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<script src="/excel/powerpath-core.js"></script>
+<script src="/excel/functions.js"></script>
+<script src="/excel/taskpane.js"></script>
+</head>
+<body>
+<header><strong>↗ PowerPath</strong><small>Underwriting in Excel · read-only</small></header>
+<main>
+  <section id="connect">
+    <h2>Connect</h2>
+    <label>PowerPath address<input id="base-url" type="url" placeholder="https://powerpath.example.com"></label>
+    <details><summary>Sign in (required-auth installations)</summary>
+      <label>Email<input id="email" type="email" autocomplete="username"></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password"></label>
+      <button id="sign-in">Sign in</button>
+    </details>
+    <button id="load-projects" class="primary">Load projects</button>
+  </section>
+  <section id="project-box" hidden>
+    <h2>Project</h2>
+    <select id="project"></select>
+    <p class="muted" id="case-line"></p>
+    <h3>Insert a sheet</h3>
+    <button data-insert="priorities">Diligence ranked by NPV at risk</button>
+    <button data-insert="paths">Power path returns, by cause</button>
+    <button data-insert="deliverability">Deliverability ranges</button>
+    <button id="refresh">Recalculate all PowerPath formulas</button>
+    <h3>Formulas</h3>
+    <pre id="examples"></pre>
+  </section>
+  <p id="status" role="status"></p>
+  <p class="muted foot">Values come from the approved case. Proposed changes and approvals stay in PowerPath; nothing here can approve or save.</p>
+</main>
+</body>
+</html>

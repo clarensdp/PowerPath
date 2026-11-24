@@ -272,7 +272,7 @@ function nav() {
             ]
         ]
     ];
-    return `<aside class="sidebar ${state.mobileNav ? 'opened' : ''}"><div class="brand"><span class="brand-logo">${svgIcon('bolt', 19)}</span><div><b>POWERPATH</b><small>DECISION INTELLIGENCE</small></div></div>
+    return `<aside class="sidebar ${state.mobileNav ? 'opened' : ''}"><div class="brand"><span class="brand-logo">${svgIcon('bolt', 19)}</span><div><b>POWERPATH</b><small>DETAILED WORKSPACE</small></div></div>
 ${p ? `<div class="side-project"><span class="project-symbol">${svgIcon('building', 18)}</span><div><strong>${E(p.name)}</strong><small>${E(p.location || 'Site location not confirmed')}</small></div></div>` : ''}
 ${groups.map(([group, items]) => `<div class="side-subhead ${group === 'WORKSPACE' ? '' : 'gap-top'}">${group}</div>${items.map(([v, t, ic]) => `<button data-view="${v}" class="nav-item ${state.view === v ? 'active' : ''}" ${group === 'PROJECT' || group === 'MORE' ? (p ? '' : 'disabled') : ''}>${svgIcon(ic)}<span>${t}</span>${v === 'execution' && p ? `<em>${state.permits.length}</em>` : ''}</button>`).join('')}`).join('')}
 <div class="sidebar-foot"><div class="mini-orb">${svgIcon('shield', 18)}</div><div><b>SCREENING / UNVERIFIED</b><small>G4 / G5 remain blocked</small></div></div></aside>`;

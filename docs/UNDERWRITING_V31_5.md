@@ -190,9 +190,20 @@ POWERPATH_URL=http://127.0.0.1:8768 POWERPATH_TOKEN=<token> python -m tools.powe
 There is no LLM chat inside the app yet. The brief and the MCP server are how
 Claude or Copilot reach PowerPath today.
 
+## Screens and Excel
+
+- **Workspace step 4 (Returns)** shows a breakdown by cause under the pathway table. The
+  totals match that table exactly, and the screen flags any approved assumption the table
+  doesn't include yet.
+- **Workspace step 5 (Diligence)** ranks every input by NPV at risk. It has a "Waiting
+  for review" queue with accept, reject and record-analysis actions, plus a
+  "Document" form that creates a proposal. It also shows the latest deliverability
+  answer. None of this needs a saved parcel.
+- **Excel add-in:** see `docs/EXCEL_ADDIN.md`.
+
 ## Not built yet
 
-- Screens for these features. They are API-only so far.
+- Screens for the queue, forecasts and the ledger.
 - PostgreSQL tables.
 - Live queue feed adapters.
 - A provider-specific forecast adapter.

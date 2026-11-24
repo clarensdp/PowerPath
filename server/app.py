@@ -275,8 +275,15 @@ async def basic_hardening(request: Request, call_next):
                 return JSONResponse({"detail": "Cross-origin write denied"}, status_code=403)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["X-Frame-Options"] = "DENY"
     response.headers["Cache-Control"] = "no-store"
+    if request.url.path.startswith("/excel/"):
+        # v31.5 Excel add-in: Office hosts frame the task pane and it must load Microsoft's Office.js.
+        # Only this path is relaxed; the API and app pages keep frame-ancestors 'none'.
+        from server.excel_addin import CSP as EXCEL_CSP
+
+        response.headers["Content-Security-Policy"] = EXCEL_CSP
+        return response
+    response.headers["X-Frame-Options"] = "DENY"
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://tile.openstreetmap.org; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     )
@@ -1380,6 +1387,9 @@ def advanced_workspace():
     return FileResponse(ROOT / "web" / "public" / "advanced.html")
 
 
+from server.excel_addin import install as install_excel_addin
+
+install_excel_addin(app, ROOT)
 app.mount("/assets", StaticFiles(directory=ROOT / "web" / "public"), name="assets")
 
 
