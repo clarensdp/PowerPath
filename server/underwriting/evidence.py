@@ -41,7 +41,9 @@ def confidence(body, evidence_row=None, today=None):
     today = today or date.today()
     score = VERIFICATION.get(body.get('verification'), 0.2)
     reasons = [f"{body.get('verification', 'assumed')} source"]
-    if not body.get('evidence_id'):
+    if not body.get('evidence_id') and body.get('source_kind') == 'public_data' and body.get('source_url'):
+        reasons.append('public source linked')
+    elif not body.get('evidence_id'):
         score *= 0.75
         reasons.append('no supporting document attached')
     elif evidence_row is not None and evidence_row.get('evidence_status') in ('executed_document', 'third_party_review'):

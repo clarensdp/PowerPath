@@ -114,7 +114,16 @@
       deliverability: function (project) { return get(uw(project) + '/deliverability'); },
       pathBridge: function (project, pathId) { return get(uw(project) + '/paths/' + encodeURIComponent(pathId) + '/bridge'); },
       bridge: function (project, drivers) { return post(uw(project) + '/bridge', { drivers: drivers }); },
-      logout: function () { return post('/v27/auth/logout', {}); }
+      logout: function () { return post('/v27/auth/logout', {}); },
+      marketValue: function (project, metric, stat, window, location) {
+        var qs = '?metric=' + encodeURIComponent(metric) + '&stat=' + encodeURIComponent(stat || 'avg') + '&window=' + encodeURIComponent(window || 30) + (location ? '&location=' + encodeURIComponent(location) : '');
+        return get('/projects/' + encodeURIComponent(project) + '/market/value' + qs);
+      },
+      marketSnapshot: function (project, days) { return get('/projects/' + encodeURIComponent(project) + '/market/snapshot?days=' + encodeURIComponent(days || 30)); },
+      marketSeries: function (project, metric, start, location) {
+        return get('/projects/' + encodeURIComponent(project) + '/market/series?metric=' + encodeURIComponent(metric) + (start ? '&start=' + encodeURIComponent(start) : '') + (location ? '&location=' + encodeURIComponent(location) : ''));
+      },
+      marketCatalog: function (project) { return get('/projects/' + encodeURIComponent(project) + '/market/catalog'); }
     };
   }
 
@@ -133,7 +142,8 @@
     time_to_target: { needs: 'deliverability', arg: 'case', arg2: 'configuration', help: 'Project month the MW target is reached' }
   };
   var TABLES = { priorities: 'Diligence ranked by NPV at risk', pathbridge: 'A power path\'s returns change by cause (arg: path name)',
-    deliverability: 'Deliverability ranges by configuration', fields: 'Every PP.GET field and table' };
+    deliverability: 'Deliverability ranges by configuration', market: 'Power market snapshot with sources (arg: days, default 30)',
+    history: 'Daily/monthly history of a market metric (arg: metric)', fields: 'Every PP.GET field, PP.MARKET metric and table' };
 
   function priorityItem(pr, key) {
     var p = pr.priorities.filter(function (x) { return x.key === key; })[0];
@@ -161,13 +171,14 @@
   }
 
   function fieldsTable() {
-    var rows = [['Formula', 'Field / table', 'Argument', 'Returns']];
+    var rows = [['Formula', 'Field / table / metric', 'Argument', 'Returns']];
     Object.keys(GET_FIELDS).forEach(function (k) {
       var s = GET_FIELDS[k];
       rows.push(['PP.GET', k, [s.arg, s.arg2].filter(Boolean).join(', '), s.help]);
     });
     Object.keys(TABLES).forEach(function (k) { rows.push(['PP.TABLE', k, k === 'pathbridge' ? 'path name' : '', TABLES[k]]); });
     rows.push(['PP.BRIDGE', '(two-column range)', 'input key, new value', 'What-if: change in NPV, IRR, DSCR by cause']);
+    Object.keys(MARKET_METRICS).forEach(function (k) { rows.push(['PP.MARKET', k, 'stat, window, location', MARKET_METRICS[k]]); });
     return rows;
   }
 
@@ -180,7 +191,34 @@
     return rows;
   }
 
-  var api = { resolveGet: resolveGet, fieldsTable: fieldsTable, deliverabilityTable: deliverabilityTable, GET_FIELDS: GET_FIELDS, TABLES: TABLES,
+  var MARKET_METRICS = {
+    lmp_da: 'Day-ahead LMP, NYISO zone (stats: avg, on_peak, off_peak, max, min, stdev, congestion_avg)',
+    spark_spread: 'Spark spread, LMP − heat rate × Henry Hub (avg, on_peak)',
+    henry_hub: 'Henry Hub gas spot, USD/MMBtu (value)',
+    retail_industrial: 'State industrial retail price, USD/MWh, monthly (value)',
+    retail_commercial: 'State commercial retail price, USD/MWh, monthly (value)',
+    ba_demand: 'Grid demand for the balancing authority (value MWh/day, avg_mw)',
+    fuel_mix: 'Generation mix and estimated carbon (gas, renewables, nuclear, carbon_t_per_mwh, …)'
+  };
+
+  function marketTable(snap) {
+    var rows = [['Metric', 'Value', 'Unit', 'Location', 'As of', 'Stale', 'Source', 'Method', 'Retrieved']];
+    snap.items.forEach(function (i) {
+      rows.push([i.label, i.value === null ? '' : i.value, i.unit, i.location, i.as_of || '', i.stale ? 'stale' : '', i.source || '', i.method || '', i.retrieved_at || '']);
+    });
+    snap.gaps.forEach(function (g) { rows.push([g.metric, '', '', '', '', 'unavailable', g.reason, '', '']); });
+    return rows;
+  }
+
+  function historyTable(s) {
+    var stats = (s.stats || ['value']).filter(function (k) { return s.observations.some(function (o) { return o[k] !== undefined; }); });
+    var rows = [['Period'].concat(stats).concat(['Source'])];
+    s.observations.forEach(function (o) { rows.push([o.period].concat(stats.map(function (k) { return o[k] === null || o[k] === undefined ? '' : o[k]; })).concat([o.source || ''])); });
+    if (rows.length === 1) throw new Error((s.warnings || []).join('; ') || 'No observations in window');
+    return rows;
+  }
+
+  var api = { MARKET_METRICS: MARKET_METRICS, marketTable: marketTable, historyTable: historyTable, resolveGet: resolveGet, fieldsTable: fieldsTable, deliverabilityTable: deliverabilityTable, GET_FIELDS: GET_FIELDS, TABLES: TABLES,
     metric: metric, prioritiesTable: prioritiesTable, bridgeTable: bridgeTable, driversFromRange: driversFromRange,
     deliverable: deliverable, sourceText: sourceText, client: client, METRICS: METRICS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PowerPathCore = api;

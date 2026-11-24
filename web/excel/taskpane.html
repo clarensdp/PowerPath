@@ -22,14 +22,18 @@
     <h2>Project</h2>
     <select id="project"></select>
     <p class="muted" id="case-line"></p>
+    <p class="muted" id="market-line"></p>
 
     <h3>Build a formula</h3>
-    <label>Formula<select id="b-kind"><option value="GET">PP.GET: one value</option><option value="TABLE">PP.TABLE: a table</option><option value="BRIDGE">PP.BRIDGE: what-if by cause</option></select></label>
+    <label>Formula<select id="b-kind"><option value="GET">PP.GET: one value</option><option value="TABLE">PP.TABLE: a table</option><option value="BRIDGE">PP.BRIDGE: what-if by cause</option><option value="MARKET">PP.MARKET: power market data</option></select></label>
     <label id="b-field-l">Field<select id="b-field"></select></label>
     <label id="b-arg-l">Input<select id="b-arg"></select></label>
     <label id="b-case-l">Case<select id="b-case"><option>base</option><option>upside</option><option>downside</option></select></label>
     <label id="b-conf-l">Configuration<select id="b-conf"></select></label>
     <label id="b-path-l">Power path<select id="b-path"></select></label>
+    <label id="b-metric-l">Market metric<select id="b-metric"></select></label>
+    <label id="b-stat-l">Statistic<select id="b-stat"></select></label>
+    <label id="b-window-l">Window (days; months for retail)<input id="b-window" type="number" min="1" max="730" value="30"></label>
     <label id="b-range-l">Driver range (two columns: input key, new value)<input id="b-range" value="A2:B4"></label>
     <pre id="b-preview"></pre>
     <p class="muted" id="b-help"></p>
@@ -39,6 +43,7 @@
     <button data-insert="priorities">Diligence ranked by NPV at risk</button>
     <button data-insert="paths">Power path returns, by cause</button>
     <button data-insert="deliverability">Deliverability ranges</button>
+    <button data-insert="market">Power market snapshot (30 days)</button>
     <button id="refresh">Refresh all PowerPath formulas</button>
   </section>
   <p id="status" role="status"></p>

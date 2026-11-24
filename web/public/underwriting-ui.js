@@ -106,7 +106,7 @@ export function createUnderwritingUI({ api, toast, pid, dialog }) {
       ? `<button data-uw-change="${E(c.id)}" data-uw-decide="acknowledge">Record analysis</button>`
       : `<button class="primary" data-uw-change="${E(c.id)}" data-uw-decide="accept">Accept</button><button data-uw-change="${E(c.id)}" data-uw-decide="reject">Reject</button>`;
     return `<article class="uwchange"><div class="row"><div><strong>${E(b.title)}</strong> ${tag(b.requires === 'analysis' ? 'analysis only' : 'needs approver', b.requires === 'analysis' ? 'gray' : 'amber')}</div><div class="actions">${actions}</div></div>
-      ${b.requires === 'analysis' ? `<p>${E(b.detail)}</p>` : `<p>${b.previous ? `${display(b.previous.value)} → ` : ''}<strong>${display(b.proposed.value)}</strong> · ${E(b.proposed.source_name || 'no source named')} ${b.proposed.source_date ? '· ' + E(b.proposed.source_date) : ''} · ${E(b.proposed.verification)}</p>${im.explanation ? `<ul class="uwexplain">${im.explanation.map(l => `<li>${E(l)}</li>`).join('')}</ul>` : im.error ? `<p class="error">${E(im.error)}</p>` : ''}<p class="muted">${E(b.recommendation)}</p>`}</article>`;
+      ${b.requires === 'analysis' ? `<p>${E(b.detail)}</p>` : `<p>${b.previous ? `${display(b.previous.value)} → ` : ''}<strong>${display(b.proposed.value, b.proposed.unit)}</strong> · ${E(b.proposed.source_name || 'no source named')} ${b.proposed.source_date ? '· ' + E(b.proposed.source_date) : ''} · ${E(b.proposed.verification)}</p>${im.note ? `<p class="muted">${E(im.note)}</p>` : im.explanation ? `<ul class="uwexplain">${im.explanation.map(l => `<li>${E(l)}</li>`).join('')}</ul>` : im.error ? `<p class="error">${E(im.error)}</p>` : ''}<p class="muted">${E(b.recommendation)}</p>`}</article>`;
   }
 
   function deliverCard(d) {
@@ -149,5 +149,61 @@ export function createUnderwritingUI({ api, toast, pid, dialog }) {
       });
   }
 
-  return { loadBridges, loadDiligence };
+  // ---------------------------------------------------------------- market data
+  const mbase = () => '/projects/' + encodeURIComponent(pid()) + '/market';
+  const fmtMarket = i => i.value === null || i.value === undefined ? '—'
+    : i.unit === 'share' ? `${(i.value * 100).toFixed(1)}%`
+    : `${Number(i.value).toLocaleString(undefined, { maximumFractionDigits: i.unit === 'USD/MMBtu' || i.unit === 't CO2/MWh' ? 3 : 1 })} ${E(i.unit)}`;
+
+  async function loadMarket(box) {
+    if (!box) return;
+    box.innerHTML = '<section class="panel empty"><p class="loading">Pulling the latest power market data…</p></section>';
+    let snap, cat;
+    try { [snap, cat] = await Promise.all([api(mbase() + '/snapshot?days=30'), api(mbase() + '/catalog')]); }
+    catch (e) { box.innerHTML = `<section class="panel empty"><h3>Market data unavailable</h3><p class="error">${E(e.message)}</p></section>`; return; }
+    if (!box.isConnected) return;
+    const p = snap.profile;
+    const where = [p.nyiso_zone && 'NYISO ' + p.nyiso_zone, p.ba && 'BA ' + p.ba, p.state].filter(Boolean).join(' · ') || 'No market profile yet';
+    box.innerHTML = `<section class="panel panelpad"><div class="row"><div><h3>Power market context</h3><p class="muted">${E(where)} · last 30 days · every figure shows its source and date</p></div>
+      <div class="actions"><button data-mk-profile>Market profile</button><button class="primary" data-mk-propose>Use as power cost…</button></div></div>
+      ${snap.items.length ? `<div class="mkgrid">${snap.items.map(i => `<div class="mkitem${i.stale ? ' stale' : ''}"><small>${E(i.label)}</small><strong>${fmtMarket(i)}</strong><span>${E(i.location)} · as of ${E(i.as_of)}${i.stale ? ' · stale' : ''}</span><details><summary>Source</summary><p>${E(i.source)}</p><p>${E(i.method)}</p><p>Retrieved ${E(i.retrieved_at ? new Date(i.retrieved_at).toLocaleString() : '—')}</p></details></div>`).join('')}</div>` : ''}
+      ${snap.gaps.length ? `<ul class="mkgaps">${snap.gaps.map(g => `<li><strong>${E(g.metric.replace(/_/g, ' '))}:</strong> ${E(g.reason)}</li>`).join('')}</ul>` : ''}
+      ${cat.imported.length ? `<p class="muted">Licensed series in this project: ${cat.imported.map(x => E(x.metric.replace('imported:', '') + ' (' + x.location + ', to ' + x.latest + ')')).join(', ')}</p>` : ''}
+      <p class="muted sourcefoot">${snap.notes.map(E).join(' ')}</p></section>`;
+    box.querySelector('[data-mk-profile]').onclick = () => profileForm(p, cat, box);
+    box.querySelector('[data-mk-propose]').onclick = () => proposeForm(cat, box);
+  }
+
+  function profileForm(p, cat, box) {
+    dialog('Market profile',
+      `<label>NYISO zone<select name="nyiso_zone"><option value="">None</option>${cat.nyiso_zones.map(z => `<option ${z === p.nyiso_zone ? 'selected' : ''}>${E(z)}</option>`).join('')}</select></label>
+       <label>Balancing authority (EIA code)<input name="ba" value="${E(p.ba || '')}" placeholder="e.g. NYIS, PJM, ERCO, MISO" pattern="[A-Z0-9-]{2,10}"></label>
+       <label>State<input name="state" value="${E(p.state || '')}" placeholder="e.g. NY" pattern="[A-Z]{2}"></label>
+       <label>Heat rate for spark spread (MMBtu/MWh)<input name="heat_rate" type="number" step="0.1" min="5" max="15" value="${p.heat_rate}"></label>
+       <p class="span2 muted">Live ISO prices are NYISO for now (public, no key). EIA data needs ${cat.eia_key_configured ? 'a key: configured ✓' : 'POWERPATH_EIA_API_KEY on the server'}. Other ISOs and forward curves come in as licensed imports.</p>`,
+      async d => {
+        await api(mbase() + '/profile', 'PUT', { nyiso_zone: d.nyiso_zone || null, ba: d.ba ? d.ba.toUpperCase() : null, state: d.state ? d.state.toUpperCase() : null, heat_rate: Number(d.heat_rate) });
+        toast('Market profile saved'); loadMarket(box);
+      });
+  }
+
+  function proposeForm(cat, box) {
+    const metrics = [['lmp_da', 'Day-ahead LMP (wholesale energy)'], ['retail_industrial', 'State industrial retail price'], ['retail_commercial', 'State commercial retail price']]
+      .concat(cat.imported.map(x => [x.metric, x.metric.replace('imported:', '') + ' (licensed)']));
+    dialog('Propose a power cost from market data',
+      `<label>Series<select name="metric">${metrics.map(([k, l]) => `<option value="${E(k)}">${E(l)}</option>`).join('')}</select></label>
+       <label>Average over (days, or months for retail and imports)<input name="window" type="number" min="1" max="730" value="30"></label>
+       <label>Delivery adder (USD/MWh)<input name="adder_mwh" type="number" step="0.5" min="0" value="0"></label>
+       <label>Downside (+%)<input name="downside_pct" type="number" min="0" max="300" value="25"></label>
+       <label class="span2">Note<textarea name="rationale" maxlength="2000" placeholder="Why this series and adder fit the site"></textarea></label>
+       <p class="span2 muted">Wholesale LMP is an energy price only. Add transmission, capacity and utility charges as the adder. This creates a proposal that waits for an approver in Diligence.</p>`,
+      async d => {
+        const stat = d.metric === 'lmp_da' ? 'avg' : 'value';
+        const r = await api(mbase() + '/propose-power-cost', 'POST', { metric: d.metric, stat, window: Number(d.window), adder_mwh: Number(d.adder_mwh), downside_pct: Number(d.downside_pct), rationale: d.rationale || '' });
+        toast(`Proposed $${r.assumption.body.value.toFixed(2)}/MWh. Review it in Diligence.`);
+        loadMarket(box);
+      });
+  }
+
+  return { loadBridges, loadDiligence, loadMarket };
 }

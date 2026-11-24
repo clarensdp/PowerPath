@@ -54,13 +54,16 @@ def on_assumption(con, pid, calculate, proposal):
     except Exception as exc:
         impact = {'error': str(getattr(exc, 'detail', exc))}
     conf = evidence.confidence(body, evidence.evidence_row(con, pid, body.get('evidence_id')))
-    ready = conf['score'] >= 0.45 and body.get('evidence_id')
+    documented = body.get('evidence_id') or (body.get('source_kind') == 'public_data' and body.get('source_url'))
+    ready = conf['score'] >= 0.45 and documented
+    if body['key'] == 'power_cost_mwh' and isinstance(impact.get('change'), dict) and abs(impact['change'].get('npvM') or 0) < 0.05:
+        impact['note'] = 'No effect on returns: this scenario passes power cost through to the tenant.'
     title = (f'{body["label"]} changed' if prior else f'{body["label"]} documented') + f' ({body["scope"]})'
     return record(con, pid, 'assumption', {
         'title': title, 'assumption_id': proposal['id'], 'key': body['key'], 'scope': body['scope'],
         'previous': {'assumption_id': prior['id'], 'value': prior['body']['value'], 'source_name': prior['body'].get('source_name'),
                      'source_date': prior['body'].get('source_date')} if prior else None,
-        'proposed': {'value': body['value'], 'source_name': body.get('source_name'), 'source_date': body.get('source_date'),
+        'proposed': {'value': body['value'], 'unit': body.get('unit'), 'source_name': body.get('source_name'), 'source_date': body.get('source_date'),
                      'verification': body.get('verification'), 'evidence_id': body.get('evidence_id')},
         'confidence': conf, 'impact': impact, 'requires': 'approval',
         'recommendation': ('Ready for approver review: source documented.' if ready else

@@ -2,36 +2,126 @@
   "allowCustomDataForDataTypeAny": false,
   "functions": [
     {
-      "id": "GET", "name": "GET",
+      "id": "GET",
+      "name": "GET",
       "description": "One PowerPath value: npv, irr, dscr, breach_months, exposure, source, confidence, value, rank, deliverable_mw or time_to_target.",
       "helpUrl": "https://localhost:8768/excel/taskpane.html",
-      "result": { "type": "any" },
+      "result": {
+        "type": "any"
+      },
       "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "field", "description": "npv, irr, dscr, breach_months, exposure, source, confidence, value, rank, deliverable_mw, time_to_target", "type": "string" },
-        { "name": "arg1", "description": "Input key (exposure, source, confidence, value, rank) or case: upside, base, downside (deliverability)", "type": "string", "optional": true },
-        { "name": "arg2", "description": "Configuration name (deliverability fields; blank for the first)", "type": "string", "optional": true }
+        {
+          "name": "project",
+          "description": "PowerPath project id",
+          "type": "string"
+        },
+        {
+          "name": "field",
+          "description": "npv, irr, dscr, breach_months, exposure, source, confidence, value, rank, deliverable_mw, time_to_target",
+          "type": "string"
+        },
+        {
+          "name": "arg1",
+          "description": "Input key (exposure, source, confidence, value, rank) or case: upside, base, downside (deliverability)",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "arg2",
+          "description": "Configuration name (deliverability fields; blank for the first)",
+          "type": "string",
+          "optional": true
+        }
       ]
     },
     {
-      "id": "TABLE", "name": "TABLE",
-      "description": "A spilled PowerPath table: priorities, pathbridge, deliverability or fields.",
+      "id": "TABLE",
+      "name": "TABLE",
+      "description": "A spilled PowerPath table: priorities, pathbridge, deliverability, market, history or fields.",
       "helpUrl": "https://localhost:8768/excel/taskpane.html",
-      "result": { "type": "any", "dimensionality": "matrix" },
+      "result": {
+        "type": "any",
+        "dimensionality": "matrix"
+      },
       "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "name", "description": "priorities, pathbridge, deliverability or fields", "type": "string" },
-        { "name": "arg", "description": "Power path name (pathbridge only)", "type": "string", "optional": true }
+        {
+          "name": "project",
+          "description": "PowerPath project id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "description": "priorities, pathbridge, deliverability, market, history or fields",
+          "type": "string"
+        },
+        {
+          "name": "arg",
+          "description": "Path name (pathbridge), days (market) or metric (history)",
+          "type": "string",
+          "optional": true
+        }
       ]
     },
     {
-      "id": "BRIDGE", "name": "BRIDGE",
+      "id": "BRIDGE",
+      "name": "BRIDGE",
       "description": "What-if on the approved case. Splits the change in NPV, IRR and DSCR by cause; parts add up to the total.",
       "helpUrl": "https://localhost:8768/excel/taskpane.html",
-      "result": { "type": "any", "dimensionality": "matrix" },
+      "result": {
+        "type": "any",
+        "dimensionality": "matrix"
+      },
       "parameters": [
-        { "name": "project", "description": "PowerPath project id", "type": "string" },
-        { "name": "drivers", "description": "Two-column range: input key, new value", "type": "any", "dimensionality": "matrix" }
+        {
+          "name": "project",
+          "description": "PowerPath project id",
+          "type": "string"
+        },
+        {
+          "name": "drivers",
+          "description": "Two-column range: input key, new value",
+          "type": "any",
+          "dimensionality": "matrix"
+        }
+      ]
+    },
+    {
+      "id": "MARKET",
+      "name": "MARKET",
+      "description": "Trailing power-market average for the project: lmp_da, spark_spread, henry_hub, retail_industrial, retail_commercial, ba_demand or fuel_mix.",
+      "helpUrl": "https://localhost:8768/excel/taskpane.html",
+      "result": {
+        "type": "number"
+      },
+      "parameters": [
+        {
+          "name": "project",
+          "description": "PowerPath project id",
+          "type": "string"
+        },
+        {
+          "name": "metric",
+          "description": "lmp_da, spark_spread, henry_hub, retail_industrial, retail_commercial, ba_demand, fuel_mix",
+          "type": "string"
+        },
+        {
+          "name": "stat",
+          "description": "e.g. avg, on_peak, off_peak, stdev, value, avg_mw, gas, renewables, carbon_t_per_mwh",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "window",
+          "description": "Days (daily metrics) or months (retail); default 30 / 12",
+          "type": "number",
+          "optional": true
+        },
+        {
+          "name": "location",
+          "description": "Override the project market profile (NYISO zone, state, BA code)",
+          "type": "string",
+          "optional": true
+        }
       ]
     }
   ]

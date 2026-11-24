@@ -20,6 +20,7 @@ possible. Three formulas cover everything:
 | `=PP.GET(project, field, [arg1], [arg2])` | One value |
 | `=PP.TABLE(project, name, [arg])` | A spilled table |
 | `=PP.BRIDGE(project, A2:B4)` | What-if: the change in NPV, IRR and DSCR by cause, with a reconciling total row |
+| `=PP.MARKET(project, metric, [stat], [window], [location])` | Trailing power-market average (see `docs/MARKET_DATA.md`) |
 
 `PP.GET` fields:
 
@@ -29,7 +30,7 @@ possible. Three formulas cover everything:
   (upside, base or downside) and arg2 is the configuration.
 
 `PP.TABLE` names: `priorities`, `pathbridge` (arg = path name), `deliverability`,
-`fields`. `=PP.TABLE(project, "fields")` lists every field and table.
+`market` (arg = days), `history` (arg = metric), `fields`. `=PP.TABLE(project, "fields")` lists every field and table.
 
 The task pane's **Build a formula** panel fills in the project, field, input, case or path
 from dropdowns and inserts the formula into the selected cell, much like FactSet's Insert

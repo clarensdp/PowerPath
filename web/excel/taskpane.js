@@ -5,7 +5,10 @@
   var $ = function (id) { return document.getElementById(id); };
   var pp = function () { return self.PowerPathClient; };
   var session = function () { return self.PowerPathSession; };
-  var cache = { priorities: null, deliverability: null, paths: [] };
+  var cache = { priorities: null, deliverability: null, paths: [], market: null };
+  var STATS = { lmp_da: ['avg', 'on_peak', 'off_peak', 'max', 'min', 'stdev', 'congestion_avg'], spark_spread: ['on_peak', 'avg'], henry_hub: ['value'],
+    retail_industrial: ['value'], retail_commercial: ['value'], ba_demand: ['avg_mw', 'value'],
+    fuel_mix: ['carbon_t_per_mwh', 'gas', 'renewables', 'nuclear', 'coal', 'wind', 'solar', 'hydro'] };
 
   function status(msg, isError) { var s = $('status'); s.textContent = msg; s.className = isError ? 'error' : ''; }
   function project() { return $('project').value; }
@@ -74,7 +77,7 @@
 
   async function describe() {
     var id = project();
-    cache = { priorities: null, deliverability: null, paths: [] };
+    cache = { priorities: null, deliverability: null, paths: [], market: null };
     try {
       var c = await pp().approvedCase(id), r = c.result;
       $('case-line').textContent = 'Approved case: NPV $' + r.npvM.toFixed(1) + 'M · IRR ' + (r.leveredIRR * 100).toFixed(1) + '% · ' +
@@ -83,7 +86,19 @@
     try { cache.priorities = await pp().priorities(id); } catch (e) { cache.priorities = null; }
     try { cache.deliverability = await pp().deliverability(id); } catch (e) { cache.deliverability = null; }
     try { cache.paths = await pp().paths(id); } catch (e) { cache.paths = []; }
+    try {
+      var prof = await fetchJSON('/api/projects/' + encodeURIComponent(id) + '/market/profile');
+      $('market-line').textContent = 'Market profile: ' + ([prof.nyiso_zone && 'NYISO ' + prof.nyiso_zone, prof.ba && 'BA ' + prof.ba, prof.state].filter(Boolean).join(' · ') || 'not set; set it in PowerPath (Returns step)');
+    } catch (e) { $('market-line').textContent = ''; }
     builderOptions();
+  }
+
+  async function fetchJSON(path) {
+    var t = session().token();
+    var r = await fetch(path, { headers: t ? { Authorization: 'Bearer ' + t } : {} });
+    var d = await r.json();
+    if (!r.ok) throw new Error(typeof d.detail === 'string' ? d.detail : 'HTTP ' + r.status);
+    return d;
   }
 
   // ------------------------------------------------------------------ formula builder
@@ -94,12 +109,20 @@
     options($('b-arg'), (cache.priorities ? cache.priorities.priorities : []).map(function (p) { return [p.key, p.label]; }));
     options($('b-conf'), [['', 'First configuration']].concat(cache.deliverability ? cache.deliverability.body.configurations.map(function (c) { return [c.name, c.name]; }) : []));
     options($('b-path'), cache.paths.map(function (p) { return [p.name, p.name]; }));
+    options($('b-metric'), Object.keys(core.MARKET_METRICS).map(function (k) { return [k, core.MARKET_METRICS[k]]; }));
+    statOptions();
+  }
+
+  function statOptions() {
+    options($('b-stat'), (STATS[$('b-metric').value] || ['value']).map(function (k) { return [k, k]; }));
+    $('b-window').value = $('b-metric').value.indexOf('retail') === 0 ? 12 : 30;
     preview();
   }
 
   function formula() {
     var kind = $('b-kind').value, field = $('b-field').value, id = q(project());
     if (kind === 'BRIDGE') return '=PP.BRIDGE(' + id + ',' + ($('b-range').value.trim() || 'A2:B4') + ')';
+    if (kind === 'MARKET') return '=PP.MARKET(' + id + ',' + q($('b-metric').value) + ',' + q($('b-stat').value) + ',' + (parseInt($('b-window').value, 10) || 30) + ')';
     if (kind === 'TABLE') return '=PP.TABLE(' + id + ',' + q(field) + (field === 'pathbridge' ? ',' + q($('b-path').value) : '') + ')';
     var spec = core.GET_FIELDS[field] || {};
     if (spec.needs === 'priorities') return '=PP.GET(' + id + ',' + q(field) + ',' + q($('b-arg').value) + ')';
@@ -109,7 +132,8 @@
 
   function preview() {
     var kind = $('b-kind').value, field = $('b-field').value, spec = core.GET_FIELDS[field] || {};
-    show('b-field-l', kind !== 'BRIDGE');
+    show('b-field-l', kind === 'GET' || kind === 'TABLE');
+    show('b-metric-l', kind === 'MARKET'); show('b-stat-l', kind === 'MARKET'); show('b-window-l', kind === 'MARKET');
     show('b-arg-l', kind === 'GET' && spec.needs === 'priorities');
     show('b-case-l', kind === 'GET' && spec.needs === 'deliverability');
     show('b-conf-l', kind === 'GET' && spec.needs === 'deliverability');
@@ -117,7 +141,8 @@
     show('b-range-l', kind === 'BRIDGE');
     $('b-preview').textContent = formula();
     $('b-help').textContent = kind === 'BRIDGE' ? 'Put input keys in the first column and new values in the second. Use =PP.TABLE(project,"fields") to list keys.'
-      : kind === 'TABLE' ? 'Spills into the cells below and to the right; leave them empty.' : '';
+      : kind === 'TABLE' ? 'Spills into the cells below and to the right; leave them empty.'
+      : kind === 'MARKET' ? 'Uses the project market profile. Wholesale LMP is energy only; delivered cost adds transmission, capacity and utility charges.' : '';
   }
 
   async function insertFormula() {
@@ -171,6 +196,10 @@
         }
         blocks.push({ note: 'Shapley attribution: causes add up to the total change regardless of order. Measured from the approved case.' });
         await writeSheet('PP Path bridges', blocks);
+      } else if (kind === 'market') {
+        var snap = await pp().marketSnapshot(id, 30);
+        await writeSheet('PP Market', [{ title: 'Power market snapshot, ' + snap.window_days + ' days', note: 'Calculated ' + snap.calculated_at + ' · values, not live formulas' },
+          { rows: core.marketTable(snap) }, { note: snap.notes.join(' ') }]);
       } else {
         var d = await pp().deliverability(id);
         await writeSheet('PP Deliverability', [{ title: 'Deliverability: ' + d.body.target_mw + ' MW by month ' + d.body.target_month,
@@ -189,7 +218,9 @@
     $('sign-out').onclick = signOut;
     $('project').onchange = describe;
     $('b-kind').onchange = builderOptions;
-    ['b-field', 'b-arg', 'b-case', 'b-conf', 'b-path'].forEach(function (id) { $(id).onchange = preview; });
+    ['b-field', 'b-arg', 'b-case', 'b-conf', 'b-path', 'b-stat'].forEach(function (id) { $(id).onchange = preview; });
+    $('b-metric').onchange = statOptions;
+    $('b-window').oninput = preview;
     $('b-range').oninput = preview;
     $('b-insert').onclick = insertFormula;
     $('refresh').onclick = async function () {

@@ -2,6 +2,7 @@
    =PP.GET(project, field, [arg1], [arg2])   one value
    =PP.TABLE(project, name, [arg])           spilled table
    =PP.BRIDGE(project, range)                what-if attribution by cause
+   =PP.MARKET(project, metric, [stat], [window], [location])   trailing market average
    Read-only: no function can approve, reject or save anything. */
 (function () {
   'use strict';
@@ -50,6 +51,12 @@
       if (n === 'fields') return core.fieldsTable();
       if (n === 'priorities') return core.prioritiesTable(await pp.priorities(project));
       if (n === 'deliverability') return core.deliverabilityTable(await pp.deliverability(project));
+      if (n === 'market') return core.marketTable(await pp.marketSnapshot(project, arg ? Number(arg) : 30));
+      if (n === 'history') {
+        if (!arg) throw new Error('history needs a metric, e.g. lmp_da');
+        var start = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
+        return core.historyTable(await pp.marketSeries(project, arg, start));
+      }
       if (n === 'pathbridge') {
         if (!arg) throw new Error('pathbridge needs a power path name');
         var paths = await pp.paths(project);
@@ -57,7 +64,7 @@
         if (!hit) throw new Error('No power path named "' + arg + '"');
         return core.bridgeTable(await pp.pathBridge(project, hit.id));
       }
-      throw new Error('Unknown table "' + name + '". Tables: priorities, pathbridge, deliverability, fields.');
+      throw new Error('Unknown table "' + name + '". Tables: priorities, pathbridge, deliverability, market, history, fields.');
     } catch (e) { fail(e); }
   }
 
@@ -66,6 +73,17 @@
     try { return core.bridgeTable(await pp.bridge(project, core.driversFromRange(range))); } catch (e) { fail(e); }
   }
 
+  /** Trailing market average for the project's market profile. metric: lmp_da, spark_spread, henry_hub, retail_industrial, retail_commercial, ba_demand, fuel_mix. */
+  async function MARKET(project, metric, stat, window, location) {
+    try {
+      var m = String(metric || '').trim().toLowerCase();
+      var defaults = { lmp_da: 'avg', spark_spread: 'on_peak', fuel_mix: 'carbon_t_per_mwh' };
+      var r = await pp.marketValue(project, m, stat || defaults[m] || 'value', window || (m.indexOf('retail') === 0 ? 12 : 30), location || '');
+      return r.value;
+    } catch (e) { fail(e); }
+  }
+
+  CustomFunctions.associate('MARKET', MARKET);
   CustomFunctions.associate('GET', GET);
   CustomFunctions.associate('TABLE', TABLE);
   CustomFunctions.associate('BRIDGE', BRIDGE);

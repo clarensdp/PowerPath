@@ -31,7 +31,7 @@ def test_manifest_and_function_metadata_agree():
     assert urls and all(u.startswith('https://localhost:8768') or 'schemas.microsoft.com' in u for u in urls)
     meta = {f['id'] for f in json.loads((ROOT / 'web/excel/functions.json').read_text())['functions']}
     code = set(re.findall(r"CustomFunctions\.associate\('([A-Z]+)'", (ROOT / 'web/excel/functions.js').read_text()))
-    assert meta == code == {'GET', 'TABLE', 'BRIDGE'}
+    assert meta == code == {'GET', 'TABLE', 'BRIDGE', 'MARKET'}
     assert '<bt:String id="Functions.Namespace" DefaultValue="PP"/>' in manifest
     for f in (ROOT / 'web/excel').glob('*.js'):  # the add-in never calls the approval routes
         assert '/approvals' not in f.read_text(), f.name
@@ -67,7 +67,12 @@ def test_core_maps_real_api_responses(tmp_path):
     assert case['assignments'] == {'construction_cost_mw': 8} and case['result']['npvM'] is not None
     fx = {'case': case, 'priorities': C.get(u + '/priorities').json(),
           'bridge': C.post(u + '/bridge', json={'drivers': {'energization_delay_months': 6, 'power_capex_m': 50}}).json(),
-          'deliverability': C.get(u + '/deliverability').json()}
+          'deliverability': C.get(u + '/deliverability').json(),
+          'market': {'profile': {}, 'window_days': 30, 'calculated_at': 'now', 'notes': [], 'gaps': [{'metric': 'henry_hub', 'reason': 'Configure key'}],
+                     'items': [{'label': 'Day-ahead LMP, 30-day avg', 'value': 51.5, 'unit': 'USD/MWh', 'location': 'N.Y.C.', 'as_of': '2026-11-20', 'stale': False,
+                                'source': 'NYISO', 'method': 'mean', 'retrieved_at': 'now'}]},
+          'history': {'stats': ['avg', 'on_peak'], 'warnings': [], 'observations': [{'period': '2026-11-19', 'avg': 50, 'on_peak': 55, 'source': 'NYISO'},
+                                                                               {'period': '2026-11-20', 'avg': 52, 'source': 'NYISO'}]}}
     f = tmp_path / 'fx.json'
     f.write_text(json.dumps(fx))
     out = subprocess.run(['node', str(ROOT / 'tests/excel/core_check.cjs'), str(f)], capture_output=True, text=True, timeout=60)

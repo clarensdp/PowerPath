@@ -4,6 +4,7 @@ Start with the [project README](../README.md) for installation and commands.
 
 ## Current guides
 
+- [Power market data](MARKET_DATA.md): NYISO LMP, Henry Hub, spark spread, grid demand, fuel mix, retail prices, licensed imports.
 - [Excel add-in (prototype)](EXCEL_ADDIN.md): PP.GET / PP.TABLE / PP.BRIDGE formulas, formula builder, sign-in window, sourced sheets.
 - [v31.5 underwriting layer](UNDERWRITING_V31_5.md): evidence register and ledger, deliverability, returns bridge, change review, forecasts, MCP server.
 - [Site energy integration](SITE_ENERGY_INTEGRATION.md): EIA, solar, infrastructure and scenario inputs.

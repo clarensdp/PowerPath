@@ -21,7 +21,7 @@ def wired(monkeypatch):
 def test_tool_surface_is_read_only():
     tools = {t.name: t for t in asyncio.run(M.server.list_tools())}
     assert set(tools) == {'list_projects', 'project_brief', 'diligence_priorities', 'deliverability', 'returns_bridge',
-                          'pending_changes', 'forecast_track_record', 'queue_summary'}
+                          'pending_changes', 'forecast_track_record', 'queue_summary', 'market_snapshot'}
     assert all(t.annotations.read_only_hint for t in tools.values())
     assert not any('approv' in n or 'accept' in n for n in tools)
 

@@ -1381,6 +1381,10 @@ from server.underwriting.api import install as install_underwriting
 
 install_underwriting(app, db, project_exists, audit, calculate, _schedule, path_inputs)
 
+from server.market.api import install as install_market
+
+install_market(app, db, project_exists, audit, calculate)
+
 
 @app.get("/advanced")
 def advanced_workspace():

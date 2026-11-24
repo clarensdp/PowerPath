@@ -138,5 +138,13 @@ def queue_summary(project_id: str, source: str, latitude: float | None = None, l
     return _call('GET', _uw(project_id, '/queue/summary'), params=params)
 
 
+@server.tool(annotations=READ)
+def market_snapshot(project_id: str, days: int = 30) -> dict:
+    """Latest power market metrics for the project's market profile (day-ahead LMP, Henry Hub,
+    spark spread, retail price, grid demand, fuel mix, estimated carbon), each with source,
+    as-of date and staleness, plus gaps with reasons."""
+    return _call('GET', f'/api/projects/{project_id}/market/snapshot', params={'days': days})
+
+
 if __name__ == '__main__':
     server.run('stdio')

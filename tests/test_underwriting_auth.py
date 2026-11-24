@@ -20,3 +20,15 @@ def test_underwriting_roles_and_tenants():
     # Accepting changes the approved case: approver only.
     assert C.post(u + f'/approvals/{change}/accept', headers=H('analyst'), json={'note': 'self-approve'}).status_code == 403
     assert C.post(u + f'/approvals/{change}/accept', headers=H('approver'), json={'note': 'IC approved'}).status_code == 200
+
+
+def test_market_routes_follow_roles():
+    pid = C.post('/api/projects?starter_scenario=true', headers=H('analyst', 'a'), json={'name': 'Market auth', 'target_mw': 100}).json()['id']
+    m = f'/api/projects/{pid}/market'
+    assert C.get(m + '/catalog').status_code == 401
+    assert C.get(m + '/catalog', headers=H('other')).status_code == 403
+    assert C.get(m + '/catalog', headers=H('viewer')).status_code == 200
+    body = {'metric': 'fwd', 'location': 'X', 'unit': 'USD/MWh', 'source': 'Broker', 'license': 'Internal use', 'as_of': '2026-11-20',
+            'observations': [{'period': '2027-01', 'value': 60}]}
+    assert C.post(m + '/import', headers=H('viewer'), json=body).status_code == 403
+    assert C.post(m + '/import', headers=H('analyst'), json=body).status_code == 201

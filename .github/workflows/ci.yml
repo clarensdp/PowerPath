@@ -27,6 +27,7 @@ jobs:
       - run: python -m pytest -q tests/test_underwriting.py
       - run: python -m pytest -q tests/test_underwriting_auth.py
       - run: python -m pytest -q tests/test_excel_addin.py
+      - run: python -m pytest -q tests/test_market.py
       - run: python -m pip install "mcp>=2.3,<3" && python -m pytest -q tests/test_underwriting_mcp.py
       - run: python -m pytest -q tests/test_cofounder_handoff.py tests/test_audit_v3082.py tests/test_managed_identity.py tests/test_runtime_policies.py tests/test_postgres_runtime_candidate.py
       - run: python -m scripts.restore_drill

@@ -34,8 +34,15 @@ assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'exposure'), 
 assert.throws(() => core.resolveGet({}, 'moic'), /Unknown field/);
 assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'value', 'nope'), /Unknown input/);
 const ft = core.fieldsTable();
-assert.ok(ft.length === 1 + Object.keys(core.GET_FIELDS).length + Object.keys(core.TABLES).length + 1);
+assert.ok(ft.length === 1 + Object.keys(core.GET_FIELDS).length + Object.keys(core.TABLES).length + 1 + Object.keys(core.MARKET_METRICS).length);
 assert.strictEqual(core.deliverabilityTable(fx.deliverability).length, fx.deliverability.body.configurations.length + 1);
+// market tables
+const mt = core.marketTable(fx.market);
+assert.strictEqual(mt.length, 3); assert.strictEqual(mt[1][1], 51.5); assert.strictEqual(mt[2][5], 'unavailable');
+const ht = core.historyTable(fx.history);
+assert.deepStrictEqual(ht[0], ['Period', 'avg', 'on_peak', 'Source']); assert.strictEqual(ht[2][2], '');
+assert.throws(() => core.historyTable({ stats: ['value'], observations: [], warnings: ['No key'] }), /No key/);
+assert.ok(core.fieldsTable().some(r => r[0] === 'PP.MARKET' && r[1] === 'lmp_da'));
 // client caches GETs and sends the bearer token
 let calls = 0;
 const c = core.client({ baseUrl: () => 'https://pp.test', token: () => 'tok', fetch: (url, o) => { calls++; assert.strictEqual(o.headers.Authorization, 'Bearer tok'); return Promise.resolve({ ok: true, json: () => Promise.resolve([]) }); } });
