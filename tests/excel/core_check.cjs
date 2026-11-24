@@ -34,7 +34,7 @@ assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'exposure'), 
 assert.throws(() => core.resolveGet({}, 'moic'), /Unknown field/);
 assert.throws(() => core.resolveGet({ priorities: fx.priorities }, 'value', 'nope'), /Unknown input/);
 const ft = core.fieldsTable();
-assert.ok(ft.length === 1 + Object.keys(core.GET_FIELDS).length + Object.keys(core.TABLES).length + 1 + Object.keys(core.MARKET_METRICS).length);
+assert.ok(ft.length === 1 + Object.keys(core.GET_FIELDS).length + Object.keys(core.TABLES).length + 1 + Object.keys(core.MARKET_METRICS).length + Object.keys(core.PLANT_FIELDS).length);
 assert.strictEqual(core.deliverabilityTable(fx.deliverability).length, fx.deliverability.body.configurations.length + 1);
 // market tables
 const mt = core.marketTable(fx.market);
@@ -43,6 +43,15 @@ const ht = core.historyTable(fx.history);
 assert.deepStrictEqual(ht[0], ['Period', 'avg', 'on_peak', 'Source']); assert.strictEqual(ht[2][2], '');
 assert.throws(() => core.historyTable({ stats: ['value'], observations: [], warnings: ['No key'] }), /No key/);
 assert.ok(core.fieldsTable().some(r => r[0] === 'PP.MARKET' && r[1] === 'lmp_da'));
+// plant fields and tables
+assert.strictEqual(core.resolvePlant(fx.plant, 'worst_year'), 2023);
+assert.strictEqual(core.resolvePlant(fx.plant, 'name'), 'Riverbend Hydro');
+assert.ok(core.resolvePlant(fx.plant, 'cf_worst') < core.resolvePlant(fx.plant, 'cf_avg'));
+assert.strictEqual(core.resolvePlant(fx.plant, 'cf_year', 2023), fx.plant.capacity_factor.years.find(y => y.year === 2023).cf);
+assert.throws(() => core.resolvePlant(fx.plant, 'cf_year', 1990), /No generation/);
+assert.throws(() => core.resolvePlant(fx.plant, 'moic'), /Unknown plant field/);
+assert.strictEqual(core.plantsTable(fx.plants)[1][1], 'Riverbend Hydro');
+assert.strictEqual(core.plantCfTable(fx.plant).length, fx.plant.capacity_factor.years.length + 1);
 // client caches GETs and sends the bearer token
 let calls = 0;
 const c = core.client({ baseUrl: () => 'https://pp.test', token: () => 'tok', fetch: (url, o) => { calls++; assert.strictEqual(o.headers.Authorization, 'Bearer tok'); return Promise.resolve({ ok: true, json: () => Promise.resolve([]) }); } });

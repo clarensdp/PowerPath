@@ -5,7 +5,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var pp = function () { return self.PowerPathClient; };
   var session = function () { return self.PowerPathSession; };
-  var cache = { priorities: null, deliverability: null, paths: [], market: null };
+  var cache = { priorities: null, deliverability: null, paths: [], market: null, plants: [] };
   var STATS = { lmp_da: ['avg', 'on_peak', 'off_peak', 'max', 'min', 'stdev', 'congestion_avg'], spark_spread: ['on_peak', 'avg'], henry_hub: ['value'],
     retail_industrial: ['value'], retail_commercial: ['value'], ba_demand: ['avg_mw', 'value'],
     fuel_mix: ['carbon_t_per_mwh', 'gas', 'renewables', 'nuclear', 'coal', 'wind', 'solar', 'hydro'] };
@@ -77,7 +77,7 @@
 
   async function describe() {
     var id = project();
-    cache = { priorities: null, deliverability: null, paths: [], market: null };
+    cache = { priorities: null, deliverability: null, paths: [], market: null, plants: [] };
     try {
       var c = await pp().approvedCase(id), r = c.result;
       $('case-line').textContent = 'Approved case: NPV $' + r.npvM.toFixed(1) + 'M · IRR ' + (r.leveredIRR * 100).toFixed(1) + '% · ' +
@@ -86,6 +86,7 @@
     try { cache.priorities = await pp().priorities(id); } catch (e) { cache.priorities = null; }
     try { cache.deliverability = await pp().deliverability(id); } catch (e) { cache.deliverability = null; }
     try { cache.paths = await pp().paths(id); } catch (e) { cache.paths = []; }
+    try { cache.plants = (await pp().plants(id)).plants.slice().sort(function (a, b) { return b.summer_mw - a.summer_mw; }); } catch (e) { cache.plants = []; }
     try {
       var prof = await fetchJSON('/api/projects/' + encodeURIComponent(id) + '/market/profile');
       $('market-line').textContent = 'Market profile: ' + ([prof.nyiso_zone && 'NYISO ' + prof.nyiso_zone, prof.ba && 'BA ' + prof.ba, prof.state].filter(Boolean).join(' · ') || 'not set; set it in PowerPath (Returns step)');
@@ -109,6 +110,8 @@
     options($('b-arg'), (cache.priorities ? cache.priorities.priorities : []).map(function (p) { return [p.key, p.label]; }));
     options($('b-conf'), [['', 'First configuration']].concat(cache.deliverability ? cache.deliverability.body.configurations.map(function (c) { return [c.name, c.name]; }) : []));
     options($('b-path'), cache.paths.map(function (p) { return [p.name, p.name]; }));
+    options($('b-plant'), cache.plants.map(function (p) { return [p.plant_id, p.name + ' · ' + p.primary_fuel + ' · ' + Math.round(p.summer_mw) + ' MW']; }));
+    options($('b-pfield'), Object.keys(core.PLANT_FIELDS).map(function (k) { return [k, k + ': ' + core.PLANT_FIELDS[k]]; }));
     options($('b-metric'), Object.keys(core.MARKET_METRICS).map(function (k) { return [k, core.MARKET_METRICS[k]]; }));
     statOptions();
   }
@@ -122,6 +125,7 @@
   function formula() {
     var kind = $('b-kind').value, field = $('b-field').value, id = q(project());
     if (kind === 'BRIDGE') return '=PP.BRIDGE(' + id + ',' + ($('b-range').value.trim() || 'A2:B4') + ')';
+    if (kind === 'PLANT') return '=PP.PLANT(' + id + ',' + q($('b-plant').value) + ',' + q($('b-pfield').value) + ($('b-pfield').value === 'cf_year' ? ',' + (parseInt($('b-year').value, 10) || 2025) : '') + ')';
     if (kind === 'MARKET') return '=PP.MARKET(' + id + ',' + q($('b-metric').value) + ',' + q($('b-stat').value) + ',' + (parseInt($('b-window').value, 10) || 30) + ')';
     if (kind === 'TABLE') return '=PP.TABLE(' + id + ',' + q(field) + (field === 'pathbridge' ? ',' + q($('b-path').value) : '') + ')';
     var spec = core.GET_FIELDS[field] || {};
@@ -133,6 +137,7 @@
   function preview() {
     var kind = $('b-kind').value, field = $('b-field').value, spec = core.GET_FIELDS[field] || {};
     show('b-field-l', kind === 'GET' || kind === 'TABLE');
+    show('b-plant-l', kind === 'PLANT'); show('b-pfield-l', kind === 'PLANT'); show('b-year-l', kind === 'PLANT' && $('b-pfield').value === 'cf_year');
     show('b-metric-l', kind === 'MARKET'); show('b-stat-l', kind === 'MARKET'); show('b-window-l', kind === 'MARKET');
     show('b-arg-l', kind === 'GET' && spec.needs === 'priorities');
     show('b-case-l', kind === 'GET' && spec.needs === 'deliverability');
@@ -142,6 +147,7 @@
     $('b-preview').textContent = formula();
     $('b-help').textContent = kind === 'BRIDGE' ? 'Put input keys in the first column and new values in the second. Use =PP.TABLE(project,"fields") to list keys.'
       : kind === 'TABLE' ? 'Spills into the cells below and to the right; leave them empty.'
+      : kind === 'PLANT' ? (cache.plants.length ? 'Plants in the market profile state, largest first. Capacity factor shows how much a plant ran, not its availability.' : 'Set the state in the project market profile to list plants.')
       : kind === 'MARKET' ? 'Uses the project market profile. Wholesale LMP is energy only; delivered cost adds transmission, capacity and utility charges.' : '';
   }
 
@@ -218,9 +224,10 @@
     $('sign-out').onclick = signOut;
     $('project').onchange = describe;
     $('b-kind').onchange = builderOptions;
-    ['b-field', 'b-arg', 'b-case', 'b-conf', 'b-path', 'b-stat'].forEach(function (id) { $(id).onchange = preview; });
+    ['b-field', 'b-arg', 'b-case', 'b-conf', 'b-path', 'b-stat', 'b-plant', 'b-pfield'].forEach(function (id) { $(id).onchange = preview; });
     $('b-metric').onchange = statOptions;
     $('b-window').oninput = preview;
+    $('b-year').oninput = preview;
     $('b-range').oninput = preview;
     $('b-insert').onclick = insertFormula;
     $('refresh').onclick = async function () {

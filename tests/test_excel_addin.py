@@ -31,7 +31,7 @@ def test_manifest_and_function_metadata_agree():
     assert urls and all(u.startswith('https://localhost:8768') or 'schemas.microsoft.com' in u for u in urls)
     meta = {f['id'] for f in json.loads((ROOT / 'web/excel/functions.json').read_text())['functions']}
     code = set(re.findall(r"CustomFunctions\.associate\('([A-Z]+)'", (ROOT / 'web/excel/functions.js').read_text()))
-    assert meta == code == {'GET', 'TABLE', 'BRIDGE', 'MARKET'}
+    assert meta == code == {'GET', 'TABLE', 'BRIDGE', 'MARKET', 'PLANT'}
     assert '<bt:String id="Functions.Namespace" DefaultValue="PP"/>' in manifest
     for f in (ROOT / 'web/excel').glob('*.js'):  # the add-in never calls the approval routes
         assert '/approvals' not in f.read_text(), f.name
@@ -71,6 +71,11 @@ def test_core_maps_real_api_responses(tmp_path):
           'market': {'profile': {}, 'window_days': 30, 'calculated_at': 'now', 'notes': [], 'gaps': [{'metric': 'henry_hub', 'reason': 'Configure key'}],
                      'items': [{'label': 'Day-ahead LMP, 30-day avg', 'value': 51.5, 'unit': 'USD/MWh', 'location': 'N.Y.C.', 'as_of': '2026-11-20', 'stale': False,
                                 'source': 'NYISO', 'method': 'mean', 'retrieved_at': 'now'}]},
+          'plant': {'plant': {'name': 'Riverbend Hydro', 'primary_fuel': 'hydro', 'ba': 'NYIS', 'nameplate_mw': 100, 'summer_mw': 100}, 'latest_month': '2026-08',
+                    'capacity_factor': __import__('server.market.plants', fromlist=['x']).capacity_factors(
+                        __import__('server.market.plants', fromlist=['x']).normalize_generation(__import__('tests.market_fixtures', fromlist=['x']).generation_rows('1001', '2022-01'), '1001'), 100)},
+          'plants': {'warnings': [], 'plants': [{'plant_id': '1001', 'name': 'Riverbend Hydro', 'primary_fuel': 'hydro', 'summer_mw': 100, 'nameplate_mw': 100, 'generators': 1,
+                                                  'county': None, 'ba': 'NYIS', 'operator': 'X', 'distance_km': None}]},
           'history': {'stats': ['avg', 'on_peak'], 'warnings': [], 'observations': [{'period': '2026-11-19', 'avg': 50, 'on_peak': 55, 'source': 'NYISO'},
                                                                                {'period': '2026-11-20', 'avg': 52, 'source': 'NYISO'}]}}
     f = tmp_path / 'fx.json'

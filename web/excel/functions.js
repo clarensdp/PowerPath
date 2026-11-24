@@ -3,6 +3,7 @@
    =PP.TABLE(project, name, [arg])           spilled table
    =PP.BRIDGE(project, range)                what-if attribution by cause
    =PP.MARKET(project, metric, [stat], [window], [location])   trailing market average
+   =PP.PLANT(project, plant_id, field, [year])                  plant capacity factor and facts
    Read-only: no function can approve, reject or save anything. */
 (function () {
   'use strict';
@@ -51,6 +52,11 @@
       if (n === 'fields') return core.fieldsTable();
       if (n === 'priorities') return core.prioritiesTable(await pp.priorities(project));
       if (n === 'deliverability') return core.deliverabilityTable(await pp.deliverability(project));
+      if (n === 'plants') return core.plantsTable(await pp.plants(project, arg || ''));
+      if (n === 'plant_cf') {
+        if (!arg) throw new Error('plant_cf needs a plant id (see =PP.TABLE(project,"plants"))');
+        return core.plantCfTable(await pp.plant(project, arg));
+      }
       if (n === 'market') return core.marketTable(await pp.marketSnapshot(project, arg ? Number(arg) : 30));
       if (n === 'history') {
         if (!arg) throw new Error('history needs a metric, e.g. lmp_da');
@@ -64,7 +70,7 @@
         if (!hit) throw new Error('No power path named "' + arg + '"');
         return core.bridgeTable(await pp.pathBridge(project, hit.id));
       }
-      throw new Error('Unknown table "' + name + '". Tables: priorities, pathbridge, deliverability, market, history, fields.');
+      throw new Error('Unknown table "' + name + '". Tables: priorities, pathbridge, deliverability, market, history, plants, plant_cf, fields.');
     } catch (e) { fail(e); }
   }
 
@@ -83,6 +89,12 @@
     } catch (e) { fail(e); }
   }
 
+  /** Power plant facts and capacity factor (EIA). field: name, fuel, ba, nameplate_mw, summer_mw, cf_12m, cf_avg, cf_worst, worst_year, cf_year, worst_month_cf, worst_month_avg_mw, latest_month. */
+  async function PLANT(project, plantId, field, year) {
+    try { return core.resolvePlant(await pp.plant(project, String(plantId)), field, year); } catch (e) { fail(e); }
+  }
+
+  CustomFunctions.associate('PLANT', PLANT);
   CustomFunctions.associate('MARKET', MARKET);
   CustomFunctions.associate('GET', GET);
   CustomFunctions.associate('TABLE', TABLE);

@@ -11,6 +11,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
 from server.market import providers as P
+from server.market import plants as PL
 from server.market import service as M
 from server.underwriting import changes as CH
 from server.underwriting import evidence as EV
@@ -57,6 +58,7 @@ def install(app, db, project_exists, audit, calculate):
     postgres = bool(os.environ.get('POWERPATH_DATABASE_URL', '').strip())
     if not postgres:
         M.initialize(db)
+        PL.initialize(db)
     root = '/api/projects/{pid}/market'
 
     def open_project(con, pid):
@@ -160,6 +162,31 @@ def install(app, db, project_exists, audit, calculate):
                 return {'metric': metric, 'location': loc, 'stat': stat, 'value': value, 'unit': spec['unit'] if spec else None,
                         'first': first, 'last': last, 'count': n, 'source': spec['source'] if spec else 'licensed import', 'calculated_at': M.now()}
             return guard(go)
+
+    @app.get(root + '/plants')
+    def plants(pid: str, state: str | None = None, latitude: float | None = None, longitude: float | None = None,
+               radius_km: float | None = None, fuel: str | None = None, q: str | None = None, limit: int = 25, live: bool = True):
+        if radius_km is not None and not 0 < radius_km <= 1000:
+            raise HTTPException(422, 'radius_km must be between 0 and 1000')
+        if not 1 <= limit <= 200:
+            raise HTTPException(422, 'limit must be between 1 and 200')
+        with db() as con:
+            open_project(con, pid)
+            st = (state or profile_of(con, pid).get('state') or '').upper()
+            if len(st) != 2:
+                raise HTTPException(422, 'Give a two-letter state or set it in the market profile')
+            return guard(lambda: PL.search(con, st, latitude, longitude, radius_km, fuel, q, limit, live=live))
+
+    @app.get(root + '/plants/{plant_id}')
+    def plant(pid: str, plant_id: str, state: str | None = None, years: int = 5, live: bool = True):
+        if not 1 <= years <= 20:
+            raise HTTPException(422, 'years must be between 1 and 20')
+        with db() as con:
+            open_project(con, pid)
+            st = (state or profile_of(con, pid).get('state') or '').upper()
+            if len(st) != 2:
+                raise HTTPException(422, 'Give the plant\'s two-letter state or set it in the market profile')
+            return guard(lambda: PL.profile(con, st, plant_id, years, live=live))
 
     @app.post(root + '/import', status_code=201)
     def import_series(pid: str, data: ImportIn):

@@ -64,11 +64,57 @@ Set `POWERPATH_EIA_API_KEY` on the server. A key is free at eia.gov/opendata.
 - **Excel task pane:** the formula builder has a PP.MARKET mode, and you can insert a
   stamped "PP Market" sheet.
 
+## Power plants and capacity factor
+
+Plant data comes from two EIA sources, both through the same free key:
+
+- **Plant list and capacity:** EIA-860M, the monthly inventory of every generator
+  (`electricity/operating-generator-capacity`). Generators are grouped into plants, and
+  only operating units are counted.
+- **Generation:** EIA-923, monthly net generation for each plant
+  (`electricity/facility-fuel`, all-fuel / all-prime-mover total).
+
+**Capacity factor = net generation ÷ (net summer MW × hours)**, which is the EIA
+convention.
+
+- Results include the last 12 months, the full-year average, the worst and best years,
+  the lowest month (with its average MW), the average shape by calendar month, and a value
+  for each year.
+- Flags are raised when:
+  - a month exceeds 100% of capacity
+  - the plant came online partway through the history
+  - net generation is negative
+- **It shows how much a plant ran, not how much it could run.** A gas plant may run
+  little because of power prices, not because it's unavailable.
+- **Hydro needs the worst year and the monthly shape**, not only the average.
+- **Capacity comes from the latest inventory**, so plants that changed size during the
+  window are flagged.
+
+Routes:
+
+- `GET market/plants?state=&fuel=&latitude=&longitude=&radius_km=&q=` searches plants.
+- `GET market/plants/{plant_id}?years=` returns a plant's profile and capacity factor.
+
+The plant list is cached for 7 days and generation for 7 days.
+
+Where it shows up:
+
+- **App:** a "Power plants in <state>" panel in the Returns step, with a fuel filter and
+  capacity-factor detail for each plant.
+- **Excel:**
+  - `=PP.PLANT(project, plant_id, "cf_worst")` returns a single fact. Other fields include
+    `cf_12m`, `cf_avg`, `worst_year`, `cf_year`, `worst_month_avg_mw` and `summer_mw`.
+  - `=PP.TABLE(project, "plants", "hydro")` lists plants.
+  - `=PP.TABLE(project, "plant_cf", id)` gives capacity factor by year.
+- **MCP:** `power_plants` and `plant_capacity_factor` tools.
+
 ## Not covered yet
 
 - **Live prices for other ISOs.** PJM, ERCOT, MISO, CAISO, SPP and ISO-NE come in through
   the licensed import route until their access terms are confirmed.
 - **Capacity prices and forward curves**, unless you import them.
+- **Unit-level capacity factors.** EIA-923 reports most plants as a whole, so capacity
+  factor here is for the plant, not each unit.
 - **Live testing.** The NYISO parser matches the published file layout. The EIA parsers
   follow EIA's documented response format and are tested on recorded payloads. Live calls
   haven't been run from this environment.

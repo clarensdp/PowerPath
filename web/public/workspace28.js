@@ -613,7 +613,7 @@ function bind() {
         ))
   );
   if (state.step === 4 && project()) { loadTasks(); uw.loadDiligence($('#uw-diligence')); }
-  if (state.step === 3 && project()) { loadEconomics(); uw.loadMarket($('#uw-market')); }
+  if (state.step === 3 && project()) { loadEconomics(); uw.loadMarket($('#uw-market')); uw.loadPlants($('#uw-plants')); }
   if (state.step === 3 || state.step === 5) connected.comparison({report:state.step===5});
   if ($('#print-memo')) $('#print-memo').onclick = () => window.print();
   if ($('#export-json'))
@@ -858,7 +858,7 @@ function economics() {
       'Every pathway is run through the same frozen, versioned underwriter on one base scenario. Read-only: nothing here changes saved scenarios or runs.',
       `<button id="econ-refresh">Recalculate</button>`
     ) +
-    `<div id="connected-comparison" class="panel panelpad"></div><div id="econ"><section class="panel empty"><p class="loading">Running each pathway through the underwriter…</p></section></div><div id="uw-market"></div>`
+    `<div id="connected-comparison" class="panel panelpad"></div><div id="econ"><section class="panel empty"><p class="loading">Running each pathway through the underwriter…</p></section></div><div id="uw-market"></div><div id="uw-plants"></div>`
   );
 }
 async function loadEconomics() {

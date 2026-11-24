@@ -146,5 +146,23 @@ def market_snapshot(project_id: str, days: int = 30) -> dict:
     return _call('GET', f'/api/projects/{project_id}/market/snapshot', params={'days': days})
 
 
+@server.tool(annotations=READ)
+def power_plants(project_id: str, state: str | None = None, fuel: str | None = None, latitude: float | None = None,
+                 longitude: float | None = None, radius_km: float | None = None) -> dict:
+    """Operating power plants (EIA-860M) in a state or near a point: fuel, net summer and nameplate MW,
+    balancing authority, operator, distance. Defaults to the project's market-profile state."""
+    params = {k: v for k, v in {'state': state, 'fuel': fuel, 'latitude': latitude, 'longitude': longitude, 'radius_km': radius_km}.items() if v is not None}
+    return _call('GET', f'/api/projects/{project_id}/market/plants', params=params)
+
+
+@server.tool(annotations=READ)
+def plant_capacity_factor(project_id: str, plant_id: str, state: str | None = None, years: int = 10) -> dict:
+    """Capacity factor for one plant from EIA-923 monthly generation: last 12 months, full-year average,
+    worst and best year, lowest month, monthly profile, per-year values, with sources and caveats.
+    Capacity factor shows how much a plant ran, not its availability."""
+    params = {'years': years, **({'state': state} if state else {})}
+    return _call('GET', f'/api/projects/{project_id}/market/plants/{plant_id}', params=params)
+
+
 if __name__ == '__main__':
     server.run('stdio')

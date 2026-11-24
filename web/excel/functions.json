@@ -37,7 +37,7 @@
     {
       "id": "TABLE",
       "name": "TABLE",
-      "description": "A spilled PowerPath table: priorities, pathbridge, deliverability, market, history or fields.",
+      "description": "A spilled PowerPath table: priorities, pathbridge, deliverability, market, history, plants, plant_cf or fields.",
       "helpUrl": "https://localhost:8768/excel/taskpane.html",
       "result": {
         "type": "any",
@@ -51,12 +51,12 @@
         },
         {
           "name": "name",
-          "description": "priorities, pathbridge, deliverability, market, history or fields",
+          "description": "priorities, pathbridge, deliverability, market, history, plants, plant_cf or fields",
           "type": "string"
         },
         {
           "name": "arg",
-          "description": "Path name (pathbridge), days (market) or metric (history)",
+          "description": "Path name (pathbridge), days (market), metric (history), fuel (plants) or plant id (plant_cf)",
           "type": "string",
           "optional": true
         }
@@ -120,6 +120,38 @@
           "name": "location",
           "description": "Override the project market profile (NYISO zone, state, BA code)",
           "type": "string",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "PLANT",
+      "name": "PLANT",
+      "description": "Power plant facts and capacity factor from EIA: cf_12m, cf_avg, cf_worst, worst_year, cf_year, summer_mw and more.",
+      "helpUrl": "https://localhost:8768/excel/taskpane.html",
+      "result": {
+        "type": "any"
+      },
+      "parameters": [
+        {
+          "name": "project",
+          "description": "PowerPath project id (its market profile sets the state)",
+          "type": "string"
+        },
+        {
+          "name": "plant_id",
+          "description": "EIA plant id (see =PP.TABLE(project,\"plants\"))",
+          "type": "any"
+        },
+        {
+          "name": "field",
+          "description": "name, fuel, ba, nameplate_mw, summer_mw, cf_12m, cf_avg, cf_worst, worst_year, cf_year, worst_month_cf, worst_month_avg_mw, latest_month",
+          "type": "string"
+        },
+        {
+          "name": "year",
+          "description": "Year (cf_year only)",
+          "type": "number",
           "optional": true
         }
       ]

@@ -205,5 +205,48 @@ export function createUnderwritingUI({ api, toast, pid, dialog }) {
       });
   }
 
-  return { loadBridges, loadDiligence, loadMarket };
+  // ---------------------------------------------------------------- power plants
+  const FUELS = ['', 'hydro', 'nuclear', 'gas', 'coal', 'wind', 'solar', 'storage', 'oil', 'biomass', 'geothermal'];
+  const cfPct = v => (v === null || v === undefined ? '—' : `${(v * 100).toFixed(1)}%`);
+
+  async function loadPlants(box, fuel = '') {
+    if (!box) return;
+    box.innerHTML = '<section class="panel empty"><p class="loading">Loading operating power plants…</p></section>';
+    let res;
+    try { res = await api(mbase() + '/plants?limit=200' + (fuel ? '&fuel=' + encodeURIComponent(fuel) : '')); }
+    catch (e) { box.innerHTML = `<section class="panel panelpad"><h3>Power plants</h3><p class="muted">${E(e.message)}</p></section>`; return; }
+    if (!box.isConnected) return;
+    const list = res.plants.slice().sort((a, b) => b.summer_mw - a.summer_mw).slice(0, 25);
+    box.innerHTML = `<section class="panel panelpad"><div class="row"><div><h3>Power plants in ${E(res.state)}</h3><p class="muted">Operating plants from EIA-860M${res.inventory_month ? ' (' + E(res.inventory_month) + ')' : ''}, largest first. Pick one to see how much it actually runs.</p></div>
+      <div class="actions"><select data-pl-fuel>${FUELS.map(f => `<option value="${f}" ${f === fuel ? 'selected' : ''}>${f ? E(f) : 'All fuels'}</option>`).join('')}</select></div></div>
+      ${res.warnings.length ? `<ul class="mkgaps">${res.warnings.map(w => `<li>${E(w)}</li>`).join('')}</ul>` : ''}
+      ${list.length ? `<div class="tablewrap"><table class="uwtable"><thead><tr><th>Plant</th><th>Fuel</th><th>Net summer MW</th><th>County · BA</th><th></th></tr></thead><tbody>${list.map(p => `<tr><td data-label="Plant"><strong>${E(p.name)}</strong><small>EIA ${E(p.plant_id)} · ${E(p.operator || '')}</small></td><td data-label="Fuel">${E(p.primary_fuel)}</td><td data-label="Net summer MW">${Math.round(p.summer_mw).toLocaleString()}</td><td data-label="County · BA">${E([p.county, p.ba].filter(Boolean).join(' · '))}</td><td><button data-pl-id="${E(p.plant_id)}">Capacity factor</button></td></tr><tr class="plrow" hidden data-pl-detail="${E(p.plant_id)}"><td colspan="5"></td></tr>`).join('')}</tbody></table></div>` : '<p class="muted">No operating plants matched.</p>'}
+      <p class="muted sourcefoot">Capacity factor = net generation ÷ (net summer MW × hours), from EIA-923. It shows how much a plant ran, not how much it could run; for hydro, the worst year and the monthly shape matter more than the average.</p></section>`;
+    box.querySelector('[data-pl-fuel]').onchange = e => loadPlants(box, e.target.value);
+    box.querySelectorAll('[data-pl-id]').forEach(btn => (btn.onclick = () => plantDetail(box, btn.dataset.plId)));
+  }
+
+  async function plantDetail(box, id) {
+    const row = box.querySelector(`[data-pl-detail="${CSS.escape(id)}"]`);
+    if (!row) return;
+    if (!row.hidden) { row.hidden = true; return; }
+    row.hidden = false;
+    const cell = row.firstElementChild;
+    cell.innerHTML = '<p class="loading">Pulling monthly generation…</p>';
+    try {
+      const d = await api(mbase() + '/plants/' + encodeURIComponent(id) + '?years=10');
+      const cf = d.capacity_factor, maxp = Math.max(0.01, ...Object.values(cf.monthly_profile));
+      cell.innerHTML = `<div class="plgrid"><div><small>Last 12 months</small><strong>${cfPct(cf.cf_last_12_months)}</strong><span>${E(cf.last_12_window || '')}</span></div>
+        <div><small>Average, full years</small><strong>${cfPct(cf.cf_average_full_years)}</strong></div>
+        <div><small>Worst year</small><strong>${cf.worst_year ? cfPct(cf.worst_year.cf) : '—'}</strong><span>${cf.worst_year ? cf.worst_year.year : ''}</span></div>
+        <div><small>Lowest month</small><strong>${cf.worst_month ? cfPct(cf.worst_month.cf) : '—'}</strong><span>${cf.worst_month ? E(cf.worst_month.period) + ' · avg ' + Math.round(cf.worst_month.avg_mw) + ' MW' : ''}</span></div></div>
+        <div class="plprofile">${Object.entries(cf.monthly_profile).map(([m, v]) => `<div><i data-pl-h="${Math.round((v / maxp) * 100)}"></i><small>${E(m)}</small></div>`).join('')}</div>
+        <p class="muted">Years: ${cf.years.map(y => `${y.year} ${cfPct(y.cf)}${y.complete ? '' : ' (partial)'}`).join(' · ')}</p>
+        ${cf.flags.length ? `<ul class="mkgaps">${cf.flags.map(f => `<li>${E(f)}</li>`).join('')}</ul>` : ''}
+        <p class="muted">Sources: ${d.sources.map(E).join('; ')} · generation to ${E(d.latest_month)} · retrieved ${E(new Date(d.generation_retrieved_at).toLocaleString())}</p>`;
+      cell.querySelectorAll('[data-pl-h]').forEach(el => (el.style.height = el.dataset.plH + '%'));
+    } catch (e) { cell.innerHTML = `<p class="error">${E(e.message)}</p>`; }
+  }
+
+  return { loadBridges, loadDiligence, loadMarket, loadPlants };
 }

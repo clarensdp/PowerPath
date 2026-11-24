@@ -123,6 +123,8 @@
       marketSeries: function (project, metric, start, location) {
         return get('/projects/' + encodeURIComponent(project) + '/market/series?metric=' + encodeURIComponent(metric) + (start ? '&start=' + encodeURIComponent(start) : '') + (location ? '&location=' + encodeURIComponent(location) : ''));
       },
+      plants: function (project, fuel) { return get('/projects/' + encodeURIComponent(project) + '/market/plants?limit=200' + (fuel ? '&fuel=' + encodeURIComponent(fuel) : '')); },
+      plant: function (project, plantId) { return get('/projects/' + encodeURIComponent(project) + '/market/plants/' + encodeURIComponent(plantId) + '?years=10'); },
       marketCatalog: function (project) { return get('/projects/' + encodeURIComponent(project) + '/market/catalog'); }
     };
   }
@@ -143,7 +145,8 @@
   };
   var TABLES = { priorities: 'Diligence ranked by NPV at risk', pathbridge: 'A power path\'s returns change by cause (arg: path name)',
     deliverability: 'Deliverability ranges by configuration', market: 'Power market snapshot with sources (arg: days, default 30)',
-    history: 'Daily/monthly history of a market metric (arg: metric)', fields: 'Every PP.GET field, PP.MARKET metric and table' };
+    history: 'Daily/monthly history of a market metric (arg: metric)', plants: 'Operating plants in the profile state (arg: fuel, e.g. hydro)',
+    plant_cf: 'Capacity factor by year for one plant (arg: plant id)', fields: 'Every PP.GET field, PP.MARKET metric and table' };
 
   function priorityItem(pr, key) {
     var p = pr.priorities.filter(function (x) { return x.key === key; })[0];
@@ -179,6 +182,7 @@
     Object.keys(TABLES).forEach(function (k) { rows.push(['PP.TABLE', k, k === 'pathbridge' ? 'path name' : '', TABLES[k]]); });
     rows.push(['PP.BRIDGE', '(two-column range)', 'input key, new value', 'What-if: change in NPV, IRR, DSCR by cause']);
     Object.keys(MARKET_METRICS).forEach(function (k) { rows.push(['PP.MARKET', k, 'stat, window, location', MARKET_METRICS[k]]); });
+    Object.keys(PLANT_FIELDS).forEach(function (k) { rows.push(['PP.PLANT', k, k === 'cf_year' ? 'plant id, year' : 'plant id', PLANT_FIELDS[k]]); });
     return rows;
   }
 
@@ -218,7 +222,52 @@
     return rows;
   }
 
-  var api = { MARKET_METRICS: MARKET_METRICS, marketTable: marketTable, historyTable: historyTable, resolveGet: resolveGet, fieldsTable: fieldsTable, deliverabilityTable: deliverabilityTable, GET_FIELDS: GET_FIELDS, TABLES: TABLES,
+  var PLANT_FIELDS = {
+    name: 'Plant name', fuel: 'Primary fuel', ba: 'Balancing authority', nameplate_mw: 'Nameplate MW', summer_mw: 'Net summer MW',
+    cf_12m: 'Capacity factor, last 12 months', cf_avg: 'Average capacity factor, full years', cf_worst: 'Worst full-year capacity factor',
+    worst_year: 'Worst full year', cf_year: 'Capacity factor for a year (arg: year)', worst_month_cf: 'Lowest monthly capacity factor',
+    worst_month_avg_mw: 'Average MW in the lowest month', latest_month: 'Latest month of reported generation'
+  };
+
+  function resolvePlant(prof, field, year) {
+    var f = String(field || '').trim().toLowerCase(), cf = prof.capacity_factor, p = prof.plant;
+    if (!PLANT_FIELDS[f]) throw new Error('Unknown plant field "' + field + '". Use =PP.TABLE(project,"fields").');
+    var need = function (v, why) { if (v === null || v === undefined) throw new Error(why); return v; };
+    switch (f) {
+      case 'name': return p.name;
+      case 'fuel': return p.primary_fuel;
+      case 'ba': return p.ba || '';
+      case 'nameplate_mw': return p.nameplate_mw;
+      case 'summer_mw': return p.summer_mw;
+      case 'cf_12m': return need(cf.cf_last_12_months, 'Fewer than 12 months reported');
+      case 'cf_avg': return need(cf.cf_average_full_years, 'No complete years reported');
+      case 'cf_worst': return need(cf.worst_year, 'No complete years reported').cf;
+      case 'worst_year': return need(cf.worst_year, 'No complete years reported').year;
+      case 'worst_month_cf': return need(cf.worst_month, 'No months reported').cf;
+      case 'worst_month_avg_mw': return need(cf.worst_month, 'No months reported').avg_mw;
+      case 'latest_month': return prof.latest_month;
+      default:
+        var y = cf.years.filter(function (r) { return String(r.year) === String(year); })[0];
+        if (!y) throw new Error('No generation reported for ' + year);
+        return y.cf;
+    }
+  }
+
+  function plantsTable(res) {
+    var rows = [['Plant id', 'Plant', 'Primary fuel', 'Net summer MW', 'Nameplate MW', 'Generators', 'County', 'Balancing authority', 'Operator', 'Distance (km)']];
+    res.plants.forEach(function (p) { rows.push([p.plant_id, p.name, p.primary_fuel, p.summer_mw, p.nameplate_mw, p.generators, p.county || '', p.ba || '', p.operator || '', p.distance_km === null ? '' : p.distance_km]); });
+    if (rows.length === 1) throw new Error((res.warnings || []).join('; ') || 'No plants matched');
+    return rows;
+  }
+
+  function plantCfTable(prof) {
+    var rows = [['Year', 'Months reported', 'Complete year', 'Net generation (MWh)', 'Capacity factor', 'Lowest month', 'Lowest month CF']];
+    prof.capacity_factor.years.forEach(function (y) { rows.push([y.year, y.months, y.complete ? 'yes' : 'partial', y.mwh, y.cf, y.worst_month, y.worst_month_cf]); });
+    return rows;
+  }
+
+  var api = { PLANT_FIELDS: PLANT_FIELDS, resolvePlant: resolvePlant, plantsTable: plantsTable, plantCfTable: plantCfTable,
+    MARKET_METRICS: MARKET_METRICS, marketTable: marketTable, historyTable: historyTable, resolveGet: resolveGet, fieldsTable: fieldsTable, deliverabilityTable: deliverabilityTable, GET_FIELDS: GET_FIELDS, TABLES: TABLES,
     metric: metric, prioritiesTable: prioritiesTable, bridgeTable: bridgeTable, driversFromRange: driversFromRange,
     deliverable: deliverable, sourceText: sourceText, client: client, METRICS: METRICS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PowerPathCore = api;
